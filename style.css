@@ -147,6 +147,14 @@
     transition:background .15s, transform .15s, box-shadow .15s;
     text-decoration:none;
   }
+  .btn--solid {
+    background: var(--accent, #4b72ff);
+    color: var(--accent-contrast, #fff);
+    border-color: color-mix(in oklab, var(--accent) 55%, transparent);
+    box-shadow: 0 10px 28px color-mix(in oklab, var(--accent) 24%, transparent);
+  }
+  .btn--solid:hover { filter: brightness(.92); transform: translateY(-1px); }
+  
   .btn:hover,.button:hover{transform:translateY(-2px); box-shadow:var(--shadow-2); text-decoration:none}
   .btn:active,.button:active{transform:translateY(0); box-shadow:var(--shadow-1)}
   .btn--ghost,.button--ghost{
