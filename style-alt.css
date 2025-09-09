@@ -1,0 +1,2 @@
+:root { --accent: #ff6b6b; --accent-2: #ffd166; }
+html[data-theme="light"] { --accent: #e63946; --accent-2: #ffba08; }

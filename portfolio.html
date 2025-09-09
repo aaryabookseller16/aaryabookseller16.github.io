@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aarya Bookseller – Portfolio</title>
+  <meta name="description" content="Selected projects by Aarya Bookseller." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Header (shared) -->
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">Aarya<span>.</span></a>
+
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html">About</a>
+        <a href="qualifications.html" aria-current="page">Qualifications</a>
+        <a href="portfolio.html">Portfolio</a>
+      </nav>
+
+      <!-- Accent picker -->
+      <div class="accent-picker" id="accentPicker" aria-expanded="false">
+        <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M12 3a9 9 0 0 0 0 18h4a3 3 0 0 0 0-6h-1a2 2 0 1 1 0-4h1a3 3 0 0 0 0-6h-4zM7 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+          </svg>
+        </button>
+        <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
+          <button class="accent-swatch" data-accent="#4b72ff" style="background:#4b72ff" title="Blue"></button>
+          <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
+          <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
+          <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
+          <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
+        </div>
+      </div>
+
+
+      <!-- Theme toggle -->
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="4" stroke-width="2"/>
+          <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1 style="margin:0;">Portfolio</h1>
+      <p class="lead" style="margin:.25rem 0 0;">Selected builds—ML systems, optimization, and product UIs.</p>
+
+      <!-- Filters (optional) -->
+      <div class="tablist" role="tablist" aria-label="Project filters" style="margin-top:14px;">
+        <button class="tab" role="tab" aria-selected="true" data-filter="all">All</button>
+        <button class="tab" role="tab" data-filter="ml">Machine Learning</button>
+        <button class="tab" role="tab" data-filter="systems">Systems</button>
+        <button class="tab" role="tab" data-filter="ui">UI/UX</button>
+        <a class="tab" role="tab" href="assets/Bookseller_Aarya.pdf">Résumé</a>
+      </div>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- Projects grid: CARDS SIDE-BY-SIDE -->
+  <main class="section">
+    <div class="container grid-3" id="projectsGrid">
+  
+      <!-- NaviAI -->
+      <article class="card project card--tint-peach" data-tags="ml systems ui">
+        <img class="card__img" src="assets/routes.jpeg" alt="NaviAI route visualization">
+        <h2 class="card__title">NaviAI — Maritime Routing with Risk</h2>
+        <p class="meta">Founder &amp; Lead Engineer · 2024–Present</p>
+        <p>
+          Routing engine that returns <em>fastest</em>, <em>cheapest</em>, and <em>safest</em> routes. Dynamic edge weights fuse time, fuel, weather, and
+          <strong>news-driven risk</strong> from Transformer models; Streamlit UI shows route diffs with LLM rationale.
+        </p>
+        <div class="pills">
+          <span class="pill">Python</span><span class="pill">NetworkX</span><span class="pill">Transformers</span>
+          <span class="pill">Streamlit</span><span class="pill">Pandas</span>
+        </div>
+      </article>
+  
+      <!-- Contract Theory -->
+      <article class="card project card--tint-rose" data-tags="ml">
+        <img class="card__img" src="assets/bilevel_jpeg.png" alt="Bilevel optimization diagram">
+        <h2 class="card__title">Contract Theory — Implicit-Gradient Bilevel</h2>
+        <p class="meta">Deep Learning Research Group · Texas A&amp;M</p>
+        <p>Gradient-based bilevel optimization for principal–agent contract design using HVPs + CG, robust schedules, and grid-search evaluation.</p>
+        <div class="pills">
+          <span class="pill">PyTorch</span><span class="pill">Autograd</span><span class="pill">HVP/CG</span>
+          <span class="pill">Matplotlib</span><span class="pill">LaTeX</span>
+        </div>
+      </article>
+  
+      <!-- Style Converter -->
+      <article class="card project" data-tags="ml ui">
+        <img class="card__img" src="assets/van_gogh.jpeg" alt="Style transfer output">
+        <h2 class="card__title">Style Converter — VGG19 NST</h2>
+        <p class="meta">Simple, clean neural style transfer demo</p>
+        <p>Lightweight PyTorch implementation of neural style transfer with a tidy web UI and visual diffs.</p>
+        <div class="pills">
+          <span class="pill">PyTorch</span><span class="pill">VGG19</span><span class="pill">UX</span>
+        </div>
+      </article>
+  
+    </div>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      © <span id="year"></span> Aarya Bookseller · Projects &amp; builds.
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="theme.js" defer></script>
+  <script>
+    // Optional front-end filter using data-tags
+    const tabs = document.querySelectorAll('.tablist .tab[data-filter]');
+    const cards = document.querySelectorAll('.project');
+    tabs.forEach(t => t.addEventListener('click', () => {
+      tabs.forEach(x => x.setAttribute('aria-selected', 'false'));
+      t.setAttribute('aria-selected', 'true');
+      const f = t.dataset.filter;
+      cards.forEach(c => {
+        if (f === 'all') { c.style.display = ''; return; }
+        const tags = (c.dataset.tags || '').split(/\s+/);
+        c.style.display = tags.includes(f) ? '' : 'none';
+      });
+    }));
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

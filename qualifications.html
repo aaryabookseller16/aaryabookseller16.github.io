@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Qualifications – Aarya Bookseller</title>
+  <meta name="description" content="Education, experience, publications, and skills." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="page-qual qualifications">
+
+  <!-- Header (shared across pages) -->
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">Aarya<span>.</span></a>
+
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html">About</a>
+        <a href="qualifications.html" aria-current="page">Qualifications</a>
+        <a href="portfolio.html">Portfolio</a>
+      </nav>
+
+      <div class="accent-picker" id="accentPicker" aria-expanded="false">
+        <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M12 3a9 9 0 0 0 0 18h4a3 3 0 0 0 0-6h-1a2 2 0 1 1 0-4h1a3 3 0 0 0 0-6h-4zM7 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+          </svg>
+        </button>
+        <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
+          <button class="accent-swatch" data-accent="#4b72ff" style="background:#4b72ff" title="Blue"></button>
+          <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
+          <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
+          <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
+          <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
+        </div>
+      </div>
+
+      <!-- Theme toggle icon -->
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
+        <!-- Sun (light) -->
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="4" stroke-width="2"/>
+          <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <!-- Moon (dark) -->
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container row" style="align-items:end;">
+      <div class="col" style="gap:8px;">
+        <h1 style="margin:0;">Qualifications</h1>
+        <p class="lead" style="margin:0;">A concise snapshot of education, experience, publications, and skills.</p>
+      </div>
+
+      <!-- Quick actions: kept side-by-side -->
+      <div class="tablist" role="tablist" aria-label="Quick actions">
+        <a class="tab" role="tab" aria-selected="true" href="assets/Bookseller_Aarya.pdf">Download Résumé</a>
+        <a class="tab" role="tab" href="portfolio.html">See Projects</a>
+      </div>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- Main grid (side-by-side columns) -->
+  <main class="section compact">
+    <div class="container grid-2">
+
+      <!-- LEFT COLUMN -->
+      <div class="col">
+
+        <article class="card card--tint-blue">
+          <h2>Education</h2>
+          <h3 class="xp-title" style="margin:.25rem 0 0;">Texas A&amp;M University</h3>
+          <p class="meta">B.S. Computer Science — Minors: Physics &amp; Statistics · Expected Dec 2026</p>
+        </article>
+
+        <article class="card">
+          <h2>Selected Coursework</h2>
+          <div class="pills">
+            <span class="pill">Machine Learning</span>
+            <span class="pill">Advanced Deep Learning &amp; LLMs</span>
+            <span class="pill">Probability</span>
+            <span class="pill">Linear Algebra</span>
+            <span class="pill">Distributed Systems</span>
+            <span class="pill">Software Engineering</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Skills</h2>
+          <div class="pills">
+            <span class="pill">Python</span><span class="pill">C/C++</span><span class="pill">Java</span>
+            <span class="pill">JavaScript</span><span class="pill">HTML/CSS</span><span class="pill">PyTorch</span>
+            <span class="pill">scikit-learn</span><span class="pill">Transformers</span><span class="pill">TensorFlow</span>
+            <span class="pill">NumPy</span><span class="pill">Pandas</span><span class="pill">Docker</span>
+            <span class="pill">Git</span><span class="pill">Linux</span><span class="pill">MongoDB</span>
+            <span class="pill">PostgreSQL</span><span class="pill">REST APIs</span><span class="pill">Streamlit</span>
+            <span class="pill">React</span><span class="pill">Plotly/Matplotlib</span><span class="pill">LaTeX</span>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Experience timeline -->
+      <article class="card card--tint-peach">
+        <h2>Experience</h2>
+        <div class="xp">
+
+          <section class="xp-item">
+            <h3 class="xp-title">Research Assistant — Deep Learning</h3>
+            <p class="xp-sub">Texas A&amp;M · Jun 2024 – Present</p>
+
+            <h4>Bilevel Optimization</h4>
+            <ul>
+              <li>Implicit differentiation with HVPs + conjugate gradient for principal–agent models.</li>
+              <li>Stabilized inner/outer schedules; automated sweeps &amp; plots.</li>
+            </ul>
+
+            <h4>SimCLR / MoCo</h4>
+            <ul>
+              <li>Contrastive pipelines in PyTorch; tuned temperatures/augs to surpass baselines.</li>
+            </ul>
+          </section>
+
+          <section class="xp-item">
+            <h3 class="xp-title">Founder &amp; Lead Engineer — NaviAI</h3>
+            <p class="xp-sub">Remote · Jan 2024 – Present</p>
+            <ul>
+              <li>NetworkX routing with dynamic weights (time, fuel, risk).</li>
+              <li>News-driven risk via Transformers; Streamlit UI with LLM rationale.</li>
+            </ul>
+          </section>
+
+          <section class="xp-item">
+            <h3 class="xp-title">Data Analyst Intern — Stochastic Geomechanics Lab</h3>
+            <p class="xp-sub">Jan 2024 – Aug 2024</p>
+            <ul>
+              <li>Cleaned &amp; harmonized datasets across 200+ variables; SQL update pipelines.</li>
+              <li>Weekly analytics presentations to support research decisions.</li>
+            </ul>
+          </section>
+
+        </div>
+      </article>
+
+      <!-- FULL-WIDTH BELOW -->
+      <article class="card full-width card--tint-rose">
+        <h2>Publications</h2>
+        <h3 style="margin:.25rem 0 0;">Gradient-Based Bilevel Optimization for Principal–Agent Contract Design</h3>
+        <p class="meta">A. Bookseller, T. Galanti, K. Ray · Under Review (NeurIPS 2025)</p>
+        <ul class="stack-sm" style="margin: .5rem 0 0;">
+          <li>Implicit-differentiation bilevel algorithms with robust schedules.</li>
+          <li>Large-scale PyTorch experiments with automated tracking.</li>
+        </ul>
+      </article>
+
+      <article class="card full-width">
+        <h2>Projects</h2>
+
+        <!-- Keep project widgets side-by-side -->
+        <div class="widgets-row">
+          <section class="card widget card--tint-blue" style="flex:1 1 320px;">
+            <h3 style="margin-top:0;">Risk Analysis App</h3>
+            <p class="meta">VaR, CVaR, Sharpe, Monte-Carlo; backtesting &amp; reports.</p>
+            <div class="pills">
+              <span class="pill">Python</span><span class="pill">Pandas</span>
+              <span class="pill">Plotly</span><span class="pill">Dash/Streamlit</span>
+            </div>
+          </section>
+
+          <section class="card widget card--tint-peach" style="flex:1 1 320px;">
+            <h3 style="margin-top:0;">Style Converter</h3>
+            <p class="meta">VGG19 neural style transfer with a clean UI.</p>
+            <div class="pills">
+              <span class="pill">PyTorch</span><span class="pill">VGG19</span><span class="pill">UX</span>
+            </div>
+          </section>
+
+          <section class="card widget card--tint-rose" style="flex:1 1 320px;">
+            <h3 style="margin-top:0;">Micrograd + Bilevel</h3>
+            <p class="meta">Tiny autograd experiments to grok backprop &amp; implicit gradients.</p>
+            <div class="pills">
+              <span class="pill">Autograd</span><span class="pill">Bilevel</span><span class="pill">HVP</span>
+            </div>
+          </section>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      © <span id="year"></span> Aarya Bookseller · Education &amp; experience.
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="theme.js" defer></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

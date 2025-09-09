@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Apply saved/system theme BEFORE CSS to avoid flash -->
+  <script>
+    (function () {
+      const KEY = "theme";
+      const root = document.documentElement;
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+      let t;
+      try { t = localStorage.getItem(KEY); } catch {}
+      if (t !== "light" && t !== "dark") t = media.matches ? "dark" : "light";
+      root.setAttribute("data-theme", t);
+      root.classList.toggle("dark", t === "dark");
+      root.classList.toggle("light", t === "light");
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aarya Bookseller – Machine Learning</title>
+  <meta name="description" content="Aarya Bookseller — Machine Learning projects focused on usability, reproducibility, and product clarity." />
+  <meta name="theme-color" content="#E8DCC7" />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html" aria-label="Home">Aarya<span>.</span></a>
+
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html">About</a>
+        <a href="qualifications.html" aria-current="page">Qualifications</a>
+        <a href="portfolio.html">Portfolio</a>
+      </nav>
+
+      <!-- Accent picker -->
+      <div class="accent-picker" id="accentPicker" aria-expanded="false">
+        <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M12 3a9 9 0 0 0 0 18h4a3 3 0 0 0 0-6h-1a2 2 0 1 1 0-4h1a3 3 0 0 0 0-6h-4zM7 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+          </svg>
+        </button>
+        <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
+          <button class="accent-swatch" data-accent="#4b72ff" style="background:#4b72ff" title="Blue"></button>
+          <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
+          <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
+          <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
+          <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
+        </div>
+      </div>
+
+      <!-- Theme toggle -->
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" stroke-width="2"/>
+          <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <div class="container">
+      <div class="grid-2" style="align-items:center;">
+        <div class="col">
+          <h1 class="hero__title hero-animate">Machine Learning, designed for clarity and impact.</h1>
+          <p class="hero__lead hero-animate">
+            I build machine learning tools that balance cutting-edge research with practical usability:
+            routing under uncertainty, explainable training frameworks, and lightweight teaching models.
+            Every project is crafted with reproducibility, thoughtful UX, and long-term reliability in mind.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn" href="portfolio.html">View Portfolio</a>
+            <a class="btn btn--ghost" href="qualifications.html">See Qualifications</a>
+          </div>
+
+          <!-- Music -->
+          <div class="music-pill" id="music" style="margin-top:10px;">
+            <button id="musicToggle" class="btn btn--ghost" style="padding:.4rem .7rem" aria-label="Play music" title="Play/Pause">▶</button>
+            <div class="eq" aria-hidden="true">
+              <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
+            </div>
+            <div class="track"><strong>Now Playing:</strong> Dreams — Fleetwood Mac</div>
+            <audio id="player" preload="none" src="assets/Fleetwood Mac - Dreams (Official Music Video) [4K].mp3"></audio>
+          </div>
+        </div>
+
+        <figure class="card" style="justify-self:end; max-width:480px; margin:0;">
+          <img src="assets/download.jpeg" alt="Aarya Bookseller portrait" style="display:block;width:100%;height:auto;border-radius:14px;">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- About -->
+  <section class="section" aria-labelledby="about-heading">
+    <div class="container col">
+      <div>
+        <h2 id="about-heading" style="margin:0 0 6px;">About Me</h2>
+        <p class="lead" style="margin:0 0 8px;">
+          I’m Aarya, a Computer Science student at Texas A&amp;M who turns complex ML ideas into tools that feel simple and usable.
+          If a model or workflow is hard to explain or slow to use, I want to make it clearer and faster.
+        </p>
+        <p style="margin:0 0 8px;">
+          Recently I’ve been exploring <strong>self-supervised learning</strong> and <strong>bilevel optimization</strong>,
+          while shipping tools that “show their work” — transparent logs, reproducible baselines, and clean interfaces
+          that lower the barrier to entry for others.
+        </p>
+        <p style="margin:0;">
+          I also enjoy building small, teachable projects that make core concepts like backpropagation and optimization
+          more approachable for students and practitioners.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <article class="card reveal">
+          <div class="row" style="gap:12px">
+            <div style="font-size:20px">🎓</div>
+            <div>
+              <strong>Texas A&amp;M · CS</strong><br>
+              Coursework in ML, probability/statistics, and linear algebra — solid foundations for research and applied projects.
+            </div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="row" style="gap:12px">
+            <div style="font-size:20px">🚢</div>
+            <div>
+              <strong>NaviAI</strong><br>
+              An AI-powered maritime routing project integrating weather and sentiment to optimize routes
+              across time, cost, and risk — with explainable trade-offs.
+            </div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="row" style="gap:12px">
+            <div style="font-size:20px">🧪</div>
+            <div>
+              <strong>Style Converter · Micrograd</strong><br>
+              Lightweight ML prototypes that clarify core ideas like backpropagation and optimization,
+              with readable code, unit tests, and visual training traces.
+            </div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="row" style="gap:12px">
+            <div style="font-size:20px">☕️</div>
+            <div>
+              <strong>Rhythm</strong><br>
+              Morning runs, strength training, coffee, and long walks — habits that keep me grounded and fuel creative work.
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CTA -->
+  <section class="section" aria-labelledby="cta-heading">
+    <div class="container col" style="gap:10px">
+      <h2 id="cta-heading" class="sr-only">Call to action</h2>
+      <span class="badge">Open to impactful internships &amp; collaborations</span>
+      <p style="margin:0 0 12px;max-width:640px;text-align:center;">
+        I’m looking for opportunities to apply ML research to real problems and build tools people actually use —
+        from model design and training workflows to clear, reproducible applications.
+      </p>
+      <div class="cta-row">
+        <a class="btn" href="portfolio.html">See Projects</a>
+        <a class="btn btn--ghost" href="qualifications.html">See Qualifications</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> Aarya Bookseller · Built with clean CSS and calm defaults.</div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="theme.js" defer></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
