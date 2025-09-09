@@ -249,3 +249,35 @@
     .reveal,.hero .hero-animate{opacity:1 !important; transform:none !important}
   }
   
+
+  /* =========================
+   Back to Top Button
+   ========================= */
+#backToTop {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  padding: 10px 14px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent, #4b72ff);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#backToTop:hover {
+  transform: translateY(-3px);
+  background: color-mix(in oklab, var(--accent) 80%, black);
+}
+
+#backToTop.show {
+  opacity: 1;
+  visibility: visible;
+}

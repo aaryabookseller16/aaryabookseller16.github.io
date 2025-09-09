@@ -21,25 +21,97 @@
   <title>Aarya Bookseller – Machine Learning</title>
   <meta name="description" content="Aarya Bookseller — Machine Learning projects focused on usability, reproducibility, and product clarity." />
   <meta name="theme-color" content="#E8DCC7" />
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;800&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Minimal visual tweaks + justified copy -->
+  <style>
+    :root{
+      --lh-body:1.5;
+      --card-r:20px;
+      --accent: var(--accent, #4b72ff);
+    }
+    p,.lead,li,.card p,.check-list li{ text-align:justify; line-height:var(--lh-body); }
+
+    /* Section heading underline */
+    .section-head h2{ position:relative; display:inline-block; padding-bottom:.35rem; margin-bottom:.5rem; }
+    .section-head h2::after{
+      content:""; position:absolute; left:0; bottom:0; height:4px; width:88px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      border-radius:4px;
+    }
+
+    /* Cards */
+    .card{
+      border-radius:var(--card-r);
+      background: var(--bg-1,#fff);
+      box-shadow: 0 12px 30px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.05);
+      position:relative; overflow:hidden; isolation:isolate;
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+    [data-theme="dark"] .card, .dark .card{
+      background: color-mix(in oklab, #151515 90%, #ffffff 0%);
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
+    .card::before{
+      content:""; position:absolute; inset:0 0 auto 0; height:6px;
+      background: linear-gradient(90deg, var(--accent), #a55eea, #00b894);
+      opacity:.9;
+    }
+    .card:hover{ transform: translateY(-4px); box-shadow: 0 18px 42px rgba(0,0,0,.16); }
+
+    .eyebrow{ font-size:1.05rem; font-weight:800; letter-spacing:.01em; display:flex; align-items:center; gap:.5rem; }
+    .dot{ width:9px; height:9px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 5px color-mix(in oklab, var(--accent) 25%, transparent); }
+
+    .check-list{ margin:.4rem 0 0; padding-left:1.1rem; }
+    .check-list li + li{ margin-top:.35rem; }
+
+    .hero__title{ margin-bottom:.6rem; }
+    .badge-row{ display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.35rem; }
+    .badge{
+      font-weight:600; font-size:.9rem; padding:.25rem .55rem; border-radius:10px;
+      background: color-mix(in oklab, var(--accent) 14%, transparent);
+      border:1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+    }
+
+    /* Portrait: no border/shadow/caption */
+    .hero-portrait{ justify-self:end; max-width:480px; margin:0; }
+    .hero-portrait img{ display:block; width:100%; height:auto; border-radius:14px; border:none; box-shadow:none; background:none; }
+
+    /* Music pill */
+    .music-pill{
+      display:flex; align-items:center; gap:.6rem; padding:.4rem .6rem; border-radius:999px;
+      background: color-mix(in oklab, var(--accent) 12%, transparent);
+      border:1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+      width:max-content;
+    }
+    .music-pill .eq{ display:flex; gap:2px; height:12px; align-items:flex-end; }
+    .music-pill .eq-bar{ width:2px; height:4px; background: currentColor; opacity:.7; }
+    .music-pill.is-playing .eq-bar{ animation: bounce 800ms ease-in-out infinite alternate; }
+    .music-pill .eq-bar:nth-child(2){ animation-delay:.1s }
+    .music-pill .eq-bar:nth-child(3){ animation-delay:.2s }
+    .music-pill .eq-bar:nth-child(4){ animation-delay:.3s }
+    .music-pill .eq-bar:nth-child(5){ animation-delay:.4s }
+    @keyframes bounce{ from{ height:3px } to{ height:12px } }
+  </style>
 </head>
 <body>
+    <!-- Header (fixed) -->
+<header class="site-header">
+  <div class="container" style="display:flex; align-items:center; justify-content:space-between;">
+    <a class="brand" href="index.html">Aarya<span>.</span></a>
 
-  <!-- Header -->
-  <header class="site-header">
-    <div class="container">
-      <a class="brand" href="index.html" aria-label="Home">Aarya<span>.</span></a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html">About</a>
+      <a href="qualifications.html" aria-current="page">Qualifications</a>
+      <a href="portfolio.html">Portfolio</a>
+    </nav>
 
-      <nav class="site-nav" aria-label="Primary">
-        <a href="index.html">About</a>
-        <a href="qualifications.html" aria-current="page">Qualifications</a>
-        <a href="portfolio.html">Portfolio</a>
-      </nav>
-
+    <div class="header-actions" style="display:flex; gap:10px; align-items:center;">
       <!-- Accent picker -->
       <div class="accent-picker" id="accentPicker" aria-expanded="false">
         <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">
@@ -56,9 +128,9 @@
         </div>
       </div>
 
-      <!-- Theme toggle -->
+      <!-- Theme toggle (works with your theme.js) -->
       <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <circle cx="12" cy="12" r="4" stroke-width="2"/>
           <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
         </svg>
@@ -67,138 +139,239 @@
         </svg>
       </button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <!-- Hero -->
-  <section class="hero" id="top">
-    <div class="container">
-      <div class="grid-2" style="align-items:center;">
-        <div class="col">
-          <h1 class="hero__title hero-animate">Machine Learning, designed for clarity and impact.</h1>
-          <p class="hero__lead hero-animate">
-            I build machine learning tools that balance cutting-edge research with practical usability:
-            routing under uncertainty, explainable training frameworks, and lightweight teaching models.
-            Every project is crafted with reproducibility, thoughtful UX, and long-term reliability in mind.
-          </p>
 
-          <div class="cta-row">
-            <a class="btn" href="portfolio.html">View Portfolio</a>
-            <a class="btn btn--ghost" href="qualifications.html">See Qualifications</a>
-          </div>
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <div class="container">
+        <div class="grid-2" style="align-items:center;">
+          <div class="col">
+            <h1 class="hero__title hero-animate">Machine learning, built for clarity and impact.</h1>
+            <p class="hero__lead hero-animate">
+              I design ML systems that balance research rigor with product polish. My work spans <strong>routing under uncertainty</strong>,
+              <strong>explainable training frameworks</strong>, and <strong>lightweight teaching models</strong> that make complex ideas approachable.
+              I care about the unglamorous details—reproducible environments, trustworthy plots, and interfaces that help people evaluate
+              and extend what I’ve built.
+            </p>
+            <p class="hero__sub">
+              If you’re looking for someone who can translate math to code to product—without losing the signal along the way—I’d love to
+              connect.
+            </p>
 
-          <!-- Music -->
-          <div class="music-pill" id="music" style="margin-top:10px;">
-            <button id="musicToggle" class="btn btn--ghost" style="padding:.4rem .7rem" aria-label="Play music" title="Play/Pause">▶</button>
-            <div class="eq" aria-hidden="true">
-              <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
+            <div class="badge-row">
+              <span class="badge">Surat, India</span>
+              <span class="badge">Texas A&M University</span>
             </div>
-            <div class="track"><strong>Now Playing:</strong> Dreams — Fleetwood Mac</div>
-            <audio id="player" preload="none" src="assets/Fleetwood Mac - Dreams (Official Music Video) [4K].mp3"></audio>
+
+            <div class="cta-row" style="margin-top:.8rem;">
+              <a class="btn" href="portfolio.html">View Portfolio</a>
+              <a class="btn btn--ghost" href="qualifications.html">See Qualifications</a>
+            </div>
+
+            <!-- Music -->
+            <div class="music-pill" id="music" style="margin-top:10px;">
+              <button id="musicToggle" class="btn btn--ghost" style="padding:.35rem .65rem" aria-label="Play music" title="Play/Pause">▶</button>
+              <div class="eq" aria-hidden="true">
+                <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
+              </div>
+              <div class="track"><strong>Now Playing:</strong> Dreams — Fleetwood Mac</div>
+              <audio id="player" preload="none" src="assets/Fleetwood Mac - Dreams (Official Music Video) [4K].mp3"></audio>
+            </div>
           </div>
+
+          <!-- Portrait (no caption/border) -->
+          <figure class="hero-portrait">
+            <img src="assets/download.jpeg" alt="Aarya Bookseller portrait">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" role="presentation"></div>
+
+    <!-- About -->
+    <section class="section" aria-labelledby="about-heading">
+      <div class="container col">
+        <header class="section-head">
+          <h2 id="about-heading">About Me</h2>
+          <p class="lead">
+            I’m Aarya—born in <strong>Surat, India</strong>, and now studying Computer Science at <strong>Texas A&amp;M University</strong>.
+            I like tackling hard, ambiguous problems and turning them into clean, usable systems. That’s why CS clicks for me:
+            it sits at the intersection of rigorous thinking and practical impact.
+          </p>
+        </header>
+
+        <div class="grid-3">
+          <article class="card">
+            <h3 class="eyebrow"><span class="dot"></span>Background</h3>
+            <p>
+              My work blends <em>theory</em> (probability, linear algebra, optimization) with <em>applied engineering</em>
+              (PyTorch, data tooling, evaluation harnesses). I enjoy the full stack—from math to metrics to UX.
+              Texas A&amp;M has been the launchpad where I’ve built research-grade prototypes and tightened my craft.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3 class="eyebrow"><span class="dot"></span>Hobbies &amp; Interests</h3>
+            <p> 
+              I start most mornings with a run or a workout—it keeps me disciplined and sharp. 
+              I’ve been learning French, and I play tennis on the regular.
+              I also enjoy electronic music and chess, both of which push me to think creatively under constraints.  
+              And finally, I spend a lot of time reading—especially books that give me new lenses on technology, psychology, and history:
+              <a href="https://www.goodreads.com/user/show/154264554-aarya-bookseller" target="_blank" rel="noreferrer">Goodreads →</a>
+            </p>
+          </article>
+
+          <article class="card">
+            <h3 class="eyebrow"><span class="dot"></span>Why CS &amp; Deep Learning</h3>
+            <p>
+              CS rewards clear thinking and ships real tools. Deep learning blends elegant math with gritty engineering.
+              I love decomposing big problems—like optimization under uncertainty—into parts I can test, visualize, and ship.
+              The harder the problem, the more fun it is to make the solution legible.
+            </p>
+          </article>
         </div>
 
-        <figure class="card" style="justify-self:end; max-width:480px; margin:0;">
-          <img src="assets/download.jpeg" alt="Aarya Bookseller portrait" style="display:block;width:100%;height:auto;border-radius:14px;">
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- About -->
-  <section class="section" aria-labelledby="about-heading">
-    <div class="container col">
-      <div>
-        <h2 id="about-heading" style="margin:0 0 6px;">About Me</h2>
-        <p class="lead" style="margin:0 0 8px;">
-          I’m Aarya, a Computer Science student at Texas A&amp;M who turns complex ML ideas into tools that feel simple and usable.
-          If a model or workflow is hard to explain or slow to use, I want to make it clearer and faster.
-        </p>
-        <p style="margin:0 0 8px;">
-          Recently I’ve been exploring <strong>self-supervised learning</strong> and <strong>bilevel optimization</strong>,
-          while shipping tools that “show their work” — transparent logs, reproducible baselines, and clean interfaces
-          that lower the barrier to entry for others.
-        </p>
-        <p style="margin:0;">
-          I also enjoy building small, teachable projects that make core concepts like backpropagation and optimization
-          more approachable for students and practitioners.
-        </p>
-      </div>
-
-      <div class="grid-2">
-        <article class="card reveal">
-          <div class="row" style="gap:12px">
-            <div style="font-size:20px">🎓</div>
-            <div>
-              <strong>Texas A&amp;M · CS</strong><br>
-              Coursework in ML, probability/statistics, and linear algebra — solid foundations for research and applied projects.
-            </div>
-          </div>
-        </article>
-
-        <article class="card reveal">
-          <div class="row" style="gap:12px">
-            <div style="font-size:20px">🚢</div>
-            <div>
-              <strong>NaviAI</strong><br>
-              An AI-powered maritime routing project integrating weather and sentiment to optimize routes
-              across time, cost, and risk — with explainable trade-offs.
-            </div>
-          </div>
-        </article>
-
-        <article class="card reveal">
-          <div class="row" style="gap:12px">
-            <div style="font-size:20px">🧪</div>
-            <div>
-              <strong>Style Converter · Micrograd</strong><br>
-              Lightweight ML prototypes that clarify core ideas like backpropagation and optimization,
-              with readable code, unit tests, and visual training traces.
-            </div>
-          </div>
-        </article>
-
-        <article class="card reveal">
-          <div class="row" style="gap:12px">
-            <div style="font-size:20px">☕️</div>
-            <div>
-              <strong>Rhythm</strong><br>
-              Morning runs, strength training, coffee, and long walks — habits that keep me grounded and fuel creative work.
-            </div>
-          </div>
+        <article class="card" style="margin-top:18px;">
+          <h3 class="eyebrow"><span class="dot"></span>Principles</h3>
+          <ul class="check-list">
+            <li><strong>Start simple → iterate.</strong> Build the smallest honest baseline, then improve with evidence.</li>
+            <li><strong>Reproduce everything.</strong> Scripts, seeds, and configs live with the code. Plots are programmatic.</li>
+            <li><strong>Explain the trade-offs.</strong> Users should see why a route/model was chosen—not just the output.</li>
+            <li><strong>Keep it legible.</strong> Code, docs, and UX should make future work easier, not harder.</li>
+          </ul>
         </article>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <div class="divider"></div>
-
-  <!-- CTA -->
-  <section class="section" aria-labelledby="cta-heading">
-    <div class="container col" style="gap:10px">
-      <h2 id="cta-heading" class="sr-only">Call to action</h2>
-      <span class="badge">Open to impactful internships &amp; collaborations</span>
-      <p style="margin:0 0 12px;max-width:640px;text-align:center;">
-        I’m looking for opportunities to apply ML research to real problems and build tools people actually use —
-        from model design and training workflows to clear, reproducible applications.
-      </p>
-      <div class="cta-row">
-        <a class="btn" href="portfolio.html">See Projects</a>
-        <a class="btn btn--ghost" href="qualifications.html">See Qualifications</a>
-      </div>
-    </div>
-  </section>
+    <!-- Intentionally blank after About -->
+  </main>
 
   <!-- Footer -->
-  <footer class="site-footer">
-    <div class="container">© <span id="year"></span> Aarya Bookseller · Built with clean CSS and calm defaults.</div>
+  <footer class="site-footer" style="border-top:1px solid var(--ring,#ddd); margin-top:2rem; padding:1.2rem 0; font-size:0.9rem;">
+    <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.75rem;">
+      
+      <!-- Left -->
+      <div class="footer-left" style="opacity:0.85;">
+        © <span id="year"></span> Aarya Bookseller · Education &amp; Experience
+      </div>
+  
+      <!-- Right -->
+      <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap;">
+        <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener">LinkedIn</a>
+  
+        <!-- Work Email with tooltip -->
+        <div class="tooltip">
+          <a href="mailto:aaryab.work@gmail.com">Work Email</a>
+          <span class="tooltip-text">aaryab.work@gmail.com</span>
+        </div>
+  
+        <!-- School Email with tooltip -->
+        <div class="tooltip">
+          <a href="mailto:aaryabookseller@tamu.edu">School Email</a>
+          <span class="tooltip-text">aaryabookseller@tamu.edu</span>
+        </div>
+      </div>
+    </div>
   </footer>
+  
+  <style>
+  /* Tooltip wrapper */
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Tooltip box */
+  .tooltip .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 130%; /* shows above the link */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-1, #fff);
+    color: var(--text, #000);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: opacity 0.2s ease;
+    z-index: 10;
+  }
+  
+  /* Small arrow below tooltip */
+  .tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--bg-1,#fff) transparent transparent transparent;
+  }
+  
+  /* Show tooltip on hover */
+  .tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  </style>
+  
+  
+  
 
   <!-- Scripts -->
   <script src="theme.js" defer></script>
   <script>
+    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Accent picker quick apply
+    (function(){
+      const menu = document.getElementById('accentMenu');
+      if(!menu) return;
+      menu.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-accent]');
+        if(!btn) return;
+        document.documentElement.style.setProperty('--accent', btn.dataset.accent);
+      });
+    })();
+
+    // Music controls
+    (function(){
+      const btn = document.getElementById('musicToggle');
+      const player = document.getElementById('player');
+      const pill = document.getElementById('music');
+      if(!btn || !player || !pill) return;
+      let playing = false;
+      btn.addEventListener('click', () => { playing ? player.pause() : player.play(); });
+      player.addEventListener('play', () => { playing = true; btn.textContent = '⏸'; pill.classList.add('is-playing'); });
+      player.addEventListener('pause', () => { playing = false; btn.textContent = '▶'; pill.classList.remove('is-playing'); });
+    })();
   </script>
+  <!-- Back to Top Button -->
+<button id="backToTop" aria-label="Back to top">↑</button>
+
+<script>
+  const backToTop = document.getElementById("backToTop");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 200) {
+      backToTop.classList.add("show");
+    } else {
+      backToTop.classList.remove("show");
+    }
+  });
+
+  backToTop.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+</script>
+
 </body>
 </html>
