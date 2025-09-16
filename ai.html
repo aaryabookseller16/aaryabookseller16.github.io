@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ===== Early theme boot (no FOUC) ===== -->
+  <script>
+    (() => {
+      const KEY = "theme";
+      const sys = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      let t; try { t = localStorage.getItem(KEY); } catch {}
+      if (t !== "light" && t !== "dark") t = sys;
+      document.documentElement.setAttribute("data-theme", t);
+      document.documentElement.style.colorScheme = t;
+      // meta theme-color for mobile UI
+      let meta = document.querySelector('meta[name="theme-color"]');
+      if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
+      meta.setAttribute("content", t === "dark" ? "#0b0f14" : "#faf7f3");
+      // public helper (used by the toggle)
+      window.__setTheme = (theme) => {
+        const next = theme === "dark" ? "dark" : "light";
+        const root = document.documentElement;
+        root.setAttribute("data-theme", next);
+        root.style.colorScheme = next;
+        try { localStorage.setItem(KEY, next); } catch {}
+        const metaEl = document.querySelector('meta[name="theme-color"]');
+        if (metaEl) metaEl.setAttribute("content", next === "dark" ? "#0b0f14" : "#faf7f3");
+        // broadcast for listeners (animation & sizing)
+        root.dispatchEvent(new CustomEvent("themechange", { detail: { effective: next } }));
+        window.dispatchEvent(new CustomEvent("themechange", { detail: { effective: next } }));
+      };
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Neural Kaleidoscope — Aarya Bookseller</title>
+  <meta name="description" content="Interactive transformer-attention sketch with a minimal HUD. Hover to focus columns; tweak tokens, layers, speed, density." />
+
+  <!-- Fonts & Icons (CDNs OK to keep) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- ===== ALL STYLES (inline) ===== -->
+  <style>
+    /* ========== Base / layout tokens ========== */
+    :root{
+      --accent: #7aa2ff;
+
+      /* Header sizing (updated precisely by JS for canvas anchor) */
+      --header-h: 72px;
+
+      /* AI page tokens (dark-first) */
+      --ai-bg0: #070a12;
+      --ai-bg1: #0e1423;
+      --ai-ink: #eaf2ff;
+      --ai-muted: #9fb1cf;
+      --ai-ring: #23314a;
+      --ai-accent: var(--accent);
+      --ai-fx1: #00e7ff;
+      --ai-fx2: #ff5bd1;
+      --ai-glow: 0 10px 40px color-mix(in oklab, var(--ai-accent) 35%, transparent);
+    }
+    [data-theme="light"] {
+      --ai-bg0: #f6f8ff;
+      --ai-bg1: #ffffff;
+      --ai-ink: #121522;
+      --ai-muted: #5b6a83;
+      --ai-ring: #e6ebf5;
+    }
+
+    /* ========== Base reset-ish ========== */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji", "Segoe UI Symbol";
+      line-height: 1.55;
+      color: var(--ai-ink);
+      background:
+        radial-gradient(1200px 800px at 15% -10%,
+          color-mix(in oklab, var(--ai-fx1) 12%, transparent) 0%, transparent 60%),
+        radial-gradient(1200px 800px at 120% -20%,
+          color-mix(in oklab, var(--ai-fx2) 10%, transparent) 0%, transparent 65%),
+        linear-gradient(180deg, var(--ai-bg0), var(--ai-bg1));
+    }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 16px; display: flex; }
+
+    /* ========== Header ========== */
+    .site-header.ai-header{
+      position: sticky; top: 0; z-index: 5;
+      border-bottom: 1px solid color-mix(in oklab, var(--ai-ring) 70%, transparent);
+      background: color-mix(in oklab, var(--ai-bg0) 60%, transparent);
+      backdrop-filter: blur(8px);
+      transition: transform .45s ease, opacity .45s ease,
+                  background-color .3s ease, backdrop-filter .3s ease;
+      will-change: transform, opacity;
+    }
+    .site-header .container { align-items: center; justify-content: space-between; padding-block: 10px; }
+    .ai-header.is-condensed .container{ padding-block: 6px; }
+    .ai-header.is-hidden{ transform: translateY(-100%); opacity: 0; }
+    .brand { font-weight: 900; letter-spacing: -0.02em; }
+    .brand span { color: var(--ai-accent); }
+    .site-nav { display: flex; gap: 14px; }
+    .nav-toggle { display: none; }
+
+    @media (max-width: 720px){
+      .site-header .container{
+        display: grid !important;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+          "brand navbtn"
+          "nav   nav"
+          "actions actions";
+        gap: 10px;
+      }
+      .brand { grid-area: brand; }
+      .nav-toggle{
+        display: inline-flex; grid-area: navbtn;
+        align-items: center; justify-content: center;
+        width: 40px; height: 40px; border-radius: 10px;
+        border: 1px solid var(--ai-ring);
+        background: color-mix(in oklab, var(--ai-bg1) 85%, transparent);
+        cursor: pointer;
+      }
+      .site-nav{
+        grid-area: nav; display: none; flex-direction: column; gap: 8px;
+        padding-top: 8px; border-top: 1px solid var(--ai-ring);
+        transform-origin: top; transform: scaleY(.98); opacity: .95;
+        transition: transform .18s ease, opacity .18s ease;
+      }
+      .site-nav.open{ display: flex; transform: scaleY(1); opacity: 1; }
+      .header-actions { grid-area: actions; justify-self: start; }
+    }
+
+    .theme-toggle{
+      display: inline-grid; place-items: center;
+      width: 40px; height: 40px; border-radius: 10px;
+      border: 1px solid var(--ai-ring);
+      background: color-mix(in oklab, var(--ai-bg1) 85%, transparent);
+      cursor: pointer;
+    }
+    .accent-picker { position: relative; }
+    .accent-menu{
+      position: absolute; right: 0; top: 110%; z-index: 10; display: grid; gap: 6px;
+      padding: 8px; border: 1px solid var(--ai-ring); border-radius: 12px;
+      background: color-mix(in oklab, var(--ai-bg1) 70%, transparent);
+      box-shadow: 0 8px 24px rgba(0,0,0,.25);
+      display: none;
+    }
+    .accent-picker[aria-expanded="true"] .accent-menu{ display: grid; }
+    .accent-swatch{
+      width: 28px; height: 28px; border-radius: 999px; border: 1px solid #0003; cursor: pointer;
+    }
+
+    /* ========== Hero ========== */
+    .ai-hero{ position: relative; z-index: 2; padding: 64px 0 24px; --hero-y:0px; --hero-op:1; }
+    .ai-hero::before{
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(to bottom,
+        color-mix(in oklab, var(--ai-bg0) 65%, transparent) 0%,
+        transparent 70%);
+      pointer-events: none;
+    }
+    .ai-hero-wrap{ max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+    .ai-kicker{ font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ai-muted); margin: 0 0 .5rem; }
+    .ai-title{ margin: 0 0 .4rem; font-weight: 900; font-size: clamp(1.6rem, 3.2vw, 2.2rem); line-height: 1.1; }
+    .ai-lead{ margin: 0; max-width: 72ch; color: color-mix(in oklab, var(--ai-ink) 82%, transparent); }
+
+    /* ========== Canvas (anchored below header) ========== */
+    #netCanvas{
+      position: fixed; left: 0; right: 0; bottom: 0;
+      top: var(--header-h);
+      z-index: 1;
+      width: 100vw; height: auto; display: block;
+      transform: translateY(var(--canvas-parallax, 0px));
+      transition: transform .08s linear;
+      filter: saturate(1.12); touch-action: none;
+      background: radial-gradient(1200px 700px at 50% -20%,
+                  color-mix(in oklab, var(--ai-accent) 10%, transparent), transparent);
+    }
+
+    /* ========== Floating controls (optional) ========== */
+    .controls{
+      position: fixed; right: 16px; top: calc(var(--header-h) + 12px); z-index: 4;
+      display: flex; align-items: center; gap: 8px; padding: 8px;
+      background: color-mix(in oklab, var(--ai-bg1) 65%, transparent);
+      border: 1px solid var(--ai-ring); border-radius: 999px;
+      box-shadow: 0 8px 28px color-mix(in oklab, var(--ai-accent) 18%, transparent);
+      backdrop-filter: blur(6px);
+    }
+    .controls .btn{
+      height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--ai-ring);
+      background: transparent; color: var(--ai-ink); cursor: pointer; font: inherit;
+      display: inline-flex; align-items: center; justify-content: center; font-weight: 700;
+    }
+    .controls .btn--solid{
+      background: var(--ai-accent); border-color: transparent; color: #0b1020;
+    }
+    .controls .sep{ width: 1px; height: 20px; background: var(--ai-ring); margin-inline: 2px; }
+    .controls label{ cursor: pointer; }
+
+    /* ========== HUD ========== */
+    .hud{ position: fixed; right: 16px; bottom: 16px; z-index: 4; }
+    .hud-toggle{
+      width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--ai-ring);
+      background: color-mix(in oklab, var(--ai-bg1) 85%, transparent); color: var(--ai-ink); cursor: pointer;
+      box-shadow: var(--ai-glow);
+    }
+    .hud-panel{
+      margin-top: 10px; padding: 10px; border-radius: 14px;
+      background: color-mix(in oklab, var(--ai-bg1) 65%, transparent); color: var(--ai-ink);
+      border: 1px solid var(--ai-ring);
+      display: grid; gap: 8px; min-width: 260px; max-width: min(92vw, 600px);
+      box-shadow: var(--ai-glow); backdrop-filter: blur(6px);
+    }
+    .hud-row{ display: grid; gap: 8px; }
+    .hud-control{ display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .hud-control span{ font-size: .9rem; color: var(--ai-muted); }
+    .hud-control input[type="range"]{ width: 150px; accent-color: var(--ai-accent); }
+    .hud-control input[type="number"]{ width: 90px; color: inherit; background: transparent; border: 1px solid var(--ai-ring); border-radius: 8px; padding: 4px 6px; }
+
+
+    /* ========== A11y / prefs ========== */
+    .ai-page :focus-visible{
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in oklab, var(--ai-accent) 45%, transparent);
+      border-radius: 10px;
+    }
+    @media (max-width: 720px){ .controls{ top: auto; bottom: 16px; right: 16px; } }
+    @media (prefers-reduced-motion: reduce){ #netCanvas, .ai-header{ transition: none !important; } }
+  </style>
+</head>
+
+<body class="ai-page">
+  <!-- Backdrop animation -->
+  <canvas id="netCanvas" aria-label="Neural attention animation"></canvas>
+
+  <!-- Header -->
+  <header class="site-header ai-header">
+    <div class="container">
+      <a class="brand" href="index.html">Aarya<span>.</span></a>
+
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <a href="index.html">About</a>
+        <a href="qualifications.html">Qualifications</a>
+        <a href="service.html">Service</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="ai.html" aria-current="page">AI-gen</a>
+      </nav>
+
+      <div class="header-actions" style="display:flex; gap:10px; align-items:center;">
+        <!-- Accent picker -->
+        <div class="accent-picker" id="accentPicker" aria-expanded="false">
+          <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">
+            🎨
+          </button>
+          <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
+            <button class="accent-swatch" data-accent="#4b72ff"  style="background:#4b72ff"  title="Blue"></button>
+            <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
+            <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
+            <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
+            <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
+          </div>
+        </div>
+
+        <!-- Theme toggle -->
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" width="20" height="20">
+            <circle cx="12" cy="12" r="4" stroke-width="2"/>
+            <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="ai-hero" aria-describedby="lead">
+    <div class="ai-hero-wrap">
+      <p class="ai-kicker">Interactive</p>
+      <h1 class="ai-title">Neural Kaleidoscope</h1>
+      <p id="lead" class="ai-lead">
+        A lightweight sketch of <strong>transformer attention</strong>. Tokens light up and connect across layers.
+        Hover to focus columns or use the controls to tweak <em>tokens</em>, <em>layers</em>, <em>speed</em>, and <em>density</em>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Floating controls -->
+  <div class="controls" role="toolbar" aria-label="Animation controls">
+    <button id="randomize" class="btn btn--solid">🎲 Surprise</button>
+    <button id="snapshot" class="btn">📸 Capture</button>
+    <span class="sep" aria-hidden="true"></span>
+    <label class="toggle" style="display:flex; align-items:center; gap:6px; padding:0 10px;">
+      <input type="checkbox" id="trailToggle" checked aria-label="Trails" />
+      Trails
+    </label>
+  </div>
+
+  <!-- Minimal HUD -->
+  <div class="hud">
+    <button id="hudToggle" class="hud-toggle" aria-expanded="false" title="Open controls">⚙️</button>
+    <div id="hudPanel" class="hud-panel" hidden>
+      <div class="hud-row">
+        <label class="hud-control"><span>Seed</span>   <input type="number" id="seedInput" value="42" step="1" /></label>
+        <label class="hud-control"><span>Tokens</span> <input type="range"  id="tokInput"  min="6"  max="20" value="12" /></label>
+        <label class="hud-control"><span>Layers</span> <input type="range"  id="layInput"  min="3"  max="8"  value="5"  /></label>
+        <label class="hud-control"><span>Speed</span>  <input type="range"  id="spdInput"  min="1"  max="100" value="30" /></label>
+        <label class="hud-control"><span>Density</span><input type="range"  id="denInput"  min="20" max="100" value="55" /></label>
+      </div>
+      <div class="hud-row">
+        <button id="clear" class="btn">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    © <span id="year"></span> Aarya Bookseller · AI-gen
+  </footer>
+
+  <!-- ===== ALL SCRIPTS (inline) ===== -->
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile nav
+    (() => {
+      const t = document.querySelector('.nav-toggle');
+      const n = document.getElementById('site-nav');
+      if (!t || !n) return;
+      t.addEventListener('click', () => {
+        const open = t.getAttribute('aria-expanded') === 'true';
+        t.setAttribute('aria-expanded', String(!open));
+        n.classList.toggle('open', !open);
+      });
+    })();
+
+    // Accent picker (persist)
+    (() => {
+      const picker = document.getElementById('accentPicker');
+      const menu   = document.getElementById('accentMenu');
+      const toggle = document.getElementById('accentToggle');
+      if (!picker || !menu || !toggle) return;
+
+      const ACCENT_KEY = "accent";
+      try {
+        const saved = localStorage.getItem(ACCENT_KEY);
+        if (saved) document.documentElement.style.setProperty('--accent', saved);
+      } catch {}
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const ex = picker.getAttribute('aria-expanded') === 'true';
+        picker.setAttribute('aria-expanded', String(!ex));
+      });
+      document.addEventListener('click', (e) => {
+        if (!picker.contains(e.target)) picker.setAttribute('aria-expanded','false');
+      });
+      menu.addEventListener('click', (e) => {
+        const sw = e.target.closest('[data-accent]');
+        if (!sw) return;
+        const color = sw.dataset.accent;
+        document.documentElement.style.setProperty('--accent', color);
+        try { localStorage.setItem(ACCENT_KEY, color); } catch {}
+        picker.setAttribute('aria-expanded', 'false');
+      });
+    })();
+
+    // Theme toggle
+    (() => {
+      const btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      const setPressed = () => btn.setAttribute('aria-pressed', String((document.documentElement.getAttribute('data-theme')||'light') === 'dark'));
+      setPressed();
+      btn.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme') || 'light';
+        const next = cur === 'dark' ? 'light' : 'dark';
+        window.__setTheme(next);
+        setPressed();
+      });
+    })();
+
+    // Header scroll + canvas parallax & header height sync
+    (() => {
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const header = document.querySelector('.ai-header') || document.querySelector('.site-header');
+      const canvas = document.getElementById('netCanvas');
+      if (!header || !canvas) return;
+      let lastY = scrollY, ticking = false;
+      const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+      const HIDE_START=90, HIDE_HARD=180, CAN_PARALLAX=12;
+
+      function setHeaderVar(){
+        const h = Math.ceil(header.getBoundingClientRect().height || 0);
+        document.documentElement.style.setProperty('--header-h', h + 'px');
+      }
+      setHeaderVar();
+      addEventListener('resize', () => requestAnimationFrame(setHeaderVar), { passive:true });
+      if (document.fonts?.ready) document.fonts.ready.then(setHeaderVar);
+      window.addEventListener('themechange', setHeaderVar);
+
+      function onScroll(){
+        if (ticking) return; ticking = true;
+        requestAnimationFrame(() => {
+          const y = scrollY || 0, down = y > lastY;
+          header.classList.toggle('is-condensed', y > 16);
+          const p = clamp((y - HIDE_START) / (HIDE_HARD - HIDE_START), 0, 1);
+          if (down && p > 0.02) header.classList.add('is-hidden');
+          if (!down && p < 0.66) header.classList.remove('is-hidden');
+
+          if (!reduce) canvas.style.setProperty('--canvas-parallax', (CAN_PARALLAX * clamp(y/260,0,1)) + 'px');
+          lastY = y; ticking = false;
+        });
+      }
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('load', onScroll);
+      onScroll();
+    })();
+
+    // HUD toggle
+    (() => {
+      const toggle = document.getElementById('hudToggle');
+      const panel  = document.getElementById('hudPanel');
+      if (!toggle || !panel) return;
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        panel.hidden = open;
+      });
+      document.addEventListener('click', (e) => {
+        if (!panel.hidden && !panel.contains(e.target) && e.target !== toggle){
+          panel.hidden = true; toggle.setAttribute('aria-expanded','false');
+        }
+      });
+    })();
+
+    /* ===============================
+       Neural Kaleidoscope (inline ai.js)
+       =============================== */
+    (() => {
+      const $ = (id) => document.getElementById(id);
+      const must = (id) => { const el = $(id); if (!el) console.error(`[ai.js] Missing #${id}`); return el; };
+      const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+
+      // —— Theme helpers ——————————————————
+      const root = document.documentElement;
+      const isDark = () => (root.getAttribute("data-theme") || "light") === "dark";
+      let trailFill = isDark() ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.06)";
+      function refreshThemeBits() {
+        trailFill = isDark() ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.06)";
+      }
+      root.addEventListener("themechange", refreshThemeBits);
+      window.addEventListener("themechange", refreshThemeBits);
+
+      // —— Header height → CSS var (kept in sync) ——
+      const header = document.querySelector(".ai-header") || document.querySelector(".site-header");
+      function setHeaderVar(){
+        if (!header) return;
+        const h = Math.ceil(header.getBoundingClientRect().height || 0);
+        root.style.setProperty("--header-h", h + "px");
+      }
+      setHeaderVar();
+      addEventListener("resize", () => requestAnimationFrame(setHeaderVar), { passive:true });
+      if (document.fonts?.ready) document.fonts.ready.then(setHeaderVar);
+      window.addEventListener("themechange", () => { setHeaderVar(); sizeCanvas(); });
+
+      // —— Canvas bootstrap ————————————————
+      const canvas = must("netCanvas");
+      const ctx = canvas?.getContext?.("2d");
+      if (!canvas || !ctx) return;
+
+      const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      function sizeCanvas(){
+        const headerH = parseFloat(getComputedStyle(root).getPropertyValue("--header-h")) || 0;
+        const w = innerWidth;
+        const h = Math.max(0, innerHeight - headerH);
+        canvas.style.width  = w + "px";
+        canvas.style.height = h + "px";
+        canvas.width  = Math.floor(w * DPR);
+        canvas.height = Math.floor(h * DPR);
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      }
+      sizeCanvas();
+      addEventListener("resize", sizeCanvas, { passive:true });
+
+      // —— Controls ————————————————————————
+      const seedInput = must("seedInput");
+      const tokInput  = must("tokInput");
+      const layInput  = must("layInput");
+      const spdInput  = must("spdInput");
+      const denInput  = must("denInput");
+      const trailT    = must("trailToggle");
+      const randomBtn = must("randomize");
+      const clearBtn  = must("clear");
+      const snapBtn   = must("snapshot");
+      const hudToggle = must("hudToggle");
+      const hudPanel  = must("hudPanel");
+
+      hudToggle.addEventListener("click", () => {
+        const open = hudToggle.getAttribute("aria-expanded") === "true";
+        hudToggle.setAttribute("aria-expanded", String(!open));
+        hudPanel.hidden = open;
+      });
+
+      // —— RNG ————————————————————————————————
+      function mulberry32(a){ return function(){ let t=(a+=0x6D2B79F5); t=Math.imul(t^(t>>>15),t|1); t^=t+Math.imul(t^(t>>>7),t|61); return ((t^(t>>>14))>>>0)/4294967296; }; }
+
+      // —— Sim state ————————————————————————
+      let seed=42, TOKENS=12, LAYERS=5, SPEED=30, DENSITY=55;
+      const mouse={ x:0, y:0, down:false, col:-1 };
+
+      function layout(){
+        const W = canvas.clientWidth, H = canvas.clientHeight;
+        return { W,H, y:(L)=> (H/(LAYERS+1))*(L+1), x:(i)=> (W/(TOKENS+1))*(i+1) };
+      }
+
+      function makeWeights(){
+        const rng = mulberry32((seed>>>0) ^ 0x9e3779b9);
+        const ws=[];
+        for(let L=0; L<LAYERS-1; L++){
+          const M=[];
+          for(let i=0;i<TOKENS;i++){
+            const row=[];
+            for(let j=0;j<TOKENS;j++){
+              const base   = Math.exp(-Math.abs(i-j)*(0.4 + rng()*0.4));
+              const wiggle = 0.5 + 0.5*Math.sin((i*0.7 + j*0.9 + L*0.6) + rng()*6.283);
+              row.push(base*wiggle);
+            }
+            const s=row.reduce((a,b)=>a+b,0)||1;
+            M.push(row.map(v=>v/s));
+          }
+          ws.push(M);
+        }
+        return ws;
+      }
+      let weights = makeWeights();
+
+      function rebuild(newSeed,t,l,s,d){
+        seed    = newSeed ?? (Number(seedInput.value)||42);
+        TOKENS  = t ?? (Number(tokInput.value)||12);
+        LAYERS  = l ?? (Number(layInput.value)||5);
+        SPEED   = s ?? (Number(spdInput.value)||30);
+        DENSITY = d ?? (Number(denInput.value)||55);
+        weights = makeWeights();
+        sizeCanvas(); // crisp sizing when counts change
+      }
+
+      // —— Render loop ———————————————————————
+      function frame(now){
+        const {W,H,y,x}=layout();
+
+        // clear / fade (theme-aware)
+        if (trailT.checked){
+          ctx.fillStyle = trailFill;
+          ctx.fillRect(0,0,canvas.width,canvas.height);
+        } else {
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+        }
+
+        const anim = now * 0.001 * (SPEED/30);
+
+        // edges
+        ctx.save(); ctx.globalCompositeOperation="lighter";
+        for(let L=0; L<LAYERS-1; L++){
+          const y1=y(L), y2=y(L+1), M=weights[L];
+          for(let i=0;i<TOKENS;i++){
+            const x1=x(i);
+            for(let j=0;j<TOKENS;j++){
+              const x2=x(j), base=M[i][j];
+              const pulse = 0.5 + 0.5*Math.sin(anim*2 + i*.5 + j*.7 + L*.6);
+              if (base*(0.6 + 0.8*pulse) < DENSITY/200) continue;
+              const focus = mouse.col>=0 ? Math.exp(-Math.abs(j-mouse.col)*0.8) : 1;
+              const a = Math.min(1, base*pulse*1.2*focus);
+              ctx.strokeStyle = `hsla(${260 - Math.abs(i-j)*18},100%,65%,${a})`;
+              ctx.lineWidth = 0.8 + 2.4*a;
+              ctx.beginPath();
+              ctx.moveTo(x1,y1);
+              ctx.quadraticCurveTo((x1+x2)/2,(y1+y2)/2,x2,y2);
+              ctx.stroke();
+            }
+          }
+        }
+        ctx.restore();
+
+        // nodes
+        for(let L=0; L<LAYERS; L++){
+          const yy=y(L);
+          for(let i=0;i<TOKENS;i++){
+            const xx=x(i), p=(Math.sin(anim*2 + i*.6 + L*.8)+1)/2;
+            const r=5+3*p, focus= mouse.col===i ? 1 : .85;
+            ctx.fillStyle = `hsla(${200 + L*25},100%,${62 + p*18}%,${0.9*focus})`;
+            ctx.beginPath(); ctx.arc(xx,yy,r,0,Math.PI*2); ctx.fill();
+          }
+        }
+
+        requestAnimationFrame(frame);
+      }
+
+      // —— Input ————————————————————————————
+      function updateMouse(e,down){
+        const r = canvas.getBoundingClientRect();
+        const lx = e.clientX - r.left;
+        const colW = layout().W/(TOKENS+1);
+        mouse.col = Math.max(0, Math.min(TOKENS-1, Math.round(lx/colW)-1));
+        mouse.down = down ?? mouse.down;
+      }
+      addEventListener("pointermove", (e)=>updateMouse(e), { passive:true });
+      addEventListener("pointerdown", (e)=>updateMouse(e,true), { passive:true });
+      addEventListener("pointerup", ()=>{ mouse.down=false; }, { passive:true });
+
+      addEventListener("keydown", (e)=>{
+        const k=e.key.toLowerCase();
+        if (k==="r") randomize();
+        if (k==="s") snapshot();
+        if (k==="t") trailT.checked = !trailT.checked;
+      });
+
+      function randomize(){
+        seedInput.value = Math.floor(Math.random()*1e9);
+        tokInput.value  = Math.floor(8 + Math.random()*10);
+        layInput.value  = Math.floor(4 + Math.random()*4);
+        spdInput.value  = Math.floor(15 + Math.random()*60);
+        denInput.value  = Math.floor(35 + Math.random()*60);
+        rebuild();
+      }
+
+      function snapshot(){
+        try{
+          const url = canvas.toDataURL("image/png");
+          const a=document.createElement("a");
+          a.href=url; a.download=`neural-transformer-seed-${seed}.png`; a.click();
+        }catch(e){ console.error("[ai.js] Snapshot failed", e); }
+      }
+
+      seedInput.addEventListener("change", ()=>rebuild());
+      tokInput.addEventListener("input", ()=>rebuild());
+      layInput.addEventListener("input", ()=>rebuild());
+      spdInput.addEventListener("input", ()=>rebuild());
+      denInput.addEventListener("input", ()=>rebuild());
+      randomBtn.addEventListener("click", randomize);
+      snapBtn.addEventListener("click", snapshot);
+      clearBtn.addEventListener("click", ()=>ctx.clearRect(0,0,canvas.width,canvas.height));
+
+      // —— Init ——————————————————————————————
+      refreshThemeBits();
+      rebuild(
+        Number(seedInput.value),
+        Number(tokInput.value),
+        Number(layInput.value),
+        Number(spdInput.value),
+        Number(denInput.value)
+      );
+      requestAnimationFrame(frame);
+
+      // flag ok
+      window.__ai_ok = true;
+    })();
+
+    // Fallback alert if animation failed
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (!window.__ai_ok) alert("Couldn’t start the animation. Check console for errors.");
+      }, 300);
+    });
+  </script>
+</body>
+</html>

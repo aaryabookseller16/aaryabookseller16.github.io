@@ -1,138 +1,187 @@
-// theme.js — site-wide theme + accent manager (updated)
-// - Persists theme in localStorage ("theme": "light" | "dark")
-// - Uses system preference when unset; reacts to OS changes if no explicit choice
-// - Supports URL override: ?theme=light|dark
-// - Keeps multiple #themeToggle buttons in sync (aria/title)
-// - Accent color switcher with contrast auto-adjust + cross-tab sync
+/**
+ * theme.js — site-wide theme + accent manager (dual CSS themes)
+ *
+ * Expects (after style.css):
+ *   <link id="lightCSS" rel="stylesheet" href="theme-light.css">
+ *   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
+ *
+ * Features
+ *  - Persists theme ("theme": "light" | "dark")
+ *  - Falls back to OS when unset; reacts to OS only if no explicit choice
+ *  - URL override: ?theme=light|dark (applies for current load and persists)
+ *  - Syncs any #themeToggle buttons (ARIA/title only; your SVGs are CSS-driven)
+ *  - Accent persistence via [data-accent] swatches; sets --accent & --accent-contrast
+ *  - Cross-tab sync; emits `themechange` and `accentchange`
+ */
 
 (function () {
-  const THEME_KEY   = "theme";
-  const ACCENT_KEY  = "accent";
-  const root        = document.documentElement;
-  const media       = window.matchMedia("(prefers-color-scheme: dark)");
+  "use strict";
 
-  /* =========================
-     Theme helpers
-     ========================= */
-  function detectTheme() {
-    const urlTheme = new URLSearchParams(location.search).get("theme");
-    if (urlTheme === "light" || urlTheme === "dark") return urlTheme;
-    try {
-      const saved = localStorage.getItem(THEME_KEY);
-      if (saved === "light" || saved === "dark") return saved;
-    } catch {}
-    return media.matches ? "dark" : "light";
-  }
+  /* ---------- constants & handles ---------- */
+  const THEME_KEY  = "theme";
+  const ACCENT_KEY = "accent";
+  const root  = document.documentElement;
+  const media = window.matchMedia("(prefers-color-scheme: dark)");
 
-  function applyTheme(next, persist = true) {
-    const theme = next === "dark" ? "dark" : "light";
-    root.setAttribute("data-theme", theme);
-    // Hint to UA for form controls, scrollbars, etc.
-    root.style.colorScheme = theme;
-    if (persist) { try { localStorage.setItem(THEME_KEY, theme); } catch {} }
-    syncThemeToggles(theme);
-  }
+  // Optional theme stylesheet links (OK if missing on some pages)
+  const lightCSS = document.getElementById("lightCSS");
+  const darkCSS  = document.getElementById("darkCSS");
 
-  function syncThemeToggles(theme) {
-    const isDark = theme === "dark";
-    document.querySelectorAll("#themeToggle").forEach((btn) => {
-      btn.setAttribute("aria-pressed", String(isDark));
-      btn.setAttribute("aria-label", "Toggle color theme");
-      btn.title = isDark ? "Switch to light mode" : "Switch to dark mode";
-    });
-  }
+  /* ---------- safe storage ---------- */
+  const ls = {
+    get(k){ try { return localStorage.getItem(k); } catch { return null; } },
+    set(k,v){ try { localStorage.setItem(k,v); } catch {} },
+    del(k){ try { localStorage.removeItem(k); } catch {} },
+  };
 
-  function hasExplicitTheme() {
-    try { const v = localStorage.getItem(THEME_KEY); return v === "light" || v === "dark"; }
-    catch { return false; }
-  }
+  /* ---------- hex helpers (accent) ---------- */
+  const HEX6 = /^#([0-9a-f]{6})$/i;
+  const HEX3 = /^#([0-9a-f]{3})$/i;
 
-  function toggleTheme() {
-    const current = root.getAttribute("data-theme") || detectTheme();
-    applyTheme(current === "dark" ? "light" : "dark", true);
-  }
-
-  /* =========================
-     Accent helpers
-     ========================= */
-  function applyAccent(hex, persist = true) {
-    if (!hex || !/^#([0-9a-f]{6}|[0-9a-f]{3})$/i.test(hex)) return;
-    // Normalize 3-digit hex to 6-digit
-    if (hex.length === 4) {
-      hex = "#" + [...hex.slice(1)].map(ch => ch + ch).join("");
+  function normalizeHex(v){
+    if (!v) return null;
+    if (HEX6.test(v)) return v.toLowerCase();
+    if (HEX3.test(v)) {
+      const [, g] = v.match(HEX3);
+      return ("#" + g.split("").map(ch => ch+ch).join("")).toLowerCase();
     }
-    root.style.setProperty("--accent", hex);
-
-    // Simple YIQ contrast heuristic (sets --accent-contrast to #000 or #fff)
-    try {
-      const c = hex.slice(1);
-      const r = parseInt(c.slice(0,2),16), g = parseInt(c.slice(2,4),16), b = parseInt(c.slice(4,6),16);
-      const yiq = (r*299 + g*587 + b*114) / 1000;
-      root.style.setProperty("--accent-contrast", yiq >= 160 ? "#000" : "#fff");
-    } catch {}
-
-    if (persist) { try { localStorage.setItem(ACCENT_KEY, hex); } catch {} }
-    syncAccentUI(hex);
+    return null;
+  }
+  function yiqContrast(hex6){
+    const c = hex6.slice(1);
+    const r = parseInt(c.slice(0,2),16);
+    const g = parseInt(c.slice(2,4),16);
+    const b = parseInt(c.slice(4,6),16);
+    // simple luminance heuristic
+    return ((r*299 + g*587 + b*114) / 1000) >= 160 ? "#000" : "#fff";
   }
 
-  function syncAccentUI(hex) {
-    // Optional: highlight current swatch (if present)
-    document.querySelectorAll(".accent-swatch").forEach(btn => {
-      const v = btn.getAttribute("data-accent");
-      if (!v) return;
-      btn.style.outline = (v.toLowerCase() === hex.toLowerCase()) ? "2px solid var(--accent)" : "none";
-      btn.style.outlineOffset = "2px";
+  /* ---------- theme detection & application ---------- */
+  function urlTheme(){
+    const t = new URLSearchParams(location.search).get("theme");
+    return (t === "light" || t === "dark") ? t : null;
+  }
+  function storedTheme(){
+    const t = ls.get(THEME_KEY);
+    return (t === "light" || t === "dark") ? t : null;
+  }
+  function detectTheme(){
+    return urlTheme() || storedTheme() || (media.matches ? "dark" : "light");
+  }
+  function hasExplicitTheme(){
+    return !!storedTheme();
+  }
+
+  function enableThemeStyles(effective){
+    // If the page includes the dual theme files, ensure exactly one is active.
+    if (lightCSS) lightCSS.disabled = (effective !== "light");
+    if (darkCSS)  darkCSS.disabled  = (effective !== "dark");
+    // Hint UA for form controls/scrollbars
+    root.style.colorScheme = effective;
+  }
+
+  function syncToggles(theme){
+    const isDark = (theme === "dark");
+    document.querySelectorAll("#themeToggle").forEach(btn => {
+      btn.setAttribute("aria-pressed", String(isDark));
+      btn.title = isDark ? "Switch to light mode" : "Switch to dark mode";
+      // If a page uses text instead of SVG, provide a glyph fallback:
+      if (!btn.querySelector("svg")) btn.textContent = isDark ? "☀️" : "🌙";
     });
   }
 
-  /* =========================
-     Init
-     ========================= */
-  (function init() {
-    // Theme from URL or stored/system
-    const fromUrl = new URLSearchParams(location.search).get("theme");
-    if (fromUrl === "light" || fromUrl === "dark") applyTheme(fromUrl, true);
-    else applyTheme(detectTheme(), false);
+  function applyTheme(next, persist){
+    const theme = (next === "dark") ? "dark" : "light";
 
-    // Accent from storage
-    try {
-      const savedAccent = localStorage.getItem(ACCENT_KEY);
-      if (savedAccent) applyAccent(savedAccent, false);
-    } catch {}
+    // 1) DOM state
+    root.setAttribute("data-theme", theme);
+
+    // 2) CSS files
+    enableThemeStyles(theme);
+
+    // 3) persist if asked
+    if (persist) ls.set(THEME_KEY, theme);
+
+    // 4) button/state sync
+    syncToggles(theme);
+
+    // 5) notify listeners
+    try { window.dispatchEvent(new CustomEvent("themechange", { detail: { theme } })); } catch {}
+  }
+
+  function toggleTheme(){
+    const cur = root.getAttribute("data-theme") || detectTheme();
+    applyTheme(cur === "dark" ? "light" : "dark", true);
+  }
+
+  /* ---------- accent application ---------- */
+  function syncAccentUI(currentHex){
+    const target = (currentHex || "").toLowerCase();
+    document.querySelectorAll(".accent-swatch").forEach(btn => {
+      const val = normalizeHex(btn.getAttribute("data-accent") || "");
+      btn.style.outline = (val && val.toLowerCase() === target) ? "2px solid var(--accent)" : "none";
+      btn.style.outlineOffset = (val && val.toLowerCase() === target) ? "2px" : "";
+    });
+  }
+
+  function applyAccent(hex, persist){
+    const norm = normalizeHex(hex);
+    if (!norm) return;
+    root.style.setProperty("--accent", norm);
+    root.style.setProperty("--accent-contrast", yiqContrast(norm));
+    if (persist) ls.set(ACCENT_KEY, norm);
+    syncAccentUI(norm);
+    try { window.dispatchEvent(new CustomEvent("accentchange", { detail: { accent: norm } })); } catch {}
+  }
+
+  /* ---------- init ---------- */
+  (function init(){
+    const fromUrl = urlTheme();
+    if (fromUrl) {
+      applyTheme(fromUrl, true); // honor & persist URL override
+    } else {
+      applyTheme(detectTheme(), false); // follow stored/OS without overwriting
+    }
+
+    const savedAccent = ls.get(ACCENT_KEY);
+    if (savedAccent) applyAccent(savedAccent, false);
   })();
 
-  /* =========================
-     Event wiring
-     ========================= */
-  // Reflect OS changes only if user hasn't explicitly chosen
-  media.addEventListener?.("change", (e) => {
+  /* ---------- events ---------- */
+  // OS theme changes: only reflect if user didn't explicitly choose
+  media.addEventListener?.("change", e => {
     if (!hasExplicitTheme()) applyTheme(e.matches ? "dark" : "light", false);
   });
 
-  // Delegate clicks for any #themeToggle button
+  // Click delegation: theme toggle + accent UI
   window.addEventListener("click", (e) => {
-    const btn = e.target.closest?.("#themeToggle");
-    if (btn) toggleTheme();
+    const themeBtn = e.target.closest?.("#themeToggle");
+    if (themeBtn) { toggleTheme(); return; }
 
-    // Accent picker UI
     const picker = document.getElementById("accentPicker");
+    if (!picker) return;
+
     const toggle = e.target.closest?.("#accentToggle");
     const swatch = e.target.closest?.(".accent-swatch");
-    if (toggle && picker) {
-      const ex = picker.getAttribute("aria-expanded") === "true";
-      picker.setAttribute("aria-expanded", String(!ex));
-    } else if (swatch) {
-      applyAccent(swatch.getAttribute("data-accent"));
-      const p = swatch.closest(".accent-picker");
-      p?.setAttribute("aria-expanded","false");
-    } else {
-      // click-away to close
-      const m = document.getElementById("accentMenu");
-      if (picker && m && !picker.contains(e.target)) picker.setAttribute("aria-expanded","false");
-    }
-  });
 
-  // Cross-tab sync for both theme and accent
+    if (toggle) {
+      const open = picker.getAttribute("aria-expanded") === "true";
+      picker.setAttribute("aria-expanded", String(!open));
+      return;
+    }
+    if (swatch) {
+      const hex = swatch.getAttribute("data-accent");
+      if (hex) applyAccent(hex, true);
+      picker.setAttribute("aria-expanded", "false");
+      return;
+    }
+
+    // click-away close
+    const menu = document.getElementById("accentMenu");
+    if (menu && !picker.contains(e.target)) picker.setAttribute("aria-expanded", "false");
+  }, { passive: true });
+
+  // Cross-tab sync
   window.addEventListener("storage", (e) => {
     if (e.key === THEME_KEY && (e.newValue === "light" || e.newValue === "dark")) {
       applyTheme(e.newValue, false);
@@ -142,19 +191,15 @@
     }
   });
 
-  /* =========================
-     Public API
-     ========================= */
+  /* ---------- public API ---------- */
   window.Theme = {
-    // Theme
     get: () => root.getAttribute("data-theme"),
-    set: (t) => applyTheme(t, true),
+    set: (t) => applyTheme(t === "dark" ? "dark" : "light", true),
     toggle: toggleTheme,
-    clearPreference: () => { try { localStorage.removeItem(THEME_KEY); } catch {} ; applyTheme(detectTheme(), false); },
+    clearPreference: () => { ls.del(THEME_KEY); applyTheme(media.matches ? "dark" : "light", false); },
 
-    // Accent
     getAccent: () => getComputedStyle(root).getPropertyValue("--accent").trim(),
     setAccent: (hex) => applyAccent(hex, true),
-    clearAccent: () => { try { localStorage.removeItem(ACCENT_KEY); } catch {} ; applyAccent("#4b72ff", false); }
+    clearAccent: () => { ls.del(ACCENT_KEY); applyAccent("#4b72ff", false); }
   };
 })();

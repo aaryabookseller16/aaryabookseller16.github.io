@@ -1,14 +1,58 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- ===== THEME BOOT (runs before paint) ===== -->
+  <script>
+    (function () {
+      const KEY = "theme";
+      const root = document.documentElement;
+      const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
+      let t = "light";
+      try {
+        const saved = localStorage.getItem(KEY);
+        t = (saved === "light" || saved === "dark") ? saved : (prefersDark ? "dark" : "light");
+      } catch {}
+      root.setAttribute("data-theme", t);
+      root.style.colorScheme = t;
+
+      // keep mobile browser UI in sync
+      let meta = document.querySelector('meta[name="theme-color"]');
+      if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
+      meta.setAttribute("content", t === "dark" ? "#0b0f14" : "#faf7f3");
+
+      // helper to flip theme + enable correct CSS file
+      window.__setTheme = (theme) => {
+        const next = (theme === "dark") ? "dark" : "light";
+        try { localStorage.setItem(KEY, next); } catch {}
+        root.setAttribute("data-theme", next);
+        root.style.colorScheme = next;
+        const metaEl = document.querySelector('meta[name="theme-color"]');
+        if (metaEl) metaEl.setAttribute("content", next === "dark" ? "#0b0f14" : "#faf7f3");
+        const light = document.getElementById("lightCSS");
+        const dark  = document.getElementById("darkCSS");
+        if (light && dark) { light.disabled = next !== "light"; dark.disabled = next !== "dark"; }
+      };
+    })();
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Qualifications – Aarya Bookseller</title>
   <meta name="description" content="Education, experience, publications, and skills." />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Base + Theme CSS -->
   <link rel="stylesheet" href="style.css" />
+  <link id="lightCSS" rel="stylesheet" href="theme-light.css">
+  <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
+
   <style>
     body { line-height: 1.55; text-align: justify; }
     .section.compact { padding-top: 0; }
@@ -45,17 +89,24 @@
 </head>
 
 <body class="page-qual qualifications">
-  <!-- Header (fixed) -->
+<!-- Header -->
 <header class="site-header">
-  <div class="container" style="display:flex; align-items:center; justify-content:space-between;">
+  <div class="container" style="align-items:center; justify-content:space-between;">
     <a class="brand" href="index.html">Aarya<span>.</span></a>
 
-    <nav class="site-nav" aria-label="Primary">
+    <!-- Mobile hamburger (ARIA) -->
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+
+    <!-- Primary nav -->
+    <nav id="site-nav" class="site-nav" aria-label="Primary">
       <a href="index.html">About</a>
       <a href="qualifications.html" aria-current="page">Qualifications</a>
+      <a href="service.html">Service</a>
       <a href="portfolio.html">Portfolio</a>
+      <a href="ai.html">AI-gen</a>
     </nav>
 
+    <!-- Accent + Theme -->
     <div class="header-actions" style="display:flex; gap:10px; align-items:center;">
       <!-- Accent picker -->
       <div class="accent-picker" id="accentPicker" aria-expanded="false">
@@ -65,7 +116,7 @@
           </svg>
         </button>
         <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
-          <button class="accent-swatch" data-accent="#4b72ff" style="background:#4b72ff" title="Blue"></button>
+          <button class="accent-swatch" data-accent="#4b72ff"  style="background:#4b72ff"  title="Blue"></button>
           <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
           <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
           <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
@@ -73,7 +124,7 @@
         </div>
       </div>
 
-      <!-- Theme toggle (works with your theme.js) -->
+      <!-- Theme toggle -->
       <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <circle cx="12" cy="12" r="4" stroke-width="2"/>
@@ -86,7 +137,6 @@
     </div>
   </div>
 </header>
-
 
   <!-- Hero -->
   <section class="hero">
@@ -229,7 +279,6 @@
         <article class="card card--tint-peach" id="experience">
           <h2>Experience</h2>
           <div class="xp">
-            <!-- DL Fundamentals Lab (link to Deep Learning Group) -->
             <section class="xp-item">
               <h3>
                 <a href="https://tomergalanti.github.io/index.html" target="_blank" rel="noopener">
@@ -246,7 +295,6 @@
               <p class="xp-sub"><em>Skills:</em> Python, PyTorch, Experiment Design</p>
             </section>
 
-            <!-- NaviAI -->
             <section class="xp-item">
               <h3>Founder &amp; Lead Engineer — NaviAI</h3>
               <p class="xp-sub">Self-employed · Jan 2025 – Present · Remote</p>
@@ -259,7 +307,6 @@
               <p class="xp-sub"><em>Skills:</em> Python, PyTorch, Hugging Face, Streamlit, GeoPandas</p>
             </section>
 
-            <!-- Zachry Dept -->
             <section class="xp-item">
               <h3>Software Developer</h3>
               <p class="xp-sub">Zachry Dept. of Civil &amp; Environmental Engineering, Texas A&amp;M · Sep 2024 – Apr 2025 · On-site</p>
@@ -271,7 +318,6 @@
               <p class="xp-sub"><em>Skills:</em> Java, AnyLogic, Simulation Modeling</p>
             </section>
 
-            <!-- SGL (clickable title) -->
             <section class="xp-item">
               <h3>
                 <a href="https://zenon-sgl.tamu.edu/" target="_blank" rel="noopener">
@@ -287,7 +333,6 @@
               <p class="xp-sub"><em>Skills:</em> Python, R, Bayesian Networks, MCMC</p>
             </section>
 
-            <!-- Quantum researcher (clickable title) -->
             <section class="xp-item">
               <h3>
                 <a href="https://slxuphys.github.io/" target="_blank" rel="noopener">
@@ -303,7 +348,6 @@
               <p class="xp-sub"><em>Skills:</em> Qiskit, Quantum Mechanics, Python</p>
             </section>
 
-            <!-- NGO -->
             <section class="xp-item">
               <h3>Intern — Dreams and Deeds NGO</h3>
               <p class="xp-sub">Sep 2020 – Oct 2020 · Online</p>
@@ -321,98 +365,129 @@
   <!-- Footer -->
   <footer class="site-footer" style="border-top:1px solid var(--ring,#ddd); margin-top:2rem; padding:1.2rem 0; font-size:0.9rem;">
     <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.75rem;">
-      
-      <!-- Left -->
       <div class="footer-left" style="opacity:0.85;">
-        © <span id="year"></span> Aarya Bookseller · Education &amp; Experience
+        © <span id="year"></span> Aarya Bookseller · Qualifications
       </div>
-  
-      <!-- Right -->
-      <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap;">
-        <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener">LinkedIn</a>
-  
-        <!-- Work Email with tooltip -->
-        <div class="tooltip">
-          <a href="mailto:aaryab.work@gmail.com">Work Email</a>
+
+      <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap; font-size:1.3rem;">
+        <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+
+        <span class="tooltip">
+          <a href="mailto:aaryab.work@gmail.com" aria-label="Work Email">
+            <i class="fas fa-envelope"></i>
+          </a>
           <span class="tooltip-text">aaryab.work@gmail.com</span>
-        </div>
-  
-        <!-- School Email with tooltip -->
-        <div class="tooltip">
-          <a href="mailto:aaryabookseller@tamu.edu">School Email</a>
+        </span>
+
+        <span class="tooltip">
+          <a href="mailto:aaryabookseller@tamu.edu" aria-label="School Email">
+            <img src="assets/tamu.png" alt="TAMU logo" style="width:22px; height:22px; object-fit:contain;">
+          </a>
           <span class="tooltip-text">aaryabookseller@tamu.edu</span>
-        </div>
+        </span>
       </div>
     </div>
   </footer>
-  
+
+  <!-- Tooltip styles kept inline (page-local) -->
   <style>
-  /* Tooltip wrapper */
-  .tooltip {
-    position: relative;
-    display: inline-block;
-  }
-  
-  /* Tooltip box */
-  .tooltip .tooltip-text {
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    bottom: 130%; /* shows above the link */
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--bg-1, #fff);
-    color: var(--text, #000);
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transition: opacity 0.2s ease;
-    z-index: 10;
-  }
-  
-  /* Small arrow below tooltip */
-  .tooltip .tooltip-text::after {
-    content: "";
-    position: absolute;
-    top: 100%; left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: var(--bg-1,#fff) transparent transparent transparent;
-  }
-  
-  /* Show tooltip on hover */
-  .tooltip:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-  }
-  </style>
-  
-    
-
-  <script src="theme.js" defer></script>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-
-  <!-- Back to Top Button -->
-<button id="backToTop" aria-label="Back to top">↑</button>
-
-<script>
-  const backToTop = document.getElementById("backToTop");
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 200) {
-      backToTop.classList.add("show");
-    } else {
-      backToTop.classList.remove("show");
+    .tooltip { position: relative; display: inline-block; }
+    .tooltip .tooltip-text {
+      visibility: hidden; opacity: 0; position: absolute; bottom: 130%; left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-1, #fff); color: var(--text, #000);
+      padding: 6px 10px; border-radius: 6px; font-size: 0.85rem; white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: opacity 0.2s ease; z-index: 10;
     }
-  });
+    .tooltip .tooltip-text::after {
+      content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      border-width: 6px; border-style: solid; border-color: var(--bg-1,#fff) transparent transparent transparent;
+    }
+    .tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
+  </style>
 
-  backToTop.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-</script>
+  <!-- ===== Scripts (self-contained) ===== -->
+  <script>
+    // Sync theme link disabled states once links exist
+    (function syncThemeLinks(){
+      const t = document.documentElement.getAttribute("data-theme") || "light";
+      const light = document.getElementById("lightCSS");
+      const dark  = document.getElementById("darkCSS");
+      if (light && dark) { light.disabled = t !== "light"; dark.disabled = t !== "dark"; }
+      const prev = window.__setTheme;
+      window.__setTheme = (theme) => { prev(theme); if (light && dark) { light.disabled = theme !== "light"; dark.disabled = theme !== "dark"; } };
+    })();
 
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile nav
+    (function(){
+      const t = document.querySelector('.nav-toggle');
+      const n = document.getElementById('site-nav');
+      if (!t || !n) return;
+      t.addEventListener('click', () => {
+        const open = t.getAttribute('aria-expanded') === 'true';
+        t.setAttribute('aria-expanded', String(!open));
+        n.classList.toggle('open', !open);
+      });
+    })();
+
+    // Accent picker (with persistence)
+    (function(){
+      const picker = document.getElementById('accentPicker');
+      const menu   = document.getElementById('accentMenu');
+      const toggle = document.getElementById('accentToggle');
+      if (!picker || !menu || !toggle) return;
+      const ACCENT_KEY = "accent";
+
+      try {
+        const saved = localStorage.getItem(ACCENT_KEY);
+        if (saved) document.documentElement.style.setProperty('--accent', saved);
+      } catch {}
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = picker.getAttribute('aria-expanded') === 'true';
+        picker.setAttribute('aria-expanded', String(!open));
+      });
+      menu.addEventListener('click', (e) => {
+        const sw = e.target.closest('[data-accent]');
+        if (!sw) return;
+        const color = sw.dataset.accent;
+        document.documentElement.style.setProperty('--accent', color);
+        try { localStorage.setItem(ACCENT_KEY, color); } catch {}
+        picker.setAttribute('aria-expanded', 'false');
+      });
+      document.addEventListener('click', (e) => {
+        if (!picker.contains(e.target)) picker.setAttribute('aria-expanded','false');
+      });
+    })();
+
+    // Theme toggle
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      const setPressed = () => btn.setAttribute('aria-pressed', String((document.documentElement.getAttribute('data-theme')||'light') === 'dark'));
+      setPressed();
+      btn.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme') || 'light';
+        const next = cur === 'dark' ? 'light' : 'dark';
+        window.__setTheme(next);
+        setPressed();
+      });
+    })();
+
+    // Back to Top
+    (function(){
+      const btn = document.getElementById("backToTop");
+      addEventListener("scroll", () => {
+        if (scrollY > 200) btn.classList.add("show"); else btn.classList.remove("show");
+      });
+      btn.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+    })();
+  </script>
 </body>
 </html>

@@ -1,256 +1,444 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
+  <!-- Icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- ===== THEME BOOT (runs before paint) ===== -->
+  <script>
+    (function () {
+      const KEY = "theme";
+      const root = document.documentElement;
+      const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
+      let t = "light";
+      try {
+        const saved = localStorage.getItem(KEY);
+        t = (saved === "light" || saved === "dark") ? saved : (prefersDark ? "dark" : "light");
+      } catch {}
+      root.setAttribute("data-theme", t);
+      root.style.colorScheme = t;
+
+      // keep mobile browser UI in sync
+      let meta = document.querySelector('meta[name="theme-color"]');
+      if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
+      meta.setAttribute("content", t === "dark" ? "#0b0f14" : "#faf7f3");
+
+      // helper (also toggles theme CSS once links exist)
+      window.__setTheme = (theme) => {
+        const next = theme === "dark" ? "dark" : "light";
+        root.setAttribute("data-theme", next);
+        root.style.colorScheme = next;
+        try { localStorage.setItem(KEY, next); } catch {}
+        const metaEl = document.querySelector('meta[name="theme-color"]');
+        if (metaEl) metaEl.setAttribute("content", next === "dark" ? "#0b0f14" : "#faf7f3");
+        const light = document.getElementById("lightCSS");
+        const dark  = document.getElementById("darkCSS");
+        if (light && dark) { light.disabled = next !== "light"; dark.disabled = next !== "dark"; }
+      };
+    })();
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Aarya Bookseller – Portfolio</title>
   <meta name="description" content="Selected projects by Aarya Bookseller." />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- ===== SITE STYLES ===== -->
   <link rel="stylesheet" href="style.css" />
+  <!-- Theme files must have these IDs -->
+  <link id="lightCSS" rel="stylesheet" href="theme-light.css">
+  <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
+
+  <!-- ===== Page micro-tweaks ===== -->
   <style>
-    body {
-      line-height: 1.5;
+    body { line-height: 1.5; }
+    p, li, .card p { text-align: justify; }
+
+    .hero h1 { margin: 0; }
+    .hero .lead { margin: .25rem 0 0; }
+
+    .tablist { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+    .tab[role="tab"]{
+      border:1px solid var(--ring,#dcdcdc); background:var(--bg-1,#fff); color:var(--text,#111);
+      border-radius:10px; padding:.45rem .75rem; font-weight:600; cursor:pointer;
+      transition:transform .15s, box-shadow .15s, background .15s;
     }
-    p, li {
-      text-align: justify;
+    .tab[aria-selected="true"]{
+      border-color:var(--accent,#4b72ff);
+      box-shadow:0 0 0 4px color-mix(in oklab, var(--accent) 16%, transparent);
     }
-    .card p {
-      text-align: justify;
-      line-height: 1.5;
+    .tab:hover{ transform:translateY(-1px); }
+
+    .grid-3, #projectsGrid{
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:16px;
     }
+
+    .card.project{
+      position:relative; border-radius:16px;
+      border:1px solid color-mix(in oklab, var(--accent) 12%, transparent);
+      background:var(--bg-1,#fff);
+      box-shadow:0 10px 30px rgba(0,0,0,.08);
+      overflow:clip; transform:translateY(8px); opacity:0;
+      transition:transform .35s ease, opacity .35s ease, box-shadow .25s ease;
+    }
+    [data-theme="dark"] .card.project{
+      background:color-mix(in oklab, #121212 92%, #ffffff 0%);
+      box-shadow:0 14px 34px rgba(0,0,0,.35);
+    }
+    .card.project.is-visible{ transform:translateY(0); opacity:1; }
+    .card__img{ display:block; width:100%; aspect-ratio:16/9; object-fit:cover; }
+    .card__title{ margin:.6rem 0 .25rem; }
+    .card .meta{ margin:0 0 .25rem; opacity:.75; font-size:.95rem; }
+    .pills{ display:flex; gap:6px; flex-wrap:wrap; margin-top:.5rem; }
+    .pill{
+      font-size:.85rem; font-weight:600; padding:.2rem .5rem; border-radius:999px;
+      border:1px solid color-mix(in oklab, var(--accent) 40%, transparent);
+      background:color-mix(in oklab, var(--accent) 8%, transparent);
+    }
+    .card.project:hover{ box-shadow:0 16px 44px rgba(0,0,0,.16); }
+
+    .tooltip{ position:relative; display:inline-block; }
+    .tooltip .tooltip-text{
+      visibility:hidden; opacity:0; position:absolute; bottom:130%; left:50%;
+      transform:translateX(-50%); background:var(--bg-1,#fff); color:var(--text,#000);
+      padding:6px 10px; border-radius:6px; font-size:.85rem; white-space:nowrap;
+      box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:opacity .2s ease; z-index:10;
+    }
+    .tooltip .tooltip-text::after{
+      content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+      border-width:6px; border-style:solid; border-color:var(--bg-1,#fff) transparent transparent transparent;
+    }
+    .tooltip:hover .tooltip-text{ visibility:visible; opacity:1; }
+
+    #backToTop{
+      position:fixed; right:16px; bottom:16px; z-index:10;
+      width:44px; height:44px; border-radius:12px; border:1px solid var(--ring,#d9d9d9);
+      background:color-mix(in oklab, var(--accent) 10%, transparent);
+      backdrop-filter:blur(8px); display:grid; place-items:center;
+      font-size:18px; cursor:pointer; transform:translateY(12px); opacity:0; pointer-events:none;
+      transition:transform .25s, opacity .25s, box-shadow .2s;
+      box-shadow:0 8px 20px rgba(0,0,0,.12);
+    }
+    #backToTop.show{ transform:translateY(0); opacity:1; pointer-events:auto; }
+    #backToTop:hover{ box-shadow:0 12px 28px rgba(0,0,0,.16); }
+
+    @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
   </style>
 </head>
 
 <body>
-<!-- Header (fixed) -->
-<header class="site-header">
-  <div class="container" style="display:flex; align-items:center; justify-content:space-between;">
-    <a class="brand" href="index.html">Aarya<span>.</span></a>
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="container" style="align-items:center; justify-content:space-between;">
+      <a class="brand" href="index.html">Aarya<span>.</span></a>
 
-    <nav class="site-nav" aria-label="Primary">
-      <a href="index.html">About</a>
-      <a href="qualifications.html" aria-current="page">Qualifications</a>
-      <a href="portfolio.html">Portfolio</a>
-    </nav>
+      <!-- Mobile hamburger -->
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
 
-    <div class="header-actions" style="display:flex; gap:10px; align-items:center;">
-      <!-- Accent picker -->
-      <div class="accent-picker" id="accentPicker" aria-expanded="false">
-        <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-            <path d="M12 3a9 9 0 0 0 0 18h4a3 3 0 0 0 0-6h-1a2 2 0 1 1 0-4h1a3 3 0 0 0 0-6h-4zM7 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      <!-- Primary nav -->
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <a href="index.html">About</a>
+        <a href="qualifications.html">Qualifications</a>
+        <a href="service.html">Volunteering</a>
+        <a href="portfolio.html" aria-current="page">Portfolio</a>
+        <a href="ai.html">AI-gen</a>
+      </nav>
+
+      <!-- Accent + Theme -->
+      <div class="header-actions" style="display:flex; gap:10px; align-items:center;">
+        <div class="accent-picker" id="accentPicker" aria-expanded="false">
+          <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">🎨</button>
+          <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
+            <button class="accent-swatch" data-accent="#4b72ff"  style="background:#4b72ff"  title="Blue"></button>
+            <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
+            <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
+            <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
+            <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
+          </div>
+        </div>
+
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="4" stroke-width="2"/>
+            <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
         </button>
-        <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
-          <button class="accent-swatch" data-accent="#4b72ff" style="background:#4b72ff" title="Blue"></button>
-          <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
-          <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
-          <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
-          <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
-        </div>
       </div>
-
-      <!-- Theme toggle (works with your theme.js) -->
-      <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <circle cx="12" cy="12" r="4" stroke-width="2"/>
-          <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-        </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
     </div>
-  </div>
-</header>
+  </header>
 
-
-  <!-- Hero -->
+  <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="container">
-      <h1 style="margin:0;">Portfolio</h1>
-      <p class="lead" style="margin:.25rem 0 0;">Selected builds—ML systems, optimization, and product UIs.</p>
+      <h1>Portfolio</h1>
+      <p class="lead">Selected builds—ML systems, optimization, and product UIs.</p>
 
-      <!-- Filters (optional) -->
-      <div class="tablist" role="tablist" aria-label="Project filters" style="margin-top:14px;">
-        <button class="tab" role="tab" aria-selected="true" data-filter="all">All</button>
-        <button class="tab" role="tab" data-filter="ml">Machine Learning</button>
-        <button class="tab" role="tab" data-filter="systems">Systems</button>
-        <button class="tab" role="tab" data-filter="ui">UI/UX</button>
-        <a class="tab" role="tab" href="assets/Bookseller_Aarya.pdf">Résumé</a>
+      <div class="tablist" role="tablist" aria-label="Project filters">
+        <button class="tab" role="tab" aria-selected="true" tabindex="0" data-filter="all" id="tab-all">All</button>
+        <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="ml" id="tab-ml">Machine Learning</button>
+        <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="systems" id="tab-systems">Systems</button>
+        <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="ui" id="tab-ui">UI/UX</button>
+        <a class="tab" href="assets/Bookseller_Aarya.pdf">Résumé</a>
       </div>
     </div>
     <div class="divider"></div>
   </section>
 
-  <!-- Projects grid: CARDS SIDE-BY-SIDE -->
+  <!-- ===== PROJECTS ===== -->
   <main class="section">
-    <div class="container grid-3" id="projectsGrid">
-  
-   <!-- NaviAI -->
-<article class="card project card--tint-peach" data-tags="ml systems ui">
-  <img class="card__img" src="assets/routes.jpeg" alt="NaviAI route visualization">
-  <h2 class="card__title">NaviAI — Maritime Routing with Risk</h2>
-  <p class="meta">Founder &amp; Lead Engineer · 2025–Present</p>
-  <p>
-    Routing engine that returns <em>fastest</em>, <em>cheapest</em>, and <em>safest</em> routes. Dynamic edge weights fuse transit time,
-    fuel burn, live weather, and <strong>news-driven risk</strong> scored by Transformer models; a Streamlit UI visualizes route
-    diffs and explains trade-offs with concise <strong>LLM rationales</strong> for operator trust.
-  </p>
-  <div class="pills">
-    <span class="pill">Python</span><span class="pill">NetworkX</span><span class="pill">Transformers</span>
-    <span class="pill">Streamlit</span><span class="pill">Pandas</span>
-  </div>
-</article>
+    <div class="container" id="projectsRegion" role="region" aria-labelledby="tab-all">
+      <div class="grid-3" id="projectsGrid">
+        <!-- NaviAI -->
+        <article class="card project" data-tags="ml systems ui">
+          <img class="card__img" src="assets/routes.jpeg" alt="NaviAI route visualization">
+          <div class="card__body" style="padding:12px 14px;">
+            <h2 class="card__title">NaviAI — Maritime Routing with Risk</h2>
+            <p class="meta">Founder &amp; Lead Engineer · 2025–Present</p>
+            <p>
+              Multi-objective routing that balances <strong>time</strong>, <strong>fuel</strong>, and <strong>operational risk</strong>.
+              The engine fuses live weather and port conditions with a news-derived risk score (Transformer sentiment + rules) to
+              adjust edge weights in real time. Constraints like draft limits, traffic separation schemes, exclusion zones, and canal
+              fees are modeled explicitly.
+            </p>
+            <p>
+              A Streamlit UI shows <em>fastest / cheapest / safest</em> alternatives with deltas in ETA, fuel burn, and risk.
+              Each route includes short LLM rationales. The pipeline includes cached data fetchers, reproducible configs,
+              and scenario “playbacks” for incident post-mortems and what-if planning.
+            </p>
+            <div class="pills">
+              <span class="pill">Python</span><span class="pill">NetworkX</span><span class="pill">Transformers</span>
+              <span class="pill">Streamlit</span><span class="pill">Pandas</span>
+            </div>
+          </div>
+        </article>
 
-<!-- Contract Theory -->
-<article class="card project card--tint-rose" data-tags="ml">
-  <img class="card__img" src="assets/bilevel_jpeg.png" alt="Bilevel optimization diagram">
-  <h2 class="card__title">Contract Theory — Implicit-Gradient Bilevel</h2>
-  <p class="meta">Deep Learning Research Group · Texas A&amp;M</p>
-  <p>
-    Gradient-based bilevel optimizer for principal–agent contracts. Uses <strong>implicit differentiation</strong> with
-    <em>Hessian-vector products</em> and <em>conjugate gradient</em> to update outer variables efficiently; stability comes from
-    tuned schedules and regularization, with a <strong>grid-search baseline</strong> for evaluation and publication-quality
-    convergence plots.
-  </p>
-  <div class="pills">
-    <span class="pill">PyTorch</span><span class="pill">Autograd</span><span class="pill">HVP/CG</span>
-    <span class="pill">Matplotlib</span><span class="pill">LaTeX</span>
-  </div>
-</article>
+        <!-- Bilevel Optimization -->
+        <article class="card project" data-tags="ml">
+          <img class="card__img" src="assets/bilevel_jpeg.png" alt="Bilevel optimization diagram">
+          <div class="card__body" style="padding:12px 14px;">
+            <h2 class="card__title">Contract Theory — Implicit-Gradient Bilevel</h2>
+            <p class="meta">Deep Learning Research Group · Texas A&amp;M</p>
+            <p>
+              Principal–agent contract design posed as a <strong>bilevel program</strong>: the principal chooses contract parameters,
+              the agent best-responds with effort, and the outer objective optimizes principal utility. We compute outer gradients via
+              <strong>implicit differentiation</strong> and <strong>Hessian–vector products</strong> solved with <em>conjugate
+              gradient</em>, avoiding explicit Hessians.
+            </p>
+            <p>
+              Training stability comes from warm-starts, damping, and line-searched updates; baselines include grid search and
+              straight-through approximations. Experiments cover synthetic PA setups (noise, incentive compatibility, effort-cost
+              regimes), with ablations on schedule choice and regularization, plus reproducible figures and tables.
+            </p>
+            <div class="pills">
+              <span class="pill">PyTorch</span><span class="pill">Autograd</span><span class="pill">HVP/CG</span>
+              <span class="pill">Matplotlib</span><span class="pill">LaTeX</span>
+            </div>
+          </div>
+        </article>
 
-<!-- Style Converter -->
-<article class="card project" data-tags="ml ui">
-  <img class="card__img" src="assets/van_gogh.jpeg" alt="Style transfer output">
-  <h2 class="card__title">Style Converter — VGG19 NST</h2>
-  <p class="meta">Simple, clean neural style transfer demo</p>
-  <p>
-    Neural Style Transfer that applies an artwork’s <em>style</em> to any photo. Lightweight PyTorch/VGG19 pipeline with a tidy
-    web UI for uploads and <strong>side-by-side previews</strong>; supports content/style weighting and reproducible runs for
-    clear comparisons and demos.
-  </p>
-  <div class="pills">
-    <span class="pill">PyTorch</span><span class="pill">VGG19</span><span class="pill">UX</span>
-  </div>
-</article>
-
-  
+        <!-- Style Transfer -->
+        <article class="card project" data-tags="ml ui">
+          <img class="card__img" src="assets/van_gogh.jpeg" alt="Style transfer output">
+          <div class="card__body" style="padding:12px 14px;">
+            <h2 class="card__title">Style Converter — VGG19 NST</h2>
+            <p class="meta">Simple, clean neural style transfer demo</p>
+            <p>
+              Classic VGG19 neural style transfer with a streamlined UI: upload content &amp; style, then tune
+              <strong>content/style weights</strong>, <strong>TV loss</strong>, and iteration budget. Uses a
+              coarse→fine schedule and multi-scale Gram features for crisp textures without over-sharpening.
+            </p>
+            <p>
+              Includes deterministic seeds, progress snapshots, and side-by-side previews. Runs on CPU or GPU; large images are
+              tiled and reassembled to keep memory bounded and results reproducible across devices.
+            </p>
+            <div class="pills">
+              <span class="pill">PyTorch</span><span class="pill">VGG19</span><span class="pill">UX</span>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   </main>
-  
-  <!-- Footer -->
+
+  <!-- ===== FOOTER ===== -->
   <footer class="site-footer" style="border-top:1px solid var(--ring,#ddd); margin-top:2rem; padding:1.2rem 0; font-size:0.9rem;">
     <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.75rem;">
-      
-      <!-- Left -->
       <div class="footer-left" style="opacity:0.85;">
-        © <span id="year"></span> Aarya Bookseller · Education &amp; Experience
+        © <span id="year"></span> Aarya Bookseller · Portfolio
       </div>
-  
-      <!-- Right -->
-      <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap;">
-        <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener">LinkedIn</a>
-  
-        <!-- Work Email with tooltip -->
-        <div class="tooltip">
-          <a href="mailto:aaryab.work@gmail.com">Work Email</a>
+
+      <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap; font-size:1.3rem;">
+        <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+
+        <span class="tooltip">
+          <a href="mailto:aaryab.work@gmail.com" aria-label="Work Email">
+            <i class="fas fa-envelope"></i>
+          </a>
           <span class="tooltip-text">aaryab.work@gmail.com</span>
-        </div>
-  
-        <!-- School Email with tooltip -->
-        <div class="tooltip">
-          <a href="mailto:aaryabookseller@tamu.edu">School Email</a>
+        </span>
+
+        <span class="tooltip">
+          <a href="mailto:aaryabookseller@tamu.edu" aria-label="School Email">
+            <img src="assets/tamu.png" alt="TAMU logo" style="width:22px; height:22px; object-fit:contain;">
+          </a>
           <span class="tooltip-text">aaryabookseller@tamu.edu</span>
-        </div>
+        </span>
       </div>
     </div>
   </footer>
-  
-  <style>
-  /* Tooltip wrapper */
-  .tooltip {
-    position: relative;
-    display: inline-block;
-  }
-  
-  /* Tooltip box */
-  .tooltip .tooltip-text {
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    bottom: 130%; /* shows above the link */
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--bg-1, #fff);
-    color: var(--text, #000);
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transition: opacity 0.2s ease;
-    z-index: 10;
-  }
-  
-  /* Small arrow below tooltip */
-  .tooltip .tooltip-text::after {
-    content: "";
-    position: absolute;
-    top: 100%; left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: var(--bg-1,#fff) transparent transparent transparent;
-  }
-  
-  /* Show tooltip on hover */
-  .tooltip:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-  }
-  </style>
-  
-  
 
-  <!-- Scripts -->
-  <script src="theme.js" defer></script>
+  <!-- Back to Top -->
+  <button id="backToTop" aria-label="Back to top">↑</button>
+
+  <!-- ===== SCRIPTS (inline, no theme.js dependency) ===== -->
   <script>
-    // Optional front-end filter using data-tags
-    const tabs = document.querySelectorAll('.tablist .tab[data-filter]');
-    const cards = document.querySelectorAll('.project');
-    tabs.forEach(t => t.addEventListener('click', () => {
-      tabs.forEach(x => x.setAttribute('aria-selected', 'false'));
-      t.setAttribute('aria-selected', 'true');
-      const f = t.dataset.filter;
-      cards.forEach(c => {
-        if (f === 'all') { c.style.display = ''; return; }
-        const tags = (c.dataset.tags || '').split(/\s+/);
-        c.style.display = tags.includes(f) ? '' : 'none';
-      });
-    }));
+    // Make sure the correct theme CSS is enabled once links exist
+    (function syncThemeLinks(){
+      const t = document.documentElement.getAttribute("data-theme") || "light";
+      const light = document.getElementById("lightCSS");
+      const dark  = document.getElementById("darkCSS");
+      if (light && dark) { light.disabled = t !== "light"; dark.disabled = t !== "dark"; }
+      const prev = window.__setTheme;
+      window.__setTheme = (theme) => {
+        prev(theme);
+        if (light && dark) { light.disabled = theme !== "light"; dark.disabled = theme !== "dark"; }
+      };
+    })();
+
+    // Year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile nav
+    (function(){
+      const t = document.querySelector('.nav-toggle');
+      const n = document.getElementById('site-nav');
+      if (!t || !n) return;
+      t.addEventListener('click', () => {
+        const open = t.getAttribute('aria-expanded') === 'true';
+        t.setAttribute('aria-expanded', String(!open));
+        n.classList.toggle('open', !open);
+      });
+    })();
+
+    // Accent picker (persist)
+    (function(){
+      const picker = document.getElementById('accentPicker');
+      const menu   = document.getElementById('accentMenu');
+      const toggle = document.getElementById('accentToggle');
+      if (!picker || !menu || !toggle) return;
+
+      const ACCENT_KEY = "accent";
+      try {
+        const saved = localStorage.getItem(ACCENT_KEY);
+        if (saved) document.documentElement.style.setProperty('--accent', saved);
+      } catch {}
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const ex = picker.getAttribute('aria-expanded') === 'true';
+        picker.setAttribute('aria-expanded', String(!ex));
+      });
+      menu.addEventListener('click', (e) => {
+        const sw = e.target.closest('[data-accent]');
+        if (!sw) return;
+        const color = sw.dataset.accent;
+        document.documentElement.style.setProperty('--accent', color);
+        try { localStorage.setItem(ACCENT_KEY, color); } catch {}
+        picker.setAttribute('aria-expanded', 'false');
+      });
+      document.addEventListener('click', (e) => {
+        if (!picker.contains(e.target)) picker.setAttribute('aria-expanded','false');
+      });
+    })();
+
+    // Theme toggle
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      const setPressed = () => btn.setAttribute('aria-pressed', String((document.documentElement.getAttribute('data-theme')||'light') === 'dark'));
+      setPressed();
+      btn.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme') || 'light';
+        const next = cur === 'dark' ? 'light' : 'dark';
+        window.__setTheme(next);
+        setPressed();
+      });
+    })();
+
+    // Back to top
+    (function(){
+      const btn = document.getElementById("backToTop");
+      addEventListener("scroll", () => {
+        if (scrollY > 200) btn.classList.add("show");
+        else btn.classList.remove("show");
+      });
+      btn.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+    })();
+
+    // Project cards: reveal on scroll
+    (function(){
+      const cards = document.querySelectorAll('.card.project');
+      if (!cards.length || !('IntersectionObserver' in window)) {
+        cards.forEach(c => c.classList.add('is-visible'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.2 });
+      cards.forEach(c => io.observe(c));
+    })();
+
+    // Tabs filter + keyboard
+    (function(){
+      const tabs = Array.from(document.querySelectorAll('.tablist .tab[role="tab"]'));
+      const grid = document.getElementById('projectsGrid');
+      const cards = Array.from(grid.querySelectorAll('.project'));
+      const region = document.getElementById('projectsRegion');
+      if (!tabs.length) return;
+
+      function apply(filter, tabEl){
+        tabs.forEach(t => {
+          const sel = (t === tabEl);
+          t.setAttribute('aria-selected', String(sel));
+          t.tabIndex = sel ? 0 : -1;
+          if (sel) region.setAttribute('aria-labelledby', t.id);
+        });
+        cards.forEach(c => {
+          if (filter === 'all') { c.hidden = false; return; }
+          const tags = (c.dataset.tags || '').split(/\s+/);
+          c.hidden = !tags.includes(filter);
+        });
+      }
+
+      tabs.forEach(t => t.addEventListener('click', () => apply(t.dataset.filter, t)));
+      document.querySelector('.tablist').addEventListener('keydown', (e) => {
+        const i = tabs.indexOf(document.activeElement);
+        if (i === -1) return;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          const dir = e.key === 'ArrowRight' ? 1 : -1;
+          tabs[(i + dir + tabs.length) % tabs.length].focus();
+        } else if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          apply(tabs[i].dataset.filter, tabs[i]);
+        }
+      });
+
+      apply('all', tabs[0]); // init
+    })();
   </script>
-  <!-- Back to Top Button -->
-<button id="backToTop" aria-label="Back to top">↑</button>
-
-<script>
-  const backToTop = document.getElementById("backToTop");
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 200) {
-      backToTop.classList.add("show");
-    } else {
-      backToTop.classList.remove("show");
-    }
-  });
-
-  backToTop.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-</script>
-
 </body>
 </html>

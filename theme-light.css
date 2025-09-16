@@ -1,0 +1,28 @@
+/* ================================
+   Light Theme Variables
+   ================================ */
+:root {
+  /* Background layers */
+  --bg-0: #faf7f3;   /* app background */
+  --bg-1: #ffffff;   /* cards, surfaces */
+  --bg-2: #f6f0e6;   /* secondary surfaces */
+
+  /* Text */
+  --text:  #111111;  /* main text */
+  --muted: #555555;  /* secondary text */
+  --ring:  #d9d9d9;  /* borders, outlines */
+
+  /* Accent (default for light mode) */
+  --accent:           #4b72ff;
+  --accent-contrast:  #ffffff;
+
+  /* Tints for cards/sections */
+  --tint-peach: #fbd5a6;
+  --tint-blue:  #c7d9ff;
+  --tint-rose:  #ffc7d6;
+
+  /* Radius + shadows */
+  --radius:   18px;
+  --shadow-1: 0 6px 18px rgba(0,0,0,.08);
+  --shadow-2: 0 10px 28px rgba(0,0,0,.12);
+}

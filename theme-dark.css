@@ -1,0 +1,21 @@
+/* Theme: Dark — tokens only */
+:root{
+  --bg-0: #0b0f14;
+  --bg-1: #111722;
+  --bg-2: #0f1621;
+
+  --text:  #e8eef7;
+  --muted: #9fb1c7;
+  --ring:  #263446;
+
+  --accent:           #7aa2ff;
+  --accent-contrast:  #0b0f14;
+
+  --tint-peach: #f6c7a6;
+  --tint-blue:  #b7d0ff;
+  --tint-rose:  #ffc7d6;
+
+  --radius:   18px;
+  --shadow-1: 0 6px 18px rgba(0,0,0,.25);
+  --shadow-2: 0 10px 28px rgba(0,0,0,.35);
+}

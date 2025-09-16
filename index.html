@@ -1,18 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Apply saved/system theme BEFORE CSS to avoid flash -->
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- ===== THEME BOOT (runs before paint) ===== -->
   <script>
     (function () {
       const KEY = "theme";
       const root = document.documentElement;
-      const media = window.matchMedia("(prefers-color-scheme: dark)");
-      let t;
-      try { t = localStorage.getItem(KEY); } catch {}
-      if (t !== "light" && t !== "dark") t = media.matches ? "dark" : "light";
+      const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
+      let t = "light";
+      try {
+        const saved = localStorage.getItem(KEY);
+        t = (saved === "light" || saved === "dark") ? saved : (prefersDark ? "dark" : "light");
+      } catch {}
       root.setAttribute("data-theme", t);
-      root.classList.toggle("dark", t === "dark");
-      root.classList.toggle("light", t === "light");
+      root.style.colorScheme = t;
+
+      // ensure a theme-color meta exists
+      let meta = document.querySelector('meta[name="theme-color"]');
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.name = "theme-color";
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", t === "dark" ? "#0b0f14" : "#faf7f3");
+
+      // will be defined fully after CSS <link>s load; we stub it for early calls
+      window.__setTheme = (theme) => {
+        root.setAttribute("data-theme", theme);
+        root.style.colorScheme = theme;
+        try { localStorage.setItem(KEY, theme); } catch {}
+        const metaEl = document.querySelector('meta[name="theme-color"]');
+        if (metaEl) metaEl.setAttribute("content", theme === "dark" ? "#0b0f14" : "#faf7f3");
+        // toggle link tags if present
+        const light = document.getElementById("lightCSS");
+        const dark  = document.getElementById("darkCSS");
+        if (light && dark) {
+          light.disabled = theme !== "light";
+          dark.disabled  = theme !== "dark";
+        }
+      };
     })();
   </script>
 
@@ -20,161 +49,209 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Aarya Bookseller – Machine Learning</title>
   <meta name="description" content="Aarya Bookseller — Machine Learning projects focused on usability, reproducibility, and product clarity." />
-  <meta name="theme-color" content="#E8DCC7" />
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
 
-  <!-- Minimal visual tweaks + justified copy -->
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+
+  <!-- ===== SITE STYLES ===== -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- IMPORTANT: give theme files IDs so JS can enable exactly one -->
+  <link id="lightCSS" rel="stylesheet" href="theme-light.css">
+  <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
+
+  <!-- ===== Page-scoped tweaks ===== -->
   <style>
     :root{
-      --lh-body:1.5;
-      --card-r:20px;
-      --accent: var(--accent, #4b72ff);
+      --lh-body: 1.55;
+      --card-r: 20px;
+      --t-quick: .18s;
+      --t-med:   .28s;
+      --sh-card: 0 12px 30px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.05);
+      --sh-card-dark: 0 16px 36px rgba(0,0,0,.35);
+      --hero-grad:
+        radial-gradient(900px 500px at 10% -20%, color-mix(in oklab, var(--accent) 12%, transparent) 0%, transparent 60%),
+        radial-gradient(900px 500px at 120% -10%, color-mix(in oklab, var(--accent) 10%, transparent) 0%, transparent 65%);
     }
-    p,.lead,li,.card p,.check-list li{ text-align:justify; line-height:var(--lh-body); }
+    p, .lead, li, .card p, .check-list li { text-align: justify; line-height: var(--lh-body); }
 
-    /* Section heading underline */
-    .section-head h2{ position:relative; display:inline-block; padding-bottom:.35rem; margin-bottom:.5rem; }
+    .section-head h2{ position: relative; display: inline-block; padding-bottom: .35rem; margin-bottom: .5rem; }
     .section-head h2::after{
-      content:""; position:absolute; left:0; bottom:0; height:4px; width:88px;
+      content: ""; position: absolute; left: 0; bottom: 0; height: 4px; width: 96px;
       background: linear-gradient(90deg, var(--accent), transparent);
-      border-radius:4px;
+      border-radius: 4px; transform-origin: left center; transform: scaleX(0);
+      transition: transform var(--t-med) ease-out;
     }
+    .section-head.is-visible h2::after{ transform: scaleX(1); }
 
-    /* Cards */
     .card{
-      border-radius:var(--card-r);
-      background: var(--bg-1,#fff);
-      box-shadow: 0 12px 30px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.05);
-      position:relative; overflow:hidden; isolation:isolate;
-      transition: transform .22s ease, box-shadow .22s ease;
+      border-radius: var(--card-r);
+      background: var(--bg-1, #fff);
+      box-shadow: var(--sh-card);
+      position: relative; overflow: clip; isolation: isolate;
+      transition: transform var(--t-med) ease, box-shadow var(--t-med) ease, border-color var(--t-quick) ease;
+      border: 1px solid color-mix(in oklab, var(--accent) 8%, transparent);
     }
-    [data-theme="dark"] .card, .dark .card{
-      background: color-mix(in oklab, #151515 90%, #ffffff 0%);
-      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    [data-theme="dark"] .card{
+      background: color-mix(in oklab, #121212 92%, #ffffff 0%);
+      box-shadow: var(--sh-card-dark);
+      border-color: color-mix(in oklab, var(--accent) 16%, transparent);
     }
     .card::before{
-      content:""; position:absolute; inset:0 0 auto 0; height:6px;
-      background: linear-gradient(90deg, var(--accent), #a55eea, #00b894);
-      opacity:.9;
+      content:""; position: absolute; inset: 0 0 auto 0; height: 6px;
+      background: linear-gradient(90deg, var(--accent), #a55eea, #00b894); opacity: .9;
     }
     .card:hover{ transform: translateY(-4px); box-shadow: 0 18px 42px rgba(0,0,0,.16); }
 
-    .eyebrow{ font-size:1.05rem; font-weight:800; letter-spacing:.01em; display:flex; align-items:center; gap:.5rem; }
-    .dot{ width:9px; height:9px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 5px color-mix(in oklab, var(--accent) 25%, transparent); }
+    .eyebrow{ font-size: 1.05rem; font-weight: 800; letter-spacing: .01em; display: flex; align-items: center; gap: .5rem; }
+    .dot{ width: 9px; height: 9px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 0 5px color-mix(in oklab, var(--accent) 25%, transparent); }
 
-    .check-list{ margin:.4rem 0 0; padding-left:1.1rem; }
-    .check-list li + li{ margin-top:.35rem; }
+    .check-list{ margin: .4rem 0 0; padding-left: 1.1rem; }
+    .check-list li + li{ margin-top: .35rem; }
 
-    .hero__title{ margin-bottom:.6rem; }
-    .badge-row{ display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.35rem; }
+    .hero__title{ margin-bottom: .6rem; line-height: 1.18; }
+    .badge-row{ display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .35rem; }
     .badge{
-      font-weight:600; font-size:.9rem; padding:.25rem .55rem; border-radius:10px;
+      font-weight: 600; font-size: .9rem; padding: .25rem .55rem; border-radius: 10px;
       background: color-mix(in oklab, var(--accent) 14%, transparent);
-      border:1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+      border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
     }
 
-    /* Portrait: no border/shadow/caption */
-    .hero-portrait{ justify-self:end; max-width:480px; margin:0; }
-    .hero-portrait img{ display:block; width:100%; height:auto; border-radius:14px; border:none; box-shadow:none; background:none; }
+    .hero{ position: relative; background: var(--hero-grad); overflow: clip; }
+    .hero .container{ position: relative; z-index: 1; }
+    .hero::after{
+      content:""; position: absolute; inset: -20% -10% auto -10%; height: 80%;
+      background:
+        radial-gradient(60% 50% at 20% 35%, color-mix(in oklab, var(--accent) 18%, transparent) 0%, transparent 60%),
+        radial-gradient(50% 40% at 80% 30%, color-mix(in oklab, #a55eea 14%, transparent) 0%, transparent 60%);
+      filter: blur(22px) saturate(115%); opacity: .6;
+      animation: heroGlow 12s ease-in-out infinite alternate;
+    }
+    @keyframes heroGlow{ from{ transform: translateY(-8px) scale(1.02); opacity: .55; }
+                         to  { transform: translateY( 8px) scale(1.06); opacity: .75; } }
 
-    /* Music pill */
+    .hero-portrait{ justify-self: end; max-width: 480px; margin: 0; }
+    .hero-portrait img{ display: block; width: 100%; height: auto; border-radius: 14px; border: none; box-shadow: none; background: none; }
+
     .music-pill{
-      display:flex; align-items:center; gap:.6rem; padding:.4rem .6rem; border-radius:999px;
+      display: inline-flex; align-items: center; gap: .6rem; padding: .4rem .6rem; border-radius: 999px;
       background: color-mix(in oklab, var(--accent) 12%, transparent);
-      border:1px solid color-mix(in oklab, var(--accent) 35%, transparent);
-      width:max-content;
+      border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+      user-select: none;
     }
-    .music-pill .eq{ display:flex; gap:2px; height:12px; align-items:flex-end; }
-    .music-pill .eq-bar{ width:2px; height:4px; background: currentColor; opacity:.7; }
+    .music-pill .eq{ display: inline-flex; gap: 2px; height: 12px; align-items: flex-end; }
+    .music-pill .eq-bar{ width: 2px; height: 4px; background: currentColor; opacity: .7; transition: height .2s ease; }
     .music-pill.is-playing .eq-bar{ animation: bounce 800ms ease-in-out infinite alternate; }
-    .music-pill .eq-bar:nth-child(2){ animation-delay:.1s }
-    .music-pill .eq-bar:nth-child(3){ animation-delay:.2s }
-    .music-pill .eq-bar:nth-child(4){ animation-delay:.3s }
-    .music-pill .eq-bar:nth-child(5){ animation-delay:.4s }
+    .music-pill.is-playing .eq-bar:nth-child(2){ animation-delay:.08s }
+    .music-pill.is-playing .eq-bar:nth-child(3){ animation-delay:.16s }
+    .music-pill.is-playing .eq-bar:nth-child(4){ animation-delay:.24s }
+    .music-pill.is-playing .eq-bar:nth-child(5){ animation-delay:.32s }
     @keyframes bounce{ from{ height:3px } to{ height:12px } }
+
+    .tooltip{ position: relative; display: inline-block; }
+    .tooltip .tooltip-text{
+      visibility: hidden; opacity: 0; position: absolute; bottom: 130%; left: 50%;
+      transform: translateX(-50%);
+      background: var(--tooltip-bg, #fff); color: var(--tooltip-ink, #000);
+      padding: 6px 10px; border-radius: 6px; font-size: .85rem; white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: opacity .18s ease, transform .18s ease; z-index: 10;
+    }
+    [data-theme="dark"] .tooltip .tooltip-text{ --tooltip-bg: #1c2333; --tooltip-ink: #eaf2ff; }
+    .tooltip .tooltip-text::after{
+      content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      border: 6px solid transparent; border-top-color: var(--tooltip-bg, #fff);
+    }
+    .tooltip:hover .tooltip-text{ visibility: visible; opacity: 1; transform: translateX(-50%) translateY(-2px); }
+
+    #backToTop{
+      position: fixed; right: 16px; bottom: 16px; z-index: 10;
+      width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--ring, #d9d9d9);
+      background: color-mix(in oklab, var(--accent) 10%, transparent);
+      backdrop-filter: blur(8px); display: grid; place-items: center;
+      font-size: 18px; cursor: pointer; transform: translateY(12px); opacity: 0; pointer-events: none;
+      transition: transform .28s ease, opacity .28s ease, box-shadow .15s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,.12);
+    }
+    #backToTop.show{ transform: translateY(0); opacity: 1; pointer-events: auto; }
+    #backToTop:hover{ box-shadow: 0 12px 28px rgba(0,0,0,.16); }
+
+    @media (max-width: 920px){ .hero-portrait{ justify-self: center; max-width: 360px; } }
+    @media (prefers-reduced-motion: reduce){ *{ animation: none !important; transition: none !important; } }
   </style>
 </head>
+
 <body>
-    <!-- Header (fixed) -->
-<header class="site-header">
-  <div class="container" style="display:flex; align-items:center; justify-content:space-between;">
-    <a class="brand" href="index.html">Aarya<span>.</span></a>
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="container" style="align-items:center; justify-content:space-between;">
+      <a class="brand" href="index.html" aria-current="page">Aarya<span>.</span></a>
 
-    <nav class="site-nav" aria-label="Primary">
-      <a href="index.html">About</a>
-      <a href="qualifications.html" aria-current="page">Qualifications</a>
-      <a href="portfolio.html">Portfolio</a>
-    </nav>
+      <!-- Mobile hamburger -->
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
 
-    <div class="header-actions" style="display:flex; gap:10px; align-items:center;">
-      <!-- Accent picker -->
-      <div class="accent-picker" id="accentPicker" aria-expanded="false">
-        <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-            <path d="M12 3a9 9 0 0 0 0 18h4a3 3 0 0 0 0-6h-1a2 2 0 1 1 0-4h1a3 3 0 0 0 0-6h-4zM7 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      <!-- Primary nav -->
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <a href="index.html" aria-current="page">About</a>
+        <a href="qualifications.html">Qualifications</a>
+        <a href="service.html">Service</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="ai.html">AI-gen</a>
+      </nav>
+
+      <!-- Accent + Theme -->
+      <div class="header-actions" style="display:flex; gap:10px; align-items:center;">
+        <div class="accent-picker" id="accentPicker" aria-expanded="false">
+          <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">🎨</button>
+          <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
+            <button class="accent-swatch" data-accent="#4b72ff"  style="background:#4b72ff"  title="Blue"></button>
+            <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
+            <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
+            <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
+            <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
+          </div>
+        </div>
+
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" stroke-width="2"/>
+            <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
         </button>
-        <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
-          <button class="accent-swatch" data-accent="#4b72ff" style="background:#4b72ff" title="Blue"></button>
-          <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
-          <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
-          <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
-          <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
-        </div>
       </div>
-
-      <!-- Theme toggle (works with your theme.js) -->
-      <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <circle cx="12" cy="12" r="4" stroke-width="2"/>
-          <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-        </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
     </div>
-  </div>
-</header>
+  </header>
 
-
+  <!-- ===== MAIN ===== -->
   <main id="main">
-    <!-- Hero -->
+    <!-- HERO -->
     <section class="hero" id="top">
       <div class="container">
         <div class="grid-2" style="align-items:center;">
           <div class="col">
             <h1 class="hero__title hero-animate">Machine learning, built for clarity and impact.</h1>
             <p class="hero__lead hero-animate">
-              I design ML systems that balance research rigor with product polish. My work spans <strong>routing under uncertainty</strong>,
-              <strong>explainable training frameworks</strong>, and <strong>lightweight teaching models</strong> that make complex ideas approachable.
-              I care about the unglamorous details—reproducible environments, trustworthy plots, and interfaces that help people evaluate
-              and extend what I’ve built.
+              I design ML systems that balance research rigor with product polish. My work spans
+              <strong>routing under uncertainty</strong>, <strong>explainable training frameworks</strong>, and
+              <strong>lightweight teaching models</strong> that make complex ideas approachable.
             </p>
-            <p class="hero__sub">
-              If you’re looking for someone who can translate math to code to product—without losing the signal along the way—I’d love to
-              connect.
-            </p>
+            <p class="hero__sub">If you’re looking for someone who can translate math → code → product, let’s talk.</p>
 
             <div class="badge-row">
               <span class="badge">Surat, India</span>
               <span class="badge">Texas A&M University</span>
             </div>
 
-            <div class="cta-row" style="margin-top:.8rem;">
-              <a class="btn btn--ghost" href="portfolio.html">View Portfolio</a>
+            <div class="cta-row" style="margin-top:.8rem; display:flex; gap:.6rem; flex-wrap:wrap;">
+              <a class="btn" href="portfolio.html">View Portfolio</a>
               <a class="btn btn--ghost" href="qualifications.html">See Qualifications</a>
             </div>
 
-            <!-- Music -->
+            <!-- Music (no autoplay) -->
             <div class="music-pill" id="music" style="margin-top:10px;">
               <button id="musicToggle" class="btn btn--ghost" style="padding:.35rem .65rem" aria-label="Play music" title="Play/Pause">▶</button>
-              <div class="eq" aria-hidden="true">
+              <div class="eq" aria-hidden="true" title="Visualizer">
                 <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
               </div>
               <div class="track"><strong>Now Playing:</strong> Dreams — Fleetwood Mac</div>
@@ -182,7 +259,6 @@
             </div>
           </div>
 
-          <!-- Portrait (no caption/border) -->
           <figure class="hero-portrait">
             <img src="assets/download.jpeg" alt="Aarya Bookseller portrait">
           </figure>
@@ -192,7 +268,7 @@
 
     <div class="divider" role="presentation"></div>
 
-    <!-- About -->
+     <!-- ===================== ABOUT ===================== -->
     <section class="section" aria-labelledby="about-heading">
       <div class="container col">
         <header class="section-head">
@@ -216,11 +292,11 @@
 
           <article class="card">
             <h3 class="eyebrow"><span class="dot"></span>Hobbies &amp; Interests</h3>
-            <p> 
-              I start most mornings with a run or a workout—it keeps me disciplined and sharp. 
-              I’ve been learning French, and I play tennis on the regular.
-              I also enjoy electronic music and chess, both of which push me to think creatively under constraints.  
-              And finally, I spend a lot of time reading—especially books that give me new lenses on technology, psychology, and history:
+            <p>
+              I start most mornings with a run or a workout—it keeps me disciplined and sharp. I’ve been learning French,
+              and I play tennis on the regular. I also enjoy electronic music and chess, both of which push me to think
+              creatively under constraints. I spend a lot of time reading, too—especially books that offer new lenses on
+              technology, psychology, and history:
               <a href="https://www.goodreads.com/user/show/154264554-aarya-bookseller" target="_blank" rel="noreferrer">Goodreads →</a>
             </p>
           </article>
@@ -246,99 +322,113 @@
         </article>
       </div>
     </section>
-
-    <!-- Intentionally blank after About -->
   </main>
 
-  <!-- Footer -->
+  <!-- ===== FOOTER ===== -->
   <footer class="site-footer" style="border-top:1px solid var(--ring,#ddd); margin-top:2rem; padding:1.2rem 0; font-size:0.9rem;">
     <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.75rem;">
-      
-      <!-- Left -->
       <div class="footer-left" style="opacity:0.85;">
-        © <span id="year"></span> Aarya Bookseller · Education &amp; Experience
+        © <span id="year"></span> Aarya Bookseller
       </div>
-  
-      <!-- Right -->
-      <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap;">
-        <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener">LinkedIn</a>
-  
-        <!-- Work Email with tooltip -->
-        <div class="tooltip">
-          <a href="mailto:aaryab.work@gmail.com">Work Email</a>
+
+      <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap; font-size:1.3rem;">
+        <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+
+        <span class="tooltip">
+          <a href="mailto:aaryab.work@gmail.com" aria-label="Work Email">
+            <i class="fas fa-envelope"></i>
+          </a>
           <span class="tooltip-text">aaryab.work@gmail.com</span>
-        </div>
-  
-        <!-- School Email with tooltip -->
-        <div class="tooltip">
-          <a href="mailto:aaryabookseller@tamu.edu">School Email</a>
+        </span>
+
+        <span class="tooltip">
+          <a href="mailto:aaryabookseller@tamu.edu" aria-label="School Email">
+            <img src="assets/tamu.png" alt="TAMU logo" style="width:22px; height:22px; object-fit:contain; vertical-align:middle;">
+          </a>
           <span class="tooltip-text">aaryabookseller@tamu.edu</span>
-        </div>
+        </span>
       </div>
     </div>
   </footer>
-  
-  <style>
-  /* Tooltip wrapper */
-  .tooltip {
-    position: relative;
-    display: inline-block;
-  }
-  
-  /* Tooltip box */
-  .tooltip .tooltip-text {
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    bottom: 130%; /* shows above the link */
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--bg-1, #fff);
-    color: var(--text, #000);
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transition: opacity 0.2s ease;
-    z-index: 10;
-  }
-  
-  /* Small arrow below tooltip */
-  .tooltip .tooltip-text::after {
-    content: "";
-    position: absolute;
-    top: 100%; left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: var(--bg-1,#fff) transparent transparent transparent;
-  }
-  
-  /* Show tooltip on hover */
-  .tooltip:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-  }
-  </style>
-  
-  
-  
 
-  <!-- Scripts -->
-  <script src="theme.js" defer></script>
+  <!-- Back to Top -->
+  <button id="backToTop" aria-label="Back to top" title="Back to top">↑</button>
+
+  <!-- ===== SCRIPTS ===== -->
   <script>
-    // Footer year
+    // Ensure correct theme CSS is enabled on first paint & after
+    (function syncThemeLinks() {
+      const t = document.documentElement.getAttribute("data-theme") || "light";
+      const light = document.getElementById("lightCSS");
+      const dark  = document.getElementById("darkCSS");
+      if (light && dark) { light.disabled = t !== "light"; dark.disabled = t !== "dark"; }
+      // augment __setTheme now that links exist
+      const prev = window.__setTheme;
+      window.__setTheme = (theme) => {
+        prev(theme); // updates data-theme, meta, localStorage
+        if (light && dark) { light.disabled = theme !== "light"; dark.disabled = theme !== "dark"; }
+      };
+    })();
+
+    // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Accent picker quick apply
+    // Mobile nav
     (function(){
-      const menu = document.getElementById('accentMenu');
-      if(!menu) return;
+      const t = document.querySelector('.nav-toggle');
+      const n = document.getElementById('site-nav');
+      if (!t || !n) return;
+      t.addEventListener('click', () => {
+        const open = t.getAttribute('aria-expanded') === 'true';
+        t.setAttribute('aria-expanded', String(!open));
+        n.classList.toggle('open', !open);
+      });
+    })();
+
+    // Accent picker (persist)
+    (function(){
+      const picker = document.getElementById('accentPicker');
+      const menu   = document.getElementById('accentMenu');
+      const toggle = document.getElementById('accentToggle');
+      if (!picker || !menu || !toggle) return;
+
+      const ACCENT_KEY = "accent";
+      try {
+        const saved = localStorage.getItem(ACCENT_KEY);
+        if (saved) document.documentElement.style.setProperty('--accent', saved);
+      } catch {}
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const ex = picker.getAttribute('aria-expanded') === 'true';
+        picker.setAttribute('aria-expanded', String(!ex));
+      });
       menu.addEventListener('click', (e) => {
-        const btn = e.target.closest('[data-accent]');
-        if(!btn) return;
-        document.documentElement.style.setProperty('--accent', btn.dataset.accent);
+        const sw = e.target.closest('[data-accent]');
+        if (!sw) return;
+        const color = sw.dataset.accent;
+        document.documentElement.style.setProperty('--accent', color);
+        try { localStorage.setItem(ACCENT_KEY, color); } catch {}
+        picker.setAttribute('aria-expanded', 'false');
+      });
+      document.addEventListener('click', (e) => {
+        if (!picker.contains(e.target)) picker.setAttribute('aria-expanded','false');
+      });
+    })();
+
+    // Theme toggle
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      const setPressed = () => btn.setAttribute('aria-pressed', String((document.documentElement.getAttribute('data-theme')||'light') === 'dark'));
+      setPressed();
+      btn.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme') || 'light';
+        const next = cur === 'dark' ? 'light' : 'dark';
+        window.__setTheme(next);
+        setPressed();
       });
     })();
 
@@ -349,29 +439,47 @@
       const pill = document.getElementById('music');
       if(!btn || !player || !pill) return;
       let playing = false;
+
       btn.addEventListener('click', () => { playing ? player.pause() : player.play(); });
-      player.addEventListener('play', () => { playing = true; btn.textContent = '⏸'; pill.classList.add('is-playing'); });
-      player.addEventListener('pause', () => { playing = false; btn.textContent = '▶'; pill.classList.remove('is-playing'); });
+      player.addEventListener('play',  () => { playing = true;  btn.textContent = '⏸'; pill.classList.add('is-playing'); });
+      player.addEventListener('pause', () => { playing = false; btn.textContent = '▶';  pill.classList.remove('is-playing'); });
+      player.addEventListener('ended', () => { playing = false; btn.textContent = '▶';  pill.classList.remove('is-playing'); });
+    })();
+
+    // Back-to-top
+    (function(){
+      const backToTop = document.getElementById("backToTop");
+      addEventListener("scroll", () => {
+        if (scrollY > 200) backToTop.classList.add("show");
+        else backToTop.classList.remove("show");
+      });
+      backToTop.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+    })();
+
+    // Underline reveal
+    (function(){
+      const head = document.querySelector('.section-head');
+      if (!head || !('IntersectionObserver' in window)) return;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { head.classList.add('is-visible'); obs.disconnect(); } });
+      }, { threshold: .4 });
+      obs.observe(head);
+    })();
+
+    // Hero intro
+    (function(){
+      const els = document.querySelectorAll('.hero-animate');
+      if (!els.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      els.forEach((el, i) => {
+        el.style.opacity = 0; el.style.transform = 'translateY(8px)';
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            el.style.transition = 'opacity .5s ease, transform .5s ease';
+            el.style.opacity = 1; el.style.transform = 'translateY(0)';
+          }, 90 * i);
+        });
+      });
     })();
   </script>
-  <!-- Back to Top Button -->
-<button id="backToTop" aria-label="Back to top">↑</button>
-
-<script>
-  const backToTop = document.getElementById("backToTop");
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 200) {
-      backToTop.classList.add("show");
-    } else {
-      backToTop.classList.remove("show");
-    }
-  });
-
-  backToTop.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-</script>
-
 </body>
 </html>

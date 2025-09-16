@@ -1,55 +1,276 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Volunteering – Aarya Bookseller</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css" />
+  <!-- ===== FOUC-safe theme preboot: set data-theme early ===== -->
+  <script>
+    (function () {
+      const KEY = 'theme';
+      const saved = (()=>{ try { return localStorage.getItem(KEY); } catch { return null; } })();
+      const eff = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', eff);
+      document.documentElement.style.colorScheme = eff;
+      // expose a tiny helper other scripts can call
+      window.__setThemeDataAttr = (t) => {
+        document.documentElement.setAttribute('data-theme', t);
+        document.documentElement.style.colorScheme = t;
+        try { localStorage.setItem(KEY, t); } catch {}
+      };
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Service – Aarya Bookseller</title>
+  <meta name="description" content="Service and community service by Aarya Bookseller." />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- ===== Site CSS (base + themes) ===== -->
+  <link rel="stylesheet" href="style.css" />
+  <link id="lightCSS" rel="stylesheet" href="theme-light.css">
+  <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
+
+  <!-- Ensure the correct theme CSS file is enabled ASAP -->
+  <script>
+    (function(){
+      const t = document.documentElement.getAttribute('data-theme') || 'light';
+      const light = document.getElementById('lightCSS');
+      const dark  = document.getElementById('darkCSS');
+      if (light && dark) { light.disabled = t !== 'light'; dark.disabled = t !== 'dark'; }
+      // keep a convenience hook if you toggle elsewhere
+      window.__enableThemeCSS = (next) => {
+        if (light && dark) { light.disabled = next !== 'light'; dark.disabled = next !== 'dark'; }
+      };
+    })();
+  </script>
+
+  <!-- Page-specific micro-tweaks -->
+  <style>
+    body { line-height: 1.55; }
+    p, li, .card p { text-align: justify; }
+    .hero h1 { margin: 0; }
+    .hero .lead { margin:.25rem 0 0; max-width: 70ch; }
+    .grid.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+
+    /* Make anchor-cards look identical to article.cards */
+    a.card { display: block; color: inherit; text-decoration: none; }
+    a.card:hover { text-decoration: none; }
+
+    /* Mobile header & nav */
+    @media (max-width: 720px) {
+      .site-header .container {
+        display: grid !important;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+          "brand  toggle"
+          "nav    nav"
+          "actions actions";
+        gap: 10px;
+        align-items: center;
+      }
+      .brand { grid-area: brand; }
+      .nav-toggle {
+        grid-area: toggle;
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 40px; height: 40px; border-radius: 12px;
+        border: 1px solid var(--ring); background: var(--bg-2); cursor: pointer;
+      }
+      .site-nav {
+        grid-area: nav;
+        display: none; flex-direction: column; gap: 8px;
+        padding: 8px 0; border-top: 1px solid var(--ring);
+      }
+      .site-nav.open { display: flex; }
+      .site-nav a { padding: 10px 2px; }
+      .header-actions { grid-area: actions; justify-self: start; }
+    }
+    @media (min-width: 721px) { .nav-toggle { display: none; } }
+  </style>
 </head>
+
 <body>
-<header class="site-header">
-<a class="brand" href="index.html">Aarya<span>.</span></a>
-<button class="nav-toggle" aria-label="Open Menu" aria-expanded="false">☰</button>
-<nav class="site-nav" id="site-nav">
-<a href="index.html">Home</a>
-<a href="portfolio.html">Portfolio</a>
-<a href="service.html" class="active">Volunteering</a>
-<a href="qualifications.html">Qualifications</a>
-<button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
-</nav>
-</header>
+  <header class="site-header">
+    <div class="container" style="align-items:center; justify-content:space-between;">
+      <a class="brand" href="index.html">Aarya<span>.</span></a>
 
+      <!-- Mobile hamburger (ARIA) -->
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
 
-<main class="container narrow">
-<h1>Volunteering & Community Service</h1>
-<p>I believe in giving back to the community and using my skills and time to support others. Here are some of the ways I’ve contributed:</p>
+      <!-- Primary nav -->
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <a href="index.html">About</a>
+        <a href="qualifications.html">Qualifications</a>
+        <a href="service.html" aria-current="page">Service</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="ai.html">AI-gen</a>
+      </nav>
 
+      <!-- Accent + Theme -->
+      <div class="header-actions" style="display:flex; gap:10px; align-items:center;">
+        <!-- Accent picker -->
+        <div class="accent-picker" id="accentPicker" aria-expanded="false">
+          <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+              <path d="M12 3a9 9 0 0 0 0 18h4a3 3 0 0 0 0-6h-1a2 2 0 1 1 0-4h1a3 3 0 0 0 0-6h-4zM7 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+            </svg>
+          </button>
+          <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
+            <button class="accent-swatch" data-accent="#4b72ff"  style="background:#4b72ff"  title="Blue"></button>
+            <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
+            <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
+            <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
+            <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
+          </div>
+        </div>
 
-<div class="grid two">
-<article class="card">
-<h3>American Red Cross</h3>
-<p>Volunteered in community blood drives and disaster preparedness initiatives. Helped with logistics, donor coordination, and outreach efforts.</p>
-</article>
+        <!-- Theme toggle -->
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="4" stroke-width="2"/>
+            <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
 
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>Volunteering &amp; Community Service</h1>
+      <p class="lead">I contribute to emergency response, education, food security, and animal welfare. These experiences shaped how I approach teamwork, service, and leadership.</p>
+    </div>
+    <div class="divider"></div>
+  </section>
 
-<article class="card">
-<h3>STEM Tutoring</h3>
-<p>Tutored middle school students in math and computer science fundamentals. Focused on building problem‑solving confidence and sparking curiosity in STEM.</p>
-</article>
+  <!-- Content -->
+  <main class="section">
+    <div class="container">
+      <div class="grid cards">
+        <!-- American Red Cross (full-card link) -->
+        <a class="card card--tint-blue" href="https://tamu-arc.wixsite.com/redcrosstamu" target="_blank" rel="noopener">
+          <h3>American Red Cross</h3>
+          <p>
+            Supported local blood drives and disaster-preparedness campaigns. Assisted with donor registration, traffic flow,
+            and safety protocols during high-volume events. Gained practical exposure to crisis response and learned to
+            communicate clearly under pressure while coordinating between staff, volunteers, and donors.
+          </p>
+        </a>
 
+        <!-- STEM Tutoring -->
+        <article class="card card--tint-rose">
+          <h3>STEM Tutoring</h3>
+          <p>
+            Tutored middle-school students in math, programming, and computer science fundamentals. Designed problem sets,
+            guided debugging exercises, and focused on building long-term confidence. Connected abstract concepts to
+            real-world examples to foster curiosity and encourage pathways into STEM.
+          </p>
+        </article>
 
-<article class="card">
-<h3>Local Food Bank</h3>
-<p>Assisted in packaging and distributing food to families in need. Gained perspective on teamwork and the importance of service to the community.</p>
-</article>
-</div>
-</main>
+        <!-- Aggieland Humane Society (full-card link) -->
+        <a class="card" href="https://aggielandhumane.org/" target="_blank" rel="noopener">
+          <h3>Aggieland Humane Society</h3>
+          <p>
+            Volunteered at adoption events and animal-care facilities, assisting with feeding, exercise, and socialization.
+            Helped families through the adoption process by sharing resources and answering questions. Developed a deeper
+            sense of responsibility and compassion through service to local pets and their future owners.
+          </p>
+        </a>
+      </div>
+    </div>
+  </main>
 
+  <!-- Footer -->
+  <footer class="site-footer" style="border-top:1px solid var(--ring,#ddd); margin-top:2rem; padding:1.2rem 0; font-size:0.9rem;">
+    <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.75rem;">
+      <div class="footer-left" style="opacity:0.85;">
+        © <span id="year"></span> Aarya Bookseller · Service
+      </div>
 
-<footer class="site-footer">
-<p>© <span id="year"></span> Aarya Bookseller</p>
-</footer>
-<script src="script.js" defer></script>
+      <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap; font-size:1.3rem;">
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+
+        <!-- Work Email -->
+        <div class="tooltip">
+          <a href="mailto:aaryab.work@gmail.com" aria-label="Work Email">
+            <i class="fas fa-envelope"></i>
+          </a>
+        </div>
+
+        <!-- School Email with TAMU logo -->
+        <div class="tooltip">
+          <a href="mailto:aaryabookseller@tamu.edu" aria-label="School Email">
+            <img src="assets/tamu.png" alt="TAMU logo" style="width:22px; height:22px; object-fit:contain; vertical-align:middle;">
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="backToTop" aria-label="Back to top">↑</button>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script>
+    // Ensure CSS links match current theme once more (in case script.js toggled)
+    (function syncOnce(){
+      const t = document.documentElement.getAttribute('data-theme') || 'light';
+      if (window.__enableThemeCSS) window.__enableThemeCSS(t);
+    })();
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Accent picker quick apply (script.js persists it; this just opens/closes)
+    (function(){
+      const picker = document.getElementById('accentPicker');
+      const btn = document.getElementById('accentToggle');
+      const menu = document.getElementById('accentMenu');
+      if (!picker || !btn || !menu) return;
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = picker.getAttribute('aria-expanded') === 'true';
+        picker.setAttribute('aria-expanded', String(!open));
+      });
+      document.addEventListener('click', (e) => {
+        if (!picker.contains(e.target)) picker.setAttribute('aria-expanded','false');
+      });
+    })();
+
+    // Back-to-top
+    (function(){
+      const btn = document.getElementById("backToTop");
+      addEventListener("scroll", () => {
+        if (scrollY > 200) btn.classList.add("show");
+        else btn.classList.remove("show");
+      });
+      btn.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+    })();
+
+    // Mobile nav (script.js also handles it; local copy is fine)
+    (function(){
+      const navToggle = document.querySelector('.nav-toggle');
+      const siteNav = document.getElementById('site-nav');
+      if (!navToggle || !siteNav) return;
+      navToggle.addEventListener('click', () => {
+        const open = navToggle.getAttribute('aria-expanded') === 'true';
+        navToggle.setAttribute('aria-expanded', String(!open));
+        siteNav.classList.toggle('open', !open);
+      });
+    })();
+  </script>
 </body>
 </html>
