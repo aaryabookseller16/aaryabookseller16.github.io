@@ -125,6 +125,8 @@ h1, h2, h3, .brand { font-family: "Merriweather", Georgia, serif; }
   color: var(--accent);
   border-color: color-mix(in oklab, var(--accent) 55%, var(--ring));
 }
+/* Compact ghost button (for tight layouts) */
+.btn--ghost.btn--sm{ padding:.45rem .75rem; border-radius:10px; font-size:.95rem; }
 
 /* ===== 7) MUSIC ===== */
 .music-card{
@@ -258,6 +260,18 @@ h1, h2, h3, .brand { font-family: "Merriweather", Georgia, serif; }
   margin-top: 28px; padding: 18px 0;
   color: var(--muted);
 }
+/* Footer link row (icons + text links) */
+.footer-links{ display:flex; gap:1.25rem; flex-wrap:wrap; align-items:center; }
+.footer-links a{
+  display:inline-flex; align-items:center; gap:6px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .15s ease;
+}
+.footer-links a:hover{ color: var(--text); text-decoration: none; }
+.footer-links a:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.footer-links a svg{ width:20px; height:20px; opacity:.9; transition: transform .15s ease, opacity .15s ease; }
+.footer-links a:hover svg{ transform: translateY(-1px); opacity:1; }
 
 /* ===== 10) A11Y & MOTION ===== */
 :focus-visible{

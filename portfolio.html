@@ -58,7 +58,8 @@
   <!-- ===== Page micro-tweaks ===== -->
   <style>
     body { line-height: 1.5; }
-    p, li, .card p { text-align: justify; }
+    p, li { text-align: justify; }
+    .card p { text-align: left; }
 
     .hero h1 { margin: 0; }
     .hero .lead { margin: .25rem 0 0; }
@@ -75,9 +76,7 @@
     }
     .tab:hover{ transform:translateY(-1px); }
 
-    .grid-3, #projectsGrid{
-      display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:16px;
-    }
+    .grid-3, #projectsGrid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px; }
 
     .card.project{
       position:relative; border-radius:16px;
@@ -92,6 +91,15 @@
       box-shadow:0 14px 34px rgba(0,0,0,.35);
     }
     .card.project.is-visible{ transform:translateY(0); opacity:1; }
+    /* Portfolio card polish */
+    .card.project .card__body{ display:flex; flex-direction:column; padding:14px 16px; }
+    .card.project .card__title{ font-size:1.15rem; line-height:1.25; margin:.1rem 0 .35rem; }
+    .card.project .meta{ font-size:.9rem; opacity:.75; margin:0 0 .35rem; }
+    .card.project p:not(.meta){
+      display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden; -webkit-line-clamp:5;
+    }
+    .card.project .pills{ margin-top:auto; }
+    .card__img{ border-bottom:1px solid var(--ring,#e6e6e6); }
     .card__img{ display:block; width:100%; aspect-ratio:16/9; object-fit:cover; }
     .card__title{ margin:.6rem 0 .25rem; }
     .card .meta{ margin:0 0 .25rem; opacity:.75; font-size:.95rem; }
@@ -187,7 +195,7 @@
         <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="ml" id="tab-ml">Machine Learning</button>
         <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="systems" id="tab-systems">Systems</button>
         <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="ui" id="tab-ui">UI/UX</button>
-        <a class="tab" href="assets/Bookseller_Aarya.pdf">Résumé</a>
+        <a class="tab" href="assets/Aarya_Bookseller_Bobyard_Intern.pdf" target="_blank" rel="noopener">Résumé</a>
       </div>
     </div>
     <div class="divider"></div>
@@ -197,22 +205,42 @@
   <main class="section">
     <div class="container" id="projectsRegion" role="region" aria-labelledby="tab-all">
       <div class="grid-3" id="projectsGrid">
+        <!-- VisionQuery -->
+        <article class="card project" data-tags="ml systems ui">
+          <img class="card__img" src="assets/visionquery.png" alt="VisionQuery interface mockup">
+          <div class="card__body" style="padding:12px 14px;">
+            <h2 class="card__title">VisionQuery — Multimodal Search</h2>
+            <p class="meta">Founder &amp; Lead Engineer · May 2025–Present</p>
+            <p>
+              CLIP-style <strong>dual encoders</strong> for image–text retrieval trained with contrastive loss and temperature annealing. 
+              Indexed <strong>100k+</strong> embeddings in <strong>FAISS (HNSW)</strong> for sub-10&nbsp;ms query latency at ~95% recall@10, with batch-hard mining and augmentation pipelines.
+            </p>
+            <p>
+              Hydra-driven training with <strong>CI/CD</strong>, <strong>W&amp;B</strong> experiment tracking, and <strong>Dockerized</strong> deployment. A React UI provides attention heatmaps and semantic ranking visualizations for explainability.
+            </p>
+            <div class="pills">
+              <span class="pill">PyTorch</span><span class="pill">FAISS</span><span class="pill">FastAPI</span>
+              <span class="pill">React</span><span class="pill">Hydra</span><span class="pill">W&amp;B</span>
+            </div>
+          </div>
+        </article>
+
         <!-- NaviAI -->
         <article class="card project" data-tags="ml systems ui">
           <img class="card__img" src="assets/routes.jpeg" alt="NaviAI route visualization">
           <div class="card__body" style="padding:12px 14px;">
             <h2 class="card__title">NaviAI — Maritime Routing with Risk</h2>
-            <p class="meta">Founder &amp; Lead Engineer · 2025–Present</p>
+            <p class="meta">Machine Learning Engineer · Jan 2025–Present</p>
             <p>
               Multi-objective routing that balances <strong>time</strong>, <strong>fuel</strong>, and <strong>operational risk</strong>.
               The engine fuses live weather and port conditions with a news-derived risk score (Transformer sentiment + rules) to
               adjust edge weights in real time. Constraints like draft limits, traffic separation schemes, exclusion zones, and canal
-              fees are modeled explicitly.
+              fees are modeled explicitly. The policy stack combines a Transformer forecaster with PPO-based routing under uncertainty.
             </p>
             <p>
               A Streamlit UI shows <em>fastest / cheapest / safest</em> alternatives with deltas in ETA, fuel burn, and risk.
               Each route includes short LLM rationales. The pipeline includes cached data fetchers, reproducible configs,
-              and scenario “playbacks” for incident post-mortems and what-if planning.
+              and scenario “playbacks” for incident post-mortems and what-if planning. Runtime services are monitored via Prometheus and Grafana.
             </p>
             <div class="pills">
               <span class="pill">Python</span><span class="pill">NetworkX</span><span class="pill">Transformers</span>
@@ -221,31 +249,29 @@
           </div>
         </article>
 
-        <!-- Bilevel Optimization -->
-        <article class="card project" data-tags="ml">
-          <img class="card__img" src="assets/bilevel_jpeg.png" alt="Bilevel optimization diagram">
+        <!-- POS System -->
+        <article class="card project" data-tags="systems ui">
+          <img class="card__img" src="assets/boba.jpg" alt="Bubble tea POS product image">
           <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">Contract Theory — Implicit-Gradient Bilevel</h2>
-            <p class="meta">Deep Learning Research Group · Texas A&amp;M</p>
+            <h2 class="card__title">Bubble Tea POS — Inventory &amp; Ordering</h2>
+            <p class="meta">JavaFX · PostgreSQL · AWS</p>
             <p>
-              Principal–agent contract design posed as a <strong>bilevel program</strong>: the principal chooses contract parameters,
-              the agent best-responds with effort, and the outer objective optimizes principal utility. We compute outer gradients via
-              <strong>implicit differentiation</strong> and <strong>Hessian–vector products</strong> solved with <em>conjugate
-              gradient</em>, avoiding explicit Hessians.
+              End-to-end <strong>point-of-sale</strong> platform with customer ordering, staff roles, and inventory management. 
+              Built a normalized <strong>PostgreSQL</strong> schema with triggers/constraints, transactional order processing, and audit logs. 
+              Implemented a responsive <strong>JavaFX</strong> UI with role-based access, receipt printing, and admin dashboards.
             </p>
             <p>
-              Training stability comes from warm-starts, damping, and line-searched updates; baselines include grid search and
-              straight-through approximations. Experiments cover synthetic PA setups (noise, incentive compatibility, effort-cost
-              regimes), with ablations on schedule choice and regularization, plus reproducible figures and tables.
+              Backend uses a DAO layer over JDBC, batch inserts, and parameterized queries for safety and speed. 
+              Deployed on <strong>AWS</strong> with environment-based configs and GitHub Actions for CI build checks.
             </p>
             <div class="pills">
-              <span class="pill">PyTorch</span><span class="pill">Autograd</span><span class="pill">HVP/CG</span>
-              <span class="pill">Matplotlib</span><span class="pill">LaTeX</span>
+              <span class="pill">Java</span><span class="pill">JavaFX</span><span class="pill">PostgreSQL</span>
+              <span class="pill">JDBC</span><span class="pill">AWS</span>
             </div>
           </div>
         </article>
 
-        <!-- Style Transfer -->
+        <!-- Style Converter -->
         <article class="card project" data-tags="ml ui">
           <img class="card__img" src="assets/van_gogh.jpeg" alt="Style transfer output">
           <div class="card__body" style="padding:12px 14px;">
@@ -262,11 +288,33 @@
             </p>
             <p>
               Based on the paper 
-              <a href="https://arxiv.org/abs/1508.06576" target="_blank" rel="noreferrer">
-                “A Neural Algorithm of Artistic Style” →</a>
+              <a href="https://arxiv.org/abs/1508.06576" target="_blank" rel="noreferrer">“A Neural Algorithm of Artistic Style” →</a>
             </p>
             <div class="pills">
               <span class="pill">PyTorch</span><span class="pill">VGG19</span><span class="pill">UX</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- StreamSense -->
+        <article class="card project" data-tags="ml systems">
+          <img class="card__img" src="assets/streamsense.png" alt="StreamSense pipeline graphic">
+          <div class="card__body" style="padding:12px 14px;">
+            <h2 class="card__title">StreamSense — Real-Time Streaming Analytics</h2>
+            <p class="meta">Kafka/Redpanda · FastAPI/Node · Postgres · OpenSearch · Redis</p>
+            <p>
+              End-to-end <strong>event streaming</strong> and analytics stack for real-time monitoring. 
+              Producers publish to <strong>Redpanda/Kafka</strong>; consumers perform feature engineering and serve online inference with PyTorch. 
+              Metrics flow to <strong>Prometheus</strong> with dashboards in <strong>Grafana</strong>.
+            </p>
+            <p>
+              Services are containerized with <strong>Docker Compose</strong> and wired with health checks; 
+              indexing in <strong>OpenSearch</strong> supports low-latency search/alerting, and <strong>Redis</strong> backs request caching.
+            </p>
+            <div class="pills">
+              <span class="pill">Redpanda</span><span class="pill">Kafka API</span><span class="pill">FastAPI</span>
+              <span class="pill">Node.js</span><span class="pill">PostgreSQL</span><span class="pill">OpenSearch</span>
+              <span class="pill">Redis</span><span class="pill">Prometheus</span><span class="pill">Grafana</span>
             </div>
           </div>
         </article>
@@ -286,6 +334,14 @@
     <!-- Right links -->
     <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap; font-size:1.3rem;">
       
+      <!-- Google Scholar -->
+      <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ&view_op=list_works&sortby=title" target="_blank" rel="noopener" aria-label="Google Scholar" title="Google Scholar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <!-- Graduation cap icon -->
+          <path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zm0 8.73L4.62 9 12 5.27 19.38 9 12 11.73zM6 13v3.5C6 18.43 8.69 20 12 20s6-1.57 6-3.5V13l-6 3-6-3z"/>
+        </svg>
+      </a>
+
       <!-- LinkedIn -->
       <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">

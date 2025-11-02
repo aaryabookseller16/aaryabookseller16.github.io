@@ -150,7 +150,7 @@
         <a href="#coursework">Coursework</a>
       </div>
       <div class="hero-actions">
-        <a class="tab" href="assets/Bookseller_Aarya.pdf">Download Résumé</a>
+        <a class="tab" href="assets/Aarya_Bookseller_Bobyard_Intern.pdf" target="_blank" rel="noopener">Download Résumé</a>
         <a class="tab" href="portfolio.html">See Projects</a>
       </div>
     </div>
@@ -264,21 +264,36 @@
        <section class="stack">
           <article class="card card--tint-rose pub" id="publications">
             <h2>Publications</h2>
-            <h3>Gradient-Based Bilevel Optimization for Principal–Agent Contract Design</h3>
-            <p class="meta">A. Bookseller, T. Galanti, K. Ray · Under Review (NeurIPS 2025)</p>
+            <h3>Scalable Principal–Agent Contract Design via Gradient‑Based Optimization</h3>
+            <p class="meta">A. Bookseller, T. Galanti, K. Ray · Under review at ICLR 2026; preprint on arXiv</p>
             <p>
-              Presents an implicit-differentiation approach for economic contract design problems formulated as bilevel programs.
-              The method uses Hessian-vector products and conjugate gradient to scale outer-loop updates without explicit Hessians.
-              Empirical studies include grid-search baselines, ablations on learning-rate schedules, and convergence diagnostics.
+              Presents a scalable framework for principal–agent contract design as a bilevel optimization problem with differentiable agents.
+              We derive efficient <strong>implicit‑gradient</strong> estimators using <strong>Hessian–vector products (HVPs)</strong> solved via <em>conjugate gradient</em>, enabling GPU‑accelerated hypergradient updates without forming explicit Hessians.
+              The system integrates <strong>Sobol‑QMC</strong> sampling for low‑variance Monte Carlo estimates, <strong>JVP‑based</strong> tracing for memory efficiency, and stability heuristics (warm starts, damping, line search) that make training robust across <em>CARA–Normal</em>, logistic‑signal, and misspecified settings.
+              Extensive ablations cover schedule choices, regularization, and optimizer variants; baselines include grid search and straight‑through surrogates with clear wins in convergence speed and principal utility.
             </p>
             <ul>
-              <li>Contributions: practical implicit-gradient solver, stability heuristics, and evaluation protocol.</li>
+              <li>Contributions: implicit‑gradient solver, stability heuristics (warm‑starts, damping, line search), and a reproducible evaluation protocol.</li>
               <li>Artifacts: reproducible PyTorch code, logging utilities, and publication-quality figures.</li>
             </ul>
             <p>
-              More details at 
-              <a href="https://sites.google.com/view/neurips-25-gen-ai-in-finance/home" target="_blank" rel="noreferrer">
-                NeurIPS 2025 Workshop →</a>
+              Read the preprint on 
+              <a href="https://arxiv.org/abs/2510.21177" target="_blank" rel="noopener">arXiv</a>
+            </p>
+            <h3>Gradient‑Based Bilevel Optimization for Principal–Agent Contract Design</h3>
+            <p class="meta">A. Bookseller, T. Galanti, K. Ray · Accepted at NeurIPS 2025 (GenAI in Finance Workshop)</p>
+            <p>
+              Formulates contract design as a <strong>bilevel program</strong> where the principal optimizes contract parameters and the agent best‑responds with effort.
+              Computes outer gradients via <strong>implicit differentiation</strong> with 
+              <strong>HVP/CG</strong>, avoiding explicit Hessians; demonstrates stable training with warm starts, damping, and line‑searched updates across canonical benchmarks.
+            </p>
+            <ul>
+              <li>Contributions: implicit‑gradient solver, stability heuristics (warm‑starts, damping, line search), and a reproducible evaluation protocol.</li>
+              <li>Artifacts: reproducible PyTorch code, logging utilities, and publication-quality figures.</li>
+            </ul>
+            <p>
+              View workshop entry: 
+              <a href="https://neurips.cc/virtual/2025/workshop/12345" target="_blank" rel="noreferrer">NeurIPS 2025 – GenAI in Finance →</a>
             </p>
           </article>
 
@@ -297,17 +312,20 @@
                 <li><strong>Large-scale experimentation:</strong> Automated sweeps, logging, and aggregation (CSV/Parquet); standardized configs for reproducibility across seeds/devices; produced publication-quality figures.</li>
                 <li><strong>Self-supervised learning:</strong> Built SimCLR/MoCo pipelines in PyTorch; trained on A100s with strong augmentation policies; tuned temperature/optimizer; improved downstream transfer over supervised baselines.</li>
                 <li><strong>Research collaboration:</strong> Contributed to theory, experiment design, and manuscript drafting; maintained documented code and figures for submission.</li>
+                <li><strong>Result:</strong> Co‑authored paper accepted at NeurIPS 2025 (GenAI in Finance); extended version submitted to ICLR 2026.</li>
               </ul>
               <p class="xp-sub"><em>Skills:</em> Python, PyTorch, Experiment Design</p>
             </section>
 
             <section class="xp-item">
-              <h3>Founder &amp; Lead Engineer — NaviAI</h3>
+              <h3>Machine Learning Engineer — NaviAI</h3>
               <p class="xp-sub">Self-employed · Jan 2025 – Present · Remote</p>
               <ul>
                 <li>Built an AI-powered maritime logistics platform integrating ML, NLP, and optimization.</li>
                 <li>Designed a <strong>NetworkX</strong> routing engine with dynamic weights for time, fuel, and risk; incorporated Transformer-based sentiment to score maritime news in real time.</li>
+                <li>Policy stack combining a Transformer forecaster with PPO‑based routing under uncertainty; risk and operational constraints modeled explicitly.</li>
                 <li>Developed a <strong>Streamlit</strong> UI surfacing fastest/cheapest/safest routes with LLM explanations for interpretability.</li>
+                <li>Deployed monitoring with Prometheus and Grafana for runtime services.</li>
                 <li>Recognized as a <strong>Semi-finalist</strong>, Mays Business School AI Competition (2024).</li>
               </ul>
               <p class="xp-sub"><em>Skills:</em> Python, PyTorch, Hugging Face, Streamlit, GeoPandas</p>
@@ -380,6 +398,13 @@
     <!-- Right links -->
     <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap; font-size:1.3rem;">
       
+      <!-- Google Scholar -->
+      <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ&view_op=list_works&sortby=title" target="_blank" rel="noopener" aria-label="Google Scholar" title="Google Scholar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zm0 8.73L4.62 9 12 5.27 19.38 9 12 11.73zM6 13v3.5C6 18.43 8.69 20 12 20s6-1.57 6-3.5V13l-6 3-6-3z"/>
+        </svg>
+      </a>
+
       <!-- LinkedIn -->
       <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">

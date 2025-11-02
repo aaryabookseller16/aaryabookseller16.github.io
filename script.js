@@ -156,6 +156,47 @@
   })();
 
   /* ================================
+     HARDEN EXTERNAL LINKS
+  ==================================*/
+  (function hardenExternalLinks() {
+    // Ensure security attributes on any link opening a new tab
+    $$('a[target="_blank"]').forEach((a) => {
+      const rel = (a.getAttribute('rel') || '').toLowerCase();
+      const needed = ['noopener', 'noreferrer'];
+      const parts = new Set(
+        rel.split(/\s+/).filter(Boolean).concat(needed)
+      );
+      a.setAttribute('rel', Array.from(parts).join(' '));
+    });
+  })();
+
+  /* ================================
+     KEYBOARD SHORTCUTS (Theme)
+     - Alt+T → System theme
+     - Shift+D → Toggle dark/light
+  ==================================*/
+  document.addEventListener('keydown', (e) => {
+    // Ignore when typing in inputs/textareas or with modifiers we don't use
+    const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+    if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.isComposing) return;
+
+    // Alt+T: set to system
+    if (e.altKey && (e.key === 't' || e.key === 'T')) {
+      applyTheme('system', { persist: true });
+      e.preventDefault();
+      return;
+    }
+
+    // Shift+D: toggle dark/light
+    if (e.shiftKey && (e.key === 'd' || e.key === 'D')) {
+      const currentMode = storage.get(THEME_KEY) || initMode;
+      const currentEff = effectiveTheme(currentMode);
+      applyTheme(currentEff === 'dark' ? 'light' : 'dark', { persist: true });
+      e.preventDefault();
+    }
+  });
+
+  /* ================================
      OPTIONAL: no-transition wrapper
   ==================================*/
   function withoutTransitions(fn) {

@@ -243,6 +243,43 @@
     }
     @media (max-width: 720px){ .controls{ top: auto; bottom: 16px; right: 16px; } }
     @media (prefers-reduced-motion: reduce){ #netCanvas, .ai-header{ transition: none !important; } }
+
+    /* —— Mobile polish —— */
+@media (max-width: 720px){
+  .ai-hero{ padding: 48px 0 16px; }
+  .ai-title{ font-size: clamp(1.35rem, 6.2vw, 1.9rem); }
+  .ai-lead{ font-size: .98rem; }
+
+  /* Let page scroll naturally on touch; canvas won’t block gestures */
+  #netCanvas{ touch-action: auto; }
+
+  /* Make the nav feel like a proper sheet */
+  .site-nav.open{
+    background: color-mix(in oklab, var(--ai-bg1) 92%, transparent);
+    border: 1px solid var(--ai-ring);
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.25);
+  }
+
+  /* Controls dock at bottom; comfy spacing & safe-area */
+  .controls{
+    top: auto;
+    left: 12px; right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    justify-content: space-between;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .controls .btn{ min-width: 44px; }
+
+  /* Keep HUD above the control bar */
+  .hud{
+    right: 12px;
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+}
   </style>
 </head>
 
