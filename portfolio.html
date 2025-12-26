@@ -110,6 +110,15 @@
       background:color-mix(in oklab, var(--accent) 8%, transparent);
     }
     .card.project:hover{ box-shadow:0 16px 44px rgba(0,0,0,.16); }
+    .project-links{ display:flex; gap:10px; align-items:center; margin:.25rem 0 .35rem; }
+    .project-links a{ display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px;
+      border-radius:10px; border:1px solid color-mix(in oklab, var(--accent) 18%, transparent);
+      background:color-mix(in oklab, var(--accent) 7%, transparent);
+      color:var(--text,#111); text-decoration:none;
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .project-links a:hover{ transform:translateY(-1px); box-shadow:0 10px 24px rgba(0,0,0,.14); }
+    .project-links a:focus-visible{ outline: none; box-shadow:0 0 0 4px color-mix(in oklab, var(--accent) 18%, transparent); }
 
     .tooltip{ position:relative; display:inline-block; }
     .tooltip .tooltip-text{
@@ -190,12 +199,17 @@
       <h1>Portfolio</h1>
       <p class="lead">Selected builds—ML systems, optimization, and product UIs.</p>
 
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <a href="assets/Bookseller_Aarya.pdf" download class="tab" aria-label="Download résumé PDF">
+          <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Download Résumé (PDF)
+        </a>
+      </div>
+
       <div class="tablist" role="tablist" aria-label="Project filters">
         <button class="tab" role="tab" aria-selected="true" tabindex="0" data-filter="all" id="tab-all">All</button>
         <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="ml" id="tab-ml">Machine Learning</button>
         <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="systems" id="tab-systems">Systems</button>
         <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="ui" id="tab-ui">UI/UX</button>
-        <a class="tab" href="assets/Aarya_Bookseller_Bobyard_Intern.pdf" target="_blank" rel="noopener">Résumé</a>
       </div>
     </div>
     <div class="divider"></div>
@@ -205,22 +219,84 @@
   <main class="section">
     <div class="container" id="projectsRegion" role="region" aria-labelledby="tab-all">
       <div class="grid-3" id="projectsGrid">
-        <!-- VisionQuery -->
-        <article class="card project" data-tags="ml systems ui">
-          <img class="card__img" src="assets/visionquery.png" alt="VisionQuery interface mockup">
+
+        <!-- POS System -->
+        <article class="card project" data-tags="systems ui">
+          <img class="card__img" src="assets/boba.jpg" alt="Bubble tea POS product image">
           <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">VisionQuery — Multimodal Search</h2>
-            <p class="meta">Founder &amp; Lead Engineer · May 2025–Present</p>
+            <h2 class="card__title">Bubble Tea POS — Inventory &amp; Ordering</h2>
+            <p class="meta">JavaFX · PostgreSQL · AWS</p>
+            <div class="project-links" aria-label="Project links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/bubble-tea-pos" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a class="icon-btn" href="https://project3team21-2.onrender.com/" target="_blank" rel="noopener" aria-label="Live Website" title="Website">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
             <p>
-              CLIP-style <strong>dual encoders</strong> for image–text retrieval trained with contrastive loss and temperature annealing. 
-              Indexed <strong>100k+</strong> embeddings in <strong>FAISS (HNSW)</strong> for sub-10&nbsp;ms query latency at ~95% recall@10, with batch-hard mining and augmentation pipelines.
+              End-to-end <strong>point-of-sale</strong> platform with customer ordering, staff roles, and inventory management. 
+              Built a normalized <strong>PostgreSQL</strong> schema with triggers/constraints, transactional order processing, and audit logs. 
+              Implemented a responsive <strong>JavaFX</strong> UI with role-based access, receipt printing, and admin dashboards.
             </p>
             <p>
-              Hydra-driven training with <strong>CI/CD</strong>, <strong>W&amp;B</strong> experiment tracking, and <strong>Dockerized</strong> deployment. A React UI provides attention heatmaps and semantic ranking visualizations for explainability.
+              Backend uses a DAO layer over JDBC, batch inserts, and parameterized queries for safety and speed. 
+              Deployed on <strong>AWS</strong> with environment-based configs and GitHub Actions for CI build checks.
             </p>
             <div class="pills">
-              <span class="pill">PyTorch</span><span class="pill">FAISS</span><span class="pill">FastAPI</span>
-              <span class="pill">React</span><span class="pill">Hydra</span><span class="pill">W&amp;B</span>
+              <span class="pill">Java</span><span class="pill">JavaFX</span><span class="pill">PostgreSQL</span>
+              <span class="pill">JDBC</span><span class="pill">AWS</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- ViT vs CNN -->
+        <article class="card project" data-tags="ml systems">
+          <img class="card__img" src="assets/cnn-vs-vit.png" alt="ViT vs CNN comparison results">
+          <div class="card__body" style="padding:12px 14px;">
+            <h2 class="card__title">ViT vs CNN — Small-Data Benchmark</h2>
+            <p class="meta">ML Engineer · Dec 2025</p>
+            <div class="project-links" aria-label="Project links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/cnn-vs-vit" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </div>
+            <p>
+              Controlled benchmark comparing a compact <strong>CNN</strong> to a <strong>Vision Transformer</strong> under limited data regimes.
+              Tracked scaling behavior across dataset fractions, seeds, and augmentations; exported metrics and checkpoints for reproducible comparisons.
+            </p>
+            <p>
+              Includes training curves, calibration checks, and error analysis tooling to understand when transformers win (and when they don’t)
+              without hand-wavy claims.
+            </p>
+            <div class="pills">
+              <span class="pill">PyTorch</span><span class="pill">ViT</span><span class="pill">CNN</span>
+              <span class="pill">Reproducibility</span><span class="pill">Metrics</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Monte Carlo Risk Analysis -->
+        <article class="card project" data-tags="ml systems ui">
+          <img class="card__img" src="assets/monte-carlo.png" alt="Monte Carlo risk analysis dashboard">
+          <div class="card__body" style="padding:12px 14px;">
+            <h2 class="card__title">Monte Carlo Risk Analysis — SPY Simulation</h2>
+            <p class="meta">Quant/ML · Dec 2025</p>
+            <div class="project-links" aria-label="Project links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/monte-carlo-risk-analysis" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </div>
+            <p>
+              Built a simulation-based risk engine using <strong>log returns</strong> and distribution diagnostics to justify modeling assumptions.
+              Runs Monte Carlo paths to estimate <strong>VaR</strong>, <strong>CVaR</strong>, drawdowns, and scenario stress tests.
+            </p>
+            <p>
+              Modular data loaders + plotting utilities, with a clean “main” entry-point for quick experiments and parameter sweeps.
+            </p>
+            <div class="pills">
+              <span class="pill">Python</span><span class="pill">NumPy</span><span class="pill">Pandas</span>
+              <span class="pill">Monte Carlo</span><span class="pill">VaR/CVaR</span>
             </div>
           </div>
         </article>
@@ -231,6 +307,11 @@
           <div class="card__body" style="padding:12px 14px;">
             <h2 class="card__title">NaviAI — Maritime Routing with Risk</h2>
             <p class="meta">Machine Learning Engineer · Jan 2025–Present</p>
+            <div class="project-links" aria-label="Project links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/NaviAI" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </div>
             <p>
               Multi-objective routing that balances <strong>time</strong>, <strong>fuel</strong>, and <strong>operational risk</strong>.
               The engine fuses live weather and port conditions with a news-derived risk score (Transformer sentiment + rules) to
@@ -249,34 +330,17 @@
           </div>
         </article>
 
-        <!-- POS System -->
-        <article class="card project" data-tags="systems ui">
-          <img class="card__img" src="assets/boba.jpg" alt="Bubble tea POS product image">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">Bubble Tea POS — Inventory &amp; Ordering</h2>
-            <p class="meta">JavaFX · PostgreSQL · AWS</p>
-            <p>
-              End-to-end <strong>point-of-sale</strong> platform with customer ordering, staff roles, and inventory management. 
-              Built a normalized <strong>PostgreSQL</strong> schema with triggers/constraints, transactional order processing, and audit logs. 
-              Implemented a responsive <strong>JavaFX</strong> UI with role-based access, receipt printing, and admin dashboards.
-            </p>
-            <p>
-              Backend uses a DAO layer over JDBC, batch inserts, and parameterized queries for safety and speed. 
-              Deployed on <strong>AWS</strong> with environment-based configs and GitHub Actions for CI build checks.
-            </p>
-            <div class="pills">
-              <span class="pill">Java</span><span class="pill">JavaFX</span><span class="pill">PostgreSQL</span>
-              <span class="pill">JDBC</span><span class="pill">AWS</span>
-            </div>
-          </div>
-        </article>
-
         <!-- Style Converter -->
         <article class="card project" data-tags="ml ui">
           <img class="card__img" src="assets/van_gogh.jpeg" alt="Style transfer output">
           <div class="card__body" style="padding:12px 14px;">
             <h2 class="card__title">Style Converter — VGG19 NST</h2>
             <p class="meta">Simple, clean neural style transfer demo</p>
+            <div class="project-links" aria-label="Project links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/Fake-Review-Classifier" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </div>
             <p>
               Classic VGG19 neural style transfer with a streamlined UI: upload content &amp; style, then tune
               <strong>content/style weights</strong>, <strong>TV loss</strong>, and iteration budget. Uses a
@@ -296,25 +360,28 @@
           </div>
         </article>
 
-        <!-- StreamSense -->
-        <article class="card project" data-tags="ml systems">
-          <img class="card__img" src="assets/streamsense.png" alt="StreamSense pipeline graphic">
+        <!-- Fake Review Detector -->
+        <article class="card project" data-tags="ml">
+          <img class="card__img" src="assets/adaline.png" alt="Fake review detector feature + model overview">
           <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">StreamSense — Real-Time Streaming Analytics</h2>
-            <p class="meta">Kafka/Redpanda · FastAPI/Node · Postgres · OpenSearch · Redis</p>
+            <h2 class="card__title">Fake Review Detector — Adaline from Scratch</h2>
+            <p class="meta">ML · Interpretable Text Classifier</p>
+            <div class="project-links" aria-label="Project links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/Fake-Review-Classifier" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </div>
             <p>
-              End-to-end <strong>event streaming</strong> and analytics stack for real-time monitoring. 
-              Producers publish to <strong>Redpanda/Kafka</strong>; consumers perform feature engineering and serve online inference with PyTorch. 
-              Metrics flow to <strong>Prometheus</strong> with dashboards in <strong>Grafana</strong>.
+              Transparent fake-review classifier that separates <strong>CG</strong> (computer-generated) vs <strong>OR</strong> (organic) reviews.
+              Built to be lightweight and explainable—no black-box embeddings required.
             </p>
             <p>
-              Services are containerized with <strong>Docker Compose</strong> and wired with health checks; 
-              indexing in <strong>OpenSearch</strong> supports low-latency search/alerting, and <strong>Redis</strong> backs request caching.
+              Uses hand-engineered features (<strong>length</strong>, <strong>suspicious phrase count</strong>, <strong>ALL-CAPS word count</strong>) with standardization,
+              then trains an <strong>Adaline</strong> model via <strong>batch gradient descent</strong> and MSE loss in NumPy.
             </p>
             <div class="pills">
-              <span class="pill">Redpanda</span><span class="pill">Kafka API</span><span class="pill">FastAPI</span>
-              <span class="pill">Node.js</span><span class="pill">PostgreSQL</span><span class="pill">OpenSearch</span>
-              <span class="pill">Redis</span><span class="pill">Prometheus</span><span class="pill">Grafana</span>
+              <span class="pill">Python</span><span class="pill">NumPy</span><span class="pill">NLP</span>
+              <span class="pill">Gradient Descent</span><span class="pill">Interpretability</span>
             </div>
           </div>
         </article>
