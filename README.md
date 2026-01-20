@@ -86,4 +86,4 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ## Author
 
 Aarya Bookseller  
-[LinkedIn](#) | [Email](#)
+[LinkedIn](#https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/) | [Email](#aaryab.work@gmail.com)
