@@ -69,21 +69,7 @@ start index.html       # Windows
 
 ---
 
-## Contributing
-
-1. Fork the repository  
-2. Create a feature branch  
-3. Submit a pull request with clear, focused changes  
-
----
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
----
-
 ## Author
 
 Aarya Bookseller  
-[LinkedIn](#https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/) | [Email](#aaryab.work@gmail.com)
+[LinkedIn](https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/) | [Email](mailto:aaryab.work@gmail.com)
