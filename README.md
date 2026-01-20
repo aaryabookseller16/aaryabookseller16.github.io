@@ -1,92 +1,89 @@
-# 🌐 Aarya Portfolio
+# Aarya Bookseller — Personal Portfolio
 
-A clean, responsive personal portfolio built with **HTML, CSS, and vanilla JavaScript**.  
-Supports **dark/light themes**, accent colors, and a shared navigation bar across pages.
+A minimalist, zero-dependency personal portfolio built with vanilla JavaScript, HTML5, and CSS3. The site is fully responsive, accessible, and supports persistent theme preferences including dark/light modes and accent color customization.
 
 ---
 
-## 🚀 Quick Start
+## Key Features
 
-No build tools required. Simply open `index.html` in your browser:
+- Responsive, mobile-first design  
+- Dark and light theme toggling with persistence  
+- Customizable accent colors  
+- Accessibility-focused navigation and keyboard support  
+- No external dependencies or build tools  
+
+---
+
+## Tech Stack
+
+- HTML5  
+- CSS3 (CSS variables)  
+- JavaScript (ES6)  
+- GitHub Pages for hosting  
+
+---
+
+## Project Structure
+
+| File               | Description                                      |
+|--------------------|------------------------------------------------|
+| `index.html`       | Landing page with hero section and highlights  |
+| `portfolio.html`   | Project grid with filtering                      |
+| `genai.html`       | Interactive AI-generated demo                    |
+| `service.html`     | Volunteering and community service               |
+| `qualifications.html` | Skills, education, and experience              |
+| `style.css`        | Core styles including light/dark themes          |
+| `style-alt.css`    | Accent color palettes and experimental effects   |
+| `script.js`        | Mobile navigation toggle, theme switcher, active link highlighting, dynamic year update |
+| `theme.js`         | Advanced theme and accent persistence with cross-tab synchronization |
+
+---
+
+## Local Development
+
+No build tools required. Open `index.html` directly in your browser:
 
 ```bash
-open index.html   # macOS
-xdg-open index.html   # Linux
-start index.html      # Windows
+open index.html        # macOS
+xdg-open index.html    # Linux
+start index.html       # Windows
+```
 
+---
 
-⸻
+## Customization
 
-📂 Project Structure
+- **Profile Image:** Replace `assets/download.jpeg` or update the `<img>` source in `index.html`.  
+- **Themes:** Modify color variables in `:root` and `html[data-theme="light"]` within `style.css`.  
+- **Accent Colors:** Controlled via the CSS `--accent` variable and accent picker UI.  
+- **Navigation:** Current page is auto-highlighted based on the URL path.  
 
-File	Purpose
-index.html	Landing page with hero section & highlights
-portfolio.html	Grid of projects with filters
-genai.html	Interactive AI-generated demo page
-service.html	Volunteering & community service
-qualifications.html	Skills, education, and experience
-style.css	Main site styles (light/dark via data-theme)
-style-alt.css	Accent color palette & experimental effects
-script.js	Mobile nav toggle, theme switcher, active link highlighting, dynamic year
-theme.js	Advanced theme + accent persistence (cross-tab sync)
+---
 
+## Design Principles
 
-⸻
+- Performance-first approach with no external frameworks or libraries  
+- Accessibility prioritized through semantic HTML and keyboard navigation support  
+- Maintainable and modular CSS and JavaScript  
+- Responsive design ensuring usability across devices  
 
-🎨 Customization
-	•	Profile Image: Replace assets/download.jpeg or update the <img> path in index.html.
-	•	Theme Defaults: Adjust colors in :root and html[data-theme="light"] within style.css.
-	•	Accent Colors: Controlled by the accent picker (--accent CSS variable).
-	•	Navigation: Current page auto-highlights based on path.
+---
 
-⸻
+## Contributing
 
-✨ Features
-	•	📱 Mobile-first responsive design
-	•	🌙 Light/Dark theme toggle (auto-detects OS preference)
-	•	🎨 Accent color switcher with persistence
-	•	⬆️ Back-to-top button
-	•	♿ Accessible navigation with keyboard support
-	•	⚡ Zero dependencies — static HTML/CSS/JS only
+1. Fork the repository  
+2. Create a feature branch  
+3. Submit a pull request with clear, focused changes  
 
-⸻
+---
 
-🤝 Contributing
+## License
 
-Contributions are welcome! Here’s how you can help:
-	1.	Fork this repo
-	2.	Create a branch for your feature/fix:
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-git checkout -b feature/amazing-feature
+---
 
+## Author
 
-	3.	Commit your changes:
-
-git commit -m "Add amazing feature"
-
-
-	4.	Push the branch:
-
-git push origin feature/amazing-feature
-
-
-	5.	Open a Pull Request
-
-Please keep your PRs small and focused. For larger changes, consider opening an issue first.
-
-⸻
-
-📜 License
-
-This project is licensed under the MIT License — you’re free to use, modify, and distribute it with attribution.
-See the LICENSE file for details.
-
-⸻
-
-👤 Author
-
-Aarya Bookseller
-	•	LinkedIn
-	•	Email
-
-⸻
+Aarya Bookseller  
+[LinkedIn](#) | [Email](#)
