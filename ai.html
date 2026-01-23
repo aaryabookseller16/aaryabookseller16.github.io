@@ -66,6 +66,9 @@
       --ai-fx1: #00e7ff;
       --ai-fx2: #ff5bd1;
       --ai-glow: 0 10px 40px color-mix(in oklab, var(--ai-accent) 35%, transparent);
+      --font-serif: "Times New Roman", Times, serif;
+      --font-sans: "Times New Roman", Times, serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
     [data-theme="light"] {
       --ai-bg0: #f6f8ff;
@@ -80,7 +83,7 @@
     html, body { height: 100%; }
     body {
       margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji", "Segoe UI Symbol";
+      font-family: var(--font-serif);
       line-height: 1.55;
       color: var(--ai-ink);
       background:
@@ -92,6 +95,26 @@
     }
     a { color: inherit; text-decoration: none; }
     a:hover { text-decoration: underline; }
+    /* Times New Roman everywhere (AI page) */
+    html, body, button, input, select, textarea, .btn, .brand, .site-nav a, p, li,
+    h1, h2, h3, h4, h5, h6, .ai-kicker, .ai-title, .ai-lead, .hud-panel, .controls, .site-footer {
+      font-family: var(--font-serif) !important;
+    }
+
+    /* Keep headings bold */
+    h1, h2, h3, h4, h5, h6 { font-weight: 900; }
+
+    /* Preserve monospace if code appears */
+    code, pre { font-family: var(--font-mono) !important; }
+
+    /* Don't override Font Awesome icon fonts */
+    .fa, .fa-solid, .fa-regular, .fa-light, .fa-thin, .fa-duotone {
+      font-family: "Font Awesome 6 Free" !important;
+    }
+    .fa-brands{
+      font-family: "Font Awesome 6 Brands" !important;
+    }
+    svg { font-family: initial !important; }
     .container { max-width: 1100px; margin: 0 auto; padding: 0 16px; display: flex; }
 
     /* ========== Header ========== */

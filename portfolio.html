@@ -57,6 +57,35 @@
 
   <!-- ===== Page micro-tweaks ===== -->
   <style>
+    :root{
+      --font-serif: "Times New Roman", Times, serif;
+      --font-sans: "Times New Roman", Times, serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    /* Times New Roman everywhere */
+    html, body, button, input, select, textarea, .btn, .brand, nav a, p, li, .lead,
+    .card, .card *, h1, h2, h3, h4, h5, h6, .tab, .pill, .meta, .resume-btn {
+      font-family: var(--font-serif) !important;
+    }
+
+    /* Don't override icon fonts (Font Awesome) */
+    .fa, .fa-solid, .fa-regular, .fa-light, .fa-thin, .fa-duotone {
+      font-family: "Font Awesome 6 Free" !important;
+    }
+    .fa-brands{
+      font-family: "Font Awesome 6 Brands" !important;
+    }
+
+    /* Keep headings bold */
+    h1, h2, h3, h4, h5, h6 { font-weight: 700; }
+
+    /* Preserve monospace for code blocks if any */
+    code, pre { font-family: var(--font-mono) !important; }
+
+    /* SVG icons should render normally */
+    svg { font-family: initial !important; }
+
     body { line-height: 1.5; }
     p, li { text-align: justify; }
     .card p { text-align: left; }
@@ -65,6 +94,43 @@
     .hero .lead { margin: .25rem 0 0; }
 
     .tablist { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+
+    /* Resume button (clean + animated) */
+    .resume-btn{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:.6rem .95rem;
+      border-radius:12px;
+      border:1px solid color-mix(in oklab, var(--accent) 28%, transparent);
+      background:color-mix(in oklab, var(--accent) 10%, transparent);
+      color:var(--text,#111);
+      text-decoration:none;
+      font-weight:700;
+      position:relative;
+      overflow:hidden;
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+      box-shadow:0 10px 26px rgba(0,0,0,.10);
+    }
+    .resume-btn i{ opacity:.95; }
+    .resume-btn::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:linear-gradient(120deg, transparent 0%, color-mix(in oklab, var(--accent) 35%, transparent) 35%, transparent 70%);
+      transform:translateX(-120%);
+      transition:transform .55s ease;
+      pointer-events:none;
+    }
+    .resume-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 14px 34px rgba(0,0,0,.16);
+      background:color-mix(in oklab, var(--accent) 14%, transparent);
+    }
+    .resume-btn:hover::before{ transform:translateX(120%); }
+    .resume-btn:active{ transform:translateY(0); }
+    .resume-btn:focus-visible{
+      outline:none;
+      box-shadow:0 0 0 4px color-mix(in oklab, var(--accent) 18%, transparent), 0 14px 34px rgba(0,0,0,.16);
+    }
     .tab[role="tab"]{
       border:1px solid var(--ring,#dcdcdc); background:var(--bg-1,#fff); color:var(--text,#111);
       border-radius:10px; padding:.45rem .75rem; font-weight:600; cursor:pointer;
@@ -200,8 +266,9 @@
       <p class="lead">Selected builds—ML systems, optimization, and product UIs.</p>
 
       <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-        <a href="assets/Bookseller_Aarya.pdf" download class="tab" aria-label="Download résumé PDF">
-          <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Download Résumé (PDF)
+        <a href="assets/Bookseller_Aarya.pdf" download class="resume-btn" aria-label="Download résumé PDF">
+          <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
+          <span>Download Résumé</span>
         </a>
       </div>
 
@@ -219,6 +286,116 @@
   <main class="section">
     <div class="container" id="projectsRegion" role="region" aria-labelledby="tab-all">
       <div class="grid-3" id="projectsGrid">
+
+        <!-- NaviAI -->
+        <article class="card project" data-tags="ml systems ui">
+          <img class="card__img" src="assets/routes.jpeg" alt="NaviAI route visualization">
+          <div class="card__body" style="padding:12px 14px;">
+            <h2 class="card__title">NaviAI — Maritime Routing with Risk</h2>
+            <p class="meta">Machine Learning Engineer · Jan 2025–Present</p>
+            <div class="project-links" aria-label="Project links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/NaviAI" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </div>
+            <p>
+              Multi-objective routing that balances <strong>time</strong>, <strong>fuel</strong>, and <strong>operational risk</strong>.
+              The engine fuses live weather and port conditions with a news-derived risk score (Transformer sentiment + rules) to
+              adjust edge weights in real time. Constraints like draft limits, traffic separation schemes, exclusion zones, and canal
+              fees are modeled explicitly. The policy stack combines a Transformer forecaster with PPO-based routing under uncertainty.
+            </p>
+            <p>
+              A Streamlit UI shows <em>fastest / cheapest / safest</em> alternatives with deltas in ETA, fuel burn, and risk.
+              Each route includes short LLM rationales. The pipeline includes cached data fetchers, reproducible configs,
+              and scenario “playbacks” for incident post-mortems and what-if planning. Runtime services are monitored via Prometheus and Grafana.
+            </p>
+            <div class="pills">
+              <span class="pill">Python</span><span class="pill">NetworkX</span><span class="pill">Transformers</span>
+              <span class="pill">Streamlit</span><span class="pill">Pandas</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- VisionQuery -->
+        <article class="card project" data-tags="ml systems ui">
+          <img class="card__img" src="assets/visionquery.png" alt="VisionQuery semantic search results UI">
+          <div class="card__body" style="padding:12px 14px;">
+            <h2 class="card__title">VisionQuery — Text-to-Image Semantic Search</h2>
+            <p class="meta">FastAPI · CLIP · Prometheus/Grafana</p>
+            <div class="project-links" aria-label="Project links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/Vision-Query" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </div>
+            <p>
+              Backend-first semantic search MVP: ingest images into an embedding index, embed text + images into the same <strong>CLIP</strong>
+              vector space, and return ranked results via <strong>cosine similarity</strong>. Exposes clean endpoints for health checks,
+              ingestion, search, and Prometheus-compatible metrics.
+            </p>
+            <p>
+              Designed to be explainable and interview-friendly: simple in-memory vector store (easy to swap for FAISS/pgvector),
+              containerized dev with <strong>Docker Compose</strong>, and basic observability dashboards.
+            </p>
+            <div class="pills">
+              <span class="pill">FastAPI</span><span class="pill">CLIP</span><span class="pill">Vector Search</span>
+              <span class="pill">Prometheus</span><span class="pill">Grafana</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- StreamSense Reactor -->
+        <article class="card project" data-tags="systems ui">
+          <img class="card__img" src="assets/streamsense.png" alt="StreamSense Reactor live KPI dashboard">
+          <div class="card__body" style="padding:12px 14px;">
+            <h2 class="card__title">StreamSense Reactor — Real-Time Streaming KPIs</h2>
+            <p class="meta">Redpanda (Kafka) · Node.js · PostgreSQL · React</p>
+            <div class="project-links" aria-label="Project links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/Stream-Sense" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </div>
+            <p>
+              Production-style <strong>event-driven</strong> analytics pipeline: ingests high-volume service events (latency, status, timestamps),
+              streams them through <strong>Kafka-compatible Redpanda</strong>, computes rolling-window KPIs, persists results to <strong>PostgreSQL</strong>,
+              and visualizes operational health in a near real-time <strong>React</strong> dashboard.
+            </p>
+            <p>
+              Built as a clean multi-service repo with containerized local infrastructure and a streaming worker that performs aggregation
+              and durable KPI writes.
+            </p>
+            <div class="pills">
+              <span class="pill">Redpanda</span><span class="pill">Kafka</span><span class="pill">Node.js</span>
+              <span class="pill">PostgreSQL</span><span class="pill">React</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- InsightBoard -->
+        <article class="card project" data-tags="systems ui">
+          <img class="card__img" src="assets/insightboard.png" alt="InsightBoard internal analytics dashboard">
+          <div class="card__body" style="padding:12px 14px;">
+            <h2 class="card__title">InsightBoard — Internal Analytics Dashboard</h2>
+            <p class="meta">React · Express · PostgreSQL · JWT/RBAC</p>
+            <div class="project-links" aria-label="Project links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/Insight-Board" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </div>
+            <p>
+              Internal tool that turns raw <strong>event-level data</strong> into business KPIs: revenue (sales − refunds, stored safely in cents),
+              activity, daily trends, and event-type breakdowns. Includes strict <strong>role-based access control</strong>: admins see
+              platform-wide metrics; users see only their own.
+            </p>
+            <p>
+              Node/Express backend with <strong>JWT auth</strong> and backend-enforced RBAC, backed by <strong>PostgreSQL</strong> with indexed time-series
+              queries for fast KPI aggregation. React UI keeps the dashboard clean and readable.
+            </p>
+            <div class="pills">
+              <span class="pill">React</span><span class="pill">Express</span><span class="pill">PostgreSQL</span>
+              <span class="pill">JWT</span><span class="pill">RBAC</span>
+            </div>
+          </div>
+        </article>
 
         <!-- POS System -->
         <article class="card project" data-tags="systems ui">
@@ -250,32 +427,6 @@
           </div>
         </article>
 
-        <!-- ViT vs CNN -->
-        <article class="card project" data-tags="ml systems">
-          <img class="card__img" src="assets/cnn-vs-vit.png" alt="ViT vs CNN comparison results">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">ViT vs CNN — Small-Data Benchmark</h2>
-            <p class="meta">ML Engineer · Dec 2025</p>
-            <div class="project-links" aria-label="Project links">
-              <a class="icon-btn" href="https://github.com/aaryabookseller16/cnn-vs-vit" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
-                <i class="fa-brands fa-github"></i>
-              </a>
-            </div>
-            <p>
-              Controlled benchmark comparing a compact <strong>CNN</strong> to a <strong>Vision Transformer</strong> under limited data regimes.
-              Tracked scaling behavior across dataset fractions, seeds, and augmentations; exported metrics and checkpoints for reproducible comparisons.
-            </p>
-            <p>
-              Includes training curves, calibration checks, and error analysis tooling to understand when transformers win (and when they don’t)
-              without hand-wavy claims.
-            </p>
-            <div class="pills">
-              <span class="pill">PyTorch</span><span class="pill">ViT</span><span class="pill">CNN</span>
-              <span class="pill">Reproducibility</span><span class="pill">Metrics</span>
-            </div>
-          </div>
-        </article>
-
         <!-- Monte Carlo Risk Analysis -->
         <article class="card project" data-tags="ml systems ui">
           <img class="card__img" src="assets/monte-carlo.png" alt="Monte Carlo risk analysis dashboard">
@@ -301,31 +452,28 @@
           </div>
         </article>
 
-        <!-- NaviAI -->
-        <article class="card project" data-tags="ml systems ui">
-          <img class="card__img" src="assets/routes.jpeg" alt="NaviAI route visualization">
+        <!-- ViT vs CNN -->
+        <article class="card project" data-tags="ml systems">
+          <img class="card__img" src="assets/cnn-vs-vit.png" alt="ViT vs CNN comparison results">
           <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">NaviAI — Maritime Routing with Risk</h2>
-            <p class="meta">Machine Learning Engineer · Jan 2025–Present</p>
+            <h2 class="card__title">ViT vs CNN — Small-Data Benchmark</h2>
+            <p class="meta">ML Engineer · Dec 2025</p>
             <div class="project-links" aria-label="Project links">
-              <a class="icon-btn" href="https://github.com/aaryabookseller16/NaviAI" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/cnn-vs-vit" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
                 <i class="fa-brands fa-github"></i>
               </a>
             </div>
             <p>
-              Multi-objective routing that balances <strong>time</strong>, <strong>fuel</strong>, and <strong>operational risk</strong>.
-              The engine fuses live weather and port conditions with a news-derived risk score (Transformer sentiment + rules) to
-              adjust edge weights in real time. Constraints like draft limits, traffic separation schemes, exclusion zones, and canal
-              fees are modeled explicitly. The policy stack combines a Transformer forecaster with PPO-based routing under uncertainty.
+              Controlled benchmark comparing a compact <strong>CNN</strong> to a <strong>Vision Transformer</strong> under limited data regimes.
+              Tracked scaling behavior across dataset fractions, seeds, and augmentations; exported metrics and checkpoints for reproducible comparisons.
             </p>
             <p>
-              A Streamlit UI shows <em>fastest / cheapest / safest</em> alternatives with deltas in ETA, fuel burn, and risk.
-              Each route includes short LLM rationales. The pipeline includes cached data fetchers, reproducible configs,
-              and scenario “playbacks” for incident post-mortems and what-if planning. Runtime services are monitored via Prometheus and Grafana.
+              Includes training curves, calibration checks, and error analysis tooling to understand when transformers win (and when they don’t)
+              without hand-wavy claims.
             </p>
             <div class="pills">
-              <span class="pill">Python</span><span class="pill">NetworkX</span><span class="pill">Transformers</span>
-              <span class="pill">Streamlit</span><span class="pill">Pandas</span>
+              <span class="pill">PyTorch</span><span class="pill">ViT</span><span class="pill">CNN</span>
+              <span class="pill">Reproducibility</span><span class="pill">Metrics</span>
             </div>
           </div>
         </article>

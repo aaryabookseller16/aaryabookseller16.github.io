@@ -52,6 +52,24 @@
 
   <!-- Page-specific micro-tweaks -->
   <style>
+    :root{
+      --font-serif: "Times New Roman", Times, serif;
+      --font-sans: "Times New Roman", Times, serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    /* Times New Roman everywhere */
+    html, body, button, input, select, textarea, .btn, .brand, nav a, p, li, .lead,
+    .card, .card *, h1, h2, h3, h4, h5, h6, .tab, .pill, .meta {
+      font-family: var(--font-serif) !important;
+    }
+
+    /* Keep headings bold */
+    h1, h2, h3, h4, h5, h6 { font-weight: 700; }
+
+    /* Preserve monospace for code blocks if any */
+    code, pre { font-family: var(--font-mono) !important; }
+
     body { line-height: 1.55; }
     p, li, .card p { text-align: justify; }
     .hero h1 { margin: 0; }
@@ -104,11 +122,12 @@
 
       <!-- Primary nav -->
       <nav id="site-nav" class="site-nav" aria-label="Primary">
-        <a href="index.html">About</a>
+            <a href="index.html" aria-current="page">About</a>
         <a href="qualifications.html">Qualifications</a>
-        <a href="service.html" aria-current="page">Service</a>
+        <a href="service.html">Volunteering</a>
         <a href="portfolio.html">Portfolio</a>
         <a href="ai.html">Neural Playground</a>
+      </nav>
       </nav>
 
       <!-- Accent + Theme -->

@@ -36,8 +36,8 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aarya Bookseller – Machine Learning</title>
-  <meta name="description" content="Aarya Bookseller — Machine Learning projects focused on usability, reproducibility, and product clarity." />
+  <title>Aarya Bookseller – ML • SWE • Data</title>
+  <meta name="description" content="Aarya Bookseller — building ML, software, and data systems with research-grade rigor and production discipline." />
   
   <!-- Fonts (removed Google Fonts, using Times New Roman everywhere) -->
   <link rel="stylesheet" href="style.css" />
@@ -49,15 +49,20 @@
   <!-- Minimal visual tweaks + justified copy -->
   <style>
   :root{
-    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-    --font-serif: Georgia, "Times New Roman", Times, serif;
+    --font-serif: "Times New Roman", Times, serif;
+    --font-sans: "Times New Roman", Times, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
-  html, body, button, input, select, textarea, .btn, .brand, nav a, p, li, .lead, .card, .card *, h4, h5, h6 {
-    font-family: var(--font-sans) !important;
+
+  /* Times New Roman everywhere */
+  html, body, button, input, select, textarea, .btn, .brand, nav a, p, li, .lead, .card, .card *, h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif) !important;
     font-weight: 400;
   }
-  h1, h2, h3 { font-family: var(--font-serif) !important; font-weight: 700; }
+
+  /* Keep headings bold */
+  h1, h2, h3, h4, h5, h6 { font-weight: 700; }
+
   code, pre { font-family: var(--font-mono); }
   .header-bar{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
   .header-actions{ display:flex; gap:10px; align-items:center; }
@@ -66,6 +71,16 @@
   body { line-height: 1.5; }
   p, li { text-align: justify; }
   .card p{ text-align:left; }
+  /* Hero readability */
+  .hero__lead{ max-width: 62ch; }
+  .hero__sub{ max-width: 62ch; }
+
+  /* Centered profile icons */
+  .profile-icons{ display:flex; gap:1.1rem; align-items:center; justify-content:center; margin-top:.95rem; }
+  .profile-icons a{ color:var(--accent, #4b72ff); text-decoration:none; display:inline-flex; align-items:center; }
+  .profile-icons a:hover{ opacity:.82; }
+  .profile-icons i{ font-size:22px; }
+  .profile-icons svg{ width:22px; height:22px; display:block; }
   .hero-portrait{ display:flex; justify-content:center; align-items:center; }
   .hero-portrait img{
     width: clamp(180px, 32vw, 320px);
@@ -74,6 +89,15 @@
     object-fit: cover;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,.18);
+  }
+  /* Center the hero CTA buttons to align with the centered icons below */
+  .cta-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    margin-top:.9rem;
   }
 
   /* Also cap any generic images inside cards/sections to prevent overflow */
@@ -139,31 +163,41 @@
       <div class="container">
         <div class="grid-2" style="align-items:center;">
           <div class="col">
-            <h1 class="hero__title hero-animate">Machine learning, built for clarity and impact.</h1>
+            <h1 class="hero__title hero-animate">Building software systems—grounded in engineering, strengthened by ML.</h1>
             <p class="hero__lead hero-animate">
-              I design ML systems that balance research rigor with product polish. My work spans <strong>routing under uncertainty</strong>,
-              <strong>explainable training frameworks</strong>, and <strong>lightweight teaching models</strong> that make complex ideas approachable.
-              I care about the unglamorous details—reproducible environments, trustworthy plots, and interfaces that help people evaluate
-              and extend what I’ve built.
+              I build at the intersection of <strong>software engineering</strong> and <strong>machine learning</strong>.
+              That means reliable backends, clean APIs, and solid data pipelines—plus modeling and evaluation when it actually improves the product.
+            </p>
+            <p class="hero__lead hero-animate">
+              I care about correctness, observability, and systems that hold up in production.
+              Recent focus areas: <strong>search &amp; retrieval</strong>, <strong>forecasting &amp; anomaly detection</strong>, and <strong>routing under uncertainty</strong>.
             </p>
             <p class="hero__sub">
-              If you’re looking for someone who can translate math to code to product—without losing the signal along the way—I’d love to
-              connect.
+              <strong>End-to-end:</strong> requirements → design → implementation → evaluation → deployment.
             </p>
 
-            <div class="badge-row">
-              <span class="badge">Surat, India</span>
-              <span class="badge">Texas A&M University</span>
-            </div>
 
-            <div class="cta-row" style="margin-top:.8rem;">
+            <div class="cta-row">
               <a class="btn btn--ghost" href="portfolio.html">View Portfolio</a>
-              <a class="btn btn--ghost" href="qualifications.html">See Qualifications</a>
               <a class="btn btn--ghost" href="assets/Bookseller_Aarya.pdf" download aria-label="Download résumé (PDF)">Download Résumé</a>
             </div>
 
+            <div class="profile-icons" aria-label="Profiles">
+              <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ" target="_blank" rel="noopener" aria-label="Google Scholar" title="Google Scholar">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                  <path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zm0 8.73L4.62 9 12 5.27 19.38 9 12 11.73zM6 13v3.5C6 18.43 8.69 20 12 20s6-1.57 6-3.5V13l-6 3-6-3z"/>
+                </svg>
+              </a>
+              <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+                <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+              </a>
+              <a href="https://github.com/aaryabookseller16" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+                <i class="fa-brands fa-github" aria-hidden="true"></i>
+              </a>
+            </div>
+
             <!-- Music -->
-            <div class="music-pill" id="music" style="margin-top:10px;">
+            <div class="music-pill" id="music" style="margin-top:14px;">
               <button id="musicToggle" class="btn btn--ghost" style="padding:.35rem .65rem" aria-label="Play music" title="Play/Pause">▶</button>
               <div class="eq" aria-hidden="true">
                 <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
@@ -190,8 +224,9 @@
           <h2 id="about-heading">About Me</h2>
           <p class="lead">
             I’m Aarya—born in <strong>Surat, India</strong>, and now studying Computer Science at <strong>Texas A&amp;M University</strong>.
-            I like tackling hard, ambiguous problems and turning them into clean, usable systems. That’s why CS clicks for me:
-            it sits at the intersection of rigorous thinking and practical impact.
+            I like tackling hard, ambiguous problems and turning them into clean, usable systems.
+            My sweet spot is building products where <strong>data</strong> and <strong>engineering</strong> meet:
+            the kind of work that demands thoughtful design, strong fundamentals, and attention to operational details.
           </p>
         </header>
 
@@ -200,7 +235,9 @@
             <h3 class="eyebrow"><span class="dot"></span>Background</h3>
             <p>
               My work blends <em>theory</em> (probability, linear algebra, optimization) with <em>applied engineering</em>
-              (PyTorch, data tooling, evaluation harnesses). I enjoy the full stack—from math to metrics to UX.
+              (services, data tooling, evaluation harnesses, and production-minded ML). I enjoy the full stack—from specs to systems to UX—and I’m just as happy
+              building the product plumbing (<strong>auth</strong>, <strong>databases</strong>, <strong>caching</strong>, <strong>CI/CD</strong>, <strong>observability</strong>)
+              as I am training models.
               Texas A&amp;M has been the launchpad where I’ve built research-grade prototypes and tightened my craft.
 
               <br/>
@@ -229,9 +266,13 @@
           <article class="card">
             <h3 class="eyebrow"><span class="dot"></span>Why CS &amp; Deep Learning</h3>
             <p>
-              CS rewards clear thinking and ships real tools. Deep learning blends elegant math with gritty engineering.
-              I love decomposing big problems—like optimization under uncertainty—into parts I can test, visualize, and ship.
-              The harder the problem, the more fun it is to make the solution legible.
+              I like CS because it rewards clear thinking and produces real leverage.
+              ML is one tool in the toolbox—useful when the data supports it—but I’m equally interested in the infrastructure that makes ML reliable:
+              versioned datasets, evaluation you can trust, and systems that behave predictably under load.
+              
+              <br/><br/>
+              In practice, I build things that feel "shippable": strong baselines, measurable improvements, clean interfaces, and documentation that doesn’t hide the hard parts.
+              If a system can’t be explained, monitored, or reproduced, it’s not finished.
             </p>
           </article>
         </div>
@@ -240,7 +281,8 @@
           <h3 class="eyebrow"><span class="dot"></span>Principles</h3>
           <ul class="check-list">
             <li><strong>Start simple → iterate.</strong> Build the smallest honest baseline, then improve with evidence.</li>
-            <li><strong>Reproduce everything.</strong> Scripts, seeds, and configs live with the code. Plots are programmatic.</li>
+            <li><strong>Reproduce everything.</strong> Scripts, seeds, configs, and data assumptions live with the code. Plots are programmatic.</li>
+            <li><strong>Engineer for scale.</strong> Clear APIs, tests, and observability make systems maintainable.</li>
             <li><strong>Explain the trade-offs.</strong> Users should see why a route/model was chosen—not just the output.</li>
             <li><strong>Keep it legible.</strong> Code, docs, and UX should make future work easier, not harder.</li>
           </ul>

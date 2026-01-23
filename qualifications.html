@@ -54,7 +54,24 @@
   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
 
   <style>
-    body { line-height: 1.55; text-align: justify; }
+    :root{
+      --font-serif: "Times New Roman", Times, serif;
+      --font-sans: "Times New Roman", Times, serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    /* Times New Roman everywhere */
+    html, body, button, input, select, textarea, .btn, .brand, nav a, p, li, .lead,
+    .card, .card *, h1, h2, h3, h4, h5, h6, .tab, .pill, .meta {
+      font-family: var(--font-serif) !important;
+    }
+
+    /* Keep headings bold */
+    h1, h2, h3, h4, h5, h6 { font-weight: 700; }
+
+    /* Preserve monospace for code blocks if any */
+    code, pre { font-family: var(--font-mono) !important; }
+    body { line-height: 1.55; text-align: left; }
     .section.compact { padding-top: 0; }
     .local-nav { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:.5rem auto 1rem; }
     .local-nav a { padding:6px 10px; border-radius:10px; background:var(--bg-2,#f6f0e6); text-decoration:none; font-size:.9rem; }
@@ -73,6 +90,35 @@
     .skills-group h3 { font-size:.92rem; margin:0 0 .2rem; opacity:.9; }
     .pills { display:flex; flex-wrap:wrap; gap:6px; }
     .pill { padding:4px 10px; border-radius:12px; background:var(--bg-2,#f0f0f0); font-size:.85rem; white-space:nowrap; }
+    .pill { text-decoration: none; color: inherit; }
+    .pill:hover { box-shadow: var(--shadow-1,0 6px 18px rgba(0,0,0,.08)); }
+
+    /* Minimalist Certifications */
+    .certs { display:grid; gap:12px; }
+    .cert-group h3{
+      font-size:.78rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      opacity:.75;
+      margin:0 0 .35rem;
+    }
+    .cert-list{ display:flex; flex-direction:column; gap:6px; margin:0; padding:0; list-style:none; }
+    .cert-item{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:12px;
+      padding:8px 10px;
+      border-radius:12px;
+      background:var(--bg-2,#f0f0f0);
+    }
+    .cert-item a{ text-decoration:none; color:var(--accent, #4b72ff); font-size:.92rem; }
+    .cert-item a:hover{ text-decoration:underline; }
+    .cert-date{ opacity:.7; font-size:.85rem; white-space:nowrap; }
+    @media (max-width:520px){
+      .cert-item{ flex-direction:column; align-items:flex-start; }
+      .cert-date{ white-space:normal; }
+    }
     .xp { display:grid; gap:14px; }
     .xp-item h3 { margin:.1rem 0 .2rem; font-size:1rem; font-weight:800; }
     .xp-item h3 a { text-decoration:none; }
@@ -99,11 +145,11 @@
 
     <!-- Primary nav -->
     <nav id="site-nav" class="site-nav" aria-label="Primary">
-      <a href="index.html">About</a>
-      <a href="qualifications.html" aria-current="page">Qualifications</a>
-      <a href="service.html">Service</a>
-      <a href="portfolio.html">Portfolio</a>
-      <a href="ai.html">Neural Playground</a>
+       <a href="index.html" aria-current="page">About</a>
+        <a href="qualifications.html">Qualifications</a>
+        <a href="service.html">Volunteering</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="ai.html">Neural Playground</a>
     </nav>
 
     <!-- Accent + Theme -->
@@ -147,6 +193,7 @@
         <a href="#experience">Experience</a>
         <a href="#education">Education</a>
         <a href="#skills">Skills</a>
+        <a href="#certifications">Certifications</a>
         <a href="#coursework">Coursework</a>
       </div>
       <div class="hero-actions">
@@ -208,6 +255,68 @@
               <div class="pills">
                 <span class="pill">Matplotlib</span><span class="pill">Plotly</span><span class="pill">LaTeX</span>
               </div>
+            </section>
+          </div>
+        </article>
+
+        <article class="card" id="certifications">
+          <h2>Certifications</h2>
+
+          <div class="certs">
+            <section class="cert-group">
+              <h3>DeepLearning.AI</h3>
+              <ul class="cert-list">
+                <li class="cert-item">
+                  <a href="https://learn.deeplearning.ai/certificates/03e1cdf6-fa3a-4636-8c40-a6150aa3b70a?usp=sharing" target="_blank" rel="noopener">PyTorch for Deep Learning (Professional Certificate)</a>
+                  <span class="cert-date">Dec 2025</span>
+                </li>
+                <li class="cert-item">
+                  <a href="https://learn.deeplearning.ai/accomplishments/88473d5b-5217-476f-97a4-b22a58a4c408?usp=sharing" target="_blank" rel="noopener">Attention in Transformers</a>
+                  <span class="cert-date">Oct 2025</span>
+                </li>
+                <li class="cert-item">
+                  <a href="https://learn.deeplearning.ai/accomplishments/961214ff-024e-4114-9597-8a62ae89ce11?usp=sharing" target="_blank" rel="noopener">How Transformer LLMs Work</a>
+                  <span class="cert-date">Oct 2025</span>
+                </li>
+              </ul>
+            </section>
+
+            <section class="cert-group">
+              <h3>LinkedIn Learning</h3>
+              <ul class="cert-list">
+                <li class="cert-item">
+                  <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/details/certifications/" target="_blank" rel="noopener">Excel Essential Training</a>
+                  <span class="cert-date">Mar 2023</span>
+                </li>
+                <li class="cert-item">
+                  <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/details/certifications/" target="_blank" rel="noopener">Learning C++ Pointers</a>
+                  <span class="cert-date">Mar 2023</span>
+                </li>
+                <li class="cert-item">
+                  <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/details/certifications/" target="_blank" rel="noopener">NASBA Credential (listed on LinkedIn)</a>
+                  <span class="cert-date">Mar 2023</span>
+                </li>
+              </ul>
+            </section>
+
+            <section class="cert-group">
+              <h3>Udemy</h3>
+              <ul class="cert-list">
+                <li class="cert-item">
+                  <a href="https://www.udemy.com/certificate/UC-45894d94-a919-49ff-b8d1-c624649bede3/" target="_blank" rel="noopener">Complete Python Bootcamp</a>
+                  <span class="cert-date">Dec 2022</span>
+                </li>
+              </ul>
+            </section>
+
+            <section class="cert-group">
+              <h3>Coursera</h3>
+              <ul class="cert-list">
+                <li class="cert-item">
+                  <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/details/certifications/" target="_blank" rel="noopener">Certified Secure Programmer (ECSP)</a>
+                  <span class="cert-date">Aug 2022</span>
+                </li>
+              </ul>
             </section>
           </div>
         </article>
