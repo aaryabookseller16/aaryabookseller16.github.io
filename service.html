@@ -80,35 +80,7 @@
     a.card { display: block; color: inherit; text-decoration: none; }
     a.card:hover { text-decoration: none; }
 
-    /* Mobile header & nav */
-    @media (max-width: 720px) {
-      .site-header .container {
-        display: grid !important;
-        grid-template-columns: 1fr auto;
-        grid-template-areas:
-          "brand  toggle"
-          "nav    nav"
-          "actions actions";
-        gap: 10px;
-        align-items: center;
-      }
-      .brand { grid-area: brand; }
-      .nav-toggle {
-        grid-area: toggle;
-        display: inline-flex; align-items: center; justify-content: center;
-        width: 40px; height: 40px; border-radius: 12px;
-        border: 1px solid var(--ring); background: var(--bg-2); cursor: pointer;
-      }
-      .site-nav {
-        grid-area: nav;
-        display: none; flex-direction: column; gap: 8px;
-        padding: 8px 0; border-top: 1px solid var(--ring);
-      }
-      .site-nav.open { display: flex; }
-      .site-nav a { padding: 10px 2px; }
-      .header-actions { grid-area: actions; justify-self: start; }
-    }
-    @media (min-width: 721px) { .nav-toggle { display: none; } }
+    /* Mobile header & nav handled in style.css for consistency */
   </style>
 </head>
 

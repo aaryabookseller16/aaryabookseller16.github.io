@@ -44,38 +44,46 @@
   <!-- Fonts & Icons (CDNs OK to keep) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- ===== ALL STYLES (inline) ===== -->
   <style>
     /* ========== Base / layout tokens ========== */
     :root{
-      --accent: #7aa2ff;
+      --accent: #4dd6ff;
 
       /* Header sizing (updated precisely by JS for canvas anchor) */
       --header-h: 72px;
 
       /* AI page tokens (dark-first) */
-      --ai-bg0: #070a12;
-      --ai-bg1: #0e1423;
-      --ai-ink: #eaf2ff;
-      --ai-muted: #9fb1cf;
-      --ai-ring: #23314a;
+      --ai-bg0: #060a12;
+      --ai-bg1: #0b1426;
+      --ai-ink: #ecf3ff;
+      --ai-muted: #9eb3d6;
+      --ai-ring: #25324a;
       --ai-accent: var(--accent);
-      --ai-fx1: #00e7ff;
-      --ai-fx2: #ff5bd1;
-      --ai-glow: 0 10px 40px color-mix(in oklab, var(--ai-accent) 35%, transparent);
-      --font-serif: "Times New Roman", Times, serif;
-      --font-sans: "Times New Roman", Times, serif;
+      --ai-fx1: #00f5ff;
+      --ai-fx2: #ff7ad9;
+      --ai-surface: color-mix(in oklab, var(--ai-bg1) 78%, transparent);
+      --ai-card: color-mix(in oklab, var(--ai-bg1) 88%, transparent);
+      --ai-grid: color-mix(in oklab, var(--ai-ink) 9%, transparent);
+      --ai-shadow: 0 24px 60px rgba(5, 8, 18, 0.45);
+      --ai-glow: 0 12px 44px color-mix(in oklab, var(--ai-accent) 30%, transparent);
+      --font-display: "DM Serif Display", "Times New Roman", serif;
+      --font-sans: "Space Grotesk", "Trebuchet MS", sans-serif;
       --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
     [data-theme="light"] {
-      --ai-bg0: #f6f8ff;
+      --ai-bg0: #f7f6f2;
       --ai-bg1: #ffffff;
-      --ai-ink: #121522;
-      --ai-muted: #5b6a83;
-      --ai-ring: #e6ebf5;
+      --ai-ink: #151826;
+      --ai-muted: #5f6b83;
+      --ai-ring: #e3e6f0;
+      --ai-surface: color-mix(in oklab, #ffffff 88%, transparent);
+      --ai-card: color-mix(in oklab, #ffffff 95%, transparent);
+      --ai-grid: color-mix(in oklab, #151826 6%, transparent);
+      --ai-shadow: 0 18px 40px rgba(20, 25, 35, 0.12);
     }
 
     /* ========== Base reset-ish ========== */
@@ -83,26 +91,26 @@
     html, body { height: 100%; }
     body {
       margin: 0;
-      font-family: var(--font-serif);
+      font-family: var(--font-sans);
       line-height: 1.55;
       color: var(--ai-ink);
       background:
-        radial-gradient(1200px 800px at 15% -10%,
-          color-mix(in oklab, var(--ai-fx1) 12%, transparent) 0%, transparent 60%),
-        radial-gradient(1200px 800px at 120% -20%,
-          color-mix(in oklab, var(--ai-fx2) 10%, transparent) 0%, transparent 65%),
+        radial-gradient(1200px 800px at 10% -10%,
+          color-mix(in oklab, var(--ai-fx1) 14%, transparent) 0%, transparent 62%),
+        radial-gradient(1200px 800px at 120% -10%,
+          color-mix(in oklab, var(--ai-fx2) 12%, transparent) 0%, transparent 70%),
+        repeating-linear-gradient(90deg, var(--ai-grid) 0 1px, transparent 1px 48px),
+        repeating-linear-gradient(0deg, var(--ai-grid) 0 1px, transparent 1px 48px),
         linear-gradient(180deg, var(--ai-bg0), var(--ai-bg1));
     }
     a { color: inherit; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    /* Times New Roman everywhere (AI page) */
-    html, body, button, input, select, textarea, .btn, .brand, .site-nav a, p, li,
-    h1, h2, h3, h4, h5, h6, .ai-kicker, .ai-title, .ai-lead, .hud-panel, .controls, .site-footer {
-      font-family: var(--font-serif) !important;
+    button, input, select, textarea { font-family: var(--font-sans); }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: -0.01em;
     }
-
-    /* Keep headings bold */
-    h1, h2, h3, h4, h5, h6 { font-weight: 900; }
 
     /* Preserve monospace if code appears */
     code, pre { font-family: var(--font-mono) !important; }
@@ -117,12 +125,23 @@
     svg { font-family: initial !important; }
     .container { max-width: 1100px; margin: 0 auto; padding: 0 16px; display: flex; }
 
+    .btn{
+      height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ai-ring);
+      background: transparent; color: var(--ai-ink); cursor: pointer; font: inherit;
+      display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .btn--solid{
+      background: var(--ai-accent); border-color: transparent; color: #0b1020;
+      box-shadow: 0 10px 24px color-mix(in oklab, var(--ai-accent) 35%, transparent);
+    }
+
     /* ========== Header ========== */
     .site-header.ai-header{
       position: sticky; top: 0; z-index: 5;
       border-bottom: 1px solid color-mix(in oklab, var(--ai-ring) 70%, transparent);
-      background: color-mix(in oklab, var(--ai-bg0) 60%, transparent);
-      backdrop-filter: blur(8px);
+      background: color-mix(in oklab, var(--ai-bg0) 72%, transparent);
+      backdrop-filter: blur(12px);
       transition: transform .45s ease, opacity .45s ease,
                   background-color .3s ease, backdrop-filter .3s ease;
       will-change: transform, opacity;
@@ -130,9 +149,19 @@
     .site-header .container { align-items: center; justify-content: space-between; padding-block: 10px; }
     .ai-header.is-condensed .container{ padding-block: 6px; }
     .ai-header.is-hidden{ transform: translateY(-100%); opacity: 0; }
-    .brand { font-weight: 900; letter-spacing: -0.02em; }
+    .brand { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; font-size: 1.25rem; }
     .brand span { color: var(--ai-accent); }
-    .site-nav { display: flex; gap: 14px; }
+    .site-nav { display: flex; gap: 10px; align-items: center; }
+    .site-nav a{
+      padding: 6px 10px; border-radius: 999px; color: var(--ai-muted);
+      font-weight: 600; font-size: 0.95rem;
+      transition: color .2s ease, background .2s ease, transform .2s ease;
+    }
+    .site-nav a:hover{ color: var(--ai-ink); text-decoration: none; background: color-mix(in oklab, var(--ai-ring) 50%, transparent); }
+    .site-nav a[aria-current="page"]{
+      background: var(--ai-accent); color: #0b1020;
+      box-shadow: 0 10px 22px color-mix(in oklab, var(--ai-accent) 35%, transparent);
+    }
     .nav-toggle { display: none; }
 
     @media (max-width: 720px){
@@ -151,9 +180,12 @@
         align-items: center; justify-content: center;
         width: 40px; height: 40px; border-radius: 10px;
         border: 1px solid var(--ai-ring);
-        background: color-mix(in oklab, var(--ai-bg1) 85%, transparent);
+        background: var(--ai-card);
         cursor: pointer;
+        font-size: 1.05rem;
+        transition: transform .2s ease, border-color .2s ease;
       }
+      .nav-toggle:hover{ transform: translateY(-1px); border-color: color-mix(in oklab, var(--ai-accent) 45%, var(--ai-ring)); }
       .site-nav{
         grid-area: nav; display: none; flex-direction: column; gap: 8px;
         padding-top: 8px; border-top: 1px solid var(--ai-ring);
@@ -168,9 +200,12 @@
       display: inline-grid; place-items: center;
       width: 40px; height: 40px; border-radius: 10px;
       border: 1px solid var(--ai-ring);
-      background: color-mix(in oklab, var(--ai-bg1) 85%, transparent);
+      background: var(--ai-card);
       cursor: pointer;
+      box-shadow: var(--ai-glow);
+      transition: transform .2s ease, border-color .2s ease;
     }
+    .theme-toggle:hover{ transform: translateY(-1px); border-color: color-mix(in oklab, var(--ai-accent) 45%, var(--ai-ring)); }
     /* Minimal icon swap for theme toggle */
     .theme-toggle .icon-sun { display: inline; }
     .theme-toggle .icon-moon { display: none; }
@@ -180,18 +215,25 @@
     .accent-picker { position: relative; }
     .accent-menu{
       position: absolute; right: 0; top: 110%; z-index: 10; display: grid; gap: 6px;
-      padding: 8px; border: 1px solid var(--ai-ring); border-radius: 12px;
-      background: color-mix(in oklab, var(--ai-bg1) 70%, transparent);
-      box-shadow: 0 8px 24px rgba(0,0,0,.25);
+      padding: 10px; border: 1px solid var(--ai-ring); border-radius: 12px;
+      background: var(--ai-card);
+      box-shadow: var(--ai-shadow);
       display: none;
     }
     .accent-picker[aria-expanded="true"] .accent-menu{ display: grid; }
     .accent-swatch{
       width: 28px; height: 28px; border-radius: 999px; border: 1px solid #0003; cursor: pointer;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.4);
     }
 
     /* ========== Hero ========== */
-    .ai-hero{ position: relative; z-index: 2; padding: 64px 0 24px; --hero-y:0px; --hero-op:1; }
+    .ai-hero{
+      position: relative; z-index: 3;
+      padding: 72px 0 28px;
+      min-height: calc(100vh - var(--header-h));
+      display: flex; align-items: center;
+      --hero-progress: 0;
+    }
     .ai-hero::before{
       content: ""; position: absolute; inset: 0; z-index: -1;
       background: linear-gradient(to bottom,
@@ -200,9 +242,54 @@
       pointer-events: none;
     }
     .ai-hero-wrap{ max-width: 1100px; margin: 0 auto; padding: 0 16px; }
-    .ai-kicker{ font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ai-muted); margin: 0 0 .5rem; }
-    .ai-title{ margin: 0 0 .4rem; font-weight: 900; font-size: clamp(1.6rem, 3.2vw, 2.2rem); line-height: 1.1; }
-    .ai-lead{ margin: 0; max-width: 72ch; color: color-mix(in oklab, var(--ai-ink) 82%, transparent); }
+    .ai-hero-grid{
+      display: grid; grid-template-columns: minmax(0,1fr) minmax(250px, 330px);
+      gap: 28px; align-items: start;
+      opacity: calc(1 - var(--hero-progress));
+      transform: translateY(calc(var(--hero-progress) * -48px));
+      transition: opacity .2s ease;
+      will-change: transform, opacity;
+    }
+    .ai-hero.is-faded{ pointer-events: none; }
+    .ai-hero-text{ max-width: 60ch; }
+    .ai-kicker{ font-size: .75rem; letter-spacing: .22em; text-transform: uppercase; color: var(--ai-muted); margin: 0 0 .6rem; }
+    .ai-title{ margin: 0 0 .45rem; font-size: clamp(1.8rem, 3.4vw, 2.6rem); line-height: 1.05; }
+    .ai-badges{ display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .ai-pill{
+      padding: 4px 10px; border-radius: 999px;
+      border: 1px solid color-mix(in oklab, var(--ai-ring) 70%, transparent);
+      background: color-mix(in oklab, var(--ai-bg1) 82%, transparent);
+      color: var(--ai-muted); font-size: .75rem; font-weight: 600;
+    }
+    .ai-lead{ margin: 0 0 10px; max-width: 72ch; color: color-mix(in oklab, var(--ai-ink) 82%, transparent); }
+    .ai-ref{ margin: 0; color: var(--ai-muted); font-size: .92rem; }
+    .ai-ref a{ color: var(--ai-ink); font-weight: 600; }
+    .ai-hero-card{
+      background: var(--ai-card);
+      border: 1px solid color-mix(in oklab, var(--ai-ring) 80%, transparent);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--ai-shadow);
+      backdrop-filter: blur(10px);
+    }
+    .ai-hero-card h3{ margin: 0 0 8px; font-size: 1.1rem; }
+    .ai-list{ margin: 0; padding-left: 18px; color: var(--ai-ink); }
+    .ai-list li{ margin: 6px 0; color: color-mix(in oklab, var(--ai-ink) 85%, transparent); }
+    .ai-shortcuts{ display: grid; gap: 6px; margin-top: 12px; }
+    .ai-shortcut{ display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--ai-muted); }
+    kbd{
+      font-family: var(--font-sans);
+      font-weight: 600; font-size: .75rem; letter-spacing: .04em;
+      padding: 4px 8px; border-radius: 8px;
+      border: 1px solid color-mix(in oklab, var(--ai-ring) 70%, transparent);
+      background: color-mix(in oklab, var(--ai-bg1) 85%, transparent);
+      color: var(--ai-ink);
+    }
+
+    .ai-spacer{
+      position: relative; z-index: 2;
+      height: calc(100vh - var(--header-h));
+    }
 
     /* ========== Canvas (anchored below header) ========== */
     #netCanvas{
@@ -220,42 +307,81 @@
     /* ========== Floating controls (optional) ========== */
     .controls{
       position: fixed; right: 16px; top: calc(var(--header-h) + 12px); z-index: 4;
-      display: flex; align-items: center; gap: 8px; padding: 8px;
-      background: color-mix(in oklab, var(--ai-bg1) 65%, transparent);
-      border: 1px solid var(--ai-ring); border-radius: 999px;
-      box-shadow: 0 8px 28px color-mix(in oklab, var(--ai-accent) 18%, transparent);
-      backdrop-filter: blur(6px);
+      display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+      background: var(--ai-card);
+      border: 1px solid color-mix(in oklab, var(--ai-ring) 75%, transparent);
+      border-radius: 999px;
+      box-shadow: var(--ai-shadow);
+      backdrop-filter: blur(10px);
     }
     .controls .btn{
-      height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--ai-ring);
+      height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ai-ring);
       background: transparent; color: var(--ai-ink); cursor: pointer; font: inherit;
-      display: inline-flex; align-items: center; justify-content: center; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
     }
     .controls .btn--solid{
       background: var(--ai-accent); border-color: transparent; color: #0b1020;
+      box-shadow: 0 10px 24px color-mix(in oklab, var(--ai-accent) 35%, transparent);
     }
+    .controls .btn:hover{ transform: translateY(-1px); border-color: color-mix(in oklab, var(--ai-accent) 45%, var(--ai-ring)); }
     .controls .sep{ width: 1px; height: 20px; background: var(--ai-ring); margin-inline: 2px; }
-    .controls label{ cursor: pointer; }
+    .controls label{ cursor: pointer; color: var(--ai-muted); font-weight: 600; }
+    .controls label span{ color: var(--ai-ink); font-weight: 600; }
+    .controls .toggle{ display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; }
+    .controls input[type="checkbox"]{ accent-color: var(--ai-accent); }
 
     /* ========== HUD ========== */
     .hud{ position: fixed; right: 16px; bottom: 16px; z-index: 4; }
     .hud-toggle{
       width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--ai-ring);
-      background: color-mix(in oklab, var(--ai-bg1) 85%, transparent); color: var(--ai-ink); cursor: pointer;
+      background: var(--ai-card); color: var(--ai-ink); cursor: pointer;
       box-shadow: var(--ai-glow);
+      transition: transform .2s ease, border-color .2s ease;
     }
+    .hud-toggle:hover{ transform: translateY(-1px); border-color: color-mix(in oklab, var(--ai-accent) 45%, var(--ai-ring)); }
     .hud-panel{
       margin-top: 10px; padding: 10px; border-radius: 14px;
-      background: color-mix(in oklab, var(--ai-bg1) 65%, transparent); color: var(--ai-ink);
-      border: 1px solid var(--ai-ring);
-      display: grid; gap: 8px; min-width: 260px; max-width: min(92vw, 600px);
-      box-shadow: var(--ai-glow); backdrop-filter: blur(6px);
+      background: var(--ai-card); color: var(--ai-ink);
+      border: 1px solid color-mix(in oklab, var(--ai-ring) 80%, transparent);
+      display: grid; gap: 10px; min-width: 260px; max-width: min(92vw, 600px);
+      box-shadow: var(--ai-shadow); backdrop-filter: blur(10px);
     }
     .hud-row{ display: grid; gap: 8px; }
-    .hud-control{ display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .hud-control span{ font-size: .9rem; color: var(--ai-muted); }
-    .hud-control input[type="range"]{ width: 150px; accent-color: var(--ai-accent); }
-    .hud-control input[type="number"]{ width: 90px; color: inherit; background: transparent; border: 1px solid var(--ai-ring); border-radius: 8px; padding: 4px 6px; }
+    .hud-row .btn{ width: 100%; }
+    .hud-title{ font-weight: 700; letter-spacing: .02em; }
+    .hud-control{ display: grid; gap: 6px; }
+    .hud-label{ font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ai-muted); }
+    .hud-input{ display: flex; align-items: center; gap: 10px; }
+    .hud-value{
+      min-width: 36px; text-align: center; font-weight: 600; font-size: .85rem;
+      padding: 2px 8px; border-radius: 999px;
+      border: 1px solid color-mix(in oklab, var(--ai-ring) 70%, transparent);
+      background: color-mix(in oklab, var(--ai-bg1) 85%, transparent);
+      color: var(--ai-ink);
+    }
+    .hud-control input[type="range"]{ width: 160px; accent-color: var(--ai-accent); }
+    .hud-control input[type="number"]{
+      width: 120px; color: inherit; background: transparent; border: 1px solid var(--ai-ring);
+      border-radius: 10px; padding: 6px 8px;
+    }
+
+    /* ========== Footer ========== */
+    .site-footer{
+      position: relative; z-index: 2;
+      padding: 48px 16px 64px;
+      text-align: center; color: var(--ai-muted); font-size: .92rem;
+    }
+
+    /* ========== Motion ========== */
+    @keyframes floatIn{
+      from{ opacity: 0; transform: translateY(10px); }
+      to{ opacity: 1; transform: translateY(0); }
+    }
+    .ai-hero-text{ animation: floatIn .6s ease both; }
+    .ai-hero-card{ animation: floatIn .7s ease .08s both; }
+    .controls{ animation: floatIn .6s ease .15s both; }
+    .hud{ animation: floatIn .6s ease .2s both; }
 
 
     /* ========== A11y / prefs ========== */
@@ -265,12 +391,17 @@
       border-radius: 10px;
     }
     @media (max-width: 720px){ .controls{ top: auto; bottom: 16px; right: 16px; } }
-    @media (prefers-reduced-motion: reduce){ #netCanvas, .ai-header{ transition: none !important; } }
+    @media (prefers-reduced-motion: reduce){
+      #netCanvas, .ai-header{ transition: none !important; }
+      .ai-hero-text, .ai-hero-card, .controls, .hud{ animation: none !important; }
+    }
 
     /* —— Mobile polish —— */
 @media (max-width: 720px){
   .ai-hero{ padding: 48px 0 16px; }
-  .ai-title{ font-size: clamp(1.35rem, 6.2vw, 1.9rem); }
+  .ai-hero-grid{ grid-template-columns: 1fr; }
+  .ai-hero-card{ order: 2; }
+  .ai-title{ font-size: clamp(1.45rem, 6.2vw, 2.1rem); }
   .ai-lead{ font-size: .98rem; }
 
   /* Let page scroll naturally on touch; canvas won’t block gestures */
@@ -278,11 +409,11 @@
 
   /* Make the nav feel like a proper sheet */
   .site-nav.open{
-    background: color-mix(in oklab, var(--ai-bg1) 92%, transparent);
+    background: var(--ai-card);
     border: 1px solid var(--ai-ring);
     border-radius: 12px;
     padding: 10px;
-    box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    box-shadow: var(--ai-shadow);
   }
 
   /* Controls dock at bottom; comfy spacing & safe-area */
@@ -356,29 +487,52 @@
 
   <!-- Hero -->
   <section class="ai-hero" aria-describedby="lead">
-  <div class="ai-hero-wrap">
-    <p class="ai-kicker">Interactive</p>
-    <h1 class="ai-title">Neural Kaleidoscope</h1>
-    <p id="lead" class="ai-lead">
-      A lightweight sketch of <strong>transformer attention</strong>. Tokens light up and connect across layers.
-      Hover to focus columns or use the controls to tweak <em>tokens</em>, <em>layers</em>, <em>speed</em>, and <em>density</em>.
-    </p>
-    <p class="ai-ref">
-      Based on the paper 
-      <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noreferrer">
-        “Attention Is All You Need” →</a>
-    </p>
-  </div>
-</section>
+    <div class="ai-hero-wrap">
+      <div class="ai-hero-grid">
+        <div class="ai-hero-text">
+          <p class="ai-kicker">Interactive</p>
+          <h1 class="ai-title">Neural Kaleidoscope</h1>
+          <div class="ai-badges">
+            <span class="ai-pill">Transformer attention</span>
+            <span class="ai-pill">Realtime canvas</span>
+            <span class="ai-pill">Keyboard shortcuts</span>
+          </div>
+          <p id="lead" class="ai-lead">
+            A lightweight sketch of <strong>transformer attention</strong>. Tokens light up and connect across layers.
+            Hover to focus columns or use the controls to tweak <em>tokens</em>, <em>layers</em>, <em>speed</em>, and <em>density</em>.
+          </p>
+          <p class="ai-ref">
+            Based on the paper
+            <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noreferrer">
+              “Attention Is All You Need” →</a>
+          </p>
+        </div>
+        <aside class="ai-hero-card" aria-label="Quickstart">
+          <h3>Quickstart</h3>
+          <ul class="ai-list">
+            <li>Hover across columns to spotlight attention.</li>
+            <li>Tap “Surprise” to reshuffle the network.</li>
+            <li>Open the gear panel for fine-tuning.</li>
+          </ul>
+          <div class="ai-shortcuts">
+            <span class="ai-shortcut"><kbd>R</kbd> randomize</span>
+            <span class="ai-shortcut"><kbd>S</kbd> snapshot</span>
+            <span class="ai-shortcut"><kbd>T</kbd> trails</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+  <section class="ai-spacer" aria-hidden="true"></section>
 
   <!-- Floating controls -->
   <div class="controls" role="toolbar" aria-label="Animation controls">
-    <button id="randomize" class="btn btn--solid">🎲 Surprise</button>
-    <button id="snapshot" class="btn">📸 Capture</button>
+    <button id="randomize" class="btn btn--solid" title="Randomize parameters (R)">🎲 Surprise</button>
+    <button id="snapshot" class="btn" title="Save snapshot (S)">📸 Capture</button>
     <span class="sep" aria-hidden="true"></span>
-    <label class="toggle" style="display:flex; align-items:center; gap:6px; padding:0 10px;">
+    <label class="toggle">
       <input type="checkbox" id="trailToggle" checked aria-label="Trails" />
-      Trails
+      <span>Trails</span>
     </label>
   </div>
 
@@ -386,12 +540,42 @@
   <div class="hud">
     <button id="hudToggle" class="hud-toggle" aria-expanded="false" title="Open controls">⚙️</button>
     <div id="hudPanel" class="hud-panel" hidden>
+      <div class="hud-title">Fine-tune the pattern</div>
       <div class="hud-row">
-        <label class="hud-control"><span>Seed</span>   <input type="number" id="seedInput" value="42" step="1" /></label>
-        <label class="hud-control"><span>Tokens</span> <input type="range"  id="tokInput"  min="6"  max="20" value="12" /></label>
-        <label class="hud-control"><span>Layers</span> <input type="range"  id="layInput"  min="3"  max="8"  value="5"  /></label>
-        <label class="hud-control"><span>Speed</span>  <input type="range"  id="spdInput"  min="1"  max="100" value="30" /></label>
-        <label class="hud-control"><span>Density</span><input type="range"  id="denInput"  min="20" max="100" value="55" /></label>
+        <label class="hud-control">
+          <span class="hud-label">Seed</span>
+          <div class="hud-input">
+            <input type="number" id="seedInput" value="42" step="1" />
+          </div>
+        </label>
+        <label class="hud-control">
+          <span class="hud-label">Tokens</span>
+          <div class="hud-input">
+            <input type="range" id="tokInput" min="6" max="20" value="12" />
+            <span class="hud-value" id="tokValue">12</span>
+          </div>
+        </label>
+        <label class="hud-control">
+          <span class="hud-label">Layers</span>
+          <div class="hud-input">
+            <input type="range" id="layInput" min="3" max="8" value="5" />
+            <span class="hud-value" id="layValue">5</span>
+          </div>
+        </label>
+        <label class="hud-control">
+          <span class="hud-label">Speed</span>
+          <div class="hud-input">
+            <input type="range" id="spdInput" min="1" max="100" value="30" />
+            <span class="hud-value" id="spdValue">30</span>
+          </div>
+        </label>
+        <label class="hud-control">
+          <span class="hud-label">Density</span>
+          <div class="hud-input">
+            <input type="range" id="denInput" min="20" max="100" value="55" />
+            <span class="hud-value" id="denValue">55</span>
+          </div>
+        </label>
       </div>
       <div class="hud-row">
         <button id="clear" class="btn">Clear</button>
@@ -481,6 +665,7 @@
       const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       const header = document.querySelector('.ai-header') || document.querySelector('.site-header');
       const canvas = document.getElementById('netCanvas');
+      const hero = document.querySelector('.ai-hero');
       if (!header || !canvas) return;
       let lastY = scrollY, ticking = false;
       const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -505,29 +690,19 @@
           if (!down && p < 0.66) header.classList.remove('is-hidden');
 
           if (!reduce) canvas.style.setProperty('--canvas-parallax', (CAN_PARALLAX * clamp(y/260,0,1)) + 'px');
+
+          if (hero){
+            const heroH = Math.max(1, hero.offsetHeight || 1);
+            const hp = clamp(y / (heroH * 0.85), 0, 1);
+            hero.style.setProperty('--hero-progress', hp.toFixed(3));
+            hero.classList.toggle('is-faded', hp > 0.98);
+          }
           lastY = y; ticking = false;
         });
       }
       addEventListener('scroll', onScroll, { passive: true });
       addEventListener('load', onScroll);
       onScroll();
-    })();
-
-    // HUD toggle
-    (() => {
-      const toggle = document.getElementById('hudToggle');
-      const panel  = document.getElementById('hudPanel');
-      if (!toggle || !panel) return;
-      toggle.addEventListener('click', () => {
-        const open = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!open));
-        panel.hidden = open;
-      });
-      document.addEventListener('click', (e) => {
-        if (!panel.hidden && !panel.contains(e.target) && e.target !== toggle){
-          panel.hidden = true; toggle.setAttribute('aria-expanded','false');
-        }
-      });
     })();
 
     /* ===============================
@@ -585,6 +760,10 @@
       const layInput  = must("layInput");
       const spdInput  = must("spdInput");
       const denInput  = must("denInput");
+      const tokValue  = $("tokValue");
+      const layValue  = $("layValue");
+      const spdValue  = $("spdValue");
+      const denValue  = $("denValue");
       const trailT    = must("trailToggle");
       const randomBtn = must("randomize");
       const clearBtn  = must("clear");
@@ -596,6 +775,12 @@
         const open = hudToggle.getAttribute("aria-expanded") === "true";
         hudToggle.setAttribute("aria-expanded", String(!open));
         hudPanel.hidden = open;
+      });
+      document.addEventListener("click", (e) => {
+        if (!hudPanel.hidden && !hudPanel.contains(e.target) && e.target !== hudToggle){
+          hudPanel.hidden = true;
+          hudToggle.setAttribute("aria-expanded", "false");
+        }
       });
 
       // —— RNG ————————————————————————————————
@@ -639,6 +824,14 @@
         DENSITY = d ?? (Number(denInput.value)||55);
         weights = makeWeights();
         sizeCanvas(); // crisp sizing when counts change
+        syncLabels();
+      }
+
+      function syncLabels(){
+        if (tokValue) tokValue.textContent = TOKENS;
+        if (layValue) layValue.textContent = LAYERS;
+        if (spdValue) spdValue.textContent = SPEED;
+        if (denValue) denValue.textContent = DENSITY;
       }
 
       // —— Render loop ———————————————————————
