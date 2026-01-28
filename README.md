@@ -1,4 +1,4 @@
-# Aarya Bookseller — Portfolio Site
+# Aarya Bookseller — Personal Website
 
 A private, handcrafted portfolio site built with vanilla HTML, CSS, and JavaScript. This repository is the source for a personal website and is not intended for distribution or reuse.
 
@@ -68,4 +68,5 @@ This repository is **private and not for distribution**. Please do not copy, reu
 ## Contact
 
 - LinkedIn: https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/
+- Google Scholar: https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ&view_op=list_works&sortby=title
 - Email: mailto:aaryab.work@gmail.com
