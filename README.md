@@ -1,47 +1,46 @@
-# Aarya Bookseller — Personal Portfolio
+# Aarya Bookseller — Portfolio Site
 
-A minimalist, zero-dependency personal portfolio built with vanilla JavaScript, HTML5, and CSS3. The site is fully responsive, accessible, and supports persistent theme preferences including dark/light modes and accent color customization.
-
----
-
-## Key Features
-
-- Responsive, mobile-first design  
-- Dark and light theme toggling with persistence  
-- Customizable accent colors  
-- Accessibility-focused navigation and keyboard support  
-- No external dependencies or build tools  
+A private, handcrafted portfolio site built with vanilla HTML, CSS, and JavaScript. This repository is the source for a personal website and is not intended for distribution or reuse.
 
 ---
 
-## Tech Stack
+## Overview
 
-- HTML5  
-- CSS3 (CSS variables)  
-- JavaScript (ES6)  
-- GitHub Pages for hosting  
-
----
-
-## Project Structure
-
-| File               | Description                                      |
-|--------------------|------------------------------------------------|
-| `index.html`       | Landing page with hero section and highlights  |
-| `portfolio.html`   | Project grid with filtering                      |
-| `genai.html`       | Interactive AI-generated demo                    |
-| `service.html`     | Volunteering and community service               |
-| `qualifications.html` | Skills, education, and experience              |
-| `style.css`        | Core styles including light/dark themes          |
-| `style-alt.css`    | Accent color palettes and experimental effects   |
-| `script.js`        | Mobile navigation toggle, theme switcher, active link highlighting, dynamic year update |
-| `theme.js`         | Advanced theme and accent persistence with cross-tab synchronization |
+- Static, zero-build setup (open in a browser)
+- Responsive layout with accessible navigation
+- Light/dark theme support with persistent preferences
+- Accent color picker with saved state
 
 ---
 
-## Local Development
+## Pages
 
-No build tools required. Open `index.html` directly in your browser:
+| File | Purpose |
+| --- | --- |
+| `index.html` | Landing page and overview |
+| `portfolio.html` | Project showcase |
+| `ai.html` | Interactive AI demo |
+| `service.html` | Volunteering and service |
+| `qualifications.html` | Skills, education, and experience |
+
+---
+
+## Key Assets & Styles
+
+| File/Folder | Description |
+| --- | --- |
+| `style.css` | Core site styles |
+| `theme-light.css` | Light theme tokens |
+| `theme-dark.css` | Dark theme tokens |
+| `script.js` | Navigation, tabs, and UI utilities |
+| `theme.js` | Theme + accent persistence |
+| `assets/` | Images, icons, and media |
+
+---
+
+## Local Preview
+
+No build tools required. Open any page directly in your browser:
 
 ```bash
 open index.html        # macOS
@@ -51,25 +50,22 @@ start index.html       # Windows
 
 ---
 
-## Customization
+## Customization Notes
 
-- **Profile Image:** Replace `assets/download.jpeg` or update the `<img>` source in `index.html`.  
-- **Themes:** Modify color variables in `:root` and `html[data-theme="light"]` within `style.css`.  
-- **Accent Colors:** Controlled via the CSS `--accent` variable and accent picker UI.  
-- **Navigation:** Current page is auto-highlighted based on the URL path.  
-
----
-
-## Design Principles
-
-- Performance-first approach with no external frameworks or libraries  
-- Accessibility prioritized through semantic HTML and keyboard navigation support  
-- Maintainable and modular CSS and JavaScript  
-- Responsive design ensuring usability across devices  
+- **Content:** Edit the HTML files directly (sections are clearly labeled).
+- **Theme colors:** Adjust CSS variables in `theme-light.css` and `theme-dark.css`.
+- **Accent:** Controlled by the `--accent` CSS variable and the picker UI.
+- **Media:** Replace files in `assets/` and update the corresponding `<img>` sources.
 
 ---
 
-## Author
+## Status & Usage
 
-Aarya Bookseller  
-[LinkedIn](https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/) | [Email](mailto:aaryab.work@gmail.com)
+This repository is **private and not for distribution**. Please do not copy, reuse, or redistribute the content or assets without permission.
+
+---
+
+## Contact
+
+- LinkedIn: https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/
+- Email: mailto:aaryab.work@gmail.com
