@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <!-- ===== THEME BOOT (runs before paint) ===== -->
   <script>
     (function () {
       const KEY = "theme";
       const root = document.documentElement;
-      const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
       let t = "light";
       try {
-        const saved = localStorage.getItem(KEY);
-        t = (saved === "light" || saved === "dark") ? saved : (prefersDark ? "dark" : "light");
+        const s = localStorage.getItem(KEY);
+        t = (s === "light" || s === "dark") ? s : (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       } catch {}
       root.setAttribute("data-theme", t);
       root.style.colorScheme = t;
       let meta = document.querySelector('meta[name="theme-color"]');
       if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
-      meta.setAttribute("content", t === "dark" ? "#0b0f14" : "#faf7f3");
+      meta.setAttribute("content", t === "dark" ? "#111110" : "#f3f2ee");
       window.__setTheme = (theme) => {
         const next = theme === "dark" ? "dark" : "light";
         root.setAttribute("data-theme", next);
         root.style.colorScheme = next;
         try { localStorage.setItem(KEY, next); } catch {}
-        const metaEl = document.querySelector('meta[name="theme-color"]');
-        if (metaEl) metaEl.setAttribute("content", next === "dark" ? "#0b0f14" : "#faf7f3");
+        const m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute("content", next === "dark" ? "#111110" : "#f3f2ee");
         const light = document.getElementById("lightCSS");
         const dark  = document.getElementById("darkCSS");
         if (light && dark) { light.disabled = next !== "light"; dark.disabled = next !== "dark"; }
@@ -36,383 +31,318 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aarya Bookseller – ML • SWE • Data</title>
+  <title>Aarya Bookseller — ML · SWE · Data</title>
   <meta name="description" content="Aarya Bookseller — building ML, software, and data systems with research-grade rigor and production discipline." />
-  
-  <!-- Fonts (removed Google Fonts, using Times New Roman everywhere) -->
-  <link rel="stylesheet" href="style.css" />
 
-  <!-- Theme files must have these IDs -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css" />
   <link id="lightCSS" rel="stylesheet" href="theme-light.css">
   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
-
-  <!-- Minimal visual tweaks + justified copy -->
-  <style>
-  :root{
-    --font-serif: "Times New Roman", Times, serif;
-    --font-sans: "Times New Roman", Times, serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  }
-
-  /* Times New Roman everywhere */
-  html, body, button, input, select, textarea, .btn, .brand, nav a, p, li, .lead, .card, .card *, h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-serif) !important;
-    font-weight: 400;
-  }
-
-  /* Keep headings bold */
-  h1, h2, h3, h4, h5, h6 { font-weight: 700; }
-
-  code, pre { font-family: var(--font-mono); }
-  .header-bar{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
-  .header-actions{ display:flex; gap:10px; align-items:center; }
-  .footer-bar{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.75rem; }
-  :root{ --lh-body:1.5; --card-r:20px; }
-  body { line-height: 1.5; }
-  p, li { text-align: justify; }
-  .card p{ text-align:left; }
-  /* Hero readability */
-  .hero__lead{ max-width: 62ch; }
-  .hero__sub{ max-width: 62ch; }
-
-  /* Centered profile icons */
-  .profile-icons{ display:flex; gap:1.1rem; align-items:center; justify-content:center; margin-top:.95rem; }
-  .profile-icons a{ color:var(--accent, #4b72ff); text-decoration:none; display:inline-flex; align-items:center; }
-  .profile-icons a:hover{ opacity:.82; }
-  .profile-icons i{ font-size:22px; }
-  .profile-icons svg{ width:22px; height:22px; display:block; }
-  .hero-portrait{ display:flex; justify-content:center; align-items:center; }
-  .hero-portrait img{
-    width: clamp(180px, 32vw, 320px);
-    height: auto;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.18);
-  }
-  /* Center the hero CTA buttons to align with the centered icons below */
-  .cta-row{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    align-items:center;
-    justify-content:center;
-    margin-top:.9rem;
-  }
-
-  /* Also cap any generic images inside cards/sections to prevent overflow */
-  img{ max-width:100%; height:auto; }
-
-  /* Tooltip styles: hide email text until hover */
-  .tooltip{ position:relative; display:inline-block; }
-  .tooltip .tooltip-text{
-    visibility:hidden; opacity:0; position:absolute; bottom:130%; left:50%;
-    transform:translateX(-50%);
-    background: var(--bg-1, #ffffff);
-    color: var(--text, #000000);
-    padding:6px 10px; border-radius:6px; font-size:.85rem; white-space:nowrap;
-    box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:opacity .15s ease; z-index:10;
-  }
-  .tooltip .tooltip-text::after{
-    content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%);
-    border-width:6px; border-style:solid; border-color: var(--bg-1, #ffffff) transparent transparent transparent;
-  }
-  .tooltip:hover .tooltip-text{ visibility:visible; opacity:1; }
-  </style>
 </head>
+
 <body>
   <header class="site-header">
-    <div class="container" style="align-items:center; justify-content:space-between;">
-      <a class="brand" href="index.html">Aarya<span>.</span></a>
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-      <nav id="site-nav" class="site-nav" aria-label="Primary">
-        <a href="index.html" aria-current="page">About</a>
-        <a href="qualifications.html">Qualifications</a>
-        <a href="service.html">Volunteering</a>
-        <a href="portfolio.html">Portfolio</a>
-        <a href="ai.html">Neural Playground</a>
-      </nav>
-      <div class="header-actions" style="display:flex; gap:10px; align-items:center;">
-        <div class="accent-picker" id="accentPicker" aria-expanded="false">
-          <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">🎨</button>
-          <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
-            <button class="accent-swatch" data-accent="#4b72ff"  style="background:#4b72ff"  title="Blue"></button>
-            <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
-            <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
-            <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
-            <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
-          </div>
-        </div>
-        <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <circle cx="12" cy="12" r="4" stroke-width="2"/>
-            <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-          </svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    <div class="container">
+      <div class="header-bar">
+        <a class="brand" href="index.html">Aarya<span>.</span></a>
+
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
+            <path d="M2 4h12M2 8h12M2 12h12"/>
           </svg>
         </button>
+
+        <nav id="site-nav" class="site-nav" aria-label="Primary">
+          <a href="index.html" aria-current="page">About</a>
+          <a href="qualifications.html">Qualifications</a>
+          <a href="service.html">Volunteering</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="ai.html">Neural Playground</a>
+        </nav>
+
+        <div class="header-actions">
+          <div class="accent-picker" id="accentPicker" aria-expanded="false">
+            <button class="btn-icon" id="accentToggle" aria-label="Choose accent color">
+              <svg viewBox="0 0 16 16" fill="currentColor">
+                <circle cx="8" cy="8" r="3.5"/>
+                <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z" opacity=".4"/>
+              </svg>
+            </button>
+            <div class="accent-menu" id="accentMenu" role="menu">
+              <button class="accent-swatch" data-accent="#e53800" style="background:#e53800" title="Orange"></button>
+              <button class="accent-swatch" data-accent="#2563eb" style="background:#2563eb" title="Blue"></button>
+              <button class="accent-swatch" data-accent="#0d9488" style="background:#0d9488" title="Teal"></button>
+              <button class="accent-swatch" data-accent="#7c3aed" style="background:#7c3aed" title="Purple"></button>
+              <button class="accent-swatch" data-accent="#d97706" style="background:#d97706" title="Amber"></button>
+            </div>
+          </div>
+
+          <button id="themeToggle" class="btn-icon theme-toggle" aria-label="Toggle color theme" aria-pressed="false">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
-
   <main id="main">
-    <!-- Hero -->
-    <section class="hero" id="top">
+    <!-- ── Hero ── -->
+    <section class="hero">
       <div class="container">
-        <div class="grid-2" style="align-items:center;">
-          <div class="col">
-            <h1 class="hero__title hero-animate">Building software systems—grounded in engineering, strengthened by ML.</h1>
-            <p class="hero__lead hero-animate">
-              I build at the intersection of <strong>software engineering</strong> and <strong>machine learning</strong>.
-              That means reliable backends, clean APIs, and solid data pipelines—plus modeling and evaluation when it actually improves the product.
-            </p>
-            <p class="hero__lead hero-animate">
-              I care about correctness, observability, and systems that hold up in production.
-              Recent focus areas: <strong>search &amp; retrieval</strong>, <strong>forecasting &amp; anomaly detection</strong>, and <strong>routing under uncertainty</strong>.
-            </p>
-            <p class="hero__sub">
-              <strong>End-to-end:</strong> requirements → design → implementation → evaluation → deployment.
+        <div class="hero-grid">
+          <div class="hero-content">
+            <p class="hero-kicker">ML · SWE · Data</p>
+            <h1 class="hero-title">Building software systems—grounded in engineering, strengthened by ML.</h1>
+
+            <p class="hero-lead">
+              I build at the intersection of <strong>software engineering</strong> and <strong>machine learning</strong>—reliable backends, clean APIs, and solid data pipelines, plus modeling and evaluation when it actually improves the product.
             </p>
 
+            <div class="focus-areas" aria-label="Focus areas">
+              <span class="focus-pill">Search &amp; Retrieval</span>
+              <span class="focus-pill">Forecasting &amp; Anomaly Detection</span>
+              <span class="focus-pill">Routing under Uncertainty</span>
+            </div>
+
+            <p class="context-strip">End-to-end: requirements → design → implementation → evaluation → deployment</p>
 
             <div class="cta-row">
               <a class="btn btn--ghost" href="portfolio.html">View Portfolio</a>
-              <a class="btn btn--ghost" href="assets/Bookseller_Aarya.pdf" download aria-label="Download résumé (PDF)">Download Résumé</a>
+              <a class="btn btn--ghost" href="assets/Bookseller_Aarya.pdf" download>Download Résumé</a>
             </div>
 
-            <div class="profile-icons" aria-label="Profiles">
-              <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ" target="_blank" rel="noopener" aria-label="Google Scholar" title="Google Scholar">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <div class="profile-icons">
+              <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ" target="_blank" rel="noopener" aria-label="Google Scholar">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zm0 8.73L4.62 9 12 5.27 19.38 9 12 11.73zM6 13v3.5C6 18.43 8.69 20 12 20s6-1.57 6-3.5V13l-6 3-6-3z"/>
                 </svg>
               </a>
-              <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
-                <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+              <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <i class="fa-brands fa-linkedin"></i>
               </a>
-              <a href="https://github.com/aaryabookseller16" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
-                <i class="fa-brands fa-github" aria-hidden="true"></i>
+              <a href="https://github.com/aaryabookseller16" target="_blank" rel="noopener" aria-label="GitHub">
+                <i class="fa-brands fa-github"></i>
               </a>
             </div>
 
-            <!-- Music -->
-            <div class="music-pill" id="music" style="margin-top:14px;">
-              <button id="musicToggle" class="btn btn--ghost" style="padding:.35rem .65rem" aria-label="Play music" title="Play/Pause">▶</button>
+            <div class="music-pill" id="music">
+              <button class="play-btn" id="musicToggle" aria-label="Play / Pause">▶</button>
               <div class="eq" aria-hidden="true">
-                <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
               </div>
-              <div class="track"><strong>Now Playing:</strong> Dreams — Fleetwood Mac</div>
+              <span>Dreams — Fleetwood Mac</span>
               <audio id="player" preload="none" src="assets/Fleetwood Mac - Dreams (Official Music Video) [4K].mp3"></audio>
             </div>
           </div>
 
-          <!-- Portrait (no caption/border) -->
-          <figure class="hero-portrait">
-            <img src="assets/download.jpeg" alt="Aarya Bookseller portrait">
-          </figure>
+          <div class="hero-portrait">
+            <img src="assets/download.jpeg" alt="Aarya Bookseller">
+          </div>
         </div>
       </div>
     </section>
 
-    <div class="divider" role="presentation"></div>
+    <!-- ── About ── -->
+    <section class="section">
+      <div class="container">
+        <span class="section-label">About Me</span>
+        <p class="section-lead">
+          Born in <strong>Surat, India</strong>. CS student at <strong>Texas A&amp;M University</strong> with minors in physics and statistics.
+          I build products where data and engineering meet—thoughtful design, strong fundamentals, operational details.
+        </p>
 
-    <!-- About -->
-    <section class="section" aria-labelledby="about-heading">
-      <div class="container col">
-        <header class="section-head">
-          <h2 id="about-heading">About Me</h2>
-          <p class="lead">
-            I’m Aarya—born in <strong>Surat, India</strong>, and now studying Computer Science at <strong>Texas A&amp;M University</strong>.
-            I like tackling hard, ambiguous problems and turning them into clean, usable systems.
-            My sweet spot is building products where <strong>data</strong> and <strong>engineering</strong> meet:
-            the kind of work that demands thoughtful design, strong fundamentals, and attention to operational details.
-          </p>
-        </header>
+        <div class="about-grid">
+          <div class="about-card">
+            <span class="card-label">Background</span>
+            <ul class="fact-list">
+              <li>Full-stack from specs to UX — <strong>auth, databases, CI/CD, observability</strong></li>
+              <li>Blends theory (probability, optimization) with applied engineering</li>
+              <li>Research at Texas A&amp;M — publications, A100 training runs, simulations</li>
+              <li>Incoming <strong>Software Developer</strong> at IBM</li>
+              <li><a href="https://calendly.com/aaryabookseller" target="_blank" rel="noreferrer">Schedule a call →</a></li>
+            </ul>
+          </div>
 
-        <div class="grid-3">
-          <article class="card">
-            <h3 class="eyebrow"><span class="dot"></span>Background</h3>
-            <p>
-              My work blends <em>theory</em> (probability, linear algebra, optimization) with <em>applied engineering</em>
-              (services, data tooling, evaluation harnesses, and production-minded ML). I enjoy the full stack—from specs to systems to UX—and I’m just as happy
-              building the product plumbing (<strong>auth</strong>, <strong>databases</strong>, <strong>caching</strong>, <strong>CI/CD</strong>, <strong>observability</strong>)
-              as I am training models.
-              Texas A&amp;M has been the launchpad where I’ve built research-grade prototypes and tightened my craft.
+          <div class="about-card">
+            <span class="card-label">Hobbies &amp; Interests</span>
+            <ul class="fact-list">
+              <li>Morning runs &amp; workouts — keeps me disciplined and sharp</li>
+              <li>Learning French</li>
+              <li>Tennis on the regular</li>
+              <li>Electronic music (EDM) — <a href="https://open.spotify.com/playlist/7qiB9KkmpEi2ZJ8PLfEYsA?si=80c2eace6bd943e4" target="_blank" rel="noreferrer">Spotify →</a></li>
+              <li>Chess &amp; reading — <a href="https://www.goodreads.com/user/show/154264554-aarya-bookseller" target="_blank" rel="noreferrer">Goodreads →</a></li>
+            </ul>
+          </div>
 
-              <br/>
-              <br/>
-                You can grab time with me here: 
-                <a href="https://calendly.com/aaryabookseller" target="_blank" rel="noreferrer"> <br/> Calendly →</a>
-            </p>
-          </article>
-
-          <article class="card">
-            <h3 class="eyebrow"><span class="dot"></span>Hobbies &amp; Interests</h3>
-            <p> 
-              I start most mornings with a run or a workout—it keeps me disciplined and sharp. 
-              I’ve been learning French, and I play tennis on the regular.
-              I also enjoy electronic music and chess, both of which push me to think creatively under constraints.  
-              And finally, I spend a lot of time reading—especially books that give me new lenses on technology, psychology, and history:
-              <a href="https://www.goodreads.com/user/show/154264554-aarya-bookseller" target="_blank" rel="noreferrer">Goodreads →</a>
-
-            <br />
-            <br />
-           Fun fact: My favorite genre of music is EDM, here’s my current playlist:
-            <a href="https://open.spotify.com/playlist/7qiB9KkmpEi2ZJ8PLfEYsA?si=80c2eace6bd943e4" target="_blank" rel="noreferrer"> <br />Spotify →</a>
-            </p>
-          </article>
-
-          <article class="card">
-            <h3 class="eyebrow"><span class="dot"></span>Why CS &amp; Deep Learning</h3>
-            <p>
-              I like CS because it rewards clear thinking and produces real leverage.
-              ML is one tool in the toolbox—useful when the data supports it—but I’m equally interested in the infrastructure that makes ML reliable:
-              versioned datasets, evaluation you can trust, and systems that behave predictably under load.
-              
-              <br/><br/>
-              In practice, I build things that feel "shippable": strong baselines, measurable improvements, clean interfaces, and documentation that doesn’t hide the hard parts.
-              If a system can’t be explained, monitored, or reproduced, it’s not finished.
-            </p>
-          </article>
+          <div class="about-card">
+            <span class="card-label">Why CS &amp; Deep Learning</span>
+            <ul class="fact-list">
+              <li>CS rewards clear thinking and produces real leverage</li>
+              <li>ML is one tool — infrastructure and evaluation matter equally</li>
+              <li>Builds shippable things: strong baselines, measurable improvements</li>
+              <li>If it can't be explained, monitored, or reproduced — it's not finished</li>
+            </ul>
+          </div>
         </div>
 
-        <article class="card" style="margin-top:18px;">
-          <h3 class="eyebrow"><span class="dot"></span>Principles</h3>
-          <ul class="check-list">
-            <li><strong>Start simple → iterate.</strong> Build the smallest honest baseline, then improve with evidence.</li>
-            <li><strong>Reproduce everything.</strong> Scripts, seeds, configs, and data assumptions live with the code. Plots are programmatic.</li>
-            <li><strong>Engineer for scale.</strong> Clear APIs, tests, and observability make systems maintainable.</li>
-            <li><strong>Explain the trade-offs.</strong> Users should see why a route/model was chosen—not just the output.</li>
-            <li><strong>Keep it legible.</strong> Code, docs, and UX should make future work easier, not harder.</li>
-          </ul>
-        </article>
+        <div class="principles-block">
+          <div class="principles-header">
+            <span class="card-label" style="margin-bottom:0;">Principles</span>
+          </div>
+          <ol class="principles-list">
+            <li>
+              <span class="principle-n">01</span>
+              <span><strong>Start simple → iterate.</strong> Build the smallest honest baseline, then improve with evidence.</span>
+            </li>
+            <li>
+              <span class="principle-n">02</span>
+              <span><strong>Reproduce everything.</strong> Scripts, seeds, configs, and data assumptions live with the code. Plots are programmatic.</span>
+            </li>
+            <li>
+              <span class="principle-n">03</span>
+              <span><strong>Engineer for scale.</strong> Clear APIs, tests, and observability make systems maintainable.</span>
+            </li>
+            <li>
+              <span class="principle-n">04</span>
+              <span><strong>Explain the trade-offs.</strong> Users should see why a route/model was chosen—not just the output.</span>
+            </li>
+            <li>
+              <span class="principle-n">05</span>
+              <span><strong>Keep it legible.</strong> Code, docs, and UX should make future work easier, not harder.</span>
+            </li>
+          </ol>
+        </div>
       </div>
     </section>
-
-    <!-- Intentionally blank after About -->
   </main>
 
-  <!-- Footer -->
-  <footer class="site-footer" style="border-top:1px solid var(--ring,#ddd); margin-top:2rem; padding:1.2rem 0; font-size:0.9rem;">
-    <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.75rem;">
-      <div class="footer-left" style="opacity:0.85;">© <span id="year"></span> Aarya Bookseller · Education &amp; Experience</div>
-      <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap; font-size:1.3rem;">
-        <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
-        </a>
-        <a href="https://github.com/aaryabookseller16" target="_blank" aria-label="GitHub">
-          <i class="fa-brands fa-github" aria-hidden="true"></i>
-        </a>
-        <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ&view_op=list_works&sortby=title" target="_blank" rel="noopener" aria-label="Google Scholar" title="Google Scholar">
-          <i class="fa-brands fa-google-scholar" aria-hidden="true"></i>
-        </a>
-        <span class="tooltip">
-          <a href="mailto:aaryab.work@gmail.com" aria-label="Work Email">
-            <i class="fa-brands fa-google" aria-hidden="true"></i>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bar">
+        <span class="footer-copy">© <span id="year"></span> Aarya Bookseller · Education &amp; Experience</span>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin"></i>
           </a>
-          <span class="tooltip-text">aaryab.work@gmail.com</span>
-        </span>
-        <span class="tooltip">
-          <a href="mailto:aaryabookseller@tamu.edu" aria-label="School Email">
-            <img src="assets/tamu.png" alt="TAMU logo">
+          <a href="https://github.com/aaryabookseller16" target="_blank" rel="noopener" aria-label="GitHub">
+            <i class="fa-brands fa-github"></i>
           </a>
-          <span class="tooltip-text">aaryabookseller@tamu.edu</span>
-        </span>
+          <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ&view_op=list_works&sortby=title" target="_blank" rel="noopener" aria-label="Google Scholar">
+            <i class="fa-brands fa-google-scholar"></i>
+          </a>
+          <span class="tooltip">
+            <a href="mailto:aaryab.work@gmail.com" aria-label="Work email">
+              <i class="fa-brands fa-google"></i>
+            </a>
+            <span class="tooltip-text">aaryab.work@gmail.com</span>
+          </span>
+          <span class="tooltip">
+            <a href="mailto:aaryabookseller@tamu.edu" aria-label="TAMU email">
+              <img src="assets/tamu.png" alt="TAMU">
+            </a>
+            <span class="tooltip-text">aaryabookseller@tamu.edu</span>
+          </span>
+        </div>
       </div>
     </div>
   </footer>
-  
-  
-  
 
-  <!-- Scripts -->
+  <button id="backToTop" aria-label="Back to top">↑</button>
+
   <script>
-    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Accent picker quick apply
-    (function(){
-      const menu = document.getElementById('accentMenu');
-      if(!menu) return;
-      menu.addEventListener('click', (e) => {
-        const btn = e.target.closest('[data-accent]');
-        if(!btn) return;
-        document.documentElement.style.setProperty('--accent', btn.dataset.accent);
-      });
-    })();
-
-    // Music controls
-    (function(){
-      const btn = document.getElementById('musicToggle');
-      const player = document.getElementById('player');
-      const pill = document.getElementById('music');
-      if(!btn || !player || !pill) return;
-      let playing = false;
-      btn.addEventListener('click', () => { playing ? player.pause() : player.play(); });
-      player.addEventListener('play', () => { playing = true; btn.textContent = '⏸'; pill.classList.add('is-playing'); });
-      player.addEventListener('pause', () => { playing = false; btn.textContent = '▶'; pill.classList.remove('is-playing'); });
-    })();
-  </script>
-  <!-- Back to Top Button -->
-<button id="backToTop" aria-label="Back to top">↑</button>
-
-<script>
-  const backToTop = document.getElementById("backToTop");
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 200) {
-      backToTop.classList.add("show");
-    } else {
-      backToTop.classList.remove("show");
-    }
-  });
-
-  backToTop.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-</script>
-
-</body>
-</html>
-
-  <script>
-    // Make sure the correct theme CSS is enabled once links exist
-    (function syncThemeLinks(){
+    (function syncTheme(){
       const t = document.documentElement.getAttribute("data-theme") || "light";
       const light = document.getElementById("lightCSS");
       const dark  = document.getElementById("darkCSS");
       if (light && dark) { light.disabled = t !== "light"; dark.disabled = t !== "dark"; }
       const prev = window.__setTheme;
       window.__setTheme = (theme) => {
-        prev(theme);
+        prev && prev(theme);
         if (light && dark) { light.disabled = theme !== "light"; dark.disabled = theme !== "dark"; }
       };
     })();
 
-    // Mobile nav
-    (function(){
-      const t = document.querySelector('.nav-toggle');
-      const n = document.getElementById('site-nav');
-      if (!t || !n) return;
-      t.addEventListener('click', () => {
-        const open = t.getAttribute('aria-expanded') === 'true';
-        t.setAttribute('aria-expanded', String(!open));
-        n.classList.toggle('open', !open);
+    (function mobileNav(){
+      const toggle = document.querySelector('.nav-toggle');
+      const nav = document.getElementById('site-nav');
+      if (!toggle || !nav) return;
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        nav.classList.toggle('open', !open);
       });
     })();
 
-    // Theme toggle
-    (function(){
-      const btn = document.getElementById('themeToggle');
-      if (!btn) return;
-      const setPressed = () => btn.setAttribute('aria-pressed', String((document.documentElement.getAttribute('data-theme')||'light') === 'dark'));
-      setPressed();
-      btn.addEventListener('click', () => {
-        const cur = document.documentElement.getAttribute('data-theme') || 'light';
-        const next = cur === 'dark' ? 'light' : 'dark';
-        window.__setTheme(next);
-        setPressed();
+    (function accentPicker(){
+      const picker = document.getElementById('accentPicker');
+      const menu   = document.getElementById('accentMenu');
+      const btn    = document.getElementById('accentToggle');
+      if (!picker || !menu || !btn) return;
+      try {
+        const saved = localStorage.getItem('accent');
+        if (saved) document.documentElement.style.setProperty('--accent', saved);
+      } catch {}
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        picker.setAttribute('aria-expanded', picker.getAttribute('aria-expanded') !== 'true' ? 'true' : 'false');
+      });
+      menu.addEventListener('click', (e) => {
+        const sw = e.target.closest('[data-accent]');
+        if (!sw) return;
+        document.documentElement.style.setProperty('--accent', sw.dataset.accent);
+        try { localStorage.setItem('accent', sw.dataset.accent); } catch {}
+        picker.setAttribute('aria-expanded', 'false');
+      });
+      document.addEventListener('click', (e) => {
+        if (!picker.contains(e.target)) picker.setAttribute('aria-expanded', 'false');
       });
     })();
+
+    (function themeToggle(){
+      const btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      const sync = () => btn.setAttribute('aria-pressed', String(document.documentElement.getAttribute('data-theme') === 'dark'));
+      sync();
+      btn.addEventListener('click', () => {
+        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        window.__setTheme(next);
+        sync();
+      });
+    })();
+
+    (function backToTop(){
+      const btn = document.getElementById('backToTop');
+      if (!btn) return;
+      window.addEventListener('scroll', () => btn.classList.toggle('show', window.scrollY > 200));
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    })();
+
+    (function musicPlayer(){
+      const playBtn = document.getElementById('musicToggle');
+      const player  = document.getElementById('player');
+      const pill    = document.getElementById('music');
+      if (!playBtn || !player || !pill) return;
+      let playing = false;
+      playBtn.addEventListener('click', () => { playing ? player.pause() : player.play(); });
+      player.addEventListener('play',  () => { playing = true;  playBtn.textContent = '⏸'; pill.classList.add('is-playing'); });
+      player.addEventListener('pause', () => { playing = false; playBtn.textContent = '▶'; pill.classList.remove('is-playing'); });
+    })();
   </script>
+</body>
+</html>

@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Icons -->
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <!-- ===== THEME BOOT (runs before paint) ===== -->
   <script>
     (function () {
       const KEY = "theme";
       const root = document.documentElement;
-      const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
       let t = "light";
       try {
-        const saved = localStorage.getItem(KEY);
-        t = (saved === "light" || saved === "dark") ? saved : (prefersDark ? "dark" : "light");
+        const s = localStorage.getItem(KEY);
+        t = (s === "light" || s === "dark") ? s : (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       } catch {}
       root.setAttribute("data-theme", t);
       root.style.colorScheme = t;
-
-      // keep mobile browser UI in sync
       let meta = document.querySelector('meta[name="theme-color"]');
       if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
-      meta.setAttribute("content", t === "dark" ? "#0b0f14" : "#faf7f3");
-
-      // helper (also toggles theme CSS once links exist)
+      meta.setAttribute("content", t === "dark" ? "#111110" : "#f3f2ee");
       window.__setTheme = (theme) => {
         const next = theme === "dark" ? "dark" : "light";
         root.setAttribute("data-theme", next);
         root.style.colorScheme = next;
         try { localStorage.setItem(KEY, next); } catch {}
-        const metaEl = document.querySelector('meta[name="theme-color"]');
-        if (metaEl) metaEl.setAttribute("content", next === "dark" ? "#0b0f14" : "#faf7f3");
+        const m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute("content", next === "dark" ? "#111110" : "#f3f2ee");
         const light = document.getElementById("lightCSS");
         const dark  = document.getElementById("darkCSS");
         if (light && dark) { light.disabled = next !== "light"; dark.disabled = next !== "dark"; }
@@ -41,695 +31,537 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aarya Bookseller – Portfolio</title>
-  <meta name="description" content="Selected projects by Aarya Bookseller." />
+  <title>Portfolio — Aarya Bookseller</title>
+  <meta name="description" content="Selected projects by Aarya Bookseller — ML systems, networking, optimization, and product UIs." />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- ===== SITE STYLES ===== -->
   <link rel="stylesheet" href="style.css" />
-  <!-- Theme files must have these IDs -->
   <link id="lightCSS" rel="stylesheet" href="theme-light.css">
   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
-
-  <!-- ===== Page micro-tweaks ===== -->
-  <style>
-    :root{
-      --font-serif: "Times New Roman", Times, serif;
-      --font-sans: "Times New Roman", Times, serif;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    }
-
-    /* Times New Roman everywhere */
-    html, body, button, input, select, textarea, .btn, .brand, nav a, p, li, .lead,
-    .card, .card *, h1, h2, h3, h4, h5, h6, .tab, .pill, .meta, .resume-btn {
-      font-family: var(--font-serif) !important;
-    }
-
-    /* Don't override icon fonts (Font Awesome) */
-    .fa, .fa-solid, .fa-regular, .fa-light, .fa-thin, .fa-duotone {
-      font-family: "Font Awesome 6 Free" !important;
-    }
-    .fa-brands{
-      font-family: "Font Awesome 6 Brands" !important;
-    }
-
-    /* Keep headings bold */
-    h1, h2, h3, h4, h5, h6 { font-weight: 700; }
-
-    /* Preserve monospace for code blocks if any */
-    code, pre { font-family: var(--font-mono) !important; }
-
-    /* SVG icons should render normally */
-    svg { font-family: initial !important; }
-
-    body { line-height: 1.5; }
-    p, li { text-align: justify; }
-    .card p { text-align: left; }
-
-    .hero h1 { margin: 0; }
-    .hero .lead { margin: .25rem 0 0; }
-
-    .tablist { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
-
-    /* Resume button (clean + animated) */
-    .resume-btn{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:.6rem .95rem;
-      border-radius:12px;
-      border:1px solid color-mix(in oklab, var(--accent) 28%, transparent);
-      background:color-mix(in oklab, var(--accent) 10%, transparent);
-      color:var(--text,#111);
-      text-decoration:none;
-      font-weight:700;
-      position:relative;
-      overflow:hidden;
-      transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
-      box-shadow:0 10px 26px rgba(0,0,0,.10);
-    }
-    .resume-btn i{ opacity:.95; }
-    .resume-btn::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:linear-gradient(120deg, transparent 0%, color-mix(in oklab, var(--accent) 35%, transparent) 35%, transparent 70%);
-      transform:translateX(-120%);
-      transition:transform .55s ease;
-      pointer-events:none;
-    }
-    .resume-btn:hover{
-      transform:translateY(-2px);
-      box-shadow:0 14px 34px rgba(0,0,0,.16);
-      background:color-mix(in oklab, var(--accent) 14%, transparent);
-    }
-    .resume-btn:hover::before{ transform:translateX(120%); }
-    .resume-btn:active{ transform:translateY(0); }
-    .resume-btn:focus-visible{
-      outline:none;
-      box-shadow:0 0 0 4px color-mix(in oklab, var(--accent) 18%, transparent), 0 14px 34px rgba(0,0,0,.16);
-    }
-    .tab[role="tab"]{
-      border:1px solid var(--ring,#dcdcdc); background:var(--bg-1,#fff); color:var(--text,#111);
-      border-radius:10px; padding:.45rem .75rem; font-weight:600; cursor:pointer;
-      transition:transform .15s, box-shadow .15s, background .15s;
-    }
-    .tab[aria-selected="true"]{
-      border-color:var(--accent,#4b72ff);
-      box-shadow:0 0 0 4px color-mix(in oklab, var(--accent) 16%, transparent);
-    }
-    .tab:hover{ transform:translateY(-1px); }
-
-    .grid-3, #projectsGrid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px; }
-
-    .card.project{
-      position:relative; border-radius:16px;
-      border:1px solid color-mix(in oklab, var(--accent) 12%, transparent);
-      background:var(--bg-1,#fff);
-      box-shadow:0 10px 30px rgba(0,0,0,.08);
-      overflow:clip; transform:translateY(8px); opacity:0;
-      transition:transform .35s ease, opacity .35s ease, box-shadow .25s ease;
-    }
-    [data-theme="dark"] .card.project{
-      background:color-mix(in oklab, #121212 92%, #ffffff 0%);
-      box-shadow:0 14px 34px rgba(0,0,0,.35);
-    }
-    .card.project.is-visible{ transform:translateY(0); opacity:1; }
-    /* Portfolio card polish */
-    .card.project .card__body{ display:flex; flex-direction:column; padding:14px 16px; }
-    .card.project .card__title{ font-size:1.15rem; line-height:1.25; margin:.1rem 0 .35rem; }
-    .card.project .meta{ font-size:.9rem; opacity:.75; margin:0 0 .35rem; }
-    .card.project p:not(.meta){ display:block; overflow:visible; }
-    .card.project .pills{ margin-top:auto; }
-    .card__img{ border-bottom:1px solid var(--ring,#e6e6e6); }
-    .card__img{ display:block; width:100%; aspect-ratio:16/9; object-fit:cover; }
-    .card__title{ margin:.6rem 0 .25rem; }
-    .card .meta{ margin:0 0 .25rem; opacity:.75; font-size:.95rem; }
-    .pills{ display:flex; gap:6px; flex-wrap:wrap; margin-top:.5rem; }
-    .pill{
-      font-size:.85rem; font-weight:600; padding:.2rem .5rem; border-radius:999px;
-      border:1px solid color-mix(in oklab, var(--accent) 40%, transparent);
-      background:color-mix(in oklab, var(--accent) 8%, transparent);
-    }
-    .card.project:hover{ box-shadow:0 16px 44px rgba(0,0,0,.16); }
-    .project-links{ display:flex; gap:10px; align-items:center; margin:.25rem 0 .35rem; }
-    .project-links a{ display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px;
-      border-radius:10px; border:1px solid color-mix(in oklab, var(--accent) 18%, transparent);
-      background:color-mix(in oklab, var(--accent) 7%, transparent);
-      color:var(--text,#111); text-decoration:none;
-      transition:transform .15s ease, box-shadow .15s ease;
-    }
-    .project-links a:hover{ transform:translateY(-1px); box-shadow:0 10px 24px rgba(0,0,0,.14); }
-    .project-links a:focus-visible{ outline: none; box-shadow:0 0 0 4px color-mix(in oklab, var(--accent) 18%, transparent); }
-
-    .tooltip{ position:relative; display:inline-block; }
-    .tooltip .tooltip-text{
-      visibility:hidden; opacity:0; position:absolute; bottom:130%; left:50%;
-      transform:translateX(-50%); background:var(--bg-1,#fff); color:var(--text,#000);
-      padding:6px 10px; border-radius:6px; font-size:.85rem; white-space:nowrap;
-      box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:opacity .2s ease; z-index:10;
-    }
-    .tooltip .tooltip-text::after{
-      content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%);
-      border-width:6px; border-style:solid; border-color:var(--bg-1,#fff) transparent transparent transparent;
-    }
-    .tooltip:hover .tooltip-text{ visibility:visible; opacity:1; }
-
-    #backToTop{
-      position:fixed; right:16px; bottom:16px; z-index:10;
-      width:44px; height:44px; border-radius:12px; border:1px solid var(--ring,#d9d9d9);
-      background:color-mix(in oklab, var(--accent) 10%, transparent);
-      backdrop-filter:blur(8px); display:grid; place-items:center;
-      font-size:18px; cursor:pointer; transform:translateY(12px); opacity:0; pointer-events:none;
-      transition:transform .25s, opacity .25s, box-shadow .2s;
-      box-shadow:0 8px 20px rgba(0,0,0,.12);
-    }
-    #backToTop.show{ transform:translateY(0); opacity:1; pointer-events:auto; }
-    #backToTop:hover{ box-shadow:0 12px 28px rgba(0,0,0,.16); }
-
-    @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
-  </style>
 </head>
 
 <body>
-  <!-- ===== HEADER ===== -->
   <header class="site-header">
-    <div class="container" style="align-items:center; justify-content:space-between;">
-      <a class="brand" href="index.html">Aarya<span>.</span></a>
+    <div class="container">
+      <div class="header-bar">
+        <a class="brand" href="index.html">Aarya<span>.</span></a>
 
-      <!-- Mobile hamburger -->
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-
-      <!-- Primary nav -->
-      <nav id="site-nav" class="site-nav" aria-label="Primary">
-        <a href="index.html">About</a>
-        <a href="qualifications.html">Qualifications</a>
-        <a href="service.html">Volunteering</a>
-        <a href="portfolio.html" aria-current="page">Portfolio</a>
-        <a href="ai.html">Neural Playground</a>
-      </nav>
-
-      <!-- Accent + Theme -->
-      <div class="header-actions" style="display:flex; gap:10px; align-items:center;">
-        <div class="accent-picker" id="accentPicker" aria-expanded="false">
-          <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">🎨</button>
-          <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
-            <button class="accent-swatch" data-accent="#4b72ff"  style="background:#4b72ff"  title="Blue"></button>
-            <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
-            <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
-            <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
-            <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
-          </div>
-        </div>
-
-        <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <circle cx="12" cy="12" r="4" stroke-width="2"/>
-            <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-          </svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
+            <path d="M2 4h12M2 8h12M2 12h12"/>
           </svg>
         </button>
+
+        <nav id="site-nav" class="site-nav" aria-label="Primary">
+          <a href="index.html">About</a>
+          <a href="qualifications.html">Qualifications</a>
+          <a href="service.html">Volunteering</a>
+          <a href="portfolio.html" aria-current="page">Portfolio</a>
+          <a href="ai.html">Neural Playground</a>
+        </nav>
+
+        <div class="header-actions">
+          <div class="accent-picker" id="accentPicker" aria-expanded="false">
+            <button class="btn-icon" id="accentToggle" aria-label="Choose accent color">
+              <svg viewBox="0 0 16 16" fill="currentColor">
+                <circle cx="8" cy="8" r="3.5"/>
+                <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z" opacity=".4"/>
+              </svg>
+            </button>
+            <div class="accent-menu" id="accentMenu" role="menu">
+              <button class="accent-swatch" data-accent="#e53800" style="background:#e53800" title="Orange"></button>
+              <button class="accent-swatch" data-accent="#2563eb" style="background:#2563eb" title="Blue"></button>
+              <button class="accent-swatch" data-accent="#0d9488" style="background:#0d9488" title="Teal"></button>
+              <button class="accent-swatch" data-accent="#7c3aed" style="background:#7c3aed" title="Purple"></button>
+              <button class="accent-swatch" data-accent="#d97706" style="background:#d97706" title="Amber"></button>
+            </div>
+          </div>
+          <button id="themeToggle" class="btn-icon theme-toggle" aria-label="Toggle color theme" aria-pressed="false">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero">
+  <section class="hero-section">
     <div class="container">
-      <h1>Portfolio</h1>
-      <p class="lead">Selected builds—ML systems, optimization, and product UIs.</p>
+      <h1 class="hero-page-title">Portfolio</h1>
+      <p class="hero-page-lead">Selected builds — ML systems, networking tools, optimization, and product UIs.</p>
 
-      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-        <a href="assets/Bookseller_Aarya.pdf" download class="resume-btn" aria-label="Download résumé PDF">
-          <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
-          <span>Download Résumé</span>
-        </a>
-      </div>
+      <a href="assets/Bookseller_Aarya.pdf" download class="btn btn--ghost">
+        <i class="fa-solid fa-file-arrow-down"></i>
+        Download Résumé
+      </a>
 
-      <div class="tablist" role="tablist" aria-label="Project filters">
+      <div class="tablist" role="tablist" aria-label="Filter projects">
         <button class="tab" role="tab" aria-selected="true" tabindex="0" data-filter="all" id="tab-all">All</button>
         <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="ml" id="tab-ml">Machine Learning</button>
         <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="systems" id="tab-systems">Systems</button>
+        <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="networking" id="tab-networking">Networking</button>
         <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="ui" id="tab-ui">UI/UX</button>
       </div>
     </div>
-    <div class="divider"></div>
   </section>
 
-  <!-- ===== PROJECTS ===== -->
   <main class="section">
-    <div class="container" id="projectsRegion" role="region" aria-labelledby="tab-all">
-      <div class="grid-3" id="projectsGrid">
+    <div class="container">
+      <div class="projects-grid" id="projectsGrid">
 
-        <!-- POS System -->
-        <article class="card project" data-tags="systems ui">
-          <img class="card__img" src="assets/boba.jpg" alt="Bubble tea POS product image">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">Bubble Tea POS — Inventory &amp; Ordering</h2>
-            <p class="meta">JavaFX · PostgreSQL · AWS · Node.js · Express.js · React · Vite · Bootstrap</p>
-            <div class="project-links" aria-label="Project links">
-              <a class="icon-btn" href="https://github.com/aaryabookseller16/bubble-tea-pos" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+        <!-- Bubble Tea POS -->
+        <article class="project-card" data-tags="systems ui">
+          <img class="project-card__img" src="assets/boba.jpg" alt="Bubble Tea POS">
+          <div class="project-card__body">
+            <h2 class="project-card__title">Bubble Tea POS — Inventory &amp; Ordering</h2>
+            <p class="project-card__meta">JavaFX · PostgreSQL · AWS · Node.js · React</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/bubble-tea-pos" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
               </a>
-              <a class="icon-btn" href="https://project3team21-2.onrender.com/" target="_blank" rel="noopener" aria-label="Live Website" title="Website">
+              <a class="icon-btn" href="https://project3team21-2.onrender.com/" target="_blank" rel="noopener" aria-label="Live site">
                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
               </a>
             </div>
-            <p>
-              End-to-end <strong>point-of-sale</strong> platform with customer ordering, staff roles, and inventory management. 
-              Built a normalized <strong>PostgreSQL</strong> schema with triggers/constraints, transactional order processing, and audit logs. 
-              Implemented a responsive <strong>JavaFX</strong> UI with role-based access, receipt printing, and admin dashboards.
-            </p>
-            <p>
-              Backend uses a DAO layer over JDBC, batch inserts, and parameterized queries for safety and speed. 
-              Deployed on <strong>AWS</strong> with environment-based configs and GitHub Actions for CI build checks.
-            </p>
             <div class="pills">
               <span class="pill">Java</span><span class="pill">JavaFX</span><span class="pill">PostgreSQL</span>
               <span class="pill">JDBC</span><span class="pill">AWS</span><span class="pill">Node.js</span>
               <span class="pill">Express.js</span><span class="pill">React</span><span class="pill">Vite</span>
               <span class="pill">Bootstrap</span>
             </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>End-to-end <strong>point-of-sale</strong> platform with customer ordering, staff roles, and inventory management. Built a normalized <strong>PostgreSQL</strong> schema with triggers/constraints, transactional order processing, and audit logs. Implemented a responsive <strong>JavaFX</strong> UI with role-based access, receipt printing, and admin dashboards.</p>
+                <p>Backend uses a DAO layer over JDBC, batch inserts, and parameterized queries for safety and speed. Deployed on <strong>AWS</strong> with environment-based configs and GitHub Actions for CI build checks.</p>
+              </div>
+            </details>
           </div>
         </article>
 
         <!-- AURORA -->
-        <article class="card project" data-tags="ml systems ui">
-          <img class="card__img" src="assets/aurora.png" alt="AURORA compute recommendation dashboard">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">AURORA — ML Compute Calibration &amp; Recommendations</h2>
-            <p class="meta">Next.js · FastAPI · Docker Sandbox · Profiling</p>
-            <div class="project-links" aria-label="Project links">
-              <a class="icon-btn" href="https://github.com/aaryabookseller16/AURORA" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+        <article class="project-card" data-tags="ml systems ui">
+          <img class="project-card__img" src="assets/aurora.png" alt="AURORA compute recommendation">
+          <div class="project-card__body">
+            <h2 class="project-card__title">AURORA — ML Compute Calibration &amp; Recommendations</h2>
+            <p class="project-card__meta">Next.js · FastAPI · Docker Sandbox · Profiling</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/AURORA" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
               </a>
-              <a class="icon-btn" href="https://youtu.be/rehZRheiDdw?si=gfDULRlVyl6faQPv" target="_blank" rel="noopener" aria-label="YouTube Demo" title="YouTube Demo">
+              <a class="icon-btn" href="https://youtu.be/rehZRheiDdw?si=gfDULRlVyl6faQPv" target="_blank" rel="noopener" aria-label="YouTube demo">
                 <i class="fa-brands fa-youtube"></i>
               </a>
             </div>
-            <p>
-              Full-stack prototype that turns a <strong>calibration run</strong> into a defensible compute decision.
-              Users upload an ML repo, run a sandboxed job in <strong>Docker</strong>, and AURORA captures runtime, logs,
-              and profiling signals (CPU/RAM/IO) to estimate scaling and recommend <em>fastest / cheapest / balanced</em>
-              options with clear reasoning.
-            </p>
-            <p>
-              Produces reproducible <strong>run bundles</strong> (Dockerfile + scripts + README) to bridge local testing →
-              deployment. Optional GenAI-assisted calibration suggestions and chat for quick tuning and diagnosis.
-            </p>
             <div class="pills">
               <span class="pill">FastAPI</span><span class="pill">Next.js</span><span class="pill">Docker</span>
               <span class="pill">Profiling</span><span class="pill">MLOps Tooling</span>
             </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Full-stack prototype that turns a <strong>calibration run</strong> into a defensible compute decision. Users upload an ML repo, run a sandboxed job in <strong>Docker</strong>, and AURORA captures runtime, logs, and profiling signals (CPU/RAM/IO) to estimate scaling and recommend <em>fastest / cheapest / balanced</em> options with clear reasoning.</p>
+                <p>Produces reproducible <strong>run bundles</strong> (Dockerfile + scripts + README) to bridge local testing → deployment. Optional GenAI-assisted calibration suggestions and chat for quick tuning and diagnosis.</p>
+              </div>
+            </details>
           </div>
         </article>
 
-        <!-- StreamSense Reactor -->
-        <article class="card project" data-tags="systems ui">
-          <img class="card__img" src="assets/streamsense.png" alt="StreamSense Reactor live KPI dashboard">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">StreamSense Reactor — Real-Time Streaming KPIs</h2>
-            <p class="meta">Redpanda (Kafka) · Node.js · PostgreSQL · React</p>
-            <div class="project-links" aria-label="Project links">
-              <a class="icon-btn" href="https://github.com/aaryabookseller16/Stream-Sense" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+        <!-- StreamSense -->
+        <article class="project-card" data-tags="systems ui">
+          <img class="project-card__img" src="assets/streamsense.png" alt="StreamSense Reactor dashboard">
+          <div class="project-card__body">
+            <h2 class="project-card__title">StreamSense Reactor — Real-Time Streaming KPIs</h2>
+            <p class="project-card__meta">Redpanda (Kafka) · Node.js · PostgreSQL · React</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/Stream-Sense" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
               </a>
             </div>
-            <p>
-              Production-style <strong>event-driven</strong> analytics pipeline: ingests high-volume service events (latency, status, timestamps),
-              streams them through <strong>Kafka-compatible Redpanda</strong>, computes rolling-window KPIs, persists results to <strong>PostgreSQL</strong>,
-              and visualizes operational health in a near real-time <strong>React</strong> dashboard.
-            </p>
-            <p>
-              Built as a clean multi-service repo with containerized local infrastructure and a streaming worker that performs aggregation
-              and durable KPI writes.
-            </p>
             <div class="pills">
               <span class="pill">Redpanda</span><span class="pill">Kafka</span><span class="pill">Node.js</span>
               <span class="pill">PostgreSQL</span><span class="pill">React</span>
             </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Production-style <strong>event-driven</strong> analytics pipeline: ingests high-volume service events (latency, status, timestamps), streams them through <strong>Kafka-compatible Redpanda</strong>, computes rolling-window KPIs, persists results to <strong>PostgreSQL</strong>, and visualizes operational health in a near real-time <strong>React</strong> dashboard.</p>
+                <p>Built as a clean multi-service repo with containerized local infrastructure and a streaming worker that performs aggregation and durable KPI writes.</p>
+              </div>
+            </details>
           </div>
         </article>
 
         <!-- InsightBoard -->
-        <article class="card project" data-tags="systems ui">
-          <img class="card__img" src="assets/insightboard.png" alt="InsightBoard internal analytics dashboard">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">InsightBoard — Internal Analytics Dashboard</h2>
-            <p class="meta">React · Express · PostgreSQL · JWT/RBAC</p>
-            <div class="project-links" aria-label="Project links">
-              <a class="icon-btn" href="https://github.com/aaryabookseller16/Insight-Board" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+        <article class="project-card" data-tags="systems ui">
+          <img class="project-card__img" src="assets/insightboard.png" alt="InsightBoard analytics dashboard">
+          <div class="project-card__body">
+            <h2 class="project-card__title">InsightBoard — Internal Analytics Dashboard</h2>
+            <p class="project-card__meta">React · Express · PostgreSQL · JWT/RBAC</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/Insight-Board" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
               </a>
             </div>
-            <p>
-              Internal tool that turns raw <strong>event-level data</strong> into business KPIs: revenue (sales − refunds, stored safely in cents),
-              activity, daily trends, and event-type breakdowns. Includes strict <strong>role-based access control</strong>: admins see
-              platform-wide metrics; users see only their own.
-            </p>
-            <p>
-              Node/Express backend with <strong>JWT auth</strong> and backend-enforced RBAC, backed by <strong>PostgreSQL</strong> with indexed time-series
-              queries for fast KPI aggregation. React UI keeps the dashboard clean and readable.
-            </p>
             <div class="pills">
               <span class="pill">React</span><span class="pill">Express</span><span class="pill">PostgreSQL</span>
               <span class="pill">JWT</span><span class="pill">RBAC</span>
             </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Internal tool that turns raw <strong>event-level data</strong> into business KPIs: revenue (sales − refunds, stored safely in cents), activity, daily trends, and event-type breakdowns. Includes strict <strong>role-based access control</strong>: admins see platform-wide metrics; users see only their own.</p>
+                <p>Node/Express backend with <strong>JWT auth</strong> and backend-enforced RBAC, backed by <strong>PostgreSQL</strong> with indexed time-series queries for fast KPI aggregation. React UI keeps the dashboard clean and readable.</p>
+              </div>
+            </details>
           </div>
         </article>
 
-        <!-- NetCrawler -->
-        <article class="card project" data-tags="systems">
-          <img class="card__img" src="assets/Web-Crawling.webp" alt="HTTP DNS crawler architecture diagram">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">NetCrawler — HTTP/DNS Web Crawler</h2>
-            <p class="meta">C++ · Sockets · DNS · Concurrency · CSCE 612</p>
-
-            <p>
-              Built a multi-stage crawler that does <strong>URL parsing</strong>, <strong>DNS resolution</strong>, and enforces
-              <strong>host/IP uniqueness</strong> before fetching. Uses a two-step policy: <strong>HEAD /robots.txt</strong> (bounded + status rules)
-              then a size-bounded <strong>HTTP GET</strong>. Implemented on raw TCP sockets with correct partial send/recv handling and clean shutdown.
-            </p>
-
-            <p>
-              Designed to scale to <strong>multi-threaded crawling</strong> with synchronized shared state. Course project for
-              <strong>CSCE 612 (Distributed Systems &amp; Networking)</strong>, so no public repo/deploy.
-            </p>
-
-            <div class="pills">
-              <span class="pill">C++</span>
-              <span class="pill">Winsock / BSD Sockets</span>
-              <span class="pill">DNS</span>
-              <span class="pill">HTTP</span>
-              <span class="pill">Concurrency</span>
-              <span class="pill">Systems Programming</span>
+        <!-- Fast Traceroute -->
+        <article class="project-card" data-tags="systems networking">
+          <img class="project-card__img" src="assets/fast-traceroute.svg" alt="Fast traceroute hop timing diagram">
+          <div class="project-card__body">
+            <h2 class="project-card__title">Fast Traceroute — Parallel ICMP Path Discovery</h2>
+            <p class="project-card__meta">C++ · Winsock · Raw ICMP · Async DNS · CSCE 612</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/Fast-Traceroute" target="_blank" rel="noopener" aria-label="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
             </div>
+            <div class="pills">
+              <span class="pill">C++</span><span class="pill">Raw Sockets</span><span class="pill">ICMP</span>
+              <span class="pill">Async DNS</span><span class="pill">Batch Tracing</span>
+            </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Implemented a Windows traceroute tool that sends TTL-limited ICMP probes, resolves hop names asynchronously, and prints ordered path results with RTT timing and ICMP error handling. Includes raw-socket mode plus Windows ICMP Helper API fallback for restricted environments.</p>
+                <p>Batch mode traces many targets with worker threads and a topology-aware smart mode that reuses stable prefixes. This originated from CSCE 612 coursework; the public repo includes an academic integrity notice.</p>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <!-- Reliable UDP Sender -->
+        <article class="project-card" data-tags="systems networking">
+          <img class="project-card__img" src="assets/reliable-udp.svg" alt="Reliable UDP sliding window diagram">
+          <div class="project-card__body">
+            <h2 class="project-card__title">Reliable UDP Sender — Sliding-Window Transport</h2>
+            <p class="project-card__meta">C++ · UDP · RTT/RTO Estimation · Fast Retransmit · CSCE 612</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/Reliable-UDP-Sender" target="_blank" rel="noopener" aria-label="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </div>
+            <div class="pills">
+              <span class="pill">C++</span><span class="pill">UDP</span><span class="pill">Sliding Window</span>
+              <span class="pill">RTO</span><span class="pill">Fast Retransmit</span>
+            </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Built a custom reliable sender over UDP with connection setup, packet sequencing, ACK processing, sender-window flow control, retransmission timers, RTT/RTO updates, duplicate-ACK fast retransmit, and graceful FIN close.</p>
+                <p>The sender coordinates producer and background ACK threads to keep the transfer window full while tracking throughput and checksums. This originated from CSCE 612 coursework; the public repo includes an academic integrity notice.</p>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <!-- DNS Packet Inspector -->
+        <article class="project-card" data-tags="systems networking">
+          <img class="project-card__img" src="assets/dns-packet-inspector.svg" alt="DNS packet layout visualization">
+          <div class="project-card__body">
+            <h2 class="project-card__title">DNS Packet Inspector — Raw UDP Resolver Client</h2>
+            <p class="project-card__meta">C++ · DNS Wire Format · UDP · Name Compression · CSCE 612</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/DNS-Packet-Inspector" target="_blank" rel="noopener" aria-label="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </div>
+            <div class="pills">
+              <span class="pill">C++</span><span class="pill">DNS</span><span class="pill">UDP</span>
+              <span class="pill">Packet Parsing</span><span class="pill">PTR/A Records</span>
+            </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Implemented a command-line DNS client that builds raw DNS queries, sends them to a chosen resolver, and decodes answers, authority records, and additional records from the response packet.</p>
+                <p>Supports A and PTR lookups, compressed-name parsing with bounds and loop checks, retries, timeouts, and cross-platform sockets. This originated from CSCE 612 coursework; the public repo includes an academic integrity notice.</p>
+              </div>
+            </details>
           </div>
         </article>
 
         <!-- NaviAI -->
-        <article class="card project" data-tags="ml systems ui">
-          <img class="card__img" src="assets/routes.jpeg" alt="NaviAI route visualization">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">NaviAI — Maritime Routing with Risk</h2>
-            <p class="meta">Machine Learning Engineer · Jan 2025–Present</p>
-            <div class="project-links" aria-label="Project links">
-              <a class="icon-btn" href="https://github.com/aaryabookseller16/NaviAI" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+        <article class="project-card" data-tags="ml systems ui">
+          <img class="project-card__img" src="assets/routes.jpeg" alt="NaviAI maritime route visualization">
+          <div class="project-card__body">
+            <h2 class="project-card__title">NaviAI — Maritime Routing with Risk</h2>
+            <p class="project-card__meta">ML Engineer · Jan 2025–Present · Semi-finalist, Mays AI Competition 2024</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/NaviAI" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
               </a>
             </div>
-            <p>
-              Multi-objective routing that balances <strong>time</strong>, <strong>fuel</strong>, and <strong>operational risk</strong>.
-              The engine fuses live weather and port conditions with a news-derived risk score (Transformer sentiment + rules) to
-              adjust edge weights in real time. Constraints like draft limits, traffic separation schemes, exclusion zones, and canal
-              fees are modeled explicitly. The policy stack combines a Transformer forecaster with PPO-based routing under uncertainty.
-            </p>
-            <p>
-              A Streamlit UI shows <em>fastest / cheapest / safest</em> alternatives with deltas in ETA, fuel burn, and risk.
-              Each route includes short LLM rationales. The pipeline includes cached data fetchers, reproducible configs,
-              and scenario “playbacks” for incident post-mortems and what-if planning. Runtime services are monitored via Prometheus and Grafana.
-            </p>
             <div class="pills">
               <span class="pill">Python</span><span class="pill">NetworkX</span><span class="pill">Transformers</span>
               <span class="pill">Streamlit</span><span class="pill">Pandas</span>
             </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Multi-objective routing that balances <strong>time</strong>, <strong>fuel</strong>, and <strong>operational risk</strong>. The engine fuses live weather and port conditions with a news-derived risk score (Transformer sentiment + rules) to adjust edge weights in real time. Constraints like draft limits, traffic separation schemes, exclusion zones, and canal fees are modeled explicitly. The policy stack combines a Transformer forecaster with PPO-based routing under uncertainty.</p>
+                <p>A Streamlit UI shows <em>fastest / cheapest / safest</em> alternatives with deltas in ETA, fuel burn, and risk. Each route includes short LLM rationales. The pipeline includes cached data fetchers, reproducible configs, and scenario "playbacks" for incident post-mortems and what-if planning. Runtime services are monitored via Prometheus and Grafana.</p>
+              </div>
+            </details>
           </div>
         </article>
 
         <!-- VisionQuery -->
-        <article class="card project" data-tags="ml systems ui">
-          <img class="card__img" src="assets/visionquery.png" alt="VisionQuery semantic search results UI">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">VisionQuery — Text-to-Image Semantic Search</h2>
-            <p class="meta">FastAPI · CLIP · Prometheus/Grafana</p>
-            <div class="project-links" aria-label="Project links">
-              <a class="icon-btn" href="https://github.com/aaryabookseller16/Vision-Query" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+        <article class="project-card" data-tags="ml systems ui">
+          <img class="project-card__img" src="assets/visionquery.png" alt="VisionQuery semantic search UI">
+          <div class="project-card__body">
+            <h2 class="project-card__title">VisionQuery — Text-to-Image Semantic Search</h2>
+            <p class="project-card__meta">FastAPI · CLIP · Prometheus/Grafana</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/Vision-Query" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
               </a>
             </div>
-            <p>
-              Backend-first semantic search MVP: ingest images into an embedding index, embed text + images into the same <strong>CLIP</strong>
-              vector space, and return ranked results via <strong>cosine similarity</strong>. Exposes clean endpoints for health checks,
-              ingestion, search, and Prometheus-compatible metrics.
-            </p>
-            <p>
-              Designed to be explainable and interview-friendly: simple in-memory vector store (easy to swap for FAISS/pgvector),
-              containerized dev with <strong>Docker Compose</strong>, and basic observability dashboards.
-            </p>
             <div class="pills">
               <span class="pill">FastAPI</span><span class="pill">CLIP</span><span class="pill">Vector Search</span>
               <span class="pill">Prometheus</span><span class="pill">Grafana</span>
             </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Backend-first semantic search MVP: ingest images into an embedding index, embed text + images into the same <strong>CLIP</strong> vector space, and return ranked results via <strong>cosine similarity</strong>. Exposes clean endpoints for health checks, ingestion, search, and Prometheus-compatible metrics.</p>
+                <p>Designed to be explainable and interview-friendly: simple in-memory vector store (easy to swap for FAISS/pgvector), containerized dev with <strong>Docker Compose</strong>, and basic observability dashboards.</p>
+              </div>
+            </details>
           </div>
         </article>
 
-        <!-- Monte Carlo Risk Analysis -->
-        <article class="card project" data-tags="ml systems ui">
-          <img class="card__img" src="assets/monte-carlo.png" alt="Monte Carlo risk analysis dashboard">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">Monte Carlo Risk Analysis — SPY Simulation</h2>
-            <p class="meta">Quant/ML · Dec 2025</p>
-            <div class="project-links" aria-label="Project links">
-              <a class="icon-btn" href="https://github.com/aaryabookseller16/monte-carlo-risk-analysis" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+        <!-- Monte Carlo -->
+        <article class="project-card" data-tags="ml systems ui">
+          <img class="project-card__img" src="assets/monte-carlo.png" alt="Monte Carlo risk analysis">
+          <div class="project-card__body">
+            <h2 class="project-card__title">Monte Carlo Risk Analysis — SPY Simulation</h2>
+            <p class="project-card__meta">Quant/ML · Dec 2025</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/monte-carlo-risk-analysis" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
               </a>
             </div>
-            <p>
-              Built a simulation-based risk engine using <strong>log returns</strong> and distribution diagnostics to justify modeling assumptions.
-              Runs Monte Carlo paths to estimate <strong>VaR</strong>, <strong>CVaR</strong>, drawdowns, and scenario stress tests.
-            </p>
-            <p>
-              Modular data loaders + plotting utilities, with a clean “main” entry-point for quick experiments and parameter sweeps.
-            </p>
             <div class="pills">
               <span class="pill">Python</span><span class="pill">NumPy</span><span class="pill">Pandas</span>
               <span class="pill">Monte Carlo</span><span class="pill">VaR/CVaR</span>
             </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Built a simulation-based risk engine using <strong>log returns</strong> and distribution diagnostics to justify modeling assumptions. Runs Monte Carlo paths to estimate <strong>VaR</strong>, <strong>CVaR</strong>, drawdowns, and scenario stress tests.</p>
+                <p>Modular data loaders + plotting utilities, with a clean "main" entry-point for quick experiments and parameter sweeps.</p>
+              </div>
+            </details>
           </div>
         </article>
 
         <!-- ViT vs CNN -->
-        <article class="card project" data-tags="ml systems">
-          <img class="card__img" src="assets/cnn-vs-vit.png" alt="ViT vs CNN comparison results">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">ViT vs CNN — Small-Data Benchmark</h2>
-            <p class="meta">ML Engineer · Dec 2025</p>
-            <div class="project-links" aria-label="Project links">
-              <a class="icon-btn" href="https://github.com/aaryabookseller16/cnn-vs-vit" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+        <article class="project-card" data-tags="ml systems">
+          <img class="project-card__img" src="assets/cnn-vs-vit.png" alt="ViT vs CNN benchmark results">
+          <div class="project-card__body">
+            <h2 class="project-card__title">ViT vs CNN — Small-Data Benchmark</h2>
+            <p class="project-card__meta">ML Engineer · Dec 2025</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/cnn-vs-vit" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
               </a>
             </div>
-            <p>
-              Controlled benchmark comparing a compact <strong>CNN</strong> to a <strong>Vision Transformer</strong> under limited data regimes.
-              Tracked scaling behavior across dataset fractions, seeds, and augmentations; exported metrics and checkpoints for reproducible comparisons.
-            </p>
-            <p>
-              Includes training curves, calibration checks, and error analysis tooling to understand when transformers win (and when they don’t)
-              without hand-wavy claims.
-            </p>
             <div class="pills">
               <span class="pill">PyTorch</span><span class="pill">ViT</span><span class="pill">CNN</span>
               <span class="pill">Reproducibility</span><span class="pill">Metrics</span>
             </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Controlled benchmark comparing a compact <strong>CNN</strong> to a <strong>Vision Transformer</strong> under limited data regimes. Tracked scaling behavior across dataset fractions, seeds, and augmentations; exported metrics and checkpoints for reproducible comparisons.</p>
+                <p>Includes training curves, calibration checks, and error analysis tooling to understand when transformers win (and when they don't) without hand-wavy claims.</p>
+              </div>
+            </details>
           </div>
         </article>
 
         <!-- Style Converter -->
-        <article class="card project" data-tags="ml ui">
-          <img class="card__img" src="assets/van_gogh.jpeg" alt="Style transfer output">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">Style Converter — VGG19 NST</h2>
-            <p class="meta">Simple, clean neural style transfer demo</p>
-            <div class="project-links" aria-label="Project links">
-              <a class="icon-btn" href="https://github.com/aaryabookseller16/style-converter-nst" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+        <article class="project-card" data-tags="ml ui">
+          <img class="project-card__img" src="assets/van_gogh.jpeg" alt="Style transfer output">
+          <div class="project-card__body">
+            <h2 class="project-card__title">Style Converter — VGG19 NST</h2>
+            <p class="project-card__meta">PyTorch · VGG19 · Neural Style Transfer</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/style-converter-nst" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
               </a>
             </div>
-            <p>
-              Classic VGG19 neural style transfer with a streamlined UI: upload content &amp; style, then tune
-              <strong>content/style weights</strong>, <strong>TV loss</strong>, and iteration budget. Uses a
-              coarse→fine schedule and multi-scale Gram features for crisp textures without over-sharpening.
-            </p>
-            <p>
-              Includes deterministic seeds, progress snapshots, and side-by-side previews. Runs on CPU or GPU; large images are
-              tiled and reassembled to keep memory bounded and results reproducible across devices.
-            </p>
-            <p>
-              Based on the paper 
-              <a href="https://arxiv.org/abs/1508.06576" target="_blank" rel="noreferrer">“A Neural Algorithm of Artistic Style” →</a>
-            </p>
             <div class="pills">
               <span class="pill">PyTorch</span><span class="pill">VGG19</span><span class="pill">UX</span>
             </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Classic VGG19 neural style transfer with a streamlined UI: upload content &amp; style, then tune <strong>content/style weights</strong>, <strong>TV loss</strong>, and iteration budget. Uses a coarse→fine schedule and multi-scale Gram features for crisp textures without over-sharpening.</p>
+                <p>Includes deterministic seeds, progress snapshots, and side-by-side previews. Runs on CPU or GPU; large images are tiled and reassembled to keep memory bounded and results reproducible across devices.</p>
+                <p>Based on <a href="https://arxiv.org/abs/1508.06576" target="_blank" rel="noreferrer">"A Neural Algorithm of Artistic Style" →</a></p>
+              </div>
+            </details>
           </div>
         </article>
 
         <!-- Fake Review Detector -->
-        <article class="card project" data-tags="ml">
-          <img class="card__img" src="assets/adaline.png" alt="Fake review detector feature + model overview">
-          <div class="card__body" style="padding:12px 14px;">
-            <h2 class="card__title">Fake Review Detector — Adaline from Scratch</h2>
-            <p class="meta">ML · Interpretable Text Classifier</p>
-            <div class="project-links" aria-label="Project links">
-              <a class="icon-btn" href="https://github.com/aaryabookseller16/Fake-Review-Classifier" target="_blank" rel="noopener" aria-label="GitHub Repository" title="GitHub">
+        <article class="project-card" data-tags="ml">
+          <img class="project-card__img" src="assets/adaline.png" alt="Fake review detector overview">
+          <div class="project-card__body">
+            <h2 class="project-card__title">Fake Review Detector — Adaline from Scratch</h2>
+            <p class="project-card__meta">Python · NumPy · NLP · Interpretable Classifier</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/Fake-Review-Classifier" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
               </a>
             </div>
-            <p>
-              Transparent fake-review classifier that separates <strong>CG</strong> (computer-generated) vs <strong>OR</strong> (organic) reviews.
-              Built to be lightweight and explainable—no black-box embeddings required.
-            </p>
-            <p>
-              Uses hand-engineered features (<strong>length</strong>, <strong>suspicious phrase count</strong>, <strong>ALL-CAPS word count</strong>) with standardization,
-              then trains an <strong>Adaline</strong> model via <strong>batch gradient descent</strong> and MSE loss in NumPy.
-            </p>
             <div class="pills">
               <span class="pill">Python</span><span class="pill">NumPy</span><span class="pill">NLP</span>
               <span class="pill">Gradient Descent</span><span class="pill">Interpretability</span>
             </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Transparent fake-review classifier that separates <strong>CG</strong> (computer-generated) vs <strong>OR</strong> (organic) reviews. Built to be lightweight and explainable—no black-box embeddings required.</p>
+                <p>Uses hand-engineered features (<strong>length</strong>, <strong>suspicious phrase count</strong>, <strong>ALL-CAPS word count</strong>) with standardization, then trains an <strong>Adaline</strong> model via <strong>batch gradient descent</strong> and MSE loss in NumPy.</p>
+              </div>
+            </details>
           </div>
         </article>
+
       </div>
     </div>
   </main>
 
-  <!-- ===== FOOTER ===== -->
-<footer class="site-footer" style="border-top:1px solid var(--ring,#ddd); margin-top:2rem; padding:1.2rem 0; font-size:0.9rem;">
-  <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.75rem;">
-    
-    <!-- Left text -->
-    <div class="footer-left" style="opacity:0.85;">
-      © <span id="year"></span> Aarya Bookseller
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bar">
+        <span class="footer-copy">© <span id="year"></span> Aarya Bookseller</span>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+          <a href="https://github.com/aaryabookseller16" target="_blank" rel="noopener" aria-label="GitHub">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ&view_op=list_works&sortby=title" target="_blank" rel="noopener" aria-label="Google Scholar">
+            <i class="fa-brands fa-google-scholar"></i>
+          </a>
+          <span class="tooltip">
+            <a href="mailto:aaryab.work@gmail.com" aria-label="Work email">
+              <i class="fa-brands fa-google"></i>
+            </a>
+            <span class="tooltip-text">aaryab.work@gmail.com</span>
+          </span>
+          <span class="tooltip">
+            <a href="mailto:aaryabookseller@tamu.edu" aria-label="TAMU email">
+              <img src="assets/tamu.png" alt="TAMU">
+            </a>
+            <span class="tooltip-text">aaryabookseller@tamu.edu</span>
+          </span>
+        </div>
+      </div>
     </div>
+  </footer>
 
-    <!-- Right links -->
-    <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap; font-size:1.3rem;">
-      <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
-      </a>
-
-      <a href="https://github.com/aaryabookseller16" target="_blank" aria-label="GitHub">
-        <i class="fa-brands fa-github" aria-hidden="true"></i>
-      </a>
-
-      <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ&view_op=list_works&sortby=title" target="_blank" rel="noopener" aria-label="Google Scholar" title="Google Scholar">
-        <i class="fa-brands fa-google-scholar" aria-hidden="true"></i>
-      </a>
-
-      <span class="tooltip">
-        <a href="mailto:aaryab.work@gmail.com" aria-label="Work Email">
-          <i class="fa-brands fa-google" aria-hidden="true"></i>
-        </a>
-        <span class="tooltip-text">aaryab.work@gmail.com</span>
-      </span>
-
-      <span class="tooltip">
-        <a href="mailto:aaryabookseller@tamu.edu" aria-label="School Email">
-          <img src="assets/tamu.png" alt="TAMU logo">
-        </a>
-        <span class="tooltip-text">aaryabookseller@tamu.edu</span>
-      </span>
-
-    </div>
-  </div>
-</footer>
-
-  <!-- Back to Top -->
   <button id="backToTop" aria-label="Back to top">↑</button>
 
-  <!-- ===== SCRIPTS (inline, no theme.js dependency) ===== -->
   <script>
-    // Make sure the correct theme CSS is enabled once links exist
-    (function syncThemeLinks(){
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    (function syncTheme(){
       const t = document.documentElement.getAttribute("data-theme") || "light";
       const light = document.getElementById("lightCSS");
       const dark  = document.getElementById("darkCSS");
       if (light && dark) { light.disabled = t !== "light"; dark.disabled = t !== "dark"; }
       const prev = window.__setTheme;
       window.__setTheme = (theme) => {
-        prev(theme);
+        prev && prev(theme);
         if (light && dark) { light.disabled = theme !== "light"; dark.disabled = theme !== "dark"; }
       };
     })();
 
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Mobile nav
-    (function(){
-      const t = document.querySelector('.nav-toggle');
-      const n = document.getElementById('site-nav');
-      if (!t || !n) return;
-      t.addEventListener('click', () => {
-        const open = t.getAttribute('aria-expanded') === 'true';
-        t.setAttribute('aria-expanded', String(!open));
-        n.classList.toggle('open', !open);
+    (function mobileNav(){
+      const toggle = document.querySelector('.nav-toggle');
+      const nav = document.getElementById('site-nav');
+      if (!toggle || !nav) return;
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        nav.classList.toggle('open', !open);
       });
     })();
 
-    // Accent picker (persist)
-    (function(){
+    (function accentPicker(){
       const picker = document.getElementById('accentPicker');
       const menu   = document.getElementById('accentMenu');
-      const toggle = document.getElementById('accentToggle');
-      if (!picker || !menu || !toggle) return;
-
-      const ACCENT_KEY = "accent";
+      const btn    = document.getElementById('accentToggle');
+      if (!picker || !menu || !btn) return;
       try {
-        const saved = localStorage.getItem(ACCENT_KEY);
+        const saved = localStorage.getItem('accent');
         if (saved) document.documentElement.style.setProperty('--accent', saved);
       } catch {}
-
-      toggle.addEventListener('click', (e) => {
+      btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const ex = picker.getAttribute('aria-expanded') === 'true';
-        picker.setAttribute('aria-expanded', String(!ex));
+        picker.setAttribute('aria-expanded', picker.getAttribute('aria-expanded') !== 'true' ? 'true' : 'false');
       });
       menu.addEventListener('click', (e) => {
         const sw = e.target.closest('[data-accent]');
         if (!sw) return;
-        const color = sw.dataset.accent;
-        document.documentElement.style.setProperty('--accent', color);
-        try { localStorage.setItem(ACCENT_KEY, color); } catch {}
+        document.documentElement.style.setProperty('--accent', sw.dataset.accent);
+        try { localStorage.setItem('accent', sw.dataset.accent); } catch {}
         picker.setAttribute('aria-expanded', 'false');
       });
       document.addEventListener('click', (e) => {
-        if (!picker.contains(e.target)) picker.setAttribute('aria-expanded','false');
+        if (!picker.contains(e.target)) picker.setAttribute('aria-expanded', 'false');
       });
     })();
 
-    // Theme toggle
-    (function(){
+    (function themeToggle(){
       const btn = document.getElementById('themeToggle');
       if (!btn) return;
-      const setPressed = () => btn.setAttribute('aria-pressed', String((document.documentElement.getAttribute('data-theme')||'light') === 'dark'));
-      setPressed();
+      const sync = () => btn.setAttribute('aria-pressed', String(document.documentElement.getAttribute('data-theme') === 'dark'));
+      sync();
       btn.addEventListener('click', () => {
-        const cur = document.documentElement.getAttribute('data-theme') || 'light';
-        const next = cur === 'dark' ? 'light' : 'dark';
+        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         window.__setTheme(next);
-        setPressed();
+        sync();
       });
     })();
 
-    // Back to top
-    (function(){
-      const btn = document.getElementById("backToTop");
-      addEventListener("scroll", () => {
-        if (scrollY > 200) btn.classList.add("show");
-        else btn.classList.remove("show");
-      });
-      btn.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+    (function backToTop(){
+      const btn = document.getElementById('backToTop');
+      if (!btn) return;
+      window.addEventListener('scroll', () => btn.classList.toggle('show', window.scrollY > 200));
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     })();
 
-    // Project cards: reveal on scroll
-    (function(){
-      const cards = document.querySelectorAll('.card.project');
-      if (!cards.length || !('IntersectionObserver' in window)) {
+    (function revealCards(){
+      const cards = document.querySelectorAll('.project-card');
+      if (!cards.length) return;
+      if (!('IntersectionObserver' in window)) {
         cards.forEach(c => c.classList.add('is-visible'));
         return;
       }
@@ -737,29 +569,25 @@
         entries.forEach(e => {
           if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
         });
-      }, { threshold: 0.2 });
+      }, { threshold: 0.08 });
       cards.forEach(c => io.observe(c));
     })();
 
-    // Tabs filter + keyboard
-    (function(){
-      const tabs = Array.from(document.querySelectorAll('.tablist .tab[role="tab"]'));
-      const grid = document.getElementById('projectsGrid');
-      const cards = Array.from(grid.querySelectorAll('.project'));
-      const region = document.getElementById('projectsRegion');
+    (function filterTabs(){
+      const tabs  = Array.from(document.querySelectorAll('.tablist .tab[role="tab"]'));
+      const grid  = document.getElementById('projectsGrid');
+      const cards = Array.from(grid.querySelectorAll('.project-card'));
       if (!tabs.length) return;
 
-      function apply(filter, tabEl){
+      function apply(filter, tabEl) {
         tabs.forEach(t => {
-          const sel = (t === tabEl);
+          const sel = t === tabEl;
           t.setAttribute('aria-selected', String(sel));
           t.tabIndex = sel ? 0 : -1;
-          if (sel) region.setAttribute('aria-labelledby', t.id);
         });
         cards.forEach(c => {
           if (filter === 'all') { c.hidden = false; return; }
-          const tags = (c.dataset.tags || '').split(/\s+/);
-          c.hidden = !tags.includes(filter);
+          c.hidden = !(c.dataset.tags || '').split(/\s+/).includes(filter);
         });
       }
 
@@ -769,15 +597,14 @@
         if (i === -1) return;
         if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
           e.preventDefault();
-          const dir = e.key === 'ArrowRight' ? 1 : -1;
-          tabs[(i + dir + tabs.length) % tabs.length].focus();
+          tabs[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length].focus();
         } else if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           apply(tabs[i].dataset.filter, tabs[i]);
         }
       });
 
-      apply('all', tabs[0]); // init
+      apply('all', tabs[0]);
     })();
   </script>
 </body>

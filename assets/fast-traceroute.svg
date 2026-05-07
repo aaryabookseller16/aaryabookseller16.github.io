@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Fast traceroute hop timing diagram</title>
+  <desc id="desc">A route path with ICMP hops and measured round-trip timings.</desc>
+  <rect width="1200" height="675" fill="#111110"/>
+  <rect x="56" y="56" width="1088" height="563" rx="18" fill="#f3f2ee"/>
+  <g fill="none" stroke="#111110" stroke-width="3">
+    <path d="M144 370 C260 230, 384 478, 500 334 S740 242, 862 346 S1000 458, 1068 260"/>
+  </g>
+  <g font-family="IBM Plex Mono, Menlo, monospace" fill="#111110">
+    <text x="88" y="118" font-size="30" font-weight="700">FAST TRACEROUTE</text>
+    <text x="88" y="158" font-size="18">parallel TTL probes / async reverse DNS / batch mode</text>
+  </g>
+  <g>
+    <circle cx="144" cy="370" r="34" fill="#e53800"/>
+    <circle cx="328" cy="306" r="34" fill="#111110"/>
+    <circle cx="500" cy="334" r="34" fill="#111110"/>
+    <circle cx="682" cy="296" r="34" fill="#111110"/>
+    <circle cx="862" cy="346" r="34" fill="#111110"/>
+    <circle cx="1068" cy="260" r="34" fill="#e53800"/>
+  </g>
+  <g font-family="IBM Plex Mono, Menlo, monospace" font-size="22" font-weight="700" text-anchor="middle">
+    <text x="144" y="378" fill="#fff">01</text>
+    <text x="328" y="314" fill="#fff">02</text>
+    <text x="500" y="342" fill="#fff">03</text>
+    <text x="682" y="304" fill="#fff">04</text>
+    <text x="862" y="354" fill="#fff">05</text>
+    <text x="1068" y="268" fill="#fff">06</text>
+  </g>
+  <g font-family="IBM Plex Mono, Menlo, monospace" font-size="18" fill="#111110">
+    <text x="106" y="440">0.9 ms</text>
+    <text x="290" y="254">3.4 ms</text>
+    <text x="462" y="400">8.2 ms</text>
+    <text x="644" y="244">11.7 ms</text>
+    <text x="824" y="414">18.5 ms</text>
+    <text x="1018" y="210">done</text>
+  </g>
+  <g opacity=".16" stroke="#111110" stroke-width="2">
+    <path d="M88 520H1112"/>
+    <path d="M88 566H1112"/>
+    <path d="M88 612H1112"/>
+  </g>
+</svg>

@@ -1,36 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <!-- ===== THEME BOOT (runs before paint) ===== -->
   <script>
     (function () {
       const KEY = "theme";
       const root = document.documentElement;
-      const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
       let t = "light";
       try {
-        const saved = localStorage.getItem(KEY);
-        t = (saved === "light" || saved === "dark") ? saved : (prefersDark ? "dark" : "light");
+        const s = localStorage.getItem(KEY);
+        t = (s === "light" || s === "dark") ? s : (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       } catch {}
       root.setAttribute("data-theme", t);
       root.style.colorScheme = t;
-
-      // keep mobile browser UI in sync
       let meta = document.querySelector('meta[name="theme-color"]');
       if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
-      meta.setAttribute("content", t === "dark" ? "#0b0f14" : "#faf7f3");
-
-      // helper to flip theme + enable correct CSS file
+      meta.setAttribute("content", t === "dark" ? "#111110" : "#f3f2ee");
       window.__setTheme = (theme) => {
-        const next = (theme === "dark") ? "dark" : "light";
-        try { localStorage.setItem(KEY, next); } catch {}
+        const next = theme === "dark" ? "dark" : "light";
         root.setAttribute("data-theme", next);
         root.style.colorScheme = next;
-        const metaEl = document.querySelector('meta[name="theme-color"]');
-        if (metaEl) metaEl.setAttribute("content", next === "dark" ? "#0b0f14" : "#faf7f3");
+        try { localStorage.setItem(KEY, next); } catch {}
+        const m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute("content", next === "dark" ? "#111110" : "#f3f2ee");
         const light = document.getElementById("lightCSS");
         const dark  = document.getElementById("darkCSS");
         if (light && dark) { light.disabled = next !== "light"; dark.disabled = next !== "dark"; }
@@ -40,850 +31,583 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Qualifications – Aarya Bookseller</title>
-  <meta name="description" content="Education, experience, publications, and skills." />
+  <title>Qualifications — Aarya Bookseller</title>
+  <meta name="description" content="Education, experience, publications, and skills — Aarya Bookseller." />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Base + Theme CSS -->
   <link rel="stylesheet" href="style.css" />
   <link id="lightCSS" rel="stylesheet" href="theme-light.css">
   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
-
-  <style>
-    :root{
-      --font-serif: "Times New Roman", Times, serif;
-      --font-sans: "Times New Roman", Times, serif;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    }
-
-    /* Times New Roman everywhere */
-    html, body, button, input, select, textarea, .btn, .brand, nav a, p, li, .lead,
-    .card, .card *, h1, h2, h3, h4, h5, h6, .tab, .pill, .meta {
-      font-family: var(--font-serif) !important;
-    }
-
-    /* Keep headings bold */
-    h1, h2, h3, h4, h5, h6 { font-weight: 700; }
-
-    /* Preserve monospace for code blocks if any */
-    code, pre { font-family: var(--font-mono) !important; }
-    body { line-height: 1.6; text-align: left; }
-    body.page-qual{ position: relative; }
-    body.page-qual::before{
-      content:""; position: fixed; inset:0; z-index:0; pointer-events:none;
-      background:
-        radial-gradient(900px 500px at 12% -10%, color-mix(in oklab, var(--accent,#4b72ff) 10%, transparent), transparent 70%),
-        radial-gradient(800px 520px at 88% -15%, color-mix(in oklab, #ff7a59 10%, transparent), transparent 70%),
-        repeating-linear-gradient(90deg, color-mix(in oklab, var(--text,#111) 6%, transparent) 0 1px, transparent 1px 56px),
-        repeating-linear-gradient(0deg, color-mix(in oklab, var(--text,#111) 5%, transparent) 0 1px, transparent 1px 56px);
-      opacity: .18;
-    }
-    body.page-qual > *{ position: relative; z-index:1; }
-    .section.compact { padding-top: 0; }
-    .local-nav { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:.5rem auto 1rem; }
-    .local-nav a { padding:6px 10px; border-radius:10px; background:var(--bg-2,#f6f0e6); text-decoration:none; font-size:.9rem; }
-    .local-nav a:hover { box-shadow: var(--shadow-1,0 6px 18px rgba(0,0,0,.08)); }
-    .qual-main { display:grid; gap:32px; }
-    .qual-section{
-      padding: 0;
-      border-radius:16px;
-      background: var(--bg-1,#fff);
-      border:1px solid color-mix(in oklab, var(--tone, #4b72ff) 16%, var(--ring, #e6e6e6));
-      box-shadow:0 6px 16px rgba(0,0,0,.05);
-      overflow:hidden;
-    }
-    .qual-summary{
-      list-style:none;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:12px 14px;
-      border-radius:16px;
-      border:none;
-      background: linear-gradient(90deg, color-mix(in oklab, var(--tone, #4b72ff) 10%, transparent), transparent 70%);
-      transition: background .2s ease, border-color .2s ease;
-    }
-    .qual-summary::-webkit-details-marker{ display:none; }
-    .qual-summary::after{
-      content:"+";
-      font-weight:800;
-      opacity:.6;
-    }
-    .qual-section[open] .qual-summary::after{ content:"—"; }
-    .qual-summary:focus-visible{ outline:none; box-shadow:0 0 0 3px color-mix(in oklab, var(--tone, #4b72ff) 35%, transparent); }
-    .qual-head{ display:flex; flex-direction:column; gap:6px; }
-    .qual-body{ padding: 2px 14px 16px; display:grid; gap:16px; }
-    .qual-section[open] .qual-summary{ border-bottom-left-radius:0; border-bottom-right-radius:0; }
-    .qual-section[open] .qual-summary{ border-bottom:1px solid var(--ring, #e6e6e6); }
-    @keyframes sectionFade{
-      from{ opacity:0; transform: translateY(-4px); }
-      to{ opacity:1; transform: translateY(0); }
-    }
-    .qual-section[open] .qual-body{ animation: sectionFade .25s ease; }
-    .qual-section[data-tone] { --tone: var(--tone); }
-    .qual-section[data-tone="blue"]{ --tone:#4b72ff; }
-    .qual-section[data-tone="rose"]{ --tone:#ff7a59; }
-    .qual-section[data-tone="gold"]{ --tone:#f2c94c; }
-    .qual-section[data-tone="teal"]{ --tone:#00b894; }
-    .qual-section[data-tone="purple"]{ --tone:#a55eea; }
-    .qual-eyebrow{ font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; opacity:.65; }
-    .qual-head h2{ margin:0; font-size:1.4rem; font-weight:800; }
-    .qual-sub{ margin:0; opacity:.75; max-width:70ch; }
-    .stack { display:grid; gap:14px; }
-    .card { padding:14px; border-radius:14px; background:var(--bg-1,#fff); border:1px solid var(--ring, #e6e6e6); box-shadow:0 4px 12px rgba(0,0,0,.04); }
-    .card h2 { margin:.1rem 0 .4rem; font-size:1.15rem; font-weight:800; }
-    .card h3 { margin:.2rem 0 .2rem; font-weight:700; font-size:1rem; }
-    .meta { opacity:.8; font-size:.95rem; margin:.15rem 0 .4rem; }
-    .card--tint-rose{ background:linear-gradient(180deg,color-mix(in oklab,#ff7a59 12%,transparent),transparent 60%),var(--bg-1,#fff); }
-    .card--tint-blue{ background:linear-gradient(180deg,color-mix(in oklab,#4b72ff 12%,transparent),transparent 60%),var(--bg-1,#fff); }
-    .card--tint-peach{ background:linear-gradient(180deg,color-mix(in oklab,#f2c94c 12%,transparent),transparent 60%),var(--bg-1,#fff); }
-    .qual-cards{ display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:16px; }
-    .info-card{
-      padding:16px; border-radius:16px; background:var(--bg-1,#fff);
-      border:1px solid var(--ring, #e6e6e6);
-      box-shadow:0 6px 16px rgba(0,0,0,.05);
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    }
-    .info-card:hover{ transform: translateY(-2px); box-shadow:0 10px 22px rgba(0,0,0,.08); border-color: color-mix(in oklab, var(--accent,#4b72ff) 35%, var(--ring, #e6e6e6)); }
-    .info-card h3{ margin:.1rem 0 .35rem; font-size:1.05rem; font-weight:800; }
-    .info-card .meta{ margin-bottom:.5rem; }
-    .tag-list{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
-    .tag{
-      padding:4px 10px; border-radius:999px; background:var(--bg-2,#f0f0f0);
-      font-size:.78rem; white-space:nowrap;
-    }
-    .skills-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:14px; }
-    .skills-group{
-      padding:12px; border-radius:14px; background:var(--bg-1,#fff);
-      border:1px solid var(--ring, #e6e6e6);
-      box-shadow:0 4px 12px rgba(0,0,0,.04);
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    }
-    .skills-group:hover{ transform: translateY(-2px); box-shadow:0 8px 18px rgba(0,0,0,.07); border-color: color-mix(in oklab, var(--accent,#4b72ff) 25%, var(--ring, #e6e6e6)); }
-    .skills-group h3 { font-size:.92rem; margin:0 0 .4rem; opacity:.9; }
-    .pills { display:flex; flex-wrap:wrap; gap:6px; }
-    .pill { padding:4px 10px; border-radius:12px; background:var(--bg-2,#f0f0f0); font-size:.85rem; white-space:nowrap; }
-    .pill { text-decoration: none; color: inherit; }
-    .pill:hover { box-shadow: var(--shadow-1,0 6px 18px rgba(0,0,0,.08)); }
-
-    .timeline{ position:relative; display:grid; gap:16px; padding-left:6px; }
-    .timeline::before{
-      content:""; position:absolute; left:14px; top:6px; bottom:6px; width:2px;
-      background:var(--bg-2,#e9e9e9);
-    }
-    .timeline-item{
-      position:relative; padding:16px 16px 16px 44px; border-radius:16px;
-      background:var(--bg-1,#fff); border:1px solid var(--ring, #e6e6e6); box-shadow:0 6px 16px rgba(0,0,0,.05);
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    }
-    .timeline-item:hover{ transform: translateY(-2px); box-shadow:0 10px 22px rgba(0,0,0,.08); border-color: color-mix(in oklab, var(--accent,#4b72ff) 30%, var(--ring, #e6e6e6)); }
-    .timeline-item::before{
-      content:""; position:absolute; left:7px; top:22px; width:16px; height:16px;
-      background:var(--accent,#4b72ff); border-radius:999px; box-shadow:0 0 0 4px var(--bg-1,#fff);
-    }
-    .timeline-item ul{ margin:.35rem 0 .45rem 1.1rem; }
-
-    .cert-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:14px; }
-    .cert-card{
-      padding:12px; border-radius:14px; background:var(--bg-1,#fff);
-      border:1px solid var(--ring, #e6e6e6);
-      box-shadow:0 4px 12px rgba(0,0,0,.04);
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    }
-    .cert-card:hover{ transform: translateY(-2px); box-shadow:0 8px 18px rgba(0,0,0,.07); border-color: color-mix(in oklab, var(--accent,#4b72ff) 25%, var(--ring, #e6e6e6)); }
-    .cert-card h3{
-      font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; opacity:.75; margin:0 0 .5rem;
-    }
-    .certs { display:grid; gap:10px; }
-    .cert-group h3{
-      font-size:.78rem;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      opacity:.75;
-      margin:0 0 .35rem;
-    }
-    .cert-list{ display:flex; flex-direction:column; gap:6px; margin:0; padding:0; list-style:none; }
-    .cert-item{
-      display:flex;
-      align-items:baseline;
-      justify-content:space-between;
-      gap:12px;
-      padding:8px 10px;
-      border-radius:12px;
-      background:var(--bg-2,#f0f0f0);
-    }
-    .cert-item a{ text-decoration:none; color:var(--accent, #4b72ff); font-size:.92rem; }
-    .cert-item a:hover{ text-decoration:underline; }
-    .cert-date{ opacity:.7; font-size:.85rem; white-space:nowrap; }
-    @media (max-width:520px){
-      .cert-item{ flex-direction:column; align-items:flex-start; }
-      .cert-date{ white-space:normal; }
-    }
-
-    .coursework-grid{ display:grid; grid-template-columns:1fr; gap:12px; }
-    .course-card{
-      border-radius:14px; background:var(--bg-1,#fff);
-      border:1px solid var(--ring, #e6e6e6);
-      box-shadow:0 4px 12px rgba(0,0,0,.04);
-      transition: box-shadow .25s ease, border-color .25s ease, transform .25s ease;
-      overflow:hidden;
-    }
-    .course-card:hover{ transform: translateY(-2px); box-shadow:0 8px 18px rgba(0,0,0,.07); border-color: color-mix(in oklab, var(--accent,#4b72ff) 20%, var(--ring, #e6e6e6)); }
-    .course-card summary{
-      list-style:none; cursor:pointer; padding:12px 14px; font-weight:800;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px;
-      background: linear-gradient(90deg, color-mix(in oklab, var(--tone, #4b72ff) 8%, transparent), transparent 70%);
-    }
-    .course-card summary::-webkit-details-marker{ display:none; }
-    .course-card summary::after{ content:"+"; font-weight:800; opacity:.6; }
-    .course-card[open] summary::after{ content:"—"; }
-    .course-card[open] summary{ border-bottom:1px solid var(--ring, #e6e6e6); }
-    .course-card .pills{ padding:10px 12px 14px; }
-
-    .skills-spotlight{
-      display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:12px; margin-bottom:12px;
-    }
-    .skills-card{
-      padding:12px; border-radius:14px;
-      background: linear-gradient(120deg, color-mix(in oklab, var(--tone, #00b894) 12%, transparent), transparent 70%), var(--bg-1,#fff);
-      border:1px solid color-mix(in oklab, var(--tone, #00b894) 22%, var(--ring, #e6e6e6));
-      box-shadow:0 6px 16px rgba(0,0,0,.05);
-    }
-    .skills-card h4{ margin:0 0 6px; font-size:.95rem; font-weight:800; }
-    .skills-card p{ margin:0; opacity:.75; font-size:.9rem; }
-
-    @media (prefers-reduced-motion: reduce){
-      .info-card, .skills-group, .timeline-item, .cert-card, .course-card { transition: none !important; }
-      .qual-section[open] .qual-body{ animation: none !important; }
-    }
-
-    .xp { display:grid; gap:14px; }
-    .xp-item h3 { margin:.1rem 0 .2rem; font-size:1rem; font-weight:800; }
-    .xp-item h3 a { text-decoration:none; }
-    .xp-item h3 a:hover { text-decoration:underline; }
-    .xp-sub { margin:.1rem 0 .3rem; opacity:.8; font-size:.93rem; }
-    .xp-item ul { margin:.25rem 0 .4rem 1.1rem; }
-    .xp-item li + li { margin-top:.2rem; }
-    .pub h3 { margin:.2rem 0 0; font-size:1rem; }
-    .pub ul { margin:.25rem 0 .2rem 1.1rem; }
-    .hero-actions { margin-top:10px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
-    .header-actions { display:flex; gap:8px; align-items:center; }
-    .tab.button-like, button.tab { border:none; cursor:pointer; }
-  </style>
 </head>
 
-<body class="page-qual qualifications">
-<!-- Header -->
-<header class="site-header">
-  <div class="container" style="align-items:center; justify-content:space-between;">
-    <a class="brand" href="index.html">Aarya<span>.</span></a>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-bar">
+        <a class="brand" href="index.html">Aarya<span>.</span></a>
 
-    <!-- Mobile hamburger (ARIA) -->
-    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-
-    <!-- Primary nav -->
-    <nav id="site-nav" class="site-nav" aria-label="Primary">
-       <a href="index.html" aria-current="page">About</a>
-        <a href="qualifications.html">Qualifications</a>
-        <a href="service.html">Volunteering</a>
-        <a href="portfolio.html">Portfolio</a>
-        <a href="ai.html">Neural Playground</a>
-    </nav>
-
-    <!-- Accent + Theme -->
-    <div class="header-actions" style="display:flex; gap:10px; align-items:center;">
-      <!-- Accent picker -->
-      <div class="accent-picker" id="accentPicker" aria-expanded="false">
-        <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-            <path d="M12 3a9 9 0 0 0 0 18h4a3 3 0 0 0 0-6h-1a2 2 0 1 1 0-4h1a3 3 0 0 0 0-6h-4zM7 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
+            <path d="M2 4h12M2 8h12M2 12h12"/>
           </svg>
         </button>
-        <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
-          <button class="accent-swatch" data-accent="#4b72ff"  style="background:#4b72ff"  title="Blue"></button>
-          <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
-          <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
-          <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
-          <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
+
+        <nav id="site-nav" class="site-nav" aria-label="Primary">
+          <a href="index.html">About</a>
+          <a href="qualifications.html" aria-current="page">Qualifications</a>
+          <a href="service.html">Volunteering</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="ai.html">Neural Playground</a>
+        </nav>
+
+        <div class="header-actions">
+          <div class="accent-picker" id="accentPicker" aria-expanded="false">
+            <button class="btn-icon" id="accentToggle" aria-label="Choose accent color">
+              <svg viewBox="0 0 16 16" fill="currentColor">
+                <circle cx="8" cy="8" r="3.5"/>
+                <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z" opacity=".4"/>
+              </svg>
+            </button>
+            <div class="accent-menu" id="accentMenu" role="menu">
+              <button class="accent-swatch" data-accent="#e53800" style="background:#e53800" title="Orange"></button>
+              <button class="accent-swatch" data-accent="#2563eb" style="background:#2563eb" title="Blue"></button>
+              <button class="accent-swatch" data-accent="#0d9488" style="background:#0d9488" title="Teal"></button>
+              <button class="accent-swatch" data-accent="#7c3aed" style="background:#7c3aed" title="Purple"></button>
+              <button class="accent-swatch" data-accent="#d97706" style="background:#d97706" title="Amber"></button>
+            </div>
+          </div>
+          <button id="themeToggle" class="btn-icon theme-toggle" aria-label="Toggle color theme" aria-pressed="false">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
         </div>
       </div>
-
-      <!-- Theme toggle -->
-      <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark" aria-pressed="false">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <circle cx="12" cy="12" r="4" stroke-width="2"/>
-          <path stroke-width="2" d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-        </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
     </div>
-  </div>
-</header>
+  </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container" style="text-align:center;">
-      <h1 style="margin:0;">Qualifications</h1>
-      <div class="local-nav">
+  <section class="hero-section">
+    <div class="container">
+      <h1 class="hero-page-title">Qualifications</h1>
+      <nav class="local-nav" aria-label="Jump to section">
         <a href="#publications">Publications</a>
         <a href="#experience">Experience</a>
         <a href="#education">Education</a>
         <a href="#skills">Skills</a>
         <a href="#certifications">Certifications</a>
         <a href="#coursework">Coursework</a>
-      </div>
+      </nav>
       <div class="hero-actions">
-        <a class="tab" href="assets/Aarya_Bookseller_Bobyard_Intern.pdf" target="_blank" rel="noopener">Download Résumé</a>
-        <a class="tab" href="portfolio.html">See Projects</a>
+        <a class="resume-btn" href="assets/Bookseller_Aarya.pdf" target="_blank" rel="noopener">
+          <i class="fa-solid fa-file-arrow-down"></i> Download Résumé
+        </a>
+        <a class="btn btn--ghost" href="portfolio.html">See Projects</a>
       </div>
     </div>
-    <div class="divider"></div>
   </section>
 
-  <main class="section compact">
-    <div class="container qual-main">
-      <details class="qual-section" id="publications" data-tone="rose" open>
-        <summary class="qual-summary">
-          <span class="qual-head">
-            <span class="qual-eyebrow">Research</span>
-            <h2>Publications</h2>
-            <span class="qual-sub">Concise summaries of recent papers with clear takeaways and artifacts.</span>
-          </span>
-        </summary>
-        <div class="qual-body">
-          <div class="qual-cards">
-          <article class="info-card card--tint-rose pub">
-            <h3>Scalable Principal–Agent Contract Design via Gradient‑Based Optimization</h3>
-            <p class="meta">A. Bookseller, T. Galanti, K. Ray · Under review at ICLR 2026; preprint on arXiv</p>
-            <p>
-              Presents a scalable framework for principal–agent contract design as a bilevel optimization problem with differentiable agents.
-              We derive efficient <strong>implicit‑gradient</strong> estimators using <strong>Hessian–vector products (HVPs)</strong> solved via <em>conjugate gradient</em>, enabling GPU‑accelerated hypergradient updates without forming explicit Hessians.
-              The system integrates <strong>Sobol‑QMC</strong> sampling for low‑variance Monte Carlo estimates, <strong>JVP‑based</strong> tracing for memory efficiency, and stability heuristics (warm starts, damping, line search) that make training robust across <em>CARA–Normal</em>, logistic‑signal, and misspecified settings.
-            </p>
-            <ul>
-              <li>Contributions: implicit‑gradient solver, stability heuristics (warm‑starts, damping, line search), and a reproducible evaluation protocol.</li>
-              <li>Artifacts: reproducible PyTorch code, logging utilities, and publication-quality figures.</li>
-            </ul>
-            <p>
-              Read the preprint on
-              <a href="https://arxiv.org/abs/2510.21177" target="_blank" rel="noopener">arXiv</a>
-            </p>
-            <div class="tag-list">
-              <span class="tag">Bilevel optimization</span>
-              <span class="tag">Implicit gradients</span>
-              <span class="tag">GPU‑scale</span>
+  <main class="section">
+    <div class="container">
+      <div class="qual-main">
+
+        <!-- Publications -->
+        <details class="qual-section" id="publications" open>
+          <summary class="qual-summary">
+            <span class="qual-head">
+              <span class="qual-eyebrow">Research</span>
+              <h2>Publications</h2>
+              <span class="qual-sub">Concise summaries of recent papers with clear takeaways and artifacts.</span>
+            </span>
+          </summary>
+          <div class="qual-body">
+            <div class="qual-cards">
+              <article class="info-card">
+                <h3>Scalable Principal–Agent Contract Design via Gradient-Based Optimization</h3>
+                <span class="meta">A. Bookseller, T. Galanti, K. Ray · Under review at ICLR 2026; preprint on arXiv</span>
+                <p>Presents a scalable framework for principal–agent contract design as a bilevel optimization problem with differentiable agents. We derive efficient <strong>implicit-gradient</strong> estimators using <strong>Hessian–vector products (HVPs)</strong> solved via <em>conjugate gradient</em>, enabling GPU-accelerated hypergradient updates without forming explicit Hessians. The system integrates <strong>Sobol-QMC</strong> sampling for low-variance Monte Carlo estimates, <strong>JVP-based</strong> tracing for memory efficiency, and stability heuristics (warm starts, damping, line search) that make training robust across <em>CARA–Normal</em>, logistic-signal, and misspecified settings.</p>
+                <ul>
+                  <li>Contributions: implicit-gradient solver, stability heuristics (warm-starts, damping, line search), and a reproducible evaluation protocol.</li>
+                  <li>Artifacts: reproducible PyTorch code, logging utilities, and publication-quality figures.</li>
+                </ul>
+                <p>Read the preprint on <a href="https://arxiv.org/abs/2510.21177" target="_blank" rel="noopener">arXiv →</a></p>
+                <div class="tag-list">
+                  <span class="tag">Bilevel optimization</span>
+                  <span class="tag">Implicit gradients</span>
+                  <span class="tag">GPU-scale</span>
+                </div>
+              </article>
+
+              <article class="info-card">
+                <h3>Gradient-Based Bilevel Optimization for Principal–Agent Contract Design</h3>
+                <span class="meta">A. Bookseller, T. Galanti, K. Ray · Accepted at NeurIPS 2025 (GenAI in Finance Workshop)</span>
+                <p>Formulates contract design as a <strong>bilevel program</strong> where the principal optimizes contract parameters and the agent best-responds with effort. Computes outer gradients via <strong>implicit differentiation</strong> with <strong>HVP/CG</strong>, avoiding explicit Hessians; demonstrates stable training with warm starts, damping, and line-searched updates across canonical benchmarks.</p>
+                <ul>
+                  <li>Contributions: implicit-gradient solver, stability heuristics (warm-starts, damping, line search), and a reproducible evaluation protocol.</li>
+                  <li>Artifacts: reproducible PyTorch code, logging utilities, and publication-quality figures.</li>
+                </ul>
+                <p>View workshop entry: <a href="https://neurips.cc/virtual/2025/workshop/12345" target="_blank" rel="noreferrer">NeurIPS 2025 – GenAI in Finance →</a></p>
+                <div class="tag-list">
+                  <span class="tag">NeurIPS Workshop</span>
+                  <span class="tag">Optimization</span>
+                  <span class="tag">Contracts</span>
+                </div>
+              </article>
             </div>
-          </article>
-
-          <article class="info-card card--tint-blue pub">
-            <h3>Gradient‑Based Bilevel Optimization for Principal–Agent Contract Design</h3>
-            <p class="meta">A. Bookseller, T. Galanti, K. Ray · Accepted at NeurIPS 2025 (GenAI in Finance Workshop)</p>
-            <p>
-              Formulates contract design as a <strong>bilevel program</strong> where the principal optimizes contract parameters and the agent best‑responds with effort.
-              Computes outer gradients via <strong>implicit differentiation</strong> with <strong>HVP/CG</strong>, avoiding explicit Hessians; demonstrates stable training with warm starts, damping, and line‑searched updates across canonical benchmarks.
-            </p>
-            <ul>
-              <li>Contributions: implicit‑gradient solver, stability heuristics (warm‑starts, damping, line search), and a reproducible evaluation protocol.</li>
-              <li>Artifacts: reproducible PyTorch code, logging utilities, and publication-quality figures.</li>
-            </ul>
-            <p>
-              View workshop entry:
-              <a href="https://neurips.cc/virtual/2025/workshop/12345" target="_blank" rel="noreferrer">NeurIPS 2025 – GenAI in Finance →</a>
-            </p>
-            <div class="tag-list">
-              <span class="tag">NeurIPS Workshop</span>
-              <span class="tag">Optimization</span>
-              <span class="tag">Contracts</span>
-            </div>
-          </article>
           </div>
-        </div>
-      </details>
+        </details>
 
-      <details class="qual-section" id="experience" data-tone="blue" open>
-        <summary class="qual-summary">
-          <span class="qual-head">
-            <span class="qual-eyebrow">Practice</span>
-            <h2>Experience</h2>
-            <span class="qual-sub">Impact-first highlights across research, engineering, and analytics roles.</span>
-          </span>
-        </summary>
-        <div class="qual-body">
-          <div class="timeline xp">
-          <section class="timeline-item xp-item">
-            <h3>
-              <a href="https://tomergalanti.github.io/index.html" target="_blank" rel="noopener">
-                Undergraduate Research Assistant — Deep Learning Fundamentals Lab
-              </a>
-            </h3>
-            <p class="xp-sub">Texas A&amp;M University · Jan 2025 – Present · Hybrid · College Station, TX</p>
-            <ul>
-              <li><strong>Bilevel optimization (principal–agent):</strong> Implemented gradient-based methods with <em>implicit differentiation</em>, <em>HVPs</em>, and <em>conjugate gradient</em>; stabilized inner/outer loops via schedules and regularization.</li>
-              <li><strong>Large-scale experimentation:</strong> Automated sweeps, logging, and aggregation (CSV/Parquet); standardized configs for reproducibility across seeds/devices; produced publication-quality figures.</li>
-              <li><strong>Self-supervised learning:</strong> Built SimCLR/MoCo pipelines in PyTorch; trained on A100s with strong augmentation policies; tuned temperature/optimizer; improved downstream transfer over supervised baselines.</li>
-              <li><strong>Research collaboration:</strong> Contributed to theory, experiment design, and manuscript drafting; maintained documented code and figures for submission.</li>
-              <li><strong>Result:</strong> Co‑authored paper accepted at NeurIPS 2025 (GenAI in Finance); extended version submitted to ICLR 2026.</li>
-            </ul>
-            <p class="xp-sub"><em>Skills:</em> Python, PyTorch, Experiment Design</p>
-          </section>
-
-          <section class="timeline-item xp-item">
-            <h3>Machine Learning Engineer — NaviAI</h3>
-            <p class="xp-sub">Self-employed · Jan 2025 – Present · Remote</p>
-            <ul>
-              <li>Built an AI-powered maritime logistics platform integrating ML, NLP, and optimization.</li>
-              <li>Designed a <strong>NetworkX</strong> routing engine with dynamic weights for time, fuel, and risk; incorporated Transformer-based sentiment to score maritime news in real time.</li>
-              <li>Policy stack combining a Transformer forecaster with PPO‑based routing under uncertainty; risk and operational constraints modeled explicitly.</li>
-              <li>Developed a <strong>Streamlit</strong> UI surfacing fastest/cheapest/safest routes with LLM explanations for interpretability.</li>
-              <li>Deployed monitoring with Prometheus and Grafana for runtime services.</li>
-              <li>Recognized as a <strong>Semi-finalist</strong>, Mays Business School AI Competition (2024).</li>
-            </ul>
-            <p class="xp-sub"><em>Skills:</em> Python, PyTorch, Hugging Face, Streamlit, GeoPandas</p>
-          </section>
-
-          <section class="timeline-item xp-item">
-            <h3>Software Developer</h3>
-            <p class="xp-sub">Zachry Dept. of Civil &amp; Environmental Engineering, Texas A&amp;M · Sep 2024 – Apr 2025 · On-site</p>
-            <ul>
-              <li>Built simulation models in <strong>Java</strong> and <strong>AnyLogic</strong> for civil/environmental systems.</li>
-              <li>Implemented agent-based and discrete-event simulations to test performance under real-world constraints.</li>
-              <li>Delivered modular, reusable code for faculty research; collaborated closely with graduate researchers.</li>
-            </ul>
-            <p class="xp-sub"><em>Skills:</em> Java, AnyLogic, Simulation Modeling</p>
-          </section>
-
-          <section class="timeline-item xp-item">
-            <h3>
-              <a href="https://zenon-sgl.tamu.edu/" target="_blank" rel="noopener">
-                Data Analyst Intern — Stochastic Geomechanics Laboratory
-              </a>
-            </h3>
-            <p class="xp-sub">Feb 2024 – Sep 2024 · On-site (US)</p>
-            <ul>
-              <li>Applied <strong>Bayesian Networks</strong> to supply-chain risk; emphasized resilience and uncertainty quantification.</li>
-              <li>Implemented <strong>MCMC</strong> and inverse modeling to calibrate probabilistic models from real data.</li>
-              <li>Developed data-cleaning/analysis workflows in <strong>Python</strong> and <strong>R</strong>; produced analytic reports and visualizations for research deliverables.</li>
-            </ul>
-            <p class="xp-sub"><em>Skills:</em> Python, R, Bayesian Networks, MCMC</p>
-          </section>
-
-          <section class="timeline-item xp-item">
-            <h3>
-              <a href="https://slxuphys.github.io/" target="_blank" rel="noopener">
-                Undergraduate Research Assistant — Physics &amp; Astronomy
-              </a>
-            </h3>
-            <p class="xp-sub">Texas A&amp;M University · Aug 2022 – Dec 2022 · Hybrid · Bryan–College Station, TX</p>
-            <ul>
-              <li>Studied quantum communication security with parity qubits; analyzed error rates, leakage, and eavesdropping resistance.</li>
-              <li>Designed and tested secure transmission protocols via computational modeling; explored the Quantum Coin Flip problem.</li>
-              <li>Gained hands-on experience with <strong>Qiskit</strong> and theoretical modeling for next-gen secure communication.</li>
-            </ul>
-            <p class="xp-sub"><em>Skills:</em> Qiskit, Quantum Mechanics, Python</p>
-          </section>
-
-          <section class="timeline-item xp-item">
-            <h3>Intern — Dreams and Deeds NGO</h3>
-            <p class="xp-sub">Sep 2020 – Oct 2020 · Online</p>
-            <ul>
-              <li>Led a team of 15 interns; coordinated weekly standups and delegated tasks to hit deadlines.</li>
-              <li>Produced social content and reports to support outreach and highlight initiatives.</li>
-            </ul>
-            </section>
-          </div>
-        </div>
-      </details>
-
-      <details class="qual-section" id="education" data-tone="gold">
-        <summary class="qual-summary">
-          <span class="qual-head">
-            <span class="qual-eyebrow">Foundation</span>
-            <h2>Education</h2>
-            <span class="qual-sub">Academic focus with core minors in physics and statistics.</span>
-          </span>
-        </summary>
-        <div class="qual-body">
-          <div class="qual-cards">
-          <article class="info-card card--tint-blue">
-            <h3>Texas A&amp;M University</h3>
-            <p class="meta">B.S. Computer Science — Minors: Physics &amp; Statistics · Expected Dec 2026</p>
-            <p class="meta">Distinguished Student, College of Engineering · Dean’s Honor Roll</p>
-            <div class="tag-list">
-              <span class="tag">Computer Science</span>
-              <span class="tag">Physics</span>
-              <span class="tag">Statistics</span>
-            </div>
-          </article>
-          </div>
-        </div>
-      </details>
-
-      <details class="qual-section" id="skills" data-tone="teal">
-        <summary class="qual-summary">
-          <span class="qual-head">
-            <span class="qual-eyebrow">Toolbox</span>
-            <h2>Skills</h2>
-            <span class="qual-sub">Grouped by how they get used day-to-day.</span>
-          </span>
-        </summary>
-        <div class="qual-body">
-          <div class="skills-spotlight">
-            <div class="skills-card">
-              <h4>ML Systems</h4>
-              <p>End‑to‑end modeling pipelines, optimization, and scalable training.</p>
-              <div class="tag-list">
-                <span class="tag">PyTorch</span><span class="tag">Transformers</span><span class="tag">Bilevel Opt</span>
+        <!-- Experience -->
+        <details class="qual-section" id="experience" open>
+          <summary class="qual-summary">
+            <span class="qual-head">
+              <span class="qual-eyebrow">Practice</span>
+              <h2>Experience</h2>
+              <span class="qual-sub">Impact-first highlights across research, engineering, and analytics roles.</span>
+            </span>
+          </summary>
+          <div class="qual-body">
+            <div class="timeline">
+              <div class="timeline-item">
+                <h3>
+                  <a href="https://tomergalanti.github.io/index.html" target="_blank" rel="noopener">
+                    Undergraduate Research Assistant — Deep Learning Fundamentals Lab
+                  </a>
+                </h3>
+                <span class="xp-sub">Texas A&amp;M University · Jan 2025–Present · Hybrid · College Station, TX</span>
+                <ul>
+                  <li><strong>Bilevel optimization (principal–agent):</strong> Implemented gradient-based methods with <em>implicit differentiation</em>, <em>HVPs</em>, and <em>conjugate gradient</em>; stabilized inner/outer loops via schedules and regularization.</li>
+                  <li><strong>Large-scale experimentation:</strong> Automated sweeps, logging, and aggregation (CSV/Parquet); standardized configs for reproducibility across seeds/devices; produced publication-quality figures.</li>
+                  <li><strong>Self-supervised learning:</strong> Built SimCLR/MoCo pipelines in PyTorch; trained on A100s with strong augmentation policies; tuned temperature/optimizer; improved downstream transfer over supervised baselines.</li>
+                  <li><strong>Research collaboration:</strong> Contributed to theory, experiment design, and manuscript drafting; maintained documented code and figures for submission.</li>
+                  <li><strong>Result:</strong> Co-authored paper accepted at NeurIPS 2025 (GenAI in Finance); extended version submitted to ICLR 2026.</li>
+                </ul>
+                <span class="xp-sub" style="margin-top:10px;"><em>Skills:</em> Python, PyTorch, Experiment Design</span>
               </div>
-            </div>
-            <div class="skills-card">
-              <h4>Data &amp; Infra</h4>
-              <p>Reliable data flow, analysis, and deployment‑ready services.</p>
-              <div class="tag-list">
-                <span class="tag">Pandas</span><span class="tag">PostgreSQL</span><span class="tag">REST APIs</span>
+
+              <div class="timeline-item">
+                <h3>Machine Learning Engineer — NaviAI</h3>
+                <span class="xp-sub">Self-employed · Jan 2025–Present · Remote</span>
+                <ul>
+                  <li>Built an AI-powered maritime logistics platform integrating ML, NLP, and optimization.</li>
+                  <li>Designed a <strong>NetworkX</strong> routing engine with dynamic weights for time, fuel, and risk; incorporated Transformer-based sentiment to score maritime news in real time.</li>
+                  <li>Policy stack combining a Transformer forecaster with PPO-based routing under uncertainty; risk and operational constraints modeled explicitly.</li>
+                  <li>Developed a <strong>Streamlit</strong> UI surfacing fastest/cheapest/safest routes with LLM explanations for interpretability.</li>
+                  <li>Deployed monitoring with Prometheus and Grafana for runtime services.</li>
+                  <li>Recognized as a <strong>Semi-finalist</strong>, Mays Business School AI Competition (2024).</li>
+                </ul>
+                <span class="xp-sub" style="margin-top:10px;"><em>Skills:</em> Python, PyTorch, Hugging Face, Streamlit, GeoPandas</span>
               </div>
-            </div>
-            <div class="skills-card">
-              <h4>Product &amp; UX</h4>
-              <p>Interactive apps and clear data storytelling for users.</p>
-              <div class="tag-list">
-                <span class="tag">Streamlit</span><span class="tag">React</span><span class="tag">Plotly</span>
+
+              <div class="timeline-item">
+                <h3>Software Developer</h3>
+                <span class="xp-sub">Zachry Dept. of Civil &amp; Environmental Engineering, Texas A&amp;M · Sep 2024–Apr 2025 · On-site</span>
+                <ul>
+                  <li>Built simulation models in <strong>Java</strong> and <strong>AnyLogic</strong> for civil/environmental systems.</li>
+                  <li>Implemented agent-based and discrete-event simulations to test performance under real-world constraints.</li>
+                  <li>Delivered modular, reusable code for faculty research; collaborated closely with graduate researchers.</li>
+                </ul>
+                <span class="xp-sub" style="margin-top:10px;"><em>Skills:</em> Java, AnyLogic, Simulation Modeling</span>
+              </div>
+
+              <div class="timeline-item">
+                <h3>
+                  <a href="https://zenon-sgl.tamu.edu/" target="_blank" rel="noopener">
+                    Data Analyst Intern — Stochastic Geomechanics Laboratory
+                  </a>
+                </h3>
+                <span class="xp-sub">Feb 2024–Sep 2024 · On-site (US)</span>
+                <ul>
+                  <li>Applied <strong>Bayesian Networks</strong> to supply-chain risk; emphasized resilience and uncertainty quantification.</li>
+                  <li>Implemented <strong>MCMC</strong> and inverse modeling to calibrate probabilistic models from real data.</li>
+                  <li>Developed data-cleaning/analysis workflows in <strong>Python</strong> and <strong>R</strong>; produced analytic reports and visualizations for research deliverables.</li>
+                </ul>
+                <span class="xp-sub" style="margin-top:10px;"><em>Skills:</em> Python, R, Bayesian Networks, MCMC</span>
+              </div>
+
+              <div class="timeline-item">
+                <h3>
+                  <a href="https://slxuphys.github.io/" target="_blank" rel="noopener">
+                    Undergraduate Research Assistant — Physics &amp; Astronomy
+                  </a>
+                </h3>
+                <span class="xp-sub">Texas A&amp;M University · Aug 2022–Dec 2022 · Hybrid · Bryan–College Station, TX</span>
+                <ul>
+                  <li>Studied quantum communication security with parity qubits; analyzed error rates, leakage, and eavesdropping resistance.</li>
+                  <li>Designed and tested secure transmission protocols via computational modeling; explored the Quantum Coin Flip problem.</li>
+                  <li>Gained hands-on experience with <strong>Qiskit</strong> and theoretical modeling for next-gen secure communication.</li>
+                </ul>
+                <span class="xp-sub" style="margin-top:10px;"><em>Skills:</em> Qiskit, Quantum Mechanics, Python</span>
+              </div>
+
+              <div class="timeline-item">
+                <h3>Intern — Dreams and Deeds NGO</h3>
+                <span class="xp-sub">Sep 2020–Oct 2020 · Online</span>
+                <ul>
+                  <li>Led a team of 15 interns; coordinated weekly standups and delegated tasks to hit deadlines.</li>
+                  <li>Produced social content and reports to support outreach and highlight initiatives.</li>
+                </ul>
               </div>
             </div>
           </div>
-          <div class="skills-grid">
-            <section class="skills-group">
-              <h3>Programming Languages</h3>
-              <div class="pills">
-                <span class="pill">Python</span><span class="pill">C/C++</span><span class="pill">Java</span>
-              <span class="pill">JavaScript</span><span class="pill">HTML/CSS</span>
+        </details>
+
+        <!-- Education -->
+        <details class="qual-section" id="education">
+          <summary class="qual-summary">
+            <span class="qual-head">
+              <span class="qual-eyebrow">Foundation</span>
+              <h2>Education</h2>
+              <span class="qual-sub">Academic focus with core minors in physics and statistics.</span>
+            </span>
+          </summary>
+          <div class="qual-body">
+            <div class="edu-card">
+              <h3>Texas A&amp;M University</h3>
+              <span class="meta">B.S. Computer Science — Minors: Physics &amp; Statistics · Expected Dec 2026</span>
+              <span class="meta">Distinguished Student, College of Engineering · Dean's Honor Roll</span>
+              <div class="tag-list">
+                <span class="tag">Computer Science</span>
+                <span class="tag">Physics</span>
+                <span class="tag">Statistics</span>
+              </div>
             </div>
-          </section>
-          <section class="skills-group">
-            <h3>ML / AI</h3>
-            <div class="pills">
-              <span class="pill">PyTorch</span><span class="pill">SimCLR / MoCo</span><span class="pill">Transformers</span>
-              <span class="pill">scikit-learn</span><span class="pill">Bilevel Optimization</span>
-            </div>
-          </section>
-          <section class="skills-group">
-            <h3>Data &amp; Infra</h3>
-            <div class="pills">
-              <span class="pill">NumPy</span><span class="pill">Pandas</span><span class="pill">Parquet / CSV</span>
-              <span class="pill">PostgreSQL</span><span class="pill">REST APIs</span>
-            </div>
-          </section>
-          <section class="skills-group">
-            <h3>Web &amp; App</h3>
-            <div class="pills">
-              <span class="pill">Streamlit</span><span class="pill">React</span><span class="pill">Dash</span>
-            </div>
-          </section>
-          <section class="skills-group">
-            <h3>DevOps &amp; Systems</h3>
-            <div class="pills">
-              <span class="pill">Git</span><span class="pill">Docker</span><span class="pill">Linux</span>
-            </div>
-          </section>
-          <section class="skills-group">
-            <h3>Visualization &amp; Docs</h3>
-            <div class="pills">
-              <span class="pill">Matplotlib</span><span class="pill">Plotly</span><span class="pill">LaTeX</span>
-            </div>
-          </section>
           </div>
-        </div>
-      </details>
+        </details>
 
-      <details class="qual-section" id="certifications" data-tone="purple">
-        <summary class="qual-summary">
-          <span class="qual-head">
-            <span class="qual-eyebrow">Credentials</span>
-            <h2>Certifications</h2>
-            <span class="qual-sub">Grouped by provider for faster scanning.</span>
-          </span>
-        </summary>
-        <div class="qual-body">
-          <div class="cert-grid">
-          <article class="cert-card">
-            <h3>DeepLearning.AI</h3>
-            <ul class="cert-list">
-              <li class="cert-item">
-                <a href="https://learn.deeplearning.ai/certificates/03e1cdf6-fa3a-4636-8c40-a6150aa3b70a?usp=sharing" target="_blank" rel="noopener">PyTorch for Deep Learning (Professional Certificate)</a>
-                <span class="cert-date">Dec 2025</span>
-              </li>
-              <li class="cert-item">
-                <a href="https://learn.deeplearning.ai/accomplishments/88473d5b-5217-476f-97a4-b22a58a4c408?usp=sharing" target="_blank" rel="noopener">Attention in Transformers</a>
-                <span class="cert-date">Oct 2025</span>
-              </li>
-              <li class="cert-item">
-                <a href="https://learn.deeplearning.ai/accomplishments/961214ff-024e-4114-9597-8a62ae89ce11?usp=sharing" target="_blank" rel="noopener">How Transformer LLMs Work</a>
-                <span class="cert-date">Oct 2025</span>
-              </li>
-            </ul>
-          </article>
+        <!-- Skills -->
+        <details class="qual-section" id="skills">
+          <summary class="qual-summary">
+            <span class="qual-head">
+              <span class="qual-eyebrow">Toolbox</span>
+              <h2>Skills</h2>
+              <span class="qual-sub">Grouped by how they get used day-to-day.</span>
+            </span>
+          </summary>
+          <div class="qual-body">
+            <div class="skills-spotlight">
+              <div class="skills-card">
+                <h4>ML Systems</h4>
+                <p>End-to-end modeling pipelines, optimization, and scalable training.</p>
+                <div class="tag-list">
+                  <span class="tag">PyTorch</span><span class="tag">Transformers</span><span class="tag">Bilevel Opt</span>
+                </div>
+              </div>
+              <div class="skills-card">
+                <h4>Data &amp; Infra</h4>
+                <p>Reliable data flow, analysis, and deployment-ready services.</p>
+                <div class="tag-list">
+                  <span class="tag">Pandas</span><span class="tag">PostgreSQL</span><span class="tag">REST APIs</span>
+                </div>
+              </div>
+              <div class="skills-card">
+                <h4>Product &amp; UX</h4>
+                <p>Interactive apps and clear data storytelling for users.</p>
+                <div class="tag-list">
+                  <span class="tag">Streamlit</span><span class="tag">React</span><span class="tag">Plotly</span>
+                </div>
+              </div>
+            </div>
 
-          <article class="cert-card">
-            <h3>LinkedIn Learning</h3>
-            <ul class="cert-list">
-              <li class="cert-item">
-                <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/details/certifications/" target="_blank" rel="noopener">Excel Essential Training</a>
-                <span class="cert-date">Mar 2023</span>
-              </li>
-              <li class="cert-item">
-                <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/details/certifications/" target="_blank" rel="noopener">Learning C++ Pointers</a>
-                <span class="cert-date">Mar 2023</span>
-              </li>
-              <li class="cert-item">
-                <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/details/certifications/" target="_blank" rel="noopener">NASBA Credential (listed on LinkedIn)</a>
-                <span class="cert-date">Mar 2023</span>
-              </li>
-            </ul>
-          </article>
-
-          <article class="cert-card">
-            <h3>Udemy</h3>
-            <ul class="cert-list">
-              <li class="cert-item">
-                <a href="https://www.udemy.com/certificate/UC-45894d94-a919-49ff-b8d1-c624649bede3/" target="_blank" rel="noopener">Complete Python Bootcamp</a>
-                <span class="cert-date">Dec 2022</span>
-              </li>
-            </ul>
-          </article>
-
-          <article class="cert-card">
-            <h3>Coursera</h3>
-            <ul class="cert-list">
-              <li class="cert-item">
-                <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/details/certifications/" target="_blank" rel="noopener">Certified Secure Programmer (ECSP)</a>
-                <span class="cert-date">Aug 2022</span>
-              </li>
-            </ul>
-          </article>
+            <div class="skills-grid">
+              <div class="skills-group">
+                <h3>Programming Languages</h3>
+                <div class="pills">
+                  <span class="pill">Python</span><span class="pill">C/C++</span><span class="pill">Java</span>
+                  <span class="pill">JavaScript</span><span class="pill">HTML/CSS</span>
+                </div>
+              </div>
+              <div class="skills-group">
+                <h3>ML / AI</h3>
+                <div class="pills">
+                  <span class="pill">PyTorch</span><span class="pill">SimCLR / MoCo</span><span class="pill">Transformers</span>
+                  <span class="pill">scikit-learn</span><span class="pill">Bilevel Optimization</span>
+                </div>
+              </div>
+              <div class="skills-group">
+                <h3>Data &amp; Infra</h3>
+                <div class="pills">
+                  <span class="pill">NumPy</span><span class="pill">Pandas</span><span class="pill">Parquet / CSV</span>
+                  <span class="pill">PostgreSQL</span><span class="pill">REST APIs</span>
+                </div>
+              </div>
+              <div class="skills-group">
+                <h3>Web &amp; App</h3>
+                <div class="pills">
+                  <span class="pill">Streamlit</span><span class="pill">React</span><span class="pill">Dash</span>
+                </div>
+              </div>
+              <div class="skills-group">
+                <h3>DevOps &amp; Systems</h3>
+                <div class="pills">
+                  <span class="pill">Git</span><span class="pill">Docker</span><span class="pill">Linux</span>
+                </div>
+              </div>
+              <div class="skills-group">
+                <h3>Visualization &amp; Docs</h3>
+                <div class="pills">
+                  <span class="pill">Matplotlib</span><span class="pill">Plotly</span><span class="pill">LaTeX</span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </details>
+        </details>
 
-      <details class="qual-section" id="coursework" data-tone="blue">
-        <summary class="qual-summary">
-          <span class="qual-head">
-            <span class="qual-eyebrow">Study</span>
-            <h2>Coursework</h2>
-            <span class="qual-sub">Collapsed by discipline for easier browsing.</span>
-          </span>
-        </summary>
-        <div class="qual-body">
-          <div class="coursework-grid">
-          <details class="course-card" open>
-            <summary>Computer Science</summary>
-            <div class="pills">
-              <span class="pill">CSCE 121 – Program Design &amp; Concepts</span>
-              <span class="pill">CSCE 221 – Data Structures &amp; Algorithms</span>
-              <span class="pill">CSCE 312 – Computer Organization</span>
-              <span class="pill">CSCE 313 – Intro to Computer Systems</span>
-              <span class="pill">CSCE 331 – Software Engineering</span>
-              <span class="pill">CSCE 411 – Advanced Algorithms</span>
-              <span class="pill">CSCE 420 – Artificial Intelligence</span>
-              <span class="pill">CSCE 430 – Problem Solving Strategies</span>
-              <span class="pill">CSCE 481 – Seminar</span>
-              <span class="pill">CSCE 612 – Distributed Systems and Networking</span>
-              <span class="pill">CSCE 421 – Machine Learning</span>
-              <span class="pill">CSCE 689 – Deep Learning &amp; LLMs</span>
+        <!-- Certifications -->
+        <details class="qual-section" id="certifications">
+          <summary class="qual-summary">
+            <span class="qual-head">
+              <span class="qual-eyebrow">Credentials</span>
+              <h2>Certifications</h2>
+              <span class="qual-sub">Grouped by provider for faster scanning.</span>
+            </span>
+          </summary>
+          <div class="qual-body">
+            <div class="cert-grid">
+              <div class="cert-card">
+                <h3>DeepLearning.AI</h3>
+                <ul class="cert-list">
+                  <li class="cert-item">
+                    <a href="https://learn.deeplearning.ai/certificates/03e1cdf6-fa3a-4636-8c40-a6150aa3b70a?usp=sharing" target="_blank" rel="noopener">PyTorch for Deep Learning (Professional Certificate)</a>
+                    <span class="cert-date">Dec 2025</span>
+                  </li>
+                  <li class="cert-item">
+                    <a href="https://learn.deeplearning.ai/accomplishments/88473d5b-5217-476f-97a4-b22a58a4c408?usp=sharing" target="_blank" rel="noopener">Attention in Transformers</a>
+                    <span class="cert-date">Oct 2025</span>
+                  </li>
+                  <li class="cert-item">
+                    <a href="https://learn.deeplearning.ai/accomplishments/961214ff-024e-4114-9597-8a62ae89ce11?usp=sharing" target="_blank" rel="noopener">How Transformer LLMs Work</a>
+                    <span class="cert-date">Oct 2025</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="cert-card">
+                <h3>LinkedIn Learning</h3>
+                <ul class="cert-list">
+                  <li class="cert-item">
+                    <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/details/certifications/" target="_blank" rel="noopener">Excel Essential Training</a>
+                    <span class="cert-date">Mar 2023</span>
+                  </li>
+                  <li class="cert-item">
+                    <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/details/certifications/" target="_blank" rel="noopener">Learning C++ Pointers</a>
+                    <span class="cert-date">Mar 2023</span>
+                  </li>
+                  <li class="cert-item">
+                    <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/details/certifications/" target="_blank" rel="noopener">NASBA Credential</a>
+                    <span class="cert-date">Mar 2023</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="cert-card">
+                <h3>Udemy</h3>
+                <ul class="cert-list">
+                  <li class="cert-item">
+                    <a href="https://www.udemy.com/certificate/UC-45894d94-a919-49ff-b8d1-c624649bede3/" target="_blank" rel="noopener">Complete Python Bootcamp</a>
+                    <span class="cert-date">Dec 2022</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="cert-card">
+                <h3>Coursera</h3>
+                <ul class="cert-list">
+                  <li class="cert-item">
+                    <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/details/certifications/" target="_blank" rel="noopener">Certified Secure Programmer (ECSP)</a>
+                    <span class="cert-date">Aug 2022</span>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </details>
-          <details class="course-card">
-            <summary>Mathematics</summary>
-            <div class="pills">
-              <span class="pill">MATH 151 – Calculus I</span>
-              <span class="pill">MATH 152 – Calculus II</span>
-              <span class="pill">MATH 251 – Calculus III</span>
-              <span class="pill">MATH 308 – Differential Equations</span>
-            </div>
-          </details>
-          <details class="course-card">
-            <summary>Physics</summary>
-            <div class="pills">
-              <span class="pill">PHYS 150 – Programming for Physics</span>
-              <span class="pill">PHYS 206 – Mechanics</span>
-              <span class="pill">PHYS 207 – Electricity &amp; Magnetism</span>
-              <span class="pill">PHYS 221 – Thermodynamics &amp; Optics</span>
-              <span class="pill">PHYS 226 – Physics of Motion Lab</span>
-              <span class="pill">PHYS 309 – Modern Physics</span>
-            </div>
-          </details>
-          <details class="course-card">
-            <summary>Statistics</summary>
-            <div class="pills">
-              <span class="pill">STAT 211 – Principles of Statistics I</span>
-              <span class="pill">STAT 212 – Principles of Statistics II</span>
-              <span class="pill">STAT 414 – Mathematical Statistics</span>
-              <span class="pill">Machine Learning</span>
-            </div>
-          </details>
           </div>
-        </div>
-      </details>
+        </details>
+
+        <!-- Coursework -->
+        <details class="qual-section" id="coursework">
+          <summary class="qual-summary">
+            <span class="qual-head">
+              <span class="qual-eyebrow">Study</span>
+              <h2>Coursework</h2>
+              <span class="qual-sub">Collapsed by discipline for easier browsing.</span>
+            </span>
+          </summary>
+          <div class="qual-body">
+            <div class="coursework-grid">
+              <details class="course-card" open>
+                <summary>Computer Science</summary>
+                <div class="pills">
+                  <span class="pill">CSCE 121 – Program Design &amp; Concepts</span>
+                  <span class="pill">CSCE 221 – Data Structures &amp; Algorithms</span>
+                  <span class="pill">CSCE 312 – Computer Organization</span>
+                  <span class="pill">CSCE 313 – Intro to Computer Systems</span>
+                  <span class="pill">CSCE 331 – Software Engineering</span>
+                  <span class="pill">CSCE 411 – Advanced Algorithms</span>
+                  <span class="pill">CSCE 420 – Artificial Intelligence</span>
+                  <span class="pill">CSCE 430 – Problem Solving Strategies</span>
+                  <span class="pill">CSCE 481 – Seminar</span>
+                  <span class="pill">CSCE 612 – Distributed Systems and Networking</span>
+                  <span class="pill">CSCE 421 – Machine Learning</span>
+                  <span class="pill">CSCE 689 – Deep Learning &amp; LLMs</span>
+                </div>
+              </details>
+              <details class="course-card">
+                <summary>Mathematics</summary>
+                <div class="pills">
+                  <span class="pill">MATH 151 – Calculus I</span>
+                  <span class="pill">MATH 152 – Calculus II</span>
+                  <span class="pill">MATH 251 – Calculus III</span>
+                  <span class="pill">MATH 308 – Differential Equations</span>
+                </div>
+              </details>
+              <details class="course-card">
+                <summary>Physics</summary>
+                <div class="pills">
+                  <span class="pill">PHYS 150 – Programming for Physics</span>
+                  <span class="pill">PHYS 206 – Mechanics</span>
+                  <span class="pill">PHYS 207 – Electricity &amp; Magnetism</span>
+                  <span class="pill">PHYS 221 – Thermodynamics &amp; Optics</span>
+                  <span class="pill">PHYS 226 – Physics of Motion Lab</span>
+                  <span class="pill">PHYS 309 – Modern Physics</span>
+                </div>
+              </details>
+              <details class="course-card">
+                <summary>Statistics</summary>
+                <div class="pills">
+                  <span class="pill">STAT 211 – Principles of Statistics I</span>
+                  <span class="pill">STAT 212 – Principles of Statistics II</span>
+                  <span class="pill">STAT 414 – Mathematical Statistics</span>
+                  <span class="pill">Machine Learning</span>
+                </div>
+              </details>
+            </div>
+          </div>
+        </details>
+
+      </div>
     </div>
   </main>
 
-  <!-- ===== FOOTER ===== -->
-<footer class="site-footer" style="border-top:1px solid var(--ring,#ddd); margin-top:2rem; padding:1.2rem 0; font-size:0.9rem;">
-  <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.75rem;">
-    
-    <!-- Left text -->
-    <div class="footer-left" style="opacity:0.85;">
-      © <span id="year"></span> Aarya Bookseller
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bar">
+        <span class="footer-copy">© <span id="year"></span> Aarya Bookseller</span>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+          <a href="https://github.com/aaryabookseller16" target="_blank" rel="noopener" aria-label="GitHub">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ&view_op=list_works&sortby=title" target="_blank" rel="noopener" aria-label="Google Scholar">
+            <i class="fa-brands fa-google-scholar"></i>
+          </a>
+          <span class="tooltip">
+            <a href="mailto:aaryab.work@gmail.com" aria-label="Work email">
+              <i class="fa-brands fa-google"></i>
+            </a>
+            <span class="tooltip-text">aaryab.work@gmail.com</span>
+          </span>
+          <span class="tooltip">
+            <a href="mailto:aaryabookseller@tamu.edu" aria-label="TAMU email">
+              <img src="assets/tamu.png" alt="TAMU">
+            </a>
+            <span class="tooltip-text">aaryabookseller@tamu.edu</span>
+          </span>
+        </div>
+      </div>
     </div>
+  </footer>
 
-    <!-- Right links -->
-    <div class="footer-links" style="display:flex; gap:1.25rem; flex-wrap:wrap; font-size:1.3rem;">
+  <button id="backToTop" aria-label="Back to top">↑</button>
 
-      <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
-      </a>
-
-      <a href="https://github.com/aaryabookseller16" target="_blank" aria-label="GitHub">
-        <i class="fa-brands fa-github" aria-hidden="true"></i>
-      </a>
-
-      <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ&view_op=list_works&sortby=title" target="_blank" rel="noopener" aria-label="Google Scholar" title="Google Scholar">
-        <i class="fa-brands fa-google-scholar" aria-hidden="true"></i>
-      </a>
-
-      <span class="tooltip">
-        <a href="mailto:aaryab.work@gmail.com" aria-label="Work Email">
-          <i class="fa-brands fa-google" aria-hidden="true"></i>
-        </a>
-        <span class="tooltip-text">aaryab.work@gmail.com</span>
-      </span>
-
-      <span class="tooltip">
-        <a href="mailto:aaryabookseller@tamu.edu" aria-label="School Email">
-          <img src="assets/tamu.png" alt="TAMU logo">
-        </a>
-        <span class="tooltip-text">aaryabookseller@tamu.edu</span>
-      </span>
-
-    </div>
-  </div>
-</footer>
-
-  <!-- Tooltip styles kept inline (page-local) -->
-  <style>
-    .tooltip { position: relative; display: inline-block; }
-    .tooltip .tooltip-text {
-      visibility: hidden; opacity: 0; position: absolute; bottom: 130%; left: 50%;
-      transform: translateX(-50%);
-      background: var(--bg-1, #fff); color: var(--text, #000);
-      padding: 6px 10px; border-radius: 6px; font-size: 0.85rem; white-space: nowrap;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: opacity 0.2s ease; z-index: 10;
-    }
-    .tooltip .tooltip-text::after {
-      content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-      border-width: 6px; border-style: solid; border-color: var(--bg-1,#fff) transparent transparent transparent;
-    }
-    .tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
-  </style>
-
-  <!-- ===== Scripts (self-contained) ===== -->
   <script>
-    // Sync theme link disabled states once links exist
-    (function syncThemeLinks(){
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    (function syncTheme(){
       const t = document.documentElement.getAttribute("data-theme") || "light";
       const light = document.getElementById("lightCSS");
       const dark  = document.getElementById("darkCSS");
       if (light && dark) { light.disabled = t !== "light"; dark.disabled = t !== "dark"; }
       const prev = window.__setTheme;
-      window.__setTheme = (theme) => { prev(theme); if (light && dark) { light.disabled = theme !== "light"; dark.disabled = theme !== "dark"; } };
+      window.__setTheme = (theme) => {
+        prev && prev(theme);
+        if (light && dark) { light.disabled = theme !== "light"; dark.disabled = theme !== "dark"; }
+      };
     })();
 
-    // Footer year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Mobile nav
-    (function(){
-      const t = document.querySelector('.nav-toggle');
-      const n = document.getElementById('site-nav');
-      if (!t || !n) return;
-      t.addEventListener('click', () => {
-        const open = t.getAttribute('aria-expanded') === 'true';
-        t.setAttribute('aria-expanded', String(!open));
-        n.classList.toggle('open', !open);
+    (function mobileNav(){
+      const toggle = document.querySelector('.nav-toggle');
+      const nav = document.getElementById('site-nav');
+      if (!toggle || !nav) return;
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        nav.classList.toggle('open', !open);
       });
     })();
 
-    // Accent picker (with persistence)
-    (function(){
+    (function accentPicker(){
       const picker = document.getElementById('accentPicker');
       const menu   = document.getElementById('accentMenu');
-      const toggle = document.getElementById('accentToggle');
-      if (!picker || !menu || !toggle) return;
-      const ACCENT_KEY = "accent";
-
+      const btn    = document.getElementById('accentToggle');
+      if (!picker || !menu || !btn) return;
       try {
-        const saved = localStorage.getItem(ACCENT_KEY);
+        const saved = localStorage.getItem('accent');
         if (saved) document.documentElement.style.setProperty('--accent', saved);
       } catch {}
-
-      toggle.addEventListener('click', (e) => {
+      btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const open = picker.getAttribute('aria-expanded') === 'true';
-        picker.setAttribute('aria-expanded', String(!open));
+        picker.setAttribute('aria-expanded', picker.getAttribute('aria-expanded') !== 'true' ? 'true' : 'false');
       });
       menu.addEventListener('click', (e) => {
         const sw = e.target.closest('[data-accent]');
         if (!sw) return;
-        const color = sw.dataset.accent;
-        document.documentElement.style.setProperty('--accent', color);
-        try { localStorage.setItem(ACCENT_KEY, color); } catch {}
+        document.documentElement.style.setProperty('--accent', sw.dataset.accent);
+        try { localStorage.setItem('accent', sw.dataset.accent); } catch {}
         picker.setAttribute('aria-expanded', 'false');
       });
       document.addEventListener('click', (e) => {
-        if (!picker.contains(e.target)) picker.setAttribute('aria-expanded','false');
+        if (!picker.contains(e.target)) picker.setAttribute('aria-expanded', 'false');
       });
     })();
 
-    // Theme toggle
-    (function(){
+    (function themeToggle(){
       const btn = document.getElementById('themeToggle');
       if (!btn) return;
-      const setPressed = () => btn.setAttribute('aria-pressed', String((document.documentElement.getAttribute('data-theme')||'light') === 'dark'));
-      setPressed();
+      const sync = () => btn.setAttribute('aria-pressed', String(document.documentElement.getAttribute('data-theme') === 'dark'));
+      sync();
       btn.addEventListener('click', () => {
-        const cur = document.documentElement.getAttribute('data-theme') || 'light';
-        const next = cur === 'dark' ? 'light' : 'dark';
+        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         window.__setTheme(next);
-        setPressed();
+        sync();
       });
     })();
 
-    // Open section when navigated via hash
-    (function(){
-      const openFromHash = () => {
-        const id = location.hash ? location.hash.slice(1) : "";
+    (function backToTop(){
+      const btn = document.getElementById('backToTop');
+      if (!btn) return;
+      window.addEventListener('scroll', () => btn.classList.toggle('show', window.scrollY > 200));
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    })();
+
+    // Open section on hash navigate
+    (function hashOpen(){
+      const open = () => {
+        const id = location.hash.slice(1);
         if (!id) return;
         const el = document.getElementById(id);
-        if (el && el.tagName === "DETAILS") el.open = true;
+        if (el && el.tagName === 'DETAILS') el.open = true;
       };
-      addEventListener("hashchange", openFromHash);
-      openFromHash();
-    })();
-
-    // Back to Top
-    (function(){
-      const btn = document.getElementById("backToTop");
-      addEventListener("scroll", () => {
-        if (scrollY > 200) btn.classList.add("show"); else btn.classList.remove("show");
-      });
-      btn.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+      window.addEventListener('hashchange', open);
+      open();
     })();
   </script>
 </body>

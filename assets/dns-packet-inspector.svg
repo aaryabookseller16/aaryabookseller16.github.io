@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">DNS packet layout visualization</title>
+  <desc id="desc">A DNS wire-format packet broken into header, question, answer, and compressed-name pointer sections.</desc>
+  <rect width="1200" height="675" fill="#111110"/>
+  <rect x="56" y="56" width="1088" height="563" rx="18" fill="#f3f2ee"/>
+  <g font-family="IBM Plex Mono, Menlo, monospace">
+    <text x="88" y="118" font-size="30" font-weight="700" fill="#111110">DNS PACKET INSPECTOR</text>
+    <text x="88" y="158" font-size="18" fill="#6a6762">raw udp query / wire-format parser / compressed names</text>
+  </g>
+  <g font-family="IBM Plex Mono, Menlo, monospace" font-size="18" font-weight="700">
+    <rect x="92" y="226" width="1016" height="70" rx="8" fill="#111110"/>
+    <text x="122" y="270" fill="#fff">HEADER</text>
+    <text x="420" y="270" fill="#fff">TXID 0x4A31</text>
+    <text x="706" y="270" fill="#fff">QD=1 AN=2 NS=0 AR=1</text>
+    <rect x="92" y="314" width="1016" height="70" rx="8" fill="#e53800"/>
+    <text x="122" y="358" fill="#fff">QUESTION</text>
+    <text x="420" y="358" fill="#fff">example.com</text>
+    <text x="760" y="358" fill="#fff">TYPE A / CLASS IN</text>
+    <rect x="92" y="402" width="1016" height="70" rx="8" fill="#111110"/>
+    <text x="122" y="446" fill="#fff">ANSWER</text>
+    <text x="420" y="446" fill="#fff">A 93.184.216.34</text>
+    <text x="760" y="446" fill="#fff">TTL 86400</text>
+    <rect x="92" y="490" width="1016" height="70" rx="8" fill="#252521"/>
+    <text x="122" y="534" fill="#fff">C0 0C</text>
+    <text x="420" y="534" fill="#fff">compressed-name pointer</text>
+    <text x="840" y="534" fill="#fff">bounds checked</text>
+  </g>
+  <g fill="none" stroke="#e53800" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M226 526 C276 596, 510 606, 642 454"/>
+    <path d="M642 454 l-26 8 l12 22"/>
+  </g>
+</svg>
