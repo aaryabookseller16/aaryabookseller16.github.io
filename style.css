@@ -476,39 +476,46 @@ code, pre { font-family: var(--font-mono); }
 }
 .principles-list strong { color: var(--text); font-weight: 600; }
 
-/* 12. PORTFOLIO — FILTER TABS
+/* 12. PORTFOLIO CONTROLS
    ---------------------------------------------------------------- */
-.tablist {
+.project-controls {
   display: flex;
-  gap: 4px;
+  gap: 10px;
   flex-wrap: wrap;
   margin-top: 20px;
+  align-items: flex-end;
 }
-.tab {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 12px;
-  font-size: 0.8rem;
-  font-weight: 500;
+.control-field {
+  display: grid;
+  gap: 5px;
+  min-width: 160px;
+}
+.control-field span {
   font-family: var(--font-sans);
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.control-field select {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 32px 7px 10px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: transparent;
-  color: var(--muted);
+  background: var(--bg-1);
+  color: var(--text);
   cursor: pointer;
-  text-decoration: none;
   transition: color 0.12s, border-color 0.12s, background-color 0.12s;
-  white-space: nowrap;
-  user-select: none;
-  line-height: 1;
+  color-scheme: light dark;
 }
-.tab:hover { color: var(--text); border-color: var(--muted); }
-.tab[aria-selected="true"] {
-  color: var(--accent-fg);
-  background: var(--accent);
-  border-color: var(--accent);
+.control-field select:hover { border-color: var(--muted); }
+.control-field select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 560px) {
+  .control-field { flex: 1 1 100%; min-width: 0; }
 }
-.tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* 13. PROJECT CARDS
    ---------------------------------------------------------------- */
@@ -551,12 +558,30 @@ code, pre { font-family: var(--font-mono); }
   flex-direction: column;
   flex: 1;
 }
+.project-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 4px;
+}
 .project-card__title {
   font-size: 0.94rem;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 0;
   color: var(--text);
   line-height: 1.3;
+}
+.project-card__date {
+  flex: 0 0 auto;
+  max-width: 42%;
+  padding-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  color: var(--muted-strong);
+  line-height: 1.25;
+  text-align: right;
+  white-space: normal;
 }
 .project-card__meta {
   font-family: var(--font-mono);
@@ -564,6 +589,10 @@ code, pre { font-family: var(--font-mono); }
   color: var(--muted-strong);
   margin-bottom: 10px;
   line-height: 1.4;
+}
+@media (max-width: 560px) {
+  .project-card__head { flex-direction: column; gap: 3px; }
+  .project-card__date { max-width: none; text-align: left; padding-top: 0; }
 }
 .project-card__links {
   display: flex;

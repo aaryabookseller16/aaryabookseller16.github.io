@@ -101,12 +101,27 @@
         Download Résumé
       </a>
 
-      <div class="tablist" role="tablist" aria-label="Filter projects">
-        <button class="tab" role="tab" aria-selected="true" tabindex="0" data-filter="all" id="tab-all">All</button>
-        <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="ml" id="tab-ml">Machine Learning</button>
-        <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="systems" id="tab-systems">Systems</button>
-        <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="networking" id="tab-networking">Networking</button>
-        <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-filter="ui" id="tab-ui">UI/UX</button>
+      <div class="project-controls" aria-label="Project controls">
+        <label class="control-field">
+          <span>Category</span>
+          <select id="projectCategory" aria-label="Project category">
+            <option value="all">All types</option>
+            <option value="ml">Machine Learning</option>
+            <option value="systems">Systems</option>
+            <option value="networking">Networking</option>
+            <option value="ui">UI/UX</option>
+          </select>
+        </label>
+        <label class="control-field">
+          <span>Sort</span>
+          <select id="projectSort" aria-label="Project sort order">
+            <option value="recent">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="type">Category / type</option>
+            <option value="complex-desc">Most complex first</option>
+            <option value="complex-asc">Least complex first</option>
+          </select>
+        </label>
       </div>
     </div>
   </section>
@@ -116,10 +131,13 @@
       <div class="projects-grid" id="projectsGrid">
 
         <!-- Bubble Tea POS -->
-        <article class="project-card" data-tags="systems ui">
+        <article class="project-card" data-tags="systems ui" data-type="Systems" data-date-start="2025-08" data-date-end="2025-12" data-complexity="88">
           <img class="project-card__img" src="assets/boba.jpg" alt="Bubble Tea POS">
           <div class="project-card__body">
-            <h2 class="project-card__title">Bubble Tea POS — Inventory &amp; Ordering</h2>
+            <div class="project-card__head">
+              <h2 class="project-card__title">Bubble Tea POS — Inventory &amp; Ordering</h2>
+              <span class="project-card__date">Aug 2025 - Dec 2025</span>
+            </div>
             <p class="project-card__meta">JavaFX · PostgreSQL · AWS · Node.js · React</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/bubble-tea-pos" target="_blank" rel="noopener" aria-label="GitHub">
@@ -146,10 +164,13 @@
         </article>
 
         <!-- AURORA -->
-        <article class="project-card" data-tags="ml systems ui">
+        <article class="project-card" data-tags="ml systems ui" data-type="Machine Learning" data-date-start="2026-02" data-date-end="2026-02" data-complexity="92">
           <img class="project-card__img" src="assets/aurora.png" alt="AURORA compute recommendation">
           <div class="project-card__body">
-            <h2 class="project-card__title">AURORA — ML Compute Calibration &amp; Recommendations</h2>
+            <div class="project-card__head">
+              <h2 class="project-card__title">AURORA — ML Compute Calibration &amp; Recommendations</h2>
+              <span class="project-card__date">Feb 2026</span>
+            </div>
             <p class="project-card__meta">Next.js · FastAPI · Docker Sandbox · Profiling</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/AURORA" target="_blank" rel="noopener" aria-label="GitHub">
@@ -174,10 +195,13 @@
         </article>
 
         <!-- StreamSense -->
-        <article class="project-card" data-tags="systems ui">
+        <article class="project-card" data-tags="systems ui" data-type="Systems" data-date-start="2025-01" data-date-end="2025-01" data-complexity="86">
           <img class="project-card__img" src="assets/streamsense.png" alt="StreamSense Reactor dashboard">
           <div class="project-card__body">
-            <h2 class="project-card__title">StreamSense Reactor — Real-Time Streaming KPIs</h2>
+            <div class="project-card__head">
+              <h2 class="project-card__title">StreamSense Reactor — Real-Time Streaming KPIs</h2>
+              <span class="project-card__date">2025</span>
+            </div>
             <p class="project-card__meta">Redpanda (Kafka) · Node.js · PostgreSQL · React</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/Stream-Sense" target="_blank" rel="noopener" aria-label="GitHub">
@@ -199,10 +223,13 @@
         </article>
 
         <!-- InsightBoard -->
-        <article class="project-card" data-tags="systems ui">
+        <article class="project-card" data-tags="systems ui" data-type="Systems" data-date-start="2025-01" data-date-end="2025-01" data-complexity="82">
           <img class="project-card__img" src="assets/insightboard.png" alt="InsightBoard analytics dashboard">
           <div class="project-card__body">
-            <h2 class="project-card__title">InsightBoard — Internal Analytics Dashboard</h2>
+            <div class="project-card__head">
+              <h2 class="project-card__title">InsightBoard — Internal Analytics Dashboard</h2>
+              <span class="project-card__date">2025</span>
+            </div>
             <p class="project-card__meta">React · Express · PostgreSQL · JWT/RBAC</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/Insight-Board" target="_blank" rel="noopener" aria-label="GitHub">
@@ -224,10 +251,13 @@
         </article>
 
         <!-- Fast Traceroute -->
-        <article class="project-card" data-tags="systems networking">
+        <article class="project-card" data-tags="systems networking" data-type="Networking" data-date-start="2026-01" data-date-end="2026-05" data-complexity="90">
           <img class="project-card__img" src="assets/fast-traceroute.svg" alt="Fast traceroute hop timing diagram">
           <div class="project-card__body">
-            <h2 class="project-card__title">Fast Traceroute — Parallel ICMP Path Discovery</h2>
+            <div class="project-card__head">
+              <h2 class="project-card__title">Fast Traceroute — Parallel ICMP Path Discovery</h2>
+              <span class="project-card__date">Jan 2026 - May 2026</span>
+            </div>
             <p class="project-card__meta">C++ · Winsock · Raw ICMP · Async DNS · CSCE 612</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/Fast-Traceroute" target="_blank" rel="noopener" aria-label="GitHub">
@@ -249,10 +279,13 @@
         </article>
 
         <!-- Reliable UDP Sender -->
-        <article class="project-card" data-tags="systems networking">
+        <article class="project-card" data-tags="systems networking" data-type="Networking" data-date-start="2026-01" data-date-end="2026-05" data-complexity="93">
           <img class="project-card__img" src="assets/reliable-udp.svg" alt="Reliable UDP sliding window diagram">
           <div class="project-card__body">
-            <h2 class="project-card__title">Reliable UDP Sender — Sliding-Window Transport</h2>
+            <div class="project-card__head">
+              <h2 class="project-card__title">Reliable UDP Sender — Sliding-Window Transport</h2>
+              <span class="project-card__date">Jan 2026 - May 2026</span>
+            </div>
             <p class="project-card__meta">C++ · UDP · RTT/RTO Estimation · Fast Retransmit · CSCE 612</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/Reliable-UDP-Sender" target="_blank" rel="noopener" aria-label="GitHub">
@@ -274,10 +307,13 @@
         </article>
 
         <!-- DNS Packet Inspector -->
-        <article class="project-card" data-tags="systems networking">
+        <article class="project-card" data-tags="systems networking" data-type="Networking" data-date-start="2026-01" data-date-end="2026-05" data-complexity="84">
           <img class="project-card__img" src="assets/dns-packet-inspector.svg" alt="DNS packet layout visualization">
           <div class="project-card__body">
-            <h2 class="project-card__title">DNS Packet Inspector — Raw UDP Resolver Client</h2>
+            <div class="project-card__head">
+              <h2 class="project-card__title">DNS Packet Inspector — Raw UDP Resolver Client</h2>
+              <span class="project-card__date">Jan 2026 - May 2026</span>
+            </div>
             <p class="project-card__meta">C++ · DNS Wire Format · UDP · Name Compression · CSCE 612</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/DNS-Packet-Inspector" target="_blank" rel="noopener" aria-label="GitHub">
@@ -299,11 +335,14 @@
         </article>
 
         <!-- NaviAI -->
-        <article class="project-card" data-tags="ml systems ui">
+        <article class="project-card" data-tags="ml systems ui" data-type="Machine Learning" data-date-start="2025-01" data-date-end="2025-05" data-complexity="95">
           <img class="project-card__img" src="assets/routes.jpeg" alt="NaviAI maritime route visualization">
           <div class="project-card__body">
-            <h2 class="project-card__title">NaviAI — Maritime Routing with Risk</h2>
-            <p class="project-card__meta">ML Engineer · Jan 2025–Present · Semi-finalist, Mays AI Competition 2024</p>
+            <div class="project-card__head">
+              <h2 class="project-card__title">NaviAI — Maritime Routing with Risk</h2>
+              <span class="project-card__date">Jan 2025 - May 2025</span>
+            </div>
+            <p class="project-card__meta">ML Engineer · Semi-finalist, Mays AI Competition 2024</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/NaviAI" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
@@ -324,10 +363,13 @@
         </article>
 
         <!-- VisionQuery -->
-        <article class="project-card" data-tags="ml systems ui">
+        <article class="project-card" data-tags="ml systems ui" data-type="Machine Learning" data-date-start="2025-01" data-date-end="2025-01" data-complexity="78">
           <img class="project-card__img" src="assets/visionquery.png" alt="VisionQuery semantic search UI">
           <div class="project-card__body">
-            <h2 class="project-card__title">VisionQuery — Text-to-Image Semantic Search</h2>
+            <div class="project-card__head">
+              <h2 class="project-card__title">VisionQuery — Text-to-Image Semantic Search</h2>
+              <span class="project-card__date">2025</span>
+            </div>
             <p class="project-card__meta">FastAPI · CLIP · Prometheus/Grafana</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/Vision-Query" target="_blank" rel="noopener" aria-label="GitHub">
@@ -349,11 +391,14 @@
         </article>
 
         <!-- Monte Carlo -->
-        <article class="project-card" data-tags="ml systems ui">
+        <article class="project-card" data-tags="ml systems ui" data-type="Machine Learning" data-date-start="2025-12" data-date-end="2025-12" data-complexity="76">
           <img class="project-card__img" src="assets/monte-carlo.png" alt="Monte Carlo risk analysis">
           <div class="project-card__body">
-            <h2 class="project-card__title">Monte Carlo Risk Analysis — SPY Simulation</h2>
-            <p class="project-card__meta">Quant/ML · Dec 2025</p>
+            <div class="project-card__head">
+              <h2 class="project-card__title">Monte Carlo Risk Analysis — SPY Simulation</h2>
+              <span class="project-card__date">Dec 2025</span>
+            </div>
+            <p class="project-card__meta">Quant/ML · Simulation · Risk Metrics</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/monte-carlo-risk-analysis" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
@@ -374,11 +419,14 @@
         </article>
 
         <!-- ViT vs CNN -->
-        <article class="project-card" data-tags="ml systems">
+        <article class="project-card" data-tags="ml systems" data-type="Machine Learning" data-date-start="2025-12" data-date-end="2025-12" data-complexity="74">
           <img class="project-card__img" src="assets/cnn-vs-vit.png" alt="ViT vs CNN benchmark results">
           <div class="project-card__body">
-            <h2 class="project-card__title">ViT vs CNN — Small-Data Benchmark</h2>
-            <p class="project-card__meta">ML Engineer · Dec 2025</p>
+            <div class="project-card__head">
+              <h2 class="project-card__title">ViT vs CNN — Small-Data Benchmark</h2>
+              <span class="project-card__date">Dec 2025</span>
+            </div>
+            <p class="project-card__meta">ML Engineer · Reproducible Benchmarks</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/cnn-vs-vit" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
@@ -399,10 +447,13 @@
         </article>
 
         <!-- Style Converter -->
-        <article class="project-card" data-tags="ml ui">
+        <article class="project-card" data-tags="ml ui" data-type="Machine Learning" data-date-start="2025-01" data-date-end="2025-01" data-complexity="65">
           <img class="project-card__img" src="assets/van_gogh.jpeg" alt="Style transfer output">
           <div class="project-card__body">
-            <h2 class="project-card__title">Style Converter — VGG19 NST</h2>
+            <div class="project-card__head">
+              <h2 class="project-card__title">Style Converter — VGG19 NST</h2>
+              <span class="project-card__date">2025</span>
+            </div>
             <p class="project-card__meta">PyTorch · VGG19 · Neural Style Transfer</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/style-converter-nst" target="_blank" rel="noopener" aria-label="GitHub">
@@ -424,10 +475,13 @@
         </article>
 
         <!-- Fake Review Detector -->
-        <article class="project-card" data-tags="ml">
+        <article class="project-card" data-tags="ml" data-type="Machine Learning" data-date-start="2025-01" data-date-end="2025-01" data-complexity="58">
           <img class="project-card__img" src="assets/adaline.png" alt="Fake review detector overview">
           <div class="project-card__body">
-            <h2 class="project-card__title">Fake Review Detector — Adaline from Scratch</h2>
+            <div class="project-card__head">
+              <h2 class="project-card__title">Fake Review Detector — Adaline from Scratch</h2>
+              <span class="project-card__date">2025</span>
+            </div>
             <p class="project-card__meta">Python · NumPy · NLP · Interpretable Classifier</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/Fake-Review-Classifier" target="_blank" rel="noopener" aria-label="GitHub">
@@ -570,38 +624,65 @@
       cards.forEach(c => io.observe(c));
     })();
 
-    (function filterTabs(){
-      const tabs  = Array.from(document.querySelectorAll('.tablist .tab[role="tab"]'));
+    (function projectControls(){
+      const category = document.getElementById('projectCategory');
+      const sort = document.getElementById('projectSort');
       const grid  = document.getElementById('projectsGrid');
       const cards = Array.from(grid.querySelectorAll('.project-card'));
-      if (!tabs.length) return;
+      if (!category || !sort || !grid || !cards.length) return;
 
-      function apply(filter, tabEl) {
-        tabs.forEach(t => {
-          const sel = t === tabEl;
-          t.setAttribute('aria-selected', String(sel));
-          t.tabIndex = sel ? 0 : -1;
+      const originalIndex = new Map(cards.map((card, index) => [card, index]));
+      const monthValue = (value) => {
+        const [year, month] = String(value || '0-0').split('-').map(Number);
+        return (year || 0) * 12 + (month || 0);
+      };
+      const titleFor = (card) => card.querySelector('.project-card__title')?.textContent.trim() || '';
+      const newest = (a, b) =>
+        monthValue(b.dataset.dateEnd) - monthValue(a.dataset.dateEnd) ||
+        originalIndex.get(a) - originalIndex.get(b);
+      const oldest = (a, b) =>
+        monthValue(a.dataset.dateStart) - monthValue(b.dataset.dateStart) ||
+        monthValue(a.dataset.dateEnd) - monthValue(b.dataset.dateEnd) ||
+        originalIndex.get(a) - originalIndex.get(b);
+      const typeThenRecent = (a, b) =>
+        String(a.dataset.type || '').localeCompare(String(b.dataset.type || '')) ||
+        newest(a, b) ||
+        titleFor(a).localeCompare(titleFor(b));
+      const complexity = (direction) => (a, b) =>
+        direction * ((Number(b.dataset.complexity) || 0) - (Number(a.dataset.complexity) || 0)) ||
+        newest(a, b);
+
+      function compareCards(a, b) {
+        if (sort.value === 'oldest') return oldest(a, b);
+        if (sort.value === 'type') return typeThenRecent(a, b);
+        if (sort.value === 'complex-desc') return complexity(1)(a, b);
+        if (sort.value === 'complex-asc') return complexity(-1)(a, b);
+        return newest(a, b);
+      }
+
+      function apply() {
+        const filter = category.value;
+        const visible = [];
+        const hidden = [];
+
+        cards.forEach((card) => {
+          const matches = filter === 'all' || (card.dataset.tags || '').split(/\s+/).includes(filter);
+          (matches ? visible : hidden).push(card);
         });
-        cards.forEach(c => {
-          if (filter === 'all') { c.hidden = false; return; }
-          c.hidden = !(c.dataset.tags || '').split(/\s+/).includes(filter);
+
+        visible.sort(compareCards).forEach((card) => {
+          card.hidden = false;
+          grid.appendChild(card);
+        });
+        hidden.forEach((card) => {
+          card.hidden = true;
+          grid.appendChild(card);
         });
       }
 
-      tabs.forEach(t => t.addEventListener('click', () => apply(t.dataset.filter, t)));
-      document.querySelector('.tablist').addEventListener('keydown', (e) => {
-        const i = tabs.indexOf(document.activeElement);
-        if (i === -1) return;
-        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-          e.preventDefault();
-          tabs[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length].focus();
-        } else if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          apply(tabs[i].dataset.filter, tabs[i]);
-        }
-      });
-
-      apply('all', tabs[0]);
+      category.addEventListener('change', apply);
+      sort.addEventListener('change', apply);
+      apply();
     })();
   </script>
 </body>
