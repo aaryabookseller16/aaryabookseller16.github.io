@@ -91,37 +91,66 @@
     </div>
   </header>
 
-  <section class="hero-section">
+  <section class="hero-section hero-section--portfolio">
     <div class="container">
-      <h1 class="hero-page-title">Portfolio</h1>
-      <p class="hero-page-lead">Selected builds — ML systems, networking tools, optimization, and product UIs.</p>
+      <div class="portfolio-hero">
+        <div class="portfolio-hero__copy">
+          <span class="portfolio-hero__eyebrow">2025 - 2026 Project Index</span>
+          <h1 class="hero-page-title">Portfolio</h1>
+          <p class="hero-page-lead">Selected builds across ML systems, networking tools, optimization, and product UIs.</p>
 
-      <a href="assets/Bookseller_Aarya.pdf" download class="btn btn--ghost">
-        <i class="fa-solid fa-file-arrow-down"></i>
-        Download Résumé
-      </a>
+          <a href="assets/Bookseller_Aarya.pdf" download class="btn btn--ghost">
+            <i class="fa-solid fa-file-arrow-down"></i>
+            Download Résumé
+          </a>
+        </div>
 
-      <div class="project-controls" aria-label="Project controls">
-        <label class="control-field">
-          <span>Category</span>
-          <select id="projectCategory" aria-label="Project category">
-            <option value="all">All types</option>
-            <option value="ml">Machine Learning</option>
-            <option value="systems">Systems</option>
-            <option value="networking">Networking</option>
-            <option value="ui">UI/UX</option>
-          </select>
-        </label>
-        <label class="control-field">
-          <span>Sort</span>
-          <select id="projectSort" aria-label="Project sort order">
-            <option value="recent">Newest first</option>
-            <option value="oldest">Oldest first</option>
-            <option value="type">Category / type</option>
-            <option value="complex-desc">Most complex first</option>
-            <option value="complex-asc">Least complex first</option>
-          </select>
-        </label>
+        <div class="portfolio-snapshot" aria-label="Portfolio snapshot">
+          <div class="snapshot-metrics">
+            <div class="snapshot-metric">
+              <strong>13</strong>
+              <span>Projects</span>
+            </div>
+            <div class="snapshot-metric">
+              <strong>4</strong>
+              <span>Build Types</span>
+            </div>
+            <div class="snapshot-metric">
+              <strong>3</strong>
+              <span>Network Systems</span>
+            </div>
+          </div>
+          <div class="snapshot-focus">
+            <span>Latest build window</span>
+            <strong>Jan 2026 - May 2026</strong>
+            <p>Fast Traceroute, Reliable UDP Sender, and DNS Packet Inspector.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-toolbar">
+        <div class="project-controls" aria-label="Project controls">
+          <label class="control-field">
+            <span>Category</span>
+            <select id="projectCategory" aria-label="Project category">
+              <option value="all">All types</option>
+              <option value="ml">Machine Learning</option>
+              <option value="systems">Systems</option>
+              <option value="networking">Networking</option>
+              <option value="ui">UI/UX</option>
+            </select>
+          </label>
+          <label class="control-field">
+            <span>Sort</span>
+            <select id="projectSort" aria-label="Project sort order">
+              <option value="recent">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="type">Category / type</option>
+              <option value="complex-desc">Most complex first</option>
+              <option value="complex-asc">Least complex first</option>
+            </select>
+          </label>
+        </div>
       </div>
     </div>
   </section>
