@@ -561,7 +561,7 @@ code, pre { font-family: var(--font-mono); }
 .project-card__meta {
   font-family: var(--font-mono);
   font-size: 0.69rem;
-  color: var(--muted);
+  color: var(--muted-strong);
   margin-bottom: 10px;
   line-height: 1.4;
 }

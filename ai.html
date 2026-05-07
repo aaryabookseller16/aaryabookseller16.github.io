@@ -41,10 +41,7 @@
   <title>Neural Kaleidoscope — Aarya Bookseller</title>
   <meta name="description" content="Interactive transformer-attention sketch with a minimal HUD. Hover to focus columns; tweak tokens, layers, speed, density." />
 
-  <!-- Fonts & Icons (CDNs OK to keep) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- ===== ALL STYLES (inline) ===== -->
@@ -70,9 +67,9 @@
       --ai-grid: color-mix(in oklab, var(--ai-ink) 9%, transparent);
       --ai-shadow: 0 24px 60px rgba(5, 8, 18, 0.45);
       --ai-glow: 0 12px 44px color-mix(in oklab, var(--ai-accent) 30%, transparent);
-      --font-display: "DM Serif Display", "Times New Roman", serif;
-      --font-sans: "Space Grotesk", "Trebuchet MS", sans-serif;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --font-display: "Times New Roman", Times, serif;
+      --font-sans: "Times New Roman", Times, serif;
+      --font-mono: "Times New Roman", Times, serif;
     }
     [data-theme="light"] {
       --ai-bg0: #f7f6f2;
@@ -109,7 +106,7 @@
     h1, h2, h3, h4, h5, h6 {
       font-family: var(--font-display);
       font-weight: 700;
-      letter-spacing: -0.01em;
+      letter-spacing: 0;
     }
 
     /* Preserve monospace if code appears */
@@ -149,7 +146,7 @@
     .site-header .container { align-items: center; justify-content: space-between; padding-block: 10px; }
     .ai-header.is-condensed .container{ padding-block: 6px; }
     .ai-header.is-hidden{ transform: translateY(-100%); opacity: 0; }
-    .brand { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; font-size: 1.25rem; }
+    .brand { font-family: var(--font-display); font-weight: 700; letter-spacing: 0; font-size: 1.25rem; }
     .brand span { color: var(--ai-accent); }
     .site-nav { display: flex; gap: 10px; align-items: center; }
     .site-nav a{

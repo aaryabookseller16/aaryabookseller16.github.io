@@ -3,7 +3,7 @@
   <desc id="desc">A UDP sender window with ACKs, retransmission timers, and packet sequence numbers.</desc>
   <rect width="1200" height="675" fill="#f3f2ee"/>
   <rect x="56" y="56" width="1088" height="563" rx="18" fill="#111110"/>
-  <g font-family="IBM Plex Mono, Menlo, monospace">
+  <g font-family="Times New Roman, Times, serif">
     <text x="88" y="118" font-size="30" font-weight="700" fill="#f3f2ee">RELIABLE UDP SENDER</text>
     <text x="88" y="158" font-size="18" fill="#aaa49b">sliding window / ack worker / rto estimator / fast retransmit</text>
   </g>
@@ -16,7 +16,7 @@
     <rect x="660" y="0" width="112" height="124" rx="8" fill="#252521" stroke="#88847e" stroke-width="3"/>
     <rect x="792" y="0" width="112" height="124" rx="8" fill="#252521" stroke="#88847e" stroke-width="3"/>
   </g>
-  <g font-family="IBM Plex Mono, Menlo, monospace" font-size="24" font-weight="700" text-anchor="middle">
+  <g font-family="Times New Roman, Times, serif" font-size="24" font-weight="700" text-anchor="middle">
     <text x="174" y="318" fill="#fff">104</text>
     <text x="306" y="318" fill="#fff">105</text>
     <text x="438" y="318" fill="#fff">106</text>
@@ -31,7 +31,7 @@
     <path d="M704 208 C784 136, 916 136, 1000 208"/>
     <path d="M1000 208 l-22 -2 l8 -20"/>
   </g>
-  <g font-family="IBM Plex Mono, Menlo, monospace" font-size="18" fill="#aaa49b">
+  <g font-family="Times New Roman, Times, serif" font-size="18" fill="#aaa49b">
     <text x="248" y="552">cumulative ACK advances base</text>
     <text x="748" y="124">timeout or 3 duplicate ACKs</text>
     <text x="118" y="212">send window</text>

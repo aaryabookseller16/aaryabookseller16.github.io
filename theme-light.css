@@ -6,10 +6,11 @@
   --text:        #111110;
   --muted:       #6a6762;
   --border:      #d5d2ca;
+  --muted-strong:#2f2c27;
   --accent:      #e53800;
   --accent-fg:   #ffffff;
-  --font-sans:   'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
-  --font-mono:   'IBM Plex Mono', ui-monospace, 'Cascadia Code', monospace;
+  --font-sans:   "Times New Roman", Times, serif;
+  --font-mono:   "Times New Roman", Times, serif;
   --radius:      4px;
   --shadow-1:    0 1px 2px rgba(0,0,0,0.05);
   --shadow-2:    0 2px 6px rgba(0,0,0,0.07);
