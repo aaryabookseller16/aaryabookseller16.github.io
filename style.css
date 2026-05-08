@@ -457,86 +457,94 @@ code, pre { font-family: var(--font-mono); }
   margin-bottom: 32px;
 }
 .updates-section {
-  padding: 46px 0;
+  padding: 52px 0;
   background: var(--bg);
 }
 .updates-timeline {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
+  gap: 0;
+  max-width: 920px;
   list-style: none;
-  padding: 30px 0 0;
+  padding: 6px 0 0;
   margin: 0;
 }
 .updates-timeline::before {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 58px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--border), var(--accent), var(--border));
+  left: 7px;
+  top: 14px;
+  bottom: 8px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--accent), var(--border));
 }
 .timeline-update {
   position: relative;
   display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: 14px;
+  grid-template-columns: 18px minmax(118px, 154px) minmax(0, 1fr);
+  column-gap: 18px;
+  align-items: start;
+  padding: 0 0 24px;
   min-width: 0;
 }
+.timeline-update:last-child { padding-bottom: 0; }
 .timeline-update__date {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
+  font-weight: 700;
   color: var(--accent);
   text-transform: uppercase;
+  line-height: 1.35;
+  padding-top: 1px;
 }
 .timeline-update__point {
   position: relative;
   z-index: 1;
-  width: 15px;
-  height: 15px;
-  border: 3px solid var(--bg);
+  width: 11px;
+  height: 11px;
+  margin-top: 2px;
+  border: 2px solid var(--bg);
   border-radius: 999px;
   background: var(--accent);
-  box-shadow: 0 0 0 1px var(--border), 0 0 0 8px color-mix(in oklab, var(--accent) 10%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent) 35%, var(--border));
+}
+.timeline-update--major .timeline-update__point {
+  background: var(--bg);
+  box-shadow:
+    inset 0 0 0 3px var(--accent),
+    0 0 0 1px color-mix(in oklab, var(--accent) 45%, var(--border)),
+    0 0 0 7px color-mix(in oklab, var(--accent) 9%, transparent);
 }
 .timeline-update__body {
-  min-height: 188px;
-  padding: 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--bg-1);
+  min-width: 0;
+  max-width: 72ch;
+  padding-bottom: 2px;
 }
 .timeline-update__body h2 {
-  margin-bottom: 10px;
+  margin: 0 0 4px;
   font-size: 1.08rem;
   line-height: 1.25;
 }
 .timeline-update__body p {
+  margin: 0;
   color: var(--muted);
-  font-size: 0.88rem;
-  line-height: 1.7;
+  font-size: 0.94rem;
+  line-height: 1.58;
+  text-align: left;
+  overflow-wrap: anywhere;
 }
 @media (max-width: 860px) {
-  .updates-timeline {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    padding: 4px 0 0 28px;
+  .updates-section .container {
+    padding-right: 28px;
   }
-  .updates-timeline::before {
-    left: 6px;
-    right: auto;
-    top: 10px;
-    bottom: 0;
-    width: 1px;
-    height: auto;
-    background: linear-gradient(180deg, var(--accent), var(--border));
+  .updates-timeline {
+    padding-top: 2px;
   }
   .timeline-update {
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto 1fr;
-    column-gap: 14px;
+    grid-template-columns: 18px minmax(0, 1fr);
+    row-gap: 3px;
+    column-gap: 16px;
+    padding-bottom: 26px;
   }
   .timeline-update__date {
     grid-column: 2;
@@ -544,13 +552,13 @@ code, pre { font-family: var(--font-mono); }
   .timeline-update__point {
     grid-column: 1;
     grid-row: 1 / 3;
-    margin-left: -29px;
     margin-top: 2px;
   }
   .timeline-update__body {
     grid-column: 2;
-    min-height: 0;
   }
+  .timeline-update__body h2 { font-size: 1rem; }
+  .timeline-update__body p { font-size: 0.9rem; }
 }
 @keyframes softReveal {
   from { opacity: 0; transform: translateY(14px); }
@@ -810,7 +818,6 @@ code, pre { font-family: var(--font-mono); }
 .about-story,
 .principles-block,
 .service-card,
-.timeline-update__body,
 .qual-section,
 .info-card,
 .skills-card,
@@ -825,7 +832,6 @@ code, pre { font-family: var(--font-mono); }
 .about-card:hover,
 .about-story:hover,
 .service-card:hover,
-.timeline-update:hover .timeline-update__body,
 .info-card:hover,
 .pub-card:hover,
 .project-card:hover {
