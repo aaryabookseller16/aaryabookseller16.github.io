@@ -456,6 +456,46 @@ code, pre { font-family: var(--font-mono); }
   max-width: 66ch;
   margin-bottom: 32px;
 }
+.updates-section {
+  padding: 46px 0;
+  background: var(--bg);
+}
+.updates-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--border);
+  overflow: hidden;
+}
+.update-card {
+  min-height: 210px;
+  padding: 22px;
+  background: var(--bg-1);
+}
+.update-card__date {
+  display: block;
+  margin-bottom: 28px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.update-card h2 {
+  margin-bottom: 10px;
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+.update-card p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+@media (max-width: 860px) {
+  .updates-grid { grid-template-columns: 1fr; }
+  .update-card { min-height: 0; }
+}
 @keyframes softReveal {
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
@@ -714,6 +754,7 @@ code, pre { font-family: var(--font-mono); }
 .about-story,
 .principles-block,
 .service-card,
+.update-card,
 .qual-section,
 .info-card,
 .skills-card,
@@ -728,6 +769,7 @@ code, pre { font-family: var(--font-mono); }
 .about-card:hover,
 .about-story:hover,
 .service-card:hover,
+.update-card:hover,
 .info-card:hover,
 .pub-card:hover,
 .project-card:hover {
@@ -960,7 +1002,6 @@ code, pre { font-family: var(--font-mono); }
   color: var(--muted);
 }
 .qual-summary h2 { font-size: 1.05rem; font-weight: 700; }
-.qual-sub { font-size: 0.8rem; color: var(--muted); }
 .qual-body { padding: 24px; display: grid; gap: 20px; }
 
 /* Publications */
@@ -1378,7 +1419,7 @@ code, pre { font-family: var(--font-mono); }
   margin-bottom: 8px;
 }
 
-/* Qualifications: collapsible timeline items */
+/* Background: collapsible timeline items */
 details.tl-item {
   border: 1px solid var(--border);
   border-bottom: none;
