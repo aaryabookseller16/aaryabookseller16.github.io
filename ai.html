@@ -60,13 +60,14 @@
       --ai-muted: #9eb3d6;
       --ai-ring: #25324a;
       --ai-accent: var(--accent);
-      --ai-fx1: #00f5ff;
-      --ai-fx2: #ff7ad9;
-      --ai-surface: color-mix(in oklab, var(--ai-bg1) 78%, transparent);
-      --ai-card: color-mix(in oklab, var(--ai-bg1) 88%, transparent);
+      --ai-fx1: #4dd6ff;
+      --ai-fx2: #ff8a65;
+      --ai-surface: color-mix(in oklab, var(--ai-bg1) 90%, transparent);
+      --ai-card: color-mix(in oklab, var(--ai-bg1) 94%, transparent);
       --ai-grid: color-mix(in oklab, var(--ai-ink) 9%, transparent);
-      --ai-shadow: 0 24px 60px rgba(5, 8, 18, 0.45);
-      --ai-glow: 0 12px 44px color-mix(in oklab, var(--ai-accent) 30%, transparent);
+      --ai-shadow: 0 22px 54px rgba(5, 8, 18, 0.32);
+      --ai-glow: 0 10px 32px color-mix(in oklab, var(--ai-accent) 18%, transparent);
+      --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
       --font-display: "Times New Roman", Times, serif;
       --font-sans: "Times New Roman", Times, serif;
       --font-mono: "Times New Roman", Times, serif;
@@ -77,14 +78,15 @@
       --ai-ink: #151826;
       --ai-muted: #5f6b83;
       --ai-ring: #e3e6f0;
-      --ai-surface: color-mix(in oklab, #ffffff 88%, transparent);
-      --ai-card: color-mix(in oklab, #ffffff 95%, transparent);
+      --ai-surface: color-mix(in oklab, #ffffff 94%, transparent);
+      --ai-card: color-mix(in oklab, #ffffff 98%, transparent);
       --ai-grid: color-mix(in oklab, #151826 6%, transparent);
       --ai-shadow: 0 18px 40px rgba(20, 25, 35, 0.12);
     }
 
     /* ========== Base reset-ish ========== */
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
     html, body { height: 100%; }
     body {
       margin: 0;
@@ -92,13 +94,18 @@
       line-height: 1.55;
       color: var(--ai-ink);
       background:
-        radial-gradient(1200px 800px at 10% -10%,
-          color-mix(in oklab, var(--ai-fx1) 14%, transparent) 0%, transparent 62%),
-        radial-gradient(1200px 800px at 120% -10%,
-          color-mix(in oklab, var(--ai-fx2) 12%, transparent) 0%, transparent 70%),
-        repeating-linear-gradient(90deg, var(--ai-grid) 0 1px, transparent 1px 48px),
-        repeating-linear-gradient(0deg, var(--ai-grid) 0 1px, transparent 1px 48px),
+        linear-gradient(115deg,
+          color-mix(in oklab, var(--ai-fx1) 10%, transparent) 0%,
+          transparent 36%),
+        linear-gradient(245deg,
+          color-mix(in oklab, var(--ai-fx2) 8%, transparent) 0%,
+          transparent 34%),
         linear-gradient(180deg, var(--ai-bg0), var(--ai-bg1));
+    }
+    p {
+      text-align: justify;
+      text-justify: inter-word;
+      hyphens: auto;
     }
     a { color: inherit; text-decoration: none; }
     a:hover { text-decoration: underline; }
@@ -126,7 +133,7 @@
       height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ai-ring);
       background: transparent; color: var(--ai-ink); cursor: pointer; font: inherit;
       display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
-      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+      transition: transform .32s var(--ease-apple), box-shadow .32s var(--ease-apple), border-color .2s var(--ease-apple), background .2s var(--ease-apple);
     }
     .btn--solid{
       background: var(--ai-accent); border-color: transparent; color: #0b1020;
@@ -152,7 +159,7 @@
     .site-nav a{
       padding: 6px 10px; border-radius: 999px; color: var(--ai-muted);
       font-weight: 600; font-size: 0.95rem;
-      transition: color .2s ease, background .2s ease, transform .2s ease;
+      transition: color .2s var(--ease-apple), background .2s var(--ease-apple), transform .32s var(--ease-apple);
     }
     .site-nav a:hover{ color: var(--ai-ink); text-decoration: none; background: color-mix(in oklab, var(--ai-ring) 50%, transparent); }
     .site-nav a[aria-current="page"]{
@@ -180,14 +187,14 @@
         background: var(--ai-card);
         cursor: pointer;
         font-size: 1.05rem;
-        transition: transform .2s ease, border-color .2s ease;
+        transition: transform .32s var(--ease-apple), border-color .2s var(--ease-apple);
       }
       .nav-toggle:hover{ transform: translateY(-1px); border-color: color-mix(in oklab, var(--ai-accent) 45%, var(--ai-ring)); }
       .site-nav{
         grid-area: nav; display: none; flex-direction: column; gap: 8px;
         padding-top: 8px; border-top: 1px solid var(--ai-ring);
         transform-origin: top; transform: scaleY(.98); opacity: .95;
-        transition: transform .18s ease, opacity .18s ease;
+        transition: transform .32s var(--ease-apple), opacity .32s var(--ease-apple);
       }
       .site-nav.open{ display: flex; transform: scaleY(1); opacity: 1; }
       .header-actions { grid-area: actions; justify-self: start; }
@@ -200,7 +207,7 @@
       background: var(--ai-card);
       cursor: pointer;
       box-shadow: var(--ai-glow);
-      transition: transform .2s ease, border-color .2s ease;
+      transition: transform .32s var(--ease-apple), border-color .2s var(--ease-apple), box-shadow .32s var(--ease-apple);
     }
     .theme-toggle:hover{ transform: translateY(-1px); border-color: color-mix(in oklab, var(--ai-accent) 45%, var(--ai-ring)); }
     /* Minimal icon swap for theme toggle */
@@ -226,8 +233,8 @@
     /* ========== Hero ========== */
     .ai-hero{
       position: relative; z-index: 3;
-      padding: 72px 0 28px;
-      min-height: calc(100vh - var(--header-h));
+      padding: 64px 0 24px;
+      min-height: min(760px, calc(82vh - var(--header-h)));
       display: flex; align-items: center;
       --hero-progress: 0;
     }
@@ -241,16 +248,24 @@
     .ai-hero-wrap{ max-width: 1100px; margin: 0 auto; padding: 0 16px; }
     .ai-hero-grid{
       display: grid; grid-template-columns: minmax(0,1fr) minmax(250px, 330px);
-      gap: 28px; align-items: start;
+      gap: 28px; align-items: center;
       opacity: calc(1 - var(--hero-progress));
-      transform: translateY(calc(var(--hero-progress) * -48px));
-      transition: opacity .2s ease;
+      transform: translateY(calc(var(--hero-progress) * -32px));
+      transition: opacity .28s var(--ease-apple), transform .55s var(--ease-apple);
       will-change: transform, opacity;
     }
     .ai-hero.is-faded{ pointer-events: none; }
-    .ai-hero-text{ max-width: 60ch; }
+    .ai-hero-text{
+      max-width: 60ch;
+      padding: 22px;
+      border: 1px solid color-mix(in oklab, var(--ai-ring) 76%, transparent);
+      border-radius: 14px;
+      background: color-mix(in oklab, var(--ai-bg0) 76%, transparent);
+      box-shadow: var(--ai-shadow);
+      backdrop-filter: blur(14px);
+    }
     .ai-kicker{ font-size: .75rem; letter-spacing: .22em; text-transform: uppercase; color: var(--ai-muted); margin: 0 0 .6rem; }
-    .ai-title{ margin: 0 0 .45rem; font-size: clamp(1.8rem, 3.4vw, 2.6rem); line-height: 1.05; }
+    .ai-title{ margin: 0 0 .45rem; font-size: 2.55rem; line-height: 1.05; }
     .ai-badges{ display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
     .ai-pill{
       padding: 4px 10px; border-radius: 999px;
@@ -264,10 +279,10 @@
     .ai-hero-card{
       background: var(--ai-card);
       border: 1px solid color-mix(in oklab, var(--ai-ring) 80%, transparent);
-      border-radius: 18px;
+      border-radius: 14px;
       padding: 18px;
       box-shadow: var(--ai-shadow);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(14px);
     }
     .ai-hero-card h3{ margin: 0 0 8px; font-size: 1.1rem; }
     .ai-list{ margin: 0; padding-left: 18px; color: var(--ai-ink); }
@@ -285,7 +300,7 @@
 
     .ai-spacer{
       position: relative; z-index: 2;
-      height: calc(100vh - var(--header-h));
+      height: 72vh;
     }
 
     /* ========== Canvas (anchored below header) ========== */
@@ -296,9 +311,9 @@
       width: 100vw; height: auto; display: block;
       transform: translateY(var(--canvas-parallax, 0px));
       transition: transform .08s linear;
-      filter: saturate(1.12); touch-action: none;
+      filter: saturate(.88); opacity: .58; touch-action: none;
       background: radial-gradient(1200px 700px at 50% -20%,
-                  color-mix(in oklab, var(--ai-accent) 10%, transparent), transparent);
+                  color-mix(in oklab, var(--ai-accent) 6%, transparent), transparent);
     }
 
     /* ========== Floating controls (optional) ========== */
@@ -309,17 +324,17 @@
       border: 1px solid color-mix(in oklab, var(--ai-ring) 75%, transparent);
       border-radius: 999px;
       box-shadow: var(--ai-shadow);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(14px);
     }
     .controls .btn{
       height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ai-ring);
       background: transparent; color: var(--ai-ink); cursor: pointer; font: inherit;
       display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
-      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      transition: transform .32s var(--ease-apple), box-shadow .32s var(--ease-apple), border-color .2s var(--ease-apple), background .2s var(--ease-apple);
     }
     .controls .btn--solid{
       background: var(--ai-accent); border-color: transparent; color: #0b1020;
-      box-shadow: 0 10px 24px color-mix(in oklab, var(--ai-accent) 35%, transparent);
+      box-shadow: 0 10px 24px color-mix(in oklab, var(--ai-accent) 22%, transparent);
     }
     .controls .btn:hover{ transform: translateY(-1px); border-color: color-mix(in oklab, var(--ai-accent) 45%, var(--ai-ring)); }
     .controls .sep{ width: 1px; height: 20px; background: var(--ai-ring); margin-inline: 2px; }
@@ -331,10 +346,11 @@
     /* ========== HUD ========== */
     .hud{ position: fixed; right: 16px; bottom: 16px; z-index: 4; }
     .hud-toggle{
-      width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--ai-ring);
+      min-width: 40px; height: 40px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--ai-ring);
       background: var(--ai-card); color: var(--ai-ink); cursor: pointer;
       box-shadow: var(--ai-glow);
-      transition: transform .2s ease, border-color .2s ease;
+      font-weight: 700;
+      transition: transform .32s var(--ease-apple), border-color .2s var(--ease-apple), box-shadow .32s var(--ease-apple);
     }
     .hud-toggle:hover{ transform: translateY(-1px); border-color: color-mix(in oklab, var(--ai-accent) 45%, var(--ai-ring)); }
     .hud-panel{
@@ -342,7 +358,7 @@
       background: var(--ai-card); color: var(--ai-ink);
       border: 1px solid color-mix(in oklab, var(--ai-ring) 80%, transparent);
       display: grid; gap: 10px; min-width: 260px; max-width: min(92vw, 600px);
-      box-shadow: var(--ai-shadow); backdrop-filter: blur(10px);
+      box-shadow: var(--ai-shadow); backdrop-filter: blur(14px);
     }
     .hud-row{ display: grid; gap: 8px; }
     .hud-row .btn{ width: 100%; }
@@ -372,13 +388,13 @@
 
     /* ========== Motion ========== */
     @keyframes floatIn{
-      from{ opacity: 0; transform: translateY(10px); }
+      from{ opacity: 0; transform: translateY(14px); }
       to{ opacity: 1; transform: translateY(0); }
     }
-    .ai-hero-text{ animation: floatIn .6s ease both; }
-    .ai-hero-card{ animation: floatIn .7s ease .08s both; }
-    .controls{ animation: floatIn .6s ease .15s both; }
-    .hud{ animation: floatIn .6s ease .2s both; }
+    .ai-hero-text{ animation: floatIn .64s var(--ease-apple) both; }
+    .ai-hero-card{ animation: floatIn .72s var(--ease-apple) .08s both; }
+    .controls{ animation: floatIn .64s var(--ease-apple) .15s both; }
+    .hud{ animation: floatIn .64s var(--ease-apple) .2s both; }
 
 
     /* ========== A11y / prefs ========== */
@@ -398,7 +414,7 @@
   .ai-hero{ padding: 48px 0 16px; }
   .ai-hero-grid{ grid-template-columns: 1fr; }
   .ai-hero-card{ order: 2; }
-  .ai-title{ font-size: clamp(1.45rem, 6.2vw, 2.1rem); }
+  .ai-title{ font-size: 2rem; }
   .ai-lead{ font-size: .98rem; }
 
   /* Let page scroll naturally on touch; canvas won’t block gestures */
@@ -508,8 +524,8 @@
           <h3>Quickstart</h3>
           <ul class="ai-list">
             <li>Hover across columns to spotlight attention.</li>
-            <li>Tap “Surprise” to reshuffle the network.</li>
-            <li>Open the gear panel for fine-tuning.</li>
+            <li>Tap “Randomize” to reshuffle the network.</li>
+            <li>Open the tuning panel for fine control.</li>
           </ul>
           <div class="ai-shortcuts">
             <span class="ai-shortcut"><kbd>R</kbd> randomize</span>
@@ -524,8 +540,8 @@
 
   <!-- Floating controls -->
   <div class="controls" role="toolbar" aria-label="Animation controls">
-    <button id="randomize" class="btn btn--solid" title="Randomize parameters (R)">🎲 Surprise</button>
-    <button id="snapshot" class="btn" title="Save snapshot (S)">📸 Capture</button>
+    <button id="randomize" class="btn btn--solid" title="Randomize parameters (R)">Randomize</button>
+    <button id="snapshot" class="btn" title="Save snapshot (S)">Capture</button>
     <span class="sep" aria-hidden="true"></span>
     <label class="toggle">
       <input type="checkbox" id="trailToggle" checked aria-label="Trails" />
@@ -535,7 +551,7 @@
 
   <!-- Minimal HUD -->
   <div class="hud">
-    <button id="hudToggle" class="hud-toggle" aria-expanded="false" title="Open controls">⚙️</button>
+    <button id="hudToggle" class="hud-toggle" aria-expanded="false" title="Open controls">Tune</button>
     <div id="hudPanel" class="hud-panel" hidden>
       <div class="hud-title">Fine-tune the pattern</div>
       <div class="hud-row">

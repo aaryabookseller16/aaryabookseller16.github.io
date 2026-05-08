@@ -113,6 +113,21 @@
 
             <p class="context-strip">End-to-end: requirements → design → implementation → evaluation → deployment</p>
 
+            <div class="hero-signal-grid" aria-label="Current focus summary">
+              <div>
+                <strong>Research</strong>
+                <span>Bilevel optimization, simulation, and ML evaluation.</span>
+              </div>
+              <div>
+                <strong>Systems</strong>
+                <span>APIs, data pipelines, concurrency, and deployment.</span>
+              </div>
+              <div>
+                <strong>Product</strong>
+                <span>Interfaces that expose trade-offs clearly.</span>
+              </div>
+            </div>
+
             <div class="cta-row">
               <a class="btn btn--ghost" href="portfolio.html">View Portfolio</a>
               <a class="btn btn--ghost" href="assets/Bookseller_Aarya.pdf" download>Download Résumé</a>
@@ -146,24 +161,42 @@
             </div>
           </div>
 
-          <div class="hero-portrait">
+          <aside class="hero-panel" aria-label="Profile snapshot">
             <img src="assets/download.jpeg" alt="Aarya Bookseller">
-          </div>
+            <div class="hero-panel__body">
+              <span>Texas A&amp;M Computer Science</span>
+              <strong>Building reliable software with ML where it earns its keep.</strong>
+              <div class="hero-panel__rows">
+                <p><b>Incoming</b> Software Developer at IBM</p>
+                <p><b>Research</b> contract design and scalable optimization</p>
+                <p><b>Interests</b> distributed systems, data products, applied ML</p>
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
 
     <!-- ── About ── -->
-    <section class="section">
+    <section class="section about-section">
       <div class="container">
-        <span class="section-label">About Me</span>
-        <p class="section-lead">
-          Born in <strong>Surat, India</strong>. CS student at <strong>Texas A&amp;M University</strong> with minors in physics and statistics.
-          I build products where data and engineering meet—thoughtful design, strong fundamentals, operational details.
-        </p>
+        <div class="section-heading">
+          <span class="section-label">About Me</span>
+          <p class="section-lead">
+            Born in <strong>Surat, India</strong>. CS student at <strong>Texas A&amp;M University</strong> with minors in physics and statistics.
+            I build products where data and engineering meet: thoughtful design, strong fundamentals, and operational details.
+          </p>
+        </div>
 
-        <div class="about-grid">
-          <div class="about-card">
+        <div class="about-layout">
+          <article class="about-story">
+            <span class="card-label">Operating style</span>
+            <h2>Careful systems thinking, then practical execution.</h2>
+            <p>I like projects where the hard part is not only the model or the interface, but the full path from assumptions to a working system. That means defining the problem clearly, choosing a simple baseline, building the data and API layers cleanly, then measuring whether the result actually improves the user experience.</p>
+            <p>My work sits between software engineering, applied machine learning, and research. I care about reproducibility, clear trade-offs, and products that remain understandable after the first demo.</p>
+          </article>
+
+          <div class="about-card about-card--compact">
             <span class="card-label">Background</span>
             <ul class="fact-list">
               <li>Full-stack from specs to UX — <strong>auth, databases, CI/CD, observability</strong></li>
@@ -174,7 +207,7 @@
             </ul>
           </div>
 
-          <div class="about-card">
+          <div class="about-card about-card--compact">
             <span class="card-label">Hobbies &amp; Interests</span>
             <ul class="fact-list">
               <li>Morning runs &amp; workouts — keeps me disciplined and sharp</li>
@@ -185,7 +218,7 @@
             </ul>
           </div>
 
-          <div class="about-card">
+          <div class="about-card about-card--compact">
             <span class="card-label">Why CS &amp; Deep Learning</span>
             <ul class="fact-list">
               <li>CS rewards clear thinking and produces real leverage</li>
@@ -196,7 +229,7 @@
           </div>
         </div>
 
-        <div class="principles-block">
+        <div class="principles-block principles-block--compact">
           <div class="principles-header">
             <span class="card-label" style="margin-bottom:0;">Principles</span>
           </div>
