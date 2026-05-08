@@ -289,8 +289,9 @@ code, pre { font-family: var(--font-mono); }
 }
 .hero-panel img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
+  object-position: center top;
   display: block;
   border-bottom: 1px solid var(--border);
 }
