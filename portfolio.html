@@ -108,7 +108,7 @@
         <div class="portfolio-snapshot" aria-label="Portfolio snapshot">
           <div class="snapshot-metrics">
             <div class="snapshot-metric">
-              <strong>13</strong>
+              <strong>14</strong>
               <span>Projects</span>
             </div>
             <div class="snapshot-metric">
@@ -116,14 +116,14 @@
               <span>Build Types</span>
             </div>
             <div class="snapshot-metric">
-              <strong>3</strong>
+              <strong>4</strong>
               <span>Network Systems</span>
             </div>
           </div>
           <div class="snapshot-focus">
             <span>Latest build window</span>
             <strong>Jan 2026 - May 2026</strong>
-            <p>Fast Traceroute, Reliable UDP Sender, and DNS Packet Inspector.</p>
+            <p>Fast Traceroute, Reliable UDP Sender, DNS Packet Inspector, and concurrent web crawling.</p>
           </div>
         </div>
       </div>
@@ -358,6 +358,29 @@
               <div class="project-details__body">
                 <p>Implemented a command-line DNS client that builds raw DNS queries, sends them to a chosen resolver, and decodes answers, authority records, and additional records from the response packet.</p>
                 <p>Supports A and PTR lookups, compressed-name parsing with bounds and loop checks, retries, timeouts, and cross-platform sockets. This originated from CSCE 612 coursework; the public repo includes an academic integrity notice.</p>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <!-- Concurrent Web Crawler -->
+        <article class="project-card" data-tags="systems networking" data-type="Networking" data-date-start="2026-01" data-date-end="2026-05" data-complexity="86">
+          <img class="project-card__img" src="assets/Web-Crawling.webp" alt="HTTP and DNS web crawler architecture diagram">
+          <div class="project-card__body">
+            <div class="project-card__head">
+              <h2 class="project-card__title">Concurrent Web Crawler — HTTP/DNS Fetch Pipeline</h2>
+              <span class="project-card__date">Jan 2026 - May 2026</span>
+            </div>
+            <p class="project-card__meta">C++ · Sockets · DNS · HTTP · Concurrency · CSCE 612</p>
+            <div class="pills">
+              <span class="pill">C++</span><span class="pill">Sockets</span><span class="pill">DNS</span>
+              <span class="pill">HTTP</span><span class="pill">Robots Policy</span><span class="pill">Threading</span>
+            </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Built a multi-stage crawler that parses URLs, resolves DNS, enforces host/IP uniqueness, checks robots policy, and performs bounded HTTP fetches over raw TCP sockets with partial send/receive handling.</p>
+                <p>The implementation was designed for multi-threaded crawling with synchronized shared state and runtime throughput tracking. This originated from CSCE 612 coursework and remains archived rather than linked publicly because it depended on class-provided parser binaries.</p>
               </div>
             </details>
           </div>

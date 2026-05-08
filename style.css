@@ -393,22 +393,26 @@ code, pre { font-family: var(--font-mono); }
   padding: 56px 0 48px;
   border-bottom: 1px solid var(--border);
 }
-.hero-section--portfolio {
+.hero-section--portfolio,
+.hero-section--index {
   padding: 42px 0 32px;
   background:
     linear-gradient(90deg, color-mix(in oklab, var(--accent) 12%, transparent), transparent 42%),
     var(--bg);
 }
-.portfolio-hero {
+.portfolio-hero,
+.page-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.85fr);
   gap: 44px;
   align-items: end;
 }
-.portfolio-hero__copy {
+.portfolio-hero__copy,
+.page-hero__copy {
   max-width: 68ch;
 }
-.portfolio-hero__eyebrow {
+.portfolio-hero__eyebrow,
+.page-hero__eyebrow {
   display: block;
   margin-bottom: 10px;
   font-family: var(--font-mono);
@@ -428,7 +432,8 @@ code, pre { font-family: var(--font-mono); }
   line-height: 1.7;
   margin-bottom: 24px;
 }
-.portfolio-snapshot {
+.portfolio-snapshot,
+.page-snapshot {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
@@ -478,7 +483,8 @@ code, pre { font-family: var(--font-mono); }
   color: var(--muted);
   line-height: 1.55;
 }
-.portfolio-toolbar {
+.portfolio-toolbar,
+.page-toolbar {
   margin-top: 28px;
   padding-top: 18px;
   border-top: 1px solid var(--border);
@@ -486,7 +492,8 @@ code, pre { font-family: var(--font-mono); }
 @media (max-width: 768px) {
   .hero-title { font-size: 2.35rem; }
   .hero-page-title { font-size: 2.1rem; }
-  .portfolio-hero {
+  .portfolio-hero,
+  .page-hero {
     grid-template-columns: 1fr;
     gap: 28px;
   }
@@ -494,7 +501,8 @@ code, pre { font-family: var(--font-mono); }
 @media (max-width: 480px) {
   .hero-title { font-size: 1.9rem; }
   .hero-page-title { font-size: 1.75rem; }
-  .hero-section--portfolio { padding-top: 34px; }
+  .hero-section--portfolio,
+  .hero-section--index { padding-top: 34px; }
 }
 @media (max-width: 380px) {
   .snapshot-metrics { grid-template-columns: 1fr; }
@@ -919,8 +927,9 @@ code, pre { font-family: var(--font-mono); }
 .course-card[open] summary { border-bottom: 1px solid var(--border); }
 .course-card .pills { padding: 16px 20px 18px; }
 
-/* Qual page local nav */
+/* Page local nav */
 .local-nav { display: flex; gap: 5px; flex-wrap: wrap; margin: 16px 0 24px; }
+.page-toolbar .local-nav { margin: 0; }
 .local-nav a {
   font-size: 0.76rem;
   color: var(--muted);

@@ -91,13 +91,47 @@
     </div>
   </header>
 
-  <section class="hero-section">
+  <section class="hero-section hero-section--index">
     <div class="container">
-      <h1 class="hero-page-title">Volunteering &amp; Community Service</h1>
-      <p class="hero-page-lead">
-        I contribute to emergency response, education, food security, and animal welfare.
-        These experiences shaped how I approach teamwork, service, and leadership.
-      </p>
+      <div class="page-hero">
+        <div class="page-hero__copy">
+          <span class="page-hero__eyebrow">Community · Education · Response</span>
+          <h1 class="hero-page-title">Volunteering &amp; Community Service</h1>
+          <p class="hero-page-lead">
+            Service work across emergency response, STEM education, and animal welfare, with an emphasis on teamwork and practical responsibility.
+          </p>
+        </div>
+
+        <div class="page-snapshot" aria-label="Volunteering snapshot">
+          <div class="snapshot-metrics">
+            <div class="snapshot-metric">
+              <strong>3</strong>
+              <span>Service Areas</span>
+            </div>
+            <div class="snapshot-metric">
+              <strong>ARC</strong>
+              <span>Emergency Response</span>
+            </div>
+            <div class="snapshot-metric">
+              <strong>STEM</strong>
+              <span>Education</span>
+            </div>
+          </div>
+          <div class="snapshot-focus">
+            <span>Service pattern</span>
+            <strong>People-first support in high-trust settings</strong>
+            <p>Blood-drive logistics, tutoring, and adoption-event support for local community organizations.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-toolbar">
+        <nav class="local-nav" aria-label="Jump to service area">
+          <a href="#red-cross">Red Cross</a>
+          <a href="#stem-tutoring">STEM Tutoring</a>
+          <a href="#humane-society">Humane Society</a>
+        </nav>
+      </div>
     </div>
   </section>
 
@@ -106,7 +140,7 @@
       <div class="service-grid">
 
         <!-- American Red Cross -->
-        <div class="service-card">
+        <div class="service-card" id="red-cross">
           <a href="https://tamu-arc.wixsite.com/redcrosstamu" target="_blank" rel="noopener">
             <img src="assets/red_cross.jpg" alt="Red Cross volunteering event">
           </a>
@@ -122,7 +156,7 @@
         </div>
 
         <!-- STEM Tutoring -->
-        <div class="service-card">
+        <div class="service-card" id="stem-tutoring">
           <img src="assets/tutoring.jpg" alt="Tutoring session with students">
           <div class="service-card-body">
             <h3>STEM Tutoring</h3>
@@ -135,7 +169,7 @@
         </div>
 
         <!-- Aggieland Humane Society -->
-        <div class="service-card">
+        <div class="service-card" id="humane-society">
           <a href="https://aggielandhumane.org/" target="_blank" rel="noopener">
             <img src="assets/kittens.jpg" alt="Kittens at Aggieland Humane Society">
           </a>
