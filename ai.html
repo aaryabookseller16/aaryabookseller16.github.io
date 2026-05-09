@@ -13,7 +13,7 @@
       // meta theme-color for mobile UI
       let meta = document.querySelector('meta[name="theme-color"]');
       if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
-      meta.setAttribute("content", t === "dark" ? "#0b0f14" : "#faf7f3");
+      meta.setAttribute("content", t === "dark" ? "#111110" : "#f3f2ee");
       // public helper (used by the toggle)
       window.__setTheme = (theme) => {
         const next = theme === "dark" ? "dark" : "light";
@@ -22,7 +22,7 @@
         root.style.colorScheme = next;
         try { localStorage.setItem(KEY, next); } catch {}
         const metaEl = document.querySelector('meta[name="theme-color"]');
-        if (metaEl) metaEl.setAttribute("content", next === "dark" ? "#0b0f14" : "#faf7f3");
+        if (metaEl) metaEl.setAttribute("content", next === "dark" ? "#111110" : "#f3f2ee");
         // broadcast for listeners (animation & sizing)
         root.dispatchEvent(new CustomEvent("themechange", { detail: { effective: next } }));
         window.dispatchEvent(new CustomEvent("themechange", { detail: { effective: next } }));
@@ -48,40 +48,41 @@
   <style>
     /* ========== Base / layout tokens ========== */
     :root{
-      --accent: #4dd6ff;
+      --accent: #ff5427;
 
       /* Header sizing (updated precisely by JS for canvas anchor) */
       --header-h: 72px;
 
       /* AI page tokens (dark-first) */
-      --ai-bg0: #060a12;
-      --ai-bg1: #0b1426;
-      --ai-ink: #ecf3ff;
-      --ai-muted: #9eb3d6;
-      --ai-ring: #25324a;
+      --ai-bg0: #111110;
+      --ai-bg1: #191917;
+      --ai-ink: #f3f2ee;
+      --ai-muted: #8f8a82;
+      --ai-ring: #2d2b28;
       --ai-accent: var(--accent);
-      --ai-fx1: #4dd6ff;
-      --ai-fx2: #ff8a65;
+      --ai-fx1: #ff5427;
+      --ai-fx2: #d5d2ca;
       --ai-surface: color-mix(in oklab, var(--ai-bg1) 90%, transparent);
       --ai-card: color-mix(in oklab, var(--ai-bg1) 94%, transparent);
       --ai-grid: color-mix(in oklab, var(--ai-ink) 9%, transparent);
-      --ai-shadow: 0 22px 54px rgba(5, 8, 18, 0.32);
-      --ai-glow: 0 10px 32px color-mix(in oklab, var(--ai-accent) 18%, transparent);
+      --ai-shadow: none;
+      --ai-glow: none;
       --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
       --font-display: "Times New Roman", Times, serif;
       --font-sans: "Times New Roman", Times, serif;
       --font-mono: "Times New Roman", Times, serif;
     }
     [data-theme="light"] {
-      --ai-bg0: #f7f6f2;
+      --accent: #e53800;
+      --ai-bg0: #f3f2ee;
       --ai-bg1: #ffffff;
-      --ai-ink: #151826;
-      --ai-muted: #5f6b83;
-      --ai-ring: #e3e6f0;
+      --ai-ink: #111110;
+      --ai-muted: #6a6762;
+      --ai-ring: #d5d2ca;
       --ai-surface: color-mix(in oklab, #ffffff 94%, transparent);
       --ai-card: color-mix(in oklab, #ffffff 98%, transparent);
-      --ai-grid: color-mix(in oklab, #151826 6%, transparent);
-      --ai-shadow: 0 18px 40px rgba(20, 25, 35, 0.12);
+      --ai-grid: color-mix(in oklab, #111110 6%, transparent);
+      --ai-shadow: none;
     }
 
     /* ========== Base reset-ish ========== */
@@ -94,13 +95,8 @@
       line-height: 1.55;
       color: var(--ai-ink);
       background:
-        linear-gradient(115deg,
-          color-mix(in oklab, var(--ai-fx1) 10%, transparent) 0%,
-          transparent 36%),
-        linear-gradient(245deg,
-          color-mix(in oklab, var(--ai-fx2) 8%, transparent) 0%,
-          transparent 34%),
-        linear-gradient(180deg, var(--ai-bg0), var(--ai-bg1));
+        linear-gradient(90deg, color-mix(in oklab, var(--ai-accent) 10%, transparent), transparent 45%),
+        var(--ai-bg0);
     }
     p {
       text-align: justify;
@@ -130,41 +126,49 @@
     .container { max-width: 1100px; margin: 0 auto; padding: 0 16px; display: flex; }
 
     .btn{
-      height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ai-ring);
+      height: 34px; padding: 0 14px; border-radius: 4px; border: 1px solid var(--ai-ring);
       background: transparent; color: var(--ai-ink); cursor: pointer; font: inherit;
       display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
       transition: transform .32s var(--ease-apple), box-shadow .32s var(--ease-apple), border-color .2s var(--ease-apple), background .2s var(--ease-apple);
     }
     .btn--solid{
-      background: var(--ai-accent); border-color: transparent; color: #0b1020;
-      box-shadow: 0 10px 24px color-mix(in oklab, var(--ai-accent) 35%, transparent);
+      background: var(--ai-accent); border-color: var(--ai-accent); color: #111110;
+      box-shadow: none;
     }
 
     /* ========== Header ========== */
     .site-header.ai-header{
       position: sticky; top: 0; z-index: 5;
       border-bottom: 1px solid color-mix(in oklab, var(--ai-ring) 70%, transparent);
-      background: color-mix(in oklab, var(--ai-bg0) 72%, transparent);
-      backdrop-filter: blur(12px);
+      background: color-mix(in oklab, var(--ai-bg0) 94%, transparent);
+      backdrop-filter: blur(8px);
       transition: transform .45s ease, opacity .45s ease,
                   background-color .3s ease, backdrop-filter .3s ease;
       will-change: transform, opacity;
     }
-    .site-header .container { align-items: center; justify-content: space-between; padding-block: 10px; }
-    .ai-header.is-condensed .container{ padding-block: 6px; }
+    .site-header.ai-header .container {
+      max-width: 1200px;
+      min-height: 52px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+    }
+    .ai-header.is-condensed .container{ min-height: 48px; }
     .ai-header.is-hidden{ transform: translateY(-100%); opacity: 0; }
     .brand { font-family: var(--font-display); font-weight: 700; letter-spacing: 0; font-size: 1.25rem; }
     .brand span { color: var(--ai-accent); }
-    .site-nav { display: flex; gap: 10px; align-items: center; }
+    .site-nav { display: flex; gap: 2px; align-items: center; }
     .site-nav a{
-      padding: 6px 10px; border-radius: 999px; color: var(--ai-muted);
-      font-weight: 600; font-size: 0.95rem;
+      padding: 5px 10px; border-radius: 4px; color: var(--ai-muted);
+      font-weight: 500; font-size: 0.8rem;
       transition: color .2s var(--ease-apple), background .2s var(--ease-apple), transform .32s var(--ease-apple);
     }
     .site-nav a:hover{ color: var(--ai-ink); text-decoration: none; background: color-mix(in oklab, var(--ai-ring) 50%, transparent); }
     .site-nav a[aria-current="page"]{
-      background: var(--ai-accent); color: #0b1020;
-      box-shadow: 0 10px 22px color-mix(in oklab, var(--ai-accent) 35%, transparent);
+      background: color-mix(in oklab, var(--ai-ring) 50%, transparent);
+      color: var(--ai-ink);
+      box-shadow: none;
+      font-weight: 600;
     }
     .nav-toggle { display: none; }
 
@@ -182,9 +186,9 @@
       .nav-toggle{
         display: inline-flex; grid-area: navbtn;
         align-items: center; justify-content: center;
-        width: 40px; height: 40px; border-radius: 10px;
+        width: 34px; height: 34px; border-radius: 4px;
         border: 1px solid var(--ai-ring);
-        background: var(--ai-card);
+        background: transparent;
         cursor: pointer;
         font-size: 1.05rem;
         transition: transform .32s var(--ease-apple), border-color .2s var(--ease-apple);
@@ -202,11 +206,11 @@
 
     .theme-toggle{
       display: inline-grid; place-items: center;
-      width: 40px; height: 40px; border-radius: 10px;
+      width: 34px; height: 34px; border-radius: 4px;
       border: 1px solid var(--ai-ring);
       background: var(--ai-card);
       cursor: pointer;
-      box-shadow: var(--ai-glow);
+      box-shadow: none;
       transition: transform .32s var(--ease-apple), border-color .2s var(--ease-apple), box-shadow .32s var(--ease-apple);
     }
     .theme-toggle:hover{ transform: translateY(-1px); border-color: color-mix(in oklab, var(--ai-accent) 45%, var(--ai-ring)); }
@@ -219,30 +223,30 @@
     .accent-picker { position: relative; }
     .accent-menu{
       position: absolute; right: 0; top: 110%; z-index: 10; display: grid; gap: 6px;
-      padding: 10px; border: 1px solid var(--ai-ring); border-radius: 12px;
+      padding: 8px; border: 1px solid var(--ai-ring); border-radius: 4px;
       background: var(--ai-card);
       box-shadow: var(--ai-shadow);
       display: none;
     }
     .accent-picker[aria-expanded="true"] .accent-menu{ display: grid; }
     .accent-swatch{
-      width: 28px; height: 28px; border-radius: 999px; border: 1px solid #0003; cursor: pointer;
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.4);
+      width: 22px; height: 22px; border-radius: 50%; border: 1px solid #0003; cursor: pointer;
+      box-shadow: none;
     }
 
     /* ========== Hero ========== */
     .ai-hero{
       position: relative; z-index: 3;
       padding: 64px 0 24px;
-      min-height: min(760px, calc(82vh - var(--header-h)));
+      min-height: min(700px, calc(78vh - var(--header-h)));
       display: flex; align-items: center;
       --hero-progress: 0;
     }
     .ai-hero::before{
       content: ""; position: absolute; inset: 0; z-index: -1;
       background: linear-gradient(to bottom,
-        color-mix(in oklab, var(--ai-bg0) 65%, transparent) 0%,
-        transparent 70%);
+        color-mix(in oklab, var(--ai-bg0) 80%, transparent) 0%,
+        transparent 72%);
       pointer-events: none;
     }
     .ai-hero-wrap{ max-width: 1100px; margin: 0 auto; padding: 0 16px; }
@@ -257,18 +261,18 @@
     .ai-hero.is-faded{ pointer-events: none; }
     .ai-hero-text{
       max-width: 60ch;
-      padding: 22px;
+      padding: 24px;
       border: 1px solid color-mix(in oklab, var(--ai-ring) 76%, transparent);
-      border-radius: 14px;
-      background: color-mix(in oklab, var(--ai-bg0) 76%, transparent);
+      border-radius: 4px;
+      background: var(--ai-bg1);
       box-shadow: var(--ai-shadow);
-      backdrop-filter: blur(14px);
+      backdrop-filter: none;
     }
-    .ai-kicker{ font-size: .75rem; letter-spacing: .22em; text-transform: uppercase; color: var(--ai-muted); margin: 0 0 .6rem; }
+    .ai-kicker{ font-size: .75rem; letter-spacing: 0; text-transform: uppercase; color: var(--ai-accent); margin: 0 0 .6rem; }
     .ai-title{ margin: 0 0 .45rem; font-size: 2.55rem; line-height: 1.05; }
     .ai-badges{ display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
     .ai-pill{
-      padding: 4px 10px; border-radius: 999px;
+      padding: 4px 10px; border-radius: 4px;
       border: 1px solid color-mix(in oklab, var(--ai-ring) 70%, transparent);
       background: color-mix(in oklab, var(--ai-bg1) 82%, transparent);
       color: var(--ai-muted); font-size: .75rem; font-weight: 600;
@@ -277,12 +281,12 @@
     .ai-ref{ margin: 0; color: var(--ai-muted); font-size: .92rem; }
     .ai-ref a{ color: var(--ai-ink); font-weight: 600; }
     .ai-hero-card{
-      background: var(--ai-card);
+      background: var(--ai-bg1);
       border: 1px solid color-mix(in oklab, var(--ai-ring) 80%, transparent);
-      border-radius: 14px;
+      border-radius: 4px;
       padding: 18px;
       box-shadow: var(--ai-shadow);
-      backdrop-filter: blur(14px);
+      backdrop-filter: none;
     }
     .ai-hero-card h3{ margin: 0 0 8px; font-size: 1.1rem; }
     .ai-list{ margin: 0; padding-left: 18px; color: var(--ai-ink); }
@@ -292,7 +296,7 @@
     kbd{
       font-family: var(--font-sans);
       font-weight: 600; font-size: .75rem; letter-spacing: .04em;
-      padding: 4px 8px; border-radius: 8px;
+      padding: 4px 8px; border-radius: 4px;
       border: 1px solid color-mix(in oklab, var(--ai-ring) 70%, transparent);
       background: color-mix(in oklab, var(--ai-bg1) 85%, transparent);
       color: var(--ai-ink);
@@ -311,7 +315,7 @@
       width: 100vw; height: auto; display: block;
       transform: translateY(var(--canvas-parallax, 0px));
       transition: transform .08s linear;
-      filter: saturate(.88); opacity: .58; touch-action: none;
+      filter: saturate(.7); opacity: .38; touch-action: none;
       background: radial-gradient(1200px 700px at 50% -20%,
                   color-mix(in oklab, var(--ai-accent) 6%, transparent), transparent);
     }
@@ -322,19 +326,19 @@
       display: flex; align-items: center; gap: 8px; padding: 8px 10px;
       background: var(--ai-card);
       border: 1px solid color-mix(in oklab, var(--ai-ring) 75%, transparent);
-      border-radius: 999px;
+      border-radius: 4px;
       box-shadow: var(--ai-shadow);
-      backdrop-filter: blur(14px);
+      backdrop-filter: none;
     }
     .controls .btn{
-      height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ai-ring);
+      height: 34px; padding: 0 14px; border-radius: 4px; border: 1px solid var(--ai-ring);
       background: transparent; color: var(--ai-ink); cursor: pointer; font: inherit;
       display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
       transition: transform .32s var(--ease-apple), box-shadow .32s var(--ease-apple), border-color .2s var(--ease-apple), background .2s var(--ease-apple);
     }
     .controls .btn--solid{
-      background: var(--ai-accent); border-color: transparent; color: #0b1020;
-      box-shadow: 0 10px 24px color-mix(in oklab, var(--ai-accent) 22%, transparent);
+      background: var(--ai-accent); border-color: var(--ai-accent); color: #111110;
+      box-shadow: none;
     }
     .controls .btn:hover{ transform: translateY(-1px); border-color: color-mix(in oklab, var(--ai-accent) 45%, var(--ai-ring)); }
     .controls .sep{ width: 1px; height: 20px; background: var(--ai-ring); margin-inline: 2px; }
@@ -346,7 +350,7 @@
     /* ========== HUD ========== */
     .hud{ position: fixed; right: 16px; bottom: 16px; z-index: 4; }
     .hud-toggle{
-      min-width: 40px; height: 40px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--ai-ring);
+      min-width: 40px; height: 40px; padding: 0 12px; border-radius: 4px; border: 1px solid var(--ai-ring);
       background: var(--ai-card); color: var(--ai-ink); cursor: pointer;
       box-shadow: var(--ai-glow);
       font-weight: 700;
@@ -354,11 +358,11 @@
     }
     .hud-toggle:hover{ transform: translateY(-1px); border-color: color-mix(in oklab, var(--ai-accent) 45%, var(--ai-ring)); }
     .hud-panel{
-      margin-top: 10px; padding: 10px; border-radius: 14px;
+      margin-top: 10px; padding: 10px; border-radius: 4px;
       background: var(--ai-card); color: var(--ai-ink);
       border: 1px solid color-mix(in oklab, var(--ai-ring) 80%, transparent);
       display: grid; gap: 10px; min-width: 260px; max-width: min(92vw, 600px);
-      box-shadow: var(--ai-shadow); backdrop-filter: blur(14px);
+      box-shadow: var(--ai-shadow); backdrop-filter: none;
     }
     .hud-row{ display: grid; gap: 8px; }
     .hud-row .btn{ width: 100%; }
@@ -368,7 +372,7 @@
     .hud-input{ display: flex; align-items: center; gap: 10px; }
     .hud-value{
       min-width: 36px; text-align: center; font-weight: 600; font-size: .85rem;
-      padding: 2px 8px; border-radius: 999px;
+      padding: 2px 8px; border-radius: 4px;
       border: 1px solid color-mix(in oklab, var(--ai-ring) 70%, transparent);
       background: color-mix(in oklab, var(--ai-bg1) 85%, transparent);
       color: var(--ai-ink);
@@ -376,7 +380,7 @@
     .hud-control input[type="range"]{ width: 160px; accent-color: var(--ai-accent); }
     .hud-control input[type="number"]{
       width: 120px; color: inherit; background: transparent; border: 1px solid var(--ai-ring);
-      border-radius: 10px; padding: 6px 8px;
+      border-radius: 4px; padding: 6px 8px;
     }
 
     /* ========== Footer ========== */
@@ -424,7 +428,7 @@
   .site-nav.open{
     background: var(--ai-card);
     border: 1px solid var(--ai-ring);
-    border-radius: 12px;
+    border-radius: 4px;
     padding: 10px;
     box-shadow: var(--ai-shadow);
   }
@@ -467,20 +471,24 @@
         <a href="portfolio.html">Portfolio</a>
         <a href="service.html">Service</a>
         <a href="ai.html" aria-current="page">Neural Playground</a>
+        <a href="contact.html">Contact</a>
       </nav>
 
       <div class="header-actions" style="display:flex; gap:10px; align-items:center;">
         <!-- Accent picker -->
         <div class="accent-picker" id="accentPicker" aria-expanded="false">
           <button class="theme-toggle" id="accentToggle" aria-label="Choose accent color" title="Choose accent">
-            🎨
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" width="15" height="15">
+              <circle cx="8" cy="8" r="3.5"/>
+              <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z" opacity=".4"/>
+            </svg>
           </button>
           <div class="accent-menu" id="accentMenu" role="menu" aria-label="Choose accent color">
-            <button class="accent-swatch" data-accent="#4b72ff"  style="background:#4b72ff"  title="Blue"></button>
-            <button class="accent-swatch" data-accent="#ff7a59" style="background:#ff7a59" title="Coral"></button>
-            <button class="accent-swatch" data-accent="#00b894" style="background:#00b894" title="Teal"></button>
-            <button class="accent-swatch" data-accent="#a55eea" style="background:#a55eea" title="Purple"></button>
-            <button class="accent-swatch" data-accent="#f2c94c" style="background:#f2c94c" title="Gold"></button>
+            <button class="accent-swatch" data-accent="#e53800" style="background:#e53800" title="Orange"></button>
+            <button class="accent-swatch" data-accent="#2563eb" style="background:#2563eb" title="Blue"></button>
+            <button class="accent-swatch" data-accent="#0d9488" style="background:#0d9488" title="Teal"></button>
+            <button class="accent-swatch" data-accent="#7c3aed" style="background:#7c3aed" title="Purple"></button>
+            <button class="accent-swatch" data-accent="#d97706" style="background:#d97706" title="Amber"></button>
           </div>
         </div>
 
@@ -873,7 +881,8 @@
               if (base*(0.6 + 0.8*pulse) < DENSITY/200) continue;
               const focus = mouse.col>=0 ? Math.exp(-Math.abs(j-mouse.col)*0.8) : 1;
               const a = Math.min(1, base*pulse*1.2*focus);
-              ctx.strokeStyle = `hsla(${260 - Math.abs(i-j)*18},100%,65%,${a})`;
+              const edge = isDark() ? "255,84,39" : "229,56,0";
+              ctx.strokeStyle = `rgba(${edge},${a})`;
               ctx.lineWidth = 0.8 + 2.4*a;
               ctx.beginPath();
               ctx.moveTo(x1,y1);
@@ -890,7 +899,13 @@
           for(let i=0;i<TOKENS;i++){
             const xx=x(i), p=(Math.sin(anim*2 + i*.6 + L*.8)+1)/2;
             const r=5+3*p, focus= mouse.col===i ? 1 : .85;
-            ctx.fillStyle = `hsla(${200 + L*25},100%,${62 + p*18}%,${0.9*focus})`;
+            const warm = isDark() ? [255, 84, 39] : [229, 56, 0];
+            const neutral = isDark() ? [143, 138, 130] : [106, 103, 98];
+            const mix = Math.min(1, 0.28 + (L / Math.max(1, LAYERS - 1)) * 0.48 + p * 0.18);
+            const rr = Math.round(neutral[0] + (warm[0] - neutral[0]) * mix);
+            const gg = Math.round(neutral[1] + (warm[1] - neutral[1]) * mix);
+            const bb = Math.round(neutral[2] + (warm[2] - neutral[2]) * mix);
+            ctx.fillStyle = `rgba(${rr},${gg},${bb},${0.9*focus})`;
             ctx.beginPath(); ctx.arc(xx,yy,r,0,Math.PI*2); ctx.fill();
           }
         }

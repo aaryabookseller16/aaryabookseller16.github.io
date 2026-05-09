@@ -41,7 +41,7 @@
   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
 </head>
 
-<body>
+<body class="home-page">
   <header class="site-header">
     <div class="container">
       <div class="header-bar">
@@ -59,6 +59,7 @@
           <a href="portfolio.html">Portfolio</a>
           <a href="service.html">Service</a>
           <a href="ai.html">Neural Playground</a>
+          <a href="contact.html">Contact</a>
         </nav>
 
         <div class="header-actions">
@@ -105,28 +106,12 @@
               I build at the intersection of <strong>software engineering</strong> and <strong>machine learning</strong>—reliable backends, clean APIs, and solid data pipelines, plus modeling and evaluation when it actually improves the product.
             </p>
 
-            <div class="focus-areas" aria-label="Focus areas">
-              <span class="focus-pill">Search &amp; Retrieval</span>
-              <span class="focus-pill">Forecasting &amp; Anomaly Detection</span>
-              <span class="focus-pill">Routing under Uncertainty</span>
-            </div>
-
-            <p class="context-strip">End-to-end: requirements → design → implementation → evaluation → deployment</p>
-
-            <div class="hero-signal-grid" aria-label="Current focus summary">
-              <div>
-                <strong>Research</strong>
-                <span>Bilevel optimization, simulation, and ML evaluation.</span>
-              </div>
-              <div>
-                <strong>Systems</strong>
-                <span>APIs, data pipelines, concurrency, and deployment.</span>
-              </div>
-              <div>
-                <strong>Product</strong>
-                <span>Interfaces that expose trade-offs clearly.</span>
-              </div>
-            </div>
+            <section class="intro-block" aria-labelledby="about-me-title">
+              <h2 id="about-me-title">About Me</h2>
+              <p>Software engineer and deep learning researcher from Surat, India.</p>
+              <p>On the engineering side: full-stack systems, APIs, data pipelines, distributed infrastructure. On the research side: bilevel optimization, implicit differentiation, GPU-scale experiments — published at NeurIPS 2025, extended work submitted to ICLR 2026.</p>
+              <p>I care about both equally. Systems that hold up. Models that actually work. The intersection is where the interesting problems are.</p>
+            </section>
 
             <div class="cta-row">
               <a class="btn btn--ghost" href="portfolio.html">View Portfolio</a>
@@ -167,7 +152,7 @@
               <span>Texas A&amp;M Computer Science</span>
               <strong>Building reliable software with ML where it earns its keep.</strong>
               <div class="hero-panel__rows">
-                <p><b>Incoming</b> Software Developer at IBM</p>
+                <p><b>Engineering</b> full-stack systems and infrastructure</p>
                 <p><b>Research</b> contract design and scalable optimization</p>
                 <p><b>Interests</b> distributed systems, data products, applied ML</p>
               </div>
@@ -177,18 +162,17 @@
       </div>
     </section>
 
-    <!-- ── About ── -->
+    <!-- ── Work Style ── -->
     <section class="section about-section">
       <div class="container">
-        <div class="section-heading">
-          <span class="section-label">About Me</span>
-          <p class="section-lead">
-            Born in <strong>Surat, India</strong>. CS student at <strong>Texas A&amp;M University</strong> with minors in physics and statistics.
-            I build at the intersection of software engineering, AI/ML, and deep learning: rigorous systems, grounded experiments, and products that hold up beyond a demo.
-          </p>
-        </div>
+        <div class="about-box-grid">
+          <div class="about-card about-card--compact">
+            <span class="card-label">What I Do</span>
+            <p><strong>Engineering:</strong> full-stack from specs to UX — auth, databases, CI/CD, observability, clean APIs.</p>
+            <p><strong>Research:</strong> bilevel optimization, implicit differentiation, A100 training runs, reproducible experiments, publication-grade code.</p>
+            <p>Both inform each other. I write systems that survive contact with real data. I write experiments that survive contact with real constraints.</p>
+          </div>
 
-        <div class="about-layout">
           <article class="about-story">
             <span class="card-label">Operating style</span>
             <h2>Deep dives across software, models, and systems.</h2>
@@ -197,18 +181,41 @@
           </article>
 
           <div class="about-card about-card--compact">
-            <span class="card-label">Background</span>
-            <ul class="fact-list">
-              <li>Full-stack from specs to UX — <strong>auth, databases, CI/CD, observability</strong></li>
-              <li>Software engineering first, with AI/ML where it creates real leverage</li>
-              <li>Blends probability, optimization, physics, and statistics with applied engineering</li>
-              <li>Research at Texas A&amp;M — deep learning, A100 training runs, simulations</li>
-              <li>Incoming <strong>Software Developer</strong> at IBM</li>
-              <li><a href="https://calendly.com/aaryabookseller" target="_blank" rel="noreferrer">Schedule a call →</a></li>
-            </ul>
+            <span class="card-label">Why Engineering and Deep Learning, Together</span>
+            <p>CS gives leverage. Deep learning gives expressive power. Engineering makes things work. Research makes things correct.</p>
+            <p>I'm most engaged when both are in tension: when a model needs to be theoretically sound and practically deployable. When code needs to be reproducible and production-ready.</p>
+            <p>Infrastructure and evaluation matter as much as the architecture. Strong baselines, reproducible runs, measurable improvements.</p>
           </div>
 
-          <div class="about-card about-card--compact">
+          <div class="principles-block principles-block--compact">
+            <div class="principles-header">
+              <span class="card-label" style="margin-bottom:0;">My Principles (How I Work)</span>
+            </div>
+            <ol class="principles-list">
+              <li>
+                <span class="principle-n">01</span>
+                <span><strong>Start simple → iterate.</strong> Build the smallest honest baseline, then improve with evidence.</span>
+              </li>
+              <li>
+                <span class="principle-n">02</span>
+                <span><strong>Reproduce everything.</strong> Scripts, seeds, configs, and data assumptions live with the code. Plots are programmatic.</span>
+              </li>
+              <li>
+                <span class="principle-n">03</span>
+                <span><strong>Engineer for scale.</strong> Clear APIs, tests, and observability make systems maintainable.</span>
+              </li>
+              <li>
+                <span class="principle-n">04</span>
+                <span><strong>Explain the trade-offs.</strong> Users should see why a route/model was chosen—not just the output.</span>
+              </li>
+              <li>
+                <span class="principle-n">05</span>
+                <span><strong>Keep it legible.</strong> Code, docs, and UX should make future work easier, not harder.</span>
+              </li>
+            </ol>
+          </div>
+
+          <div class="about-card about-card--compact hobbies-block">
             <span class="card-label">Hobbies &amp; Interests</span>
             <ul class="fact-list">
               <li>Triathlon prep — endurance, structure, and consistency</li>
@@ -218,16 +225,6 @@
               <li>Philosophy, psychology, chess, and reading — <a href="https://www.goodreads.com/user/show/154264554-aarya-bookseller" target="_blank" rel="noreferrer">Goodreads →</a></li>
             </ul>
           </div>
-
-          <div class="about-card about-card--compact">
-            <span class="card-label">Why CS &amp; Deep Learning</span>
-            <ul class="fact-list">
-              <li>CS rewards clear thinking and produces real leverage</li>
-              <li>Deep learning is most interesting when theory, systems, and product constraints meet</li>
-              <li>Infrastructure and evaluation matter as much as the model</li>
-              <li>Strong baselines, reproducible runs, measurable improvements</li>
-            </ul>
-          </div>
         </div>
       </div>
     </section>
@@ -235,13 +232,6 @@
     <!-- ── Updates ── -->
     <section class="section updates-section" id="updates">
       <div class="container">
-        <div class="section-heading">
-          <span class="section-label">Updates</span>
-          <p class="section-lead">
-            Professional milestones from research, engineering, and project work.
-          </p>
-        </div>
-
         <ol class="updates-timeline" aria-label="Recent updates">
           <li class="timeline-update timeline-update--major">
             <div class="timeline-update__point" aria-hidden="true"></div>
@@ -431,6 +421,27 @@
       playBtn.addEventListener('click', () => { playing ? player.pause() : player.play(); });
       player.addEventListener('play',  () => { playing = true;  playBtn.textContent = '⏸'; pill.classList.add('is-playing'); });
       player.addEventListener('pause', () => { playing = false; playBtn.textContent = '▶'; pill.classList.remove('is-playing'); });
+    })();
+
+    (function scrollReveals(){
+      const targets = document.querySelectorAll('.hero, .about-box-grid > *, .focus-card, .hero-panel, .updates-section, .timeline-update');
+      if (!targets.length) return;
+      targets.forEach((el, index) => {
+        el.classList.add('reveal-on-scroll');
+        el.style.setProperty('--reveal-delay', `${Math.min(index % 5, 4) * 55}ms`);
+      });
+      if (!('IntersectionObserver' in window)) {
+        targets.forEach(el => el.classList.add('is-revealed'));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      targets.forEach(el => observer.observe(el));
     })();
   </script>
 </body>

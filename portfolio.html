@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <script>
@@ -59,6 +59,7 @@
           <a href="portfolio.html" aria-current="page">Portfolio</a>
           <a href="service.html">Service</a>
           <a href="ai.html">Neural Playground</a>
+          <a href="contact.html">Contact</a>
         </nav>
 
         <div class="header-actions">
@@ -713,6 +714,27 @@
       category.addEventListener('change', apply);
       sort.addEventListener('change', apply);
       apply();
+    })();
+
+    (function scrollReveals(){
+      const targets = document.querySelectorAll('.hero-section, .portfolio-snapshot, .project-controls, .project-card');
+      if (!targets.length) return;
+      targets.forEach((el, index) => {
+        el.classList.add('reveal-on-scroll');
+        el.style.setProperty('--reveal-delay', `${Math.min(index % 5, 4) * 55}ms`);
+      });
+      if (!('IntersectionObserver' in window)) {
+        targets.forEach(el => el.classList.add('is-revealed'));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      targets.forEach(el => observer.observe(el));
     })();
   </script>
 </body>

@@ -59,6 +59,7 @@
           <a href="portfolio.html">Portfolio</a>
           <a href="service.html">Service</a>
           <a href="ai.html">Neural Playground</a>
+          <a href="contact.html">Contact</a>
         </nav>
 
         <div class="header-actions">
@@ -95,7 +96,7 @@
     <div class="container">
       <div class="page-hero">
         <div class="page-hero__copy">
-          <span class="page-hero__eyebrow">Research · Engineering · Coursework</span>
+          <span class="page-hero__eyebrow">Research · Engineering · Education</span>
           <h1 class="hero-page-title">Background</h1>
           <p class="hero-page-lead">A compact view of publications, engineering experience, education, technical depth, and coursework.</p>
           <div class="hero-actions">
@@ -107,24 +108,10 @@
         </div>
 
         <div class="page-snapshot" aria-label="Background snapshot">
-          <div class="snapshot-metrics">
-            <div class="snapshot-metric">
-              <strong>2</strong>
-              <span>Publications</span>
-            </div>
-            <div class="snapshot-metric">
-              <strong>6</strong>
-              <span>Sections</span>
-            </div>
-            <div class="snapshot-metric">
-              <strong>2026</strong>
-              <span>Research Cycle</span>
-            </div>
-          </div>
           <div class="snapshot-focus">
             <span>Current focus</span>
             <strong>Scalable optimization and applied ML systems</strong>
-            <p>Research, software engineering, systems coursework, and production-style project work.</p>
+            <p>Research, software engineering, academic foundations, and production-style project work.</p>
           </div>
         </div>
       </div>
@@ -136,7 +123,6 @@
           <a href="#education">Education</a>
           <a href="#skills">Skills</a>
           <a href="#certifications">Certifications</a>
-          <a href="#coursework">Coursework</a>
         </nav>
       </div>
     </div>
@@ -201,91 +187,179 @@
           </summary>
           <div class="qual-body">
             <div class="timeline">
-              <div class="timeline-item">
-                <h3>Software Engineering Intern — AI Department</h3>
-                <span class="xp-sub">IBM · May 2026</span>
-              </div>
+              <details class="timeline-item">
+                <summary>
+                  <span class="xp-summary">
+                    <span class="xp-company">IBM</span>
+                    <h3>Software Engineering Intern — AI Department</h3>
+                    <span class="xp-sub">May 2026 · Incoming</span>
+                  </span>
+                </summary>
+                <div class="timeline-detail">
+                  <p class="xp-overview">Incoming software engineering role in IBM's AI organization. I am keeping the public description intentionally high-level until the internship begins.</p>
+                  <div class="xp-focus">
+                    <span>Production AI systems</span>
+                    <span>Software engineering</span>
+                    <span>Enterprise infrastructure</span>
+                  </div>
+                </div>
+              </details>
 
-              <div class="timeline-item">
-                <h3>
-                  <a href="https://tomergalanti.github.io/index.html" target="_blank" rel="noopener">
-                    Undergraduate Research Assistant — Deep Learning Fundamentals Lab
-                  </a>
-                </h3>
-                <span class="xp-sub">Texas A&amp;M University · Jan 2025–Present · Hybrid · College Station, TX</span>
-                <ul>
-                  <li><strong>Bilevel optimization (principal–agent):</strong> Implemented gradient-based methods with <em>implicit differentiation</em>, <em>HVPs</em>, and <em>conjugate gradient</em>; stabilized inner/outer loops via schedules and regularization.</li>
-                  <li><strong>Large-scale experimentation:</strong> Automated sweeps, logging, and aggregation (CSV/Parquet); standardized configs for reproducibility across seeds/devices; produced publication-quality figures.</li>
-                  <li><strong>Self-supervised learning:</strong> Built SimCLR/MoCo pipelines in PyTorch; trained on A100s with strong augmentation policies; tuned temperature/optimizer; improved downstream transfer over supervised baselines.</li>
-                  <li><strong>Research collaboration:</strong> Contributed to theory, experiment design, and manuscript drafting; maintained documented code and figures for submission.</li>
-                  <li><strong>Result:</strong> Co-authored paper accepted at NeurIPS 2025 (GenAI in Finance); extended version submitted to ICLR 2026.</li>
-                </ul>
-                <span class="xp-sub" style="margin-top:10px;"><em>Skills:</em> Python, PyTorch, Experiment Design</span>
-              </div>
+              <details class="timeline-item" open>
+                <summary>
+                  <span class="xp-summary">
+                    <span class="xp-company">Texas A&amp;M · Deep Learning Fundamentals Lab</span>
+                    <h3>
+                      <a href="https://tomergalanti.github.io/index.html" target="_blank" rel="noopener">
+                        Undergraduate Research Assistant
+                      </a>
+                    </h3>
+                    <span class="xp-sub">Texas A&amp;M University · Jan 2025–Present · Hybrid · College Station, TX</span>
+                  </span>
+                </summary>
+                <div class="timeline-detail">
+                  <p class="xp-overview">Research role focused on deep learning fundamentals, bilevel optimization, and reproducible large-scale experimentation. The work sits between theory, implementation, and publication-quality empirical evaluation.</p>
+                  <ul>
+                    <li><strong>Bilevel optimization:</strong> Implemented gradient-based principal-agent contract design methods with implicit differentiation, Hessian-vector products, conjugate gradient solves, and stabilization for nested optimization loops.</li>
+                    <li><strong>Experiment systems:</strong> Built reproducible training and evaluation pipelines with standardized configs, seed control, sweep automation, logging, aggregation, and figure generation.</li>
+                    <li><strong>Deep learning:</strong> Worked on self-supervised learning pipelines, including SimCLR and MoCo-style experiments in PyTorch with GPU training workflows.</li>
+                    <li><strong>Publication work:</strong> Contributed to experiment design, result analysis, manuscript writing, and code/figure preparation for academic submission.</li>
+                    <li><strong>Result:</strong> Co-authored paper accepted at NeurIPS 2025 workshop; extended version submitted to ICLR 2026.</li>
+                  </ul>
+                  <div class="xp-focus">
+                    <span>PyTorch</span>
+                    <span>Implicit differentiation</span>
+                    <span>GPU experiments</span>
+                    <span>Research writing</span>
+                  </div>
+                </div>
+              </details>
 
-              <div class="timeline-item">
-                <h3>Machine Learning Engineer — NaviAI</h3>
-                <span class="xp-sub">Self-employed · Jan 2025–Present · Remote</span>
-                <ul>
-                  <li>Built an AI-powered maritime logistics platform integrating ML, NLP, and optimization.</li>
-                  <li>Designed a <strong>NetworkX</strong> routing engine with dynamic weights for time, fuel, and risk; incorporated Transformer-based sentiment to score maritime news in real time.</li>
-                  <li>Policy stack combining a Transformer forecaster with PPO-based routing under uncertainty; risk and operational constraints modeled explicitly.</li>
-                  <li>Developed a <strong>Streamlit</strong> UI surfacing fastest/cheapest/safest routes with LLM explanations for interpretability.</li>
-                  <li>Deployed monitoring with Prometheus and Grafana for runtime services.</li>
-                  <li>Recognized as a <strong>Semi-finalist</strong>, Mays Business School AI Competition (2024).</li>
-                </ul>
-                <span class="xp-sub" style="margin-top:10px;"><em>Skills:</em> Python, PyTorch, Hugging Face, Streamlit, GeoPandas</span>
-              </div>
+              <details class="timeline-item">
+                <summary>
+                  <span class="xp-summary">
+                    <span class="xp-company">NaviAI</span>
+                    <h3>Machine Learning Engineer — NaviAI</h3>
+                    <span class="xp-sub">Self-employed · Jan 2025–Present · Remote</span>
+                  </span>
+                </summary>
+                <div class="timeline-detail">
+                  <p class="xp-overview">Self-directed ML product work around maritime routing, operational risk, and explainable decision support. The project combines applied ML, optimization, geospatial data, and product UI.</p>
+                  <ul>
+                    <li><strong>Routing engine:</strong> Designed a NetworkX-based routing system with dynamic weights for time, fuel, weather, cost, and risk.</li>
+                    <li><strong>NLP risk signals:</strong> Integrated Transformer-based maritime news analysis to convert unstructured information into route-level risk signals.</li>
+                    <li><strong>Decision support:</strong> Built route comparisons for fastest, cheapest, and safest paths, with explanations so trade-offs were visible rather than hidden.</li>
+                    <li><strong>Product interface:</strong> Developed a Streamlit app for interactive route exploration, constraint changes, and scenario comparison.</li>
+                    <li><strong>Operations:</strong> Added monitoring concepts with Prometheus/Grafana-style service visibility for runtime behavior.</li>
+                  </ul>
+                  <div class="xp-focus">
+                    <span>Python</span>
+                    <span>NetworkX</span>
+                    <span>Transformers</span>
+                    <span>Streamlit</span>
+                    <span>GeoPandas</span>
+                  </div>
+                </div>
+              </details>
 
-              <div class="timeline-item">
-                <h3>Software Developer</h3>
-                <span class="xp-sub">Zachry Dept. of Civil &amp; Environmental Engineering, Texas A&amp;M · Sep 2024–Apr 2025 · On-site</span>
-                <ul>
-                  <li>Built simulation models in <strong>Java</strong> and <strong>AnyLogic</strong> for civil/environmental systems.</li>
-                  <li>Implemented agent-based and discrete-event simulations to test performance under real-world constraints.</li>
-                  <li>Delivered modular, reusable code for faculty research; collaborated closely with graduate researchers.</li>
-                </ul>
-                <span class="xp-sub" style="margin-top:10px;"><em>Skills:</em> Java, AnyLogic, Simulation Modeling</span>
-              </div>
+              <details class="timeline-item">
+                <summary>
+                  <span class="xp-summary">
+                    <span class="xp-company">Zachry Dept. of Civil &amp; Environmental Engineering</span>
+                    <h3>Software Developer</h3>
+                    <span class="xp-sub">Zachry Dept. of Civil &amp; Environmental Engineering, Texas A&amp;M · Sep 2024–Apr 2025 · On-site</span>
+                  </span>
+                </summary>
+                <div class="timeline-detail">
+                  <p class="xp-overview">Software development role supporting civil and environmental engineering research through simulation tooling and reusable model components.</p>
+                  <ul>
+                    <li><strong>Simulation systems:</strong> Built Java and AnyLogic models for infrastructure and environmental process analysis.</li>
+                    <li><strong>Modeling approach:</strong> Implemented agent-based and discrete-event simulations to test performance under realistic constraints.</li>
+                    <li><strong>Research support:</strong> Translated researcher requirements into modular simulation logic that could be reused and adjusted across experiments.</li>
+                    <li><strong>Collaboration:</strong> Worked with graduate researchers to debug model assumptions, validate outputs, and refine scenario parameters.</li>
+                  </ul>
+                  <div class="xp-focus">
+                    <span>Java</span>
+                    <span>AnyLogic</span>
+                    <span>Simulation modeling</span>
+                    <span>Research software</span>
+                  </div>
+                </div>
+              </details>
 
-              <div class="timeline-item">
-                <h3>
-                  <a href="https://zenon-sgl.tamu.edu/" target="_blank" rel="noopener">
-                    Data Analyst Intern — Stochastic Geomechanics Laboratory
-                  </a>
-                </h3>
-                <span class="xp-sub">Feb 2024–Sep 2024 · On-site (US)</span>
-                <ul>
-                  <li>Applied <strong>Bayesian Networks</strong> to supply-chain risk; emphasized resilience and uncertainty quantification.</li>
-                  <li>Implemented <strong>MCMC</strong> and inverse modeling to calibrate probabilistic models from real data.</li>
-                  <li>Developed data-cleaning/analysis workflows in <strong>Python</strong> and <strong>R</strong>; produced analytic reports and visualizations for research deliverables.</li>
-                </ul>
-                <span class="xp-sub" style="margin-top:10px;"><em>Skills:</em> Python, R, Bayesian Networks, MCMC</span>
-              </div>
+              <details class="timeline-item">
+                <summary>
+                  <span class="xp-summary">
+                    <span class="xp-company">Stochastic Geomechanics Laboratory</span>
+                    <h3>
+                      <a href="https://zenon-sgl.tamu.edu/" target="_blank" rel="noopener">
+                        Data Analyst Intern
+                      </a>
+                    </h3>
+                    <span class="xp-sub">Feb 2024–Sep 2024 · On-site (US)</span>
+                  </span>
+                </summary>
+                <div class="timeline-detail">
+                  <p class="xp-overview">Data and probabilistic modeling role focused on uncertainty, resilience, and supply-chain risk. This work connected statistics, modeling, and applied engineering decisions.</p>
+                  <ul>
+                    <li><strong>Probabilistic modeling:</strong> Applied Bayesian Networks to represent supply-chain dependencies and reason about resilience under uncertainty.</li>
+                    <li><strong>Inference:</strong> Implemented MCMC and inverse modeling workflows to calibrate probabilistic models from data.</li>
+                    <li><strong>Analysis pipeline:</strong> Built Python and R workflows for cleaning, exploratory analysis, visualization, and reporting.</li>
+                    <li><strong>Communication:</strong> Converted model outputs into interpretable research deliverables for technical audiences.</li>
+                  </ul>
+                  <div class="xp-focus">
+                    <span>Python</span>
+                    <span>R</span>
+                    <span>Bayesian networks</span>
+                    <span>MCMC</span>
+                  </div>
+                </div>
+              </details>
 
-              <div class="timeline-item">
-                <h3>
-                  <a href="https://slxuphys.github.io/" target="_blank" rel="noopener">
-                    Undergraduate Research Assistant — Physics &amp; Astronomy
-                  </a>
-                </h3>
-                <span class="xp-sub">Texas A&amp;M University · Aug 2022–Dec 2022 · Hybrid · Bryan–College Station, TX</span>
-                <ul>
-                  <li>Studied quantum communication security with parity qubits; analyzed error rates, leakage, and eavesdropping resistance.</li>
-                  <li>Designed and tested secure transmission protocols via computational modeling; explored the Quantum Coin Flip problem.</li>
-                  <li>Gained hands-on experience with <strong>Qiskit</strong> and theoretical modeling for next-gen secure communication.</li>
-                </ul>
-                <span class="xp-sub" style="margin-top:10px;"><em>Skills:</em> Qiskit, Quantum Mechanics, Python</span>
-              </div>
+              <details class="timeline-item">
+                <summary>
+                  <span class="xp-summary">
+                    <span class="xp-company">Texas A&amp;M · Physics &amp; Astronomy</span>
+                    <h3>
+                      <a href="https://slxuphys.github.io/" target="_blank" rel="noopener">
+                        Undergraduate Research Assistant
+                      </a>
+                    </h3>
+                    <span class="xp-sub">Texas A&amp;M University · Aug 2022–Dec 2022 · Hybrid · Bryan–College Station, TX</span>
+                  </span>
+                </summary>
+                <div class="timeline-detail">
+                  <p class="xp-overview">Early research experience in quantum communication and secure protocol modeling, which shaped my interest in the intersection of physics, computation, and uncertainty.</p>
+                  <ul>
+                    <li><strong>Security modeling:</strong> Studied parity-qubit communication and analyzed leakage, errors, and eavesdropping resistance.</li>
+                    <li><strong>Protocol design:</strong> Modeled secure transmission protocols and explored quantum coin-flip style problems.</li>
+                    <li><strong>Tooling:</strong> Used Qiskit and computational experiments to reason about secure communication behavior.</li>
+                  </ul>
+                  <div class="xp-focus">
+                    <span>Qiskit</span>
+                    <span>Quantum mechanics</span>
+                    <span>Python</span>
+                    <span>Security modeling</span>
+                  </div>
+                </div>
+              </details>
 
-              <div class="timeline-item">
-                <h3>Intern — Dreams and Deeds NGO</h3>
-                <span class="xp-sub">Sep 2020–Oct 2020 · Online</span>
-                <ul>
-                  <li>Led a team of 15 interns; coordinated weekly standups and delegated tasks to hit deadlines.</li>
-                  <li>Produced social content and reports to support outreach and highlight initiatives.</li>
-                </ul>
-              </div>
+              <details class="timeline-item">
+                <summary>
+                  <span class="xp-summary">
+                    <span class="xp-company">Dreams and Deeds NGO</span>
+                    <h3>Intern — Dreams and Deeds NGO</h3>
+                    <span class="xp-sub">Sep 2020–Oct 2020 · Online</span>
+                  </span>
+                </summary>
+                <div class="timeline-detail">
+                  <p class="xp-overview">Community-focused leadership role coordinating a remote intern group and supporting outreach work.</p>
+                  <ul>
+                    <li>Led a team of 15 interns; coordinated weekly standups, delegated work, and tracked deliverables.</li>
+                    <li>Produced social content and reports to support outreach and communicate ongoing initiatives.</li>
+                  </ul>
+                </div>
+              </details>
             </div>
           </div>
         </details>
@@ -300,14 +374,69 @@
           </summary>
           <div class="qual-body">
             <div class="edu-card">
+              <span class="xp-company">Texas A&amp;M University</span>
               <h3>Texas A&amp;M University</h3>
               <span class="meta">B.S. Computer Science — Minors: Physics &amp; Statistics · Expected Dec 2026</span>
               <span class="meta">Distinguished Student, College of Engineering · Dean's Honor Roll</span>
+              <p class="xp-overview">My academic path is intentionally cross-disciplinary. Computer Science gives me the engineering base: algorithms, systems, software design, networking, AI, and machine learning. Physics and statistics add the parts I care about most when building ML systems: uncertainty, structure, optimization, measurement, and mathematical reasoning.</p>
+              <p class="xp-overview">The coursework below reflects that mix. It is not just a checklist of requirements; it is the foundation behind how I approach research code, production systems, and applied deep learning projects.</p>
               <div class="tag-list">
                 <span class="tag">Computer Science</span>
                 <span class="tag">Physics</span>
                 <span class="tag">Statistics</span>
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Systems</span>
               </div>
+            </div>
+
+            <div class="coursework-grid" aria-label="Coursework by discipline">
+              <details class="course-card" open>
+                <summary>Computer Science</summary>
+                <div class="course-list">
+                  <span><strong>CSCE 121</strong> Program Design &amp; Concepts</span>
+                  <span><strong>CSCE 221</strong> Data Structures &amp; Algorithms</span>
+                  <span><strong>CSCE 312</strong> Computer Organization</span>
+                  <span><strong>CSCE 313</strong> Intro to Computer Systems</span>
+                  <span><strong>CSCE 331</strong> Software Engineering</span>
+                  <span><strong>CSCE 411</strong> Advanced Algorithms</span>
+                  <span><strong>CSCE 420</strong> Artificial Intelligence</span>
+                  <span><strong>CSCE 421</strong> Machine Learning</span>
+                  <span><strong>CSCE 430</strong> Problem Solving Strategies</span>
+                  <span><strong>CSCE 481</strong> Seminar</span>
+                  <span><strong>CSCE 612</strong> Distributed Systems and Networking</span>
+                  <span><strong>CSCE 689</strong> Deep Learning &amp; LLMs</span>
+                </div>
+              </details>
+              <details class="course-card">
+                <summary>Mathematics</summary>
+                <div class="course-list">
+                  <span><strong>MATH 151</strong> Calculus I</span>
+                  <span><strong>MATH 152</strong> Calculus II</span>
+                  <span><strong>MATH 251</strong> Calculus III</span>
+                  <span><strong>MATH 304</strong> Linear Algebra</span>
+                  <span><strong>MATH 308</strong> Differential Equations</span>
+                </div>
+              </details>
+              <details class="course-card">
+                <summary>Physics</summary>
+                <div class="course-list">
+                  <span><strong>PHYS 150</strong> Programming for Physics</span>
+                  <span><strong>PHYS 206</strong> Mechanics</span>
+                  <span><strong>PHYS 207</strong> Electricity &amp; Magnetism</span>
+                  <span><strong>PHYS 221</strong> Thermodynamics &amp; Optics</span>
+                  <span><strong>PHYS 226</strong> Physics of Motion Lab</span>
+                  <span><strong>PHYS 309</strong> Modern Physics</span>
+                </div>
+              </details>
+              <details class="course-card">
+                <summary>Statistics</summary>
+                <div class="course-list">
+                  <span><strong>STAT 211</strong> Principles of Statistics I</span>
+                  <span><strong>STAT 212</strong> Principles of Statistics II</span>
+                  <span><strong>STAT 414</strong> Mathematical Statistics</span>
+                  <span><strong>STAT 421</strong> Applied Machine Learning</span>
+                </div>
+              </details>
             </div>
           </div>
         </details>
@@ -402,6 +531,12 @@
               <div class="cert-card">
                 <h3>DeepLearning.AI</h3>
                 <ul class="cert-list">
+                  <li class="cert-item cert-item--featured">
+                    <span>
+                      <a href="https://learn.deeplearning.ai/accomplishments/5b539cd9-85dd-448c-ab23-d9753f301287" target="_blank" rel="noopener">ChatGPT Prompt Engineering for Developers</a>
+                    </span>
+                    <span class="cert-date">Mar 2026</span>
+                  </li>
                   <li class="cert-item">
                     <a href="https://learn.deeplearning.ai/certificates/03e1cdf6-fa3a-4636-8c40-a6150aa3b70a?usp=sharing" target="_blank" rel="noopener">PyTorch for Deep Learning (Professional Certificate)</a>
                     <span class="cert-date">Dec 2025</span>
@@ -454,66 +589,6 @@
                   </li>
                 </ul>
               </div>
-            </div>
-          </div>
-        </details>
-
-        <!-- Coursework -->
-        <details class="qual-section" id="coursework">
-          <summary class="qual-summary">
-            <span class="qual-head">
-              <span class="qual-eyebrow">Study</span>
-              <h2>Coursework</h2>
-            </span>
-          </summary>
-          <div class="qual-body">
-            <div class="coursework-grid">
-              <details class="course-card" open>
-                <summary>Computer Science</summary>
-                <div class="pills">
-                  <span class="pill">CSCE 121 – Program Design &amp; Concepts</span>
-                  <span class="pill">CSCE 221 – Data Structures &amp; Algorithms</span>
-                  <span class="pill">CSCE 312 – Computer Organization</span>
-                  <span class="pill">CSCE 313 – Intro to Computer Systems</span>
-                  <span class="pill">CSCE 331 – Software Engineering</span>
-                  <span class="pill">CSCE 411 – Advanced Algorithms</span>
-                  <span class="pill">CSCE 420 – Artificial Intelligence</span>
-                  <span class="pill">CSCE 430 – Problem Solving Strategies</span>
-                  <span class="pill">CSCE 481 – Seminar</span>
-                  <span class="pill">CSCE 612 – Distributed Systems and Networking</span>
-                  <span class="pill">CSCE 421 – Machine Learning</span>
-                  <span class="pill">CSCE 689 – Deep Learning &amp; LLMs</span>
-                </div>
-              </details>
-              <details class="course-card">
-                <summary>Mathematics</summary>
-                <div class="pills">
-                  <span class="pill">MATH 151 – Calculus I</span>
-                  <span class="pill">MATH 152 – Calculus II</span>
-                  <span class="pill">MATH 251 – Calculus III</span>
-                  <span class="pill">MATH 308 – Differential Equations</span>
-                </div>
-              </details>
-              <details class="course-card">
-                <summary>Physics</summary>
-                <div class="pills">
-                  <span class="pill">PHYS 150 – Programming for Physics</span>
-                  <span class="pill">PHYS 206 – Mechanics</span>
-                  <span class="pill">PHYS 207 – Electricity &amp; Magnetism</span>
-                  <span class="pill">PHYS 221 – Thermodynamics &amp; Optics</span>
-                  <span class="pill">PHYS 226 – Physics of Motion Lab</span>
-                  <span class="pill">PHYS 309 – Modern Physics</span>
-                </div>
-              </details>
-              <details class="course-card">
-                <summary>Statistics</summary>
-                <div class="pills">
-                  <span class="pill">STAT 211 – Principles of Statistics I</span>
-                  <span class="pill">STAT 212 – Principles of Statistics II</span>
-                  <span class="pill">STAT 414 – Mathematical Statistics</span>
-                  <span class="pill">Machine Learning</span>
-                </div>
-              </details>
             </div>
           </div>
         </details>
@@ -635,6 +710,27 @@
       };
       window.addEventListener('hashchange', open);
       open();
+    })();
+
+    (function scrollReveals(){
+      const targets = document.querySelectorAll('.hero-section, .page-snapshot, .local-nav, .qual-section, .timeline-item');
+      if (!targets.length) return;
+      targets.forEach((el, index) => {
+        el.classList.add('reveal-on-scroll');
+        el.style.setProperty('--reveal-delay', `${Math.min(index % 5, 4) * 55}ms`);
+      });
+      if (!('IntersectionObserver' in window)) {
+        targets.forEach(el => el.classList.add('is-revealed'));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      targets.forEach(el => observer.observe(el));
     })();
   </script>
 </body>
