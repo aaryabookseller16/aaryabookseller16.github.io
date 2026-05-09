@@ -159,7 +159,10 @@
           <article class="contact-card">
             <span class="section-label">Message</span>
             <h2>Send a note.</h2>
-            <form class="contact-form" action="mailto:aaryab.work@gmail.com" method="post" enctype="text/plain">
+            <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+              <input type="hidden" name="access_key" value="276ed2b6-8406-4985-82b7-6f3d5a56e63a">
+              <input type="hidden" name="from_name" value="Aarya Bookseller Website">
+              <input type="hidden" name="redirect" value="https://aaryabookseller16.github.io/contact.html?sent=true">
               <div class="form-row">
                 <div class="field">
                   <label for="name">Name</label>
@@ -182,6 +185,7 @@
               </div>
 
               <button class="btn btn--primary contact-submit" type="submit">Send Message</button>
+              <p class="form-note">This form sends directly to my inbox through Web3Forms.</p>
             </form>
           </article>
         </div>
@@ -193,7 +197,11 @@
     <div class="container">
       <div class="footer-bar">
         <span class="footer-copy">© <span id="year"></span> Aarya Bookseller</span>
+        <a class="footer-contact" href="contact.html">Contact me →</a>
         <div class="footer-links">
+          <a href="contact.html" aria-label="Contact page" title="Contact me">
+            <i class="fa-regular fa-envelope"></i>
+          </a>
           <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
             <i class="fa-brands fa-linkedin"></i>
           </a>

@@ -304,8 +304,11 @@ code, pre { font-family: var(--font-mono); }
 .hero-panel {
   margin-top: 92px;
   border: 1px solid var(--border);
+  border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
   border-radius: var(--radius);
-  background: var(--bg-1);
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--accent) 5%, transparent), transparent 58%),
+    var(--bg-1);
   overflow: hidden;
   transform: translateY(0);
   transition: transform var(--dur-slow) var(--ease-apple), border-color var(--dur-fast) var(--ease-apple), background-color var(--dur-fast) var(--ease-apple);
@@ -836,6 +839,7 @@ main > section:last-child {
 .about-card--compact {
   background: var(--bg-1);
   border: 1px solid var(--border);
+  border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
   border-radius: var(--radius);
   padding: 18px;
   align-self: start;
@@ -869,7 +873,10 @@ main > section:last-child {
   gap: 1px;
 }
 .about-card {
-  background: var(--bg-1);
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--accent) 4%, transparent), transparent 58%),
+    var(--bg-1);
+  border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
   padding: 28px;
 }
 .card-label {
@@ -1008,8 +1015,11 @@ main > section:last-child {
 
 .project-card {
   border: 1px solid var(--border);
+  border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
   border-radius: var(--radius);
-  background: var(--bg-1);
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--accent) 4%, transparent), transparent 58%),
+    var(--bg-1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1409,8 +1419,8 @@ main > section:last-child {
 .course-card .pills { padding: 16px 20px 18px; }
 .course-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
   padding: 16px 20px 18px;
 }
 .course-list span {
@@ -1423,22 +1433,14 @@ main > section:last-child {
   font-size: 0.82rem;
   line-height: 1.35;
 }
-.course-list span:nth-last-child(-n + 2) {
-  border-bottom-color: transparent;
-}
+.course-list span:last-child { border-bottom-color: transparent; }
 .course-list strong {
   color: var(--text);
   font-family: var(--font-mono);
   font-size: 0.72rem;
   white-space: nowrap;
 }
-@media (max-width: 620px) {
-  .course-list { grid-template-columns: 1fr; }
-  .course-list span:nth-last-child(-n + 2) {
-    border-bottom-color: color-mix(in oklab, var(--border) 70%, transparent);
-  }
-  .course-list span:last-child { border-bottom-color: transparent; }
-}
+@media (max-width: 620px) { .course-list span { grid-template-columns: 76px minmax(0, 1fr); } }
 
 /* Page local nav */
 .local-nav { display: flex; gap: 5px; flex-wrap: wrap; margin: 16px 0 24px; }
@@ -1484,7 +1486,12 @@ main > section:last-child {
   border-radius: var(--radius);
   overflow: hidden;
 }
-.service-card { background: var(--bg-1); }
+.service-card {
+  border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--accent) 4%, transparent), transparent 58%),
+    var(--bg-1);
+}
 .service-card img {
   width: 100%;
   height: 200px;
@@ -1510,8 +1517,11 @@ main > section:last-child {
 .contact-panel,
 .contact-card {
   border: 1px solid var(--border);
+  border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
   border-radius: var(--radius);
-  background: var(--bg-1);
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--accent) 4%, transparent), transparent 58%),
+    var(--bg-1);
 }
 .contact-panel {
   padding: 28px;
@@ -1597,6 +1607,12 @@ main > section:last-child {
 .contact-submit {
   justify-self: start;
 }
+.form-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
 @media (max-width: 860px) {
   .contact-layout,
   .form-row {
@@ -1622,6 +1638,17 @@ main > section:last-child {
   font-family: var(--font-mono);
   font-size: 0.73rem;
   color: var(--muted);
+}
+.footer-contact {
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  color: var(--accent);
+  text-decoration: none;
+  margin-left: auto;
+}
+.footer-contact:hover {
+  color: var(--text);
+  text-decoration: none;
 }
 .footer-links {
   display: flex;
