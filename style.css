@@ -873,11 +873,15 @@ main > section:last-child {
   gap: 1px;
 }
 .about-card {
+  background: var(--bg-1);
+  border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
+  padding: 28px;
+  transition: background 0.18s;
+}
+.about-card:hover {
   background:
     linear-gradient(90deg, color-mix(in oklab, var(--accent) 4%, transparent), transparent 58%),
     var(--bg-1);
-  border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
-  padding: 28px;
 }
 .card-label {
   font-family: var(--font-mono);
@@ -1017,12 +1021,11 @@ main > section:last-child {
   border: 1px solid var(--border);
   border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
   border-radius: var(--radius);
-  background:
-    linear-gradient(90deg, color-mix(in oklab, var(--accent) 4%, transparent), transparent 58%),
-    var(--bg-1);
+  background: var(--bg-1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: background 0.18s;
   transition: border-color 0.12s;
   opacity: 0;
   transform: translateY(8px);
@@ -1033,7 +1036,13 @@ main > section:last-child {
   transform: translateY(0);
   transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.12s;
 }
-.project-card:hover { border-color: var(--muted); transform: translateY(-3px); }
+.project-card:hover {
+  border-color: var(--muted);
+  transform: translateY(-3px);
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--accent) 4%, transparent), transparent 58%),
+    var(--bg-1);
+}
 .project-card__img {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -1176,6 +1185,10 @@ main > section:last-child {
   border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
   border-radius: var(--radius);
   padding: 20px;
+  background: var(--bg);
+  transition: background 0.18s;
+}
+.info-card:hover {
   background:
     linear-gradient(90deg, color-mix(in oklab, var(--accent) 5%, transparent), transparent 58%),
     var(--bg);
@@ -1244,14 +1257,17 @@ main > section:last-child {
 }
 .xp-company {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.78rem;
+  font-weight: 600;
   color: var(--accent);
   text-transform: uppercase;
+  letter-spacing: 0.03em;
   line-height: 1.3;
 }
 .timeline-item h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0; }
-.timeline-item h3 a { color: var(--text); }
-.timeline-item h3 a:hover { text-decoration: underline; }
+.timeline-item h3 a { color: var(--text); text-decoration: none; }
+.timeline-item h3 a::after { content: " ↗"; font-size: 0.72em; color: var(--accent); opacity: 0.7; }
+.timeline-item h3 a:hover { color: var(--accent); }
 .xp-sub {
   font-family: var(--font-mono);
   font-size: 0.69rem;
@@ -1298,6 +1314,10 @@ main > section:last-child {
   border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
   border-radius: var(--radius);
   padding: 24px;
+  background: var(--bg);
+  transition: background 0.18s;
+}
+.edu-card:hover {
   background:
     linear-gradient(90deg, color-mix(in oklab, var(--accent) 6%, transparent), transparent 58%),
     var(--bg);
@@ -1316,13 +1336,17 @@ main > section:last-child {
   gap: 12px;
 }
 .skills-group {
-  background:
-    linear-gradient(90deg, color-mix(in oklab, var(--accent) 5%, transparent), transparent 58%),
-    var(--bg-1);
+  background: var(--bg-1);
   border: 1px solid var(--border);
   border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
   border-radius: var(--radius);
   padding: 16px 18px 14px;
+  transition: background 0.18s;
+}
+.skills-group:hover {
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--accent) 5%, transparent), transparent 58%),
+    var(--bg-1);
 }
 .skills-group h3 {
   font-size: 0.88rem;
@@ -1349,6 +1373,10 @@ main > section:last-child {
   padding: 15px 18px;
   border-bottom: 1px solid var(--border);
   border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
+  background: var(--bg-1);
+  transition: background 0.18s;
+}
+.cert-row:hover {
   background:
     linear-gradient(90deg, color-mix(in oklab, var(--accent) 4%, transparent), transparent 56%),
     var(--bg-1);
@@ -1486,6 +1514,10 @@ main > section:last-child {
 }
 .service-card {
   border-left: 3px solid color-mix(in oklab, var(--accent) 72%, var(--border));
+  background: var(--bg-1);
+  transition: background 0.18s;
+}
+.service-card:hover {
   background:
     linear-gradient(90deg, color-mix(in oklab, var(--accent) 4%, transparent), transparent 58%),
     var(--bg-1);
