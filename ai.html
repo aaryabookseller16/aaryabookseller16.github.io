@@ -609,6 +609,8 @@
     © <span id="year"></span> Aarya Bookseller · Neural Playground · <a href="contact.html">Contact me</a>
   </footer>
 
+  <button id="backToTop" aria-label="Back to top">↑</button>
+
   <!-- ===== ALL SCRIPTS (inline) ===== -->
   <script>
     // Footer year
@@ -679,6 +681,13 @@
       const sync = () => setPressed();
       document.documentElement.addEventListener('themechange', sync);
       window.addEventListener('themechange', sync);
+    })();
+
+    (() => {
+      const btn = document.getElementById('backToTop');
+      if (!btn) return;
+      window.addEventListener('scroll', () => btn.classList.toggle('show', window.scrollY > 200));
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     })();
 
     // Header scroll + canvas parallax & header height sync
