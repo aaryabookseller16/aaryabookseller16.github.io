@@ -1818,6 +1818,11 @@ body:has(.ai-hero) h3 { font-family: var(--xp-sans) !important; }
 .footer-links a { color: var(--xp-muted); }
 .footer-links a:hover { color: var(--xp-signal); }
 .footer-links img { filter: grayscale(1); }
+.footer-links .tooltip:last-child .tooltip-text {
+  right: 0;
+  left: auto;
+  transform: none;
+}
 
 #backToTop {
   top: auto;
