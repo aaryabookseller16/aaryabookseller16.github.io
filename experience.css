@@ -1556,16 +1556,21 @@ body:not(.home-page) { padding-top: var(--xp-header); }
 }
 
 .timeline-item {
+  position: relative;
+  isolation: isolate;
   counter-increment: experience-entry;
   border: 0;
   border-bottom: 1px solid var(--xp-line-soft);
   border-radius: 0;
   background: transparent;
-  transition: background 220ms ease;
 }
 
-.timeline-item:hover,
-.timeline-item[open] {
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
   background:
     linear-gradient(
       90deg,
@@ -1573,6 +1578,19 @@ body:not(.home-page) { padding-top: var(--xp-header); }
       transparent 55%
     ),
     var(--xp-surface);
+  opacity: 0;
+  transition: opacity 260ms var(--xp-ease);
+}
+
+.timeline-item:hover::before,
+.timeline-item[open]::before {
+  opacity: 1;
+}
+
+.timeline-item > summary,
+.timeline-item > .timeline-detail {
+  position: relative;
+  z-index: 1;
 }
 
 .timeline-item[open] > summary {
