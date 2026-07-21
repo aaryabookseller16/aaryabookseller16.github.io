@@ -111,7 +111,7 @@
         <div class="portfolio-snapshot" aria-label="Portfolio snapshot">
           <div class="snapshot-metrics">
             <div class="snapshot-metric">
-              <strong>13</strong>
+              <strong>14</strong>
               <span>Projects</span>
             </div>
             <div class="snapshot-metric">
@@ -125,9 +125,8 @@
           </div>
           <div class="snapshot-focus">
             <span>Latest build window</span>
-            <strong>Jan 2026 to May 2026</strong>
-            <p>Fast Traceroute, Reliable UDP Sender, and DNS Packet Inspector.</p>
-            <p>Currently working on: <strong>Trading Dashboard</strong>.</p>
+            <strong>July 2026</strong>
+            <p>Held Constant, an evidence first portfolio backtesting research application.</p>
           </div>
         </div>
       </div>
@@ -175,6 +174,38 @@
   <main class="section">
     <div class="container">
       <div class="projects-grid" id="projectsGrid">
+
+        <!-- Held Constant -->
+        <article class="project-card" id="held-constant" data-tags="systems software" data-type="Quantitative Finance" data-date-start="2026-07" data-date-end="2026-07" data-complexity="96">
+          <img class="project-card__img" src="assets/held-constant.png" alt="Held Constant portfolio backtesting application">
+          <div class="project-card__body">
+            <div class="project-card__head">
+              <h2 class="project-card__title">Held Constant · Portfolio Backtesting Without Blind Spots</h2>
+              <span class="project-card__date">Jul 2026</span>
+            </div>
+            <p class="project-card__meta">FastAPI · SQLAlchemy · PostgreSQL · yfinance · Chart.js</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/Trading-Dashboard" target="_blank" rel="noopener" aria-label="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a class="icon-btn" href="https://held-constant.vercel.app/#terminal" target="_blank" rel="noopener" aria-label="Live site">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+            <div class="pills">
+              <span class="pill">Python</span><span class="pill">FastAPI</span><span class="pill">SQLAlchemy</span>
+              <span class="pill">PostgreSQL</span><span class="pill">yfinance</span><span class="pill">Chart.js</span>
+              <span class="pill">Backtesting</span>
+            </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>Research application for building weighted portfolios, retrieving dividend adjusted historical prices, and comparing results against market, gold, bond, savings, or inflation benchmarks. It supports buy and hold strategies plus monthly, quarterly, and annual rebalancing.</p>
+                <p>The engine models transaction costs, reports risk and attribution metrics, and uses a moving block bootstrap for confidence intervals. A 52 test suite checks metric calculations, invariants, benchmark compounding, data ingestion, and API behavior.</p>
+              </div>
+            </details>
+          </div>
+        </article>
 
         <!-- Bubble Tea POS -->
         <article class="project-card" data-tags="systems software" data-type="Systems" data-date-start="2025-08" data-date-end="2025-12" data-complexity="88">
