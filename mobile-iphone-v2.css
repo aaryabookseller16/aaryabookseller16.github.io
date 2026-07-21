@@ -1,0 +1,128 @@
+/*
+  Fingerprinted critical layer for mobile browsers that retain an older
+  experience.css response. Keep the phone hero and inspector intentional even
+  when an existing Safari or Chrome tab restores from its page cache.
+*/
+
+@media (max-width: 768px) {
+  .home-page .experience-sticky::after {
+    background:
+      linear-gradient(180deg, rgba(9,12,15,.82) 0%, rgba(9,12,15,.58) 39%, rgba(9,12,15,.12) 62%, transparent 76%),
+      linear-gradient(0deg, rgba(9,12,15,.72) 0%, rgba(9,12,15,.2) 31%, transparent 48%);
+  }
+
+  .home-page .hero--experience { min-height: 1180px; }
+  .home-page .experience-sticky { height: 880px; max-height: 100svh; }
+
+  .home-page .hero-experience__identity {
+    top: 92px;
+    left: 20px;
+    gap: 4px;
+    font-size: .7rem;
+  }
+
+  .home-page .experience-wordmark {
+    margin-bottom: 7px;
+    font-size: 2.15rem;
+  }
+
+  .home-page .hero-experience__manifesto {
+    top: 238px;
+    right: 20px;
+    left: 20px;
+    width: auto;
+    text-align: left;
+  }
+
+  .home-page .hero-experience__manifesto .hud-label {
+    margin-bottom: 10px;
+    font-size: .62rem;
+  }
+
+  .home-page .hero-experience__manifesto h1 {
+    max-width: none;
+    margin-bottom: 14px;
+    font-size: clamp(1.65rem, 7.2vw, 1.95rem);
+    line-height: .98;
+  }
+
+  .home-page .hero-experience__manifesto p {
+    max-width: 39ch;
+    margin: 0 0 18px;
+    color: rgba(255,255,255,.88);
+    font-size: .76rem;
+    line-height: 1.46;
+    text-align: left;
+  }
+
+  .home-page .experience-links {
+    gap: 12px 16px;
+    justify-content: flex-start;
+  }
+
+  .home-page .experience-links a {
+    padding-bottom: 4px;
+    font-size: .68rem;
+  }
+
+  .home-page .neural-focus-trigger {
+    top: 184px;
+    right: 20px;
+    left: auto;
+    min-height: 38px;
+    gap: 7px;
+    padding: 4px 0;
+    border: 0;
+    border-bottom: 1px solid rgba(255,255,255,.55);
+    background: transparent;
+    font-size: .58rem;
+    backdrop-filter: none;
+    transform: none;
+  }
+
+  .home-page .neural-focus-hud {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    gap: 9px;
+    width: auto;
+    padding: 12px 14px;
+    border-left: 2px solid var(--xp-signal);
+    background: linear-gradient(110deg, rgba(12,15,18,.94), rgba(12,15,18,.82));
+  }
+
+  .home-page .neural-focus-hud .hud-label { font-size: .58rem; }
+  .home-page .neural-focus-hud > strong { font-size: 1.05rem; }
+  .home-page .neural-focus-hud p,
+  .home-page .neural-focus-legend { display: none; }
+  .home-page .neural-focus-hud label { gap: 4px; font-size: .58rem; }
+  .home-page .neural-focus-metrics > span { gap: 2px; padding: 7px 8px; }
+  .home-page .neural-focus-metrics small { font-size: .52rem; }
+  .home-page .neural-focus-metrics strong { font-size: .7rem; }
+
+  .home-page .experience-sticky.is-neural-focus .experience-neural-controls {
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: auto;
+    padding: 9px 12px 11px;
+    border-top: 2px solid var(--xp-signal);
+    background: linear-gradient(180deg, rgba(12,15,18,.9), rgba(12,15,18,.78));
+    transform: none;
+  }
+
+  .home-page .experience-sticky.is-neural-focus .experience-neural-controls__head {
+    grid-column: 1 / -1;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .home-page .experience-sticky.is-neural-focus .experience-neural-controls .hud-label,
+  .home-page .experience-sticky.is-neural-focus .experience-neural-controls label { font-size: .56rem; }
+  .home-page .experience-sticky.is-neural-focus .experience-neural-controls button { min-height: 36px; font-size: .62rem; }
+  .home-page .experience-sticky.is-neural-focus .experience-neural-controls label { gap: 3px; }
+  .home-page .experience-sticky.is-neural-focus .experience-neural-controls input[type="range"] { height: 12px; }
+}
