@@ -1480,11 +1480,9 @@ body:not(.home-page) { padding-top: var(--xp-header); }
   display: grid;
   gap: 0;
   border-bottom: 1px solid var(--xp-line);
-  counter-reset: background-section;
 }
 
 .qual-section {
-  counter-increment: background-section;
   border: 0;
   border-top: 1px solid var(--xp-line);
   border-radius: 0;
@@ -1503,7 +1501,7 @@ body:not(.home-page) { padding-top: var(--xp-header); }
 }
 
 .qual-summary::before {
-  content: counter(background-section, decimal-leading-zero);
+  content: attr(data-index);
   align-self: start;
   padding-top: 5px;
   color: var(--xp-signal);
