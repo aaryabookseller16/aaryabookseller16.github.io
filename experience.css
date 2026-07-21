@@ -441,7 +441,70 @@ a { color: inherit; }
 .neural-focus-metrics > span:last-child { border-right: 0; }
 .neural-focus-metrics small { color: rgba(255,255,255,.48); letter-spacing: .08em; text-transform: uppercase; }
 .neural-focus-metrics strong { overflow: hidden; color: #fff; font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
-.neural-focus-hint { color: rgba(255,255,255,.46); font-size: .68rem; letter-spacing: .04em; text-transform: uppercase; }
+.neural-focus-legend {
+  position: absolute;
+  top: 50%;
+  right: clamp(22px, 3vw, 46px);
+  z-index: 6;
+  display: grid;
+  gap: 12px;
+  width: min(176px, calc(100vw - 44px));
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,.3);
+  color: rgba(255,255,255,.72);
+  background: rgba(12,15,18,.68);
+  font-family: var(--xp-font);
+  font-size: .69rem;
+  pointer-events: none;
+  opacity: 0;
+  backdrop-filter: blur(16px) saturate(0);
+  transform: translate(14px, -50%);
+  transition: opacity 420ms ease, transform 760ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.neural-focus-legend .hud-label { margin: 0; color: var(--xp-signal); }
+
+.neural-focus-legend__items {
+  display: grid;
+  gap: 7px;
+}
+
+.neural-focus-legend__items > button,
+.neural-focus-legend__items > span {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 29px;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+}
+
+.neural-focus-legend__items > button { cursor: pointer; }
+.neural-focus-legend__items > button:hover,
+.neural-focus-legend__items > button:focus-visible { color: #fff; }
+
+.neural-focus-legend kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 25px;
+  padding: 3px 6px;
+  border: 1px solid rgba(255,255,255,.38);
+  border-bottom-color: rgba(255,255,255,.62);
+  color: #fff;
+  background: rgba(255,255,255,.055);
+  font: 700 .62rem/1 var(--xp-font);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.neural-focus-legend__items > button:hover kbd,
+.neural-focus-legend__items > button:focus-visible kbd { border-color: var(--xp-signal); }
 
 body.neural-focus-active { overflow: hidden; }
 body.neural-focus-active .site-header { opacity: 0; pointer-events: none; transform: translateY(-100%); }
@@ -470,6 +533,20 @@ body.neural-focus-active .site-header { opacity: 0; pointer-events: none; transf
   pointer-events: auto;
   opacity: 1;
   transform: translateY(0);
+}
+
+.experience-sticky.is-neural-focus .neural-focus-legend {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translate(0, -50%);
+  transition-delay: 180ms;
+}
+
+.experience-sticky.is-neural-exiting .neural-focus-legend {
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(10px, -50%);
+  transition-delay: 0ms;
 }
 
 .experience-sticky.is-neural-focus .hero-experience__identity,
@@ -2256,8 +2333,28 @@ body:not(.home-page) { padding-top: var(--xp-header); }
     padding: 14px;
   }
   .neural-focus-hud > strong { font-size: 1.25rem; }
-  .neural-focus-hud p,
-  .neural-focus-hint { display: none; }
+  .neural-focus-hud p { display: none; }
+  .neural-focus-legend {
+    top: auto;
+    right: 14px;
+    bottom: 206px;
+    left: 14px;
+    width: auto;
+    padding: 9px 10px;
+    transform: translateY(10px);
+  }
+  .neural-focus-legend .hud-label { display: none; }
+  .neural-focus-legend__items { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
+  .neural-focus-legend__items > button,
+  .neural-focus-legend__items > span {
+    grid-template-columns: 1fr;
+    gap: 5px;
+    justify-items: center;
+    font-size: .56rem;
+    text-align: center;
+  }
+  .experience-sticky.is-neural-focus .neural-focus-legend { transform: none; }
+  .experience-sticky.is-neural-exiting .neural-focus-legend { transform: translateY(8px); }
   .experience-sticky.is-neural-focus .experience-neural-controls {
     right: 14px;
     bottom: 14px;
@@ -2405,6 +2502,7 @@ body:not(.home-page) { padding-top: var(--xp-header); }
   .xp-reveal { opacity: 1; transform: none; transition: none; }
   .neural-focus-trigger,
   .neural-focus-hud,
+  .neural-focus-legend,
   .experience-sticky::after,
   .project-card__img,
   .service-card img,

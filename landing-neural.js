@@ -19,6 +19,9 @@
   const focusToggle = document.querySelector("#landingFocusToggle");
   const focusClose = document.querySelector("#landingFocusClose");
   const focusHud = document.querySelector("#neuralFocusHud");
+  const focusLegend = document.querySelector("#neuralFocusLegend");
+  const legendExit = document.querySelector("#landingLegendExit");
+  const legendRandomize = document.querySelector("#landingLegendRandomize");
   const neuralControls = document.querySelector(".experience-neural-controls");
   const zoomInput = document.querySelector("#landingZoom");
   const zoomOutput = document.querySelector("#landingZoomValue");
@@ -55,6 +58,7 @@
   let focusOriginY = 0.5;
   let clickTimer = 0;
   let exitTimer = 0;
+  const focusHistoryKey = "landingNeuralMicroscope";
 
   const seededRandom = () => {
     seed |= 0;
@@ -396,21 +400,55 @@
     context.restore();
   };
 
-  const drawLayerLabels = () => {
-    if (width < 760) return;
+  const layerMarkerOpacity = () => Math.max(0, Math.min(1, (detailProgress - 0.14) / 0.64));
+
+  const drawLayerGuides = () => {
+    const opacity = layerMarkerOpacity();
+    if (opacity <= 0) return;
     const bounds = networkBounds();
     context.save();
-    context.font = "9px SFMono-Regular, Menlo, monospace";
-    context.fillStyle = "rgba(255,255,255,.48)";
-    context.textAlign = "right";
+    context.globalAlpha = opacity;
+    context.setLineDash([2, 7]);
+    context.lineWidth = 1;
+    context.strokeStyle = "rgba(255,255,255,.14)";
     for (let layer = 0; layer < layers; layer += 1) {
       const point = nodePosition(layer, 0);
-      context.fillText(`LAYER_${String(layer + 1).padStart(2, "0")}`, bounds.left - 22, point.y + 3);
       context.beginPath();
-      context.moveTo(bounds.left - 17, point.y);
-      context.lineTo(bounds.left - 4, point.y);
-      context.strokeStyle = "rgba(255,255,255,.24)";
+      context.moveTo(Math.max(10, bounds.left - (width < 760 ? 3 : 12)), point.y);
+      context.lineTo(bounds.right, point.y);
       context.stroke();
+    }
+    context.restore();
+  };
+
+  const drawLayerLabels = () => {
+    const opacity = layerMarkerOpacity();
+    if (opacity <= 0) return;
+    const compact = width < 760;
+    const bounds = networkBounds();
+    const boxWidth = compact ? 38 : 82;
+    const boxHeight = compact ? 20 : 23;
+    const boxX = compact ? 10 : Math.max(18, bounds.left - boxWidth - 20);
+
+    context.save();
+    context.globalAlpha = opacity;
+    context.font = `${compact ? 8 : 9}px SFMono-Regular, Menlo, monospace`;
+    context.textAlign = "left";
+    context.textBaseline = "middle";
+    for (let layer = 0; layer < layers; layer += 1) {
+      const point = nodePosition(layer, 0);
+      const boxY = point.y - boxHeight / 2;
+      context.fillStyle = "rgba(12,15,18,.78)";
+      context.fillRect(boxX, boxY, boxWidth, boxHeight);
+      context.strokeStyle = "rgba(255,91,53,.72)";
+      context.lineWidth = 1;
+      context.strokeRect(boxX + 0.5, boxY + 0.5, boxWidth - 1, boxHeight - 1);
+      context.fillStyle = "rgba(255,91,53,.95)";
+      context.beginPath();
+      context.arc(boxX + 9, point.y, 2, 0, Math.PI * 2);
+      context.fill();
+      context.fillStyle = "rgba(255,255,255,.9)";
+      context.fillText(compact ? `L${String(layer + 1).padStart(2, "0")}` : `LAYER ${String(layer + 1).padStart(2, "0")}`, boxX + 16, point.y + 0.5);
     }
     context.restore();
   };
@@ -430,6 +468,7 @@
     pulse *= 0.92;
     context.clearRect(0, 0, width, height);
     drawBackdrop(time);
+    drawLayerGuides();
     drawTraceGuide();
     drawEdges(time);
     drawNodes(time);
@@ -500,6 +539,8 @@
       document.body.classList.add("neural-focus-active");
       focusHud?.setAttribute("aria-hidden", "false");
       focusHud?.removeAttribute("inert");
+      focusLegend?.setAttribute("aria-hidden", "false");
+      focusLegend?.removeAttribute("inert");
       neuralControls?.removeAttribute("inert");
       focusToggle?.setAttribute("aria-expanded", "true");
       canvas.setAttribute("aria-label", "Attention microscope active. Move across tokens, click to hold a trace, and press Escape to exit.");
@@ -509,6 +550,8 @@
       viewport.classList.add("is-neural-exiting");
       focusHud?.setAttribute("aria-hidden", "true");
       focusHud?.setAttribute("inert", "");
+      focusLegend?.setAttribute("aria-hidden", "true");
+      focusLegend?.setAttribute("inert", "");
       neuralControls?.setAttribute("inert", "");
       focusToggle?.setAttribute("aria-expanded", "false");
       canvas.setAttribute("aria-label", "Interactive transformer attention network. Double click to enter inspection mode.");
@@ -522,7 +565,28 @@
     if (reduceMotion) render(0);
   };
 
-  const toggleDetailMode = () => setDetailMode(!detailMode);
+  const isFocusHistoryState = (state = window.history.state) => Boolean(state?.[focusHistoryKey]);
+
+  const openDetailMode = (origin) => {
+    if (!isFocusHistoryState()) {
+      window.history.pushState({ ...window.history.state, [focusHistoryKey]: true }, "", "#neural-inspector");
+    }
+    setDetailMode(true, origin);
+  };
+
+  const closeDetailMode = () => {
+    if (!detailMode) return;
+    if (isFocusHistoryState()) {
+      window.history.back();
+      return;
+    }
+    setDetailMode(false);
+  };
+
+  const toggleDetailMode = () => {
+    if (detailMode) closeDetailMode();
+    else openDetailMode();
+  };
 
   const handleCanvasClick = () => {
     window.clearTimeout(clickTimer);
@@ -547,17 +611,19 @@
       x: (event.clientX - bounds.left) / Math.max(1, bounds.width),
       y: (event.clientY - bounds.top) / Math.max(1, bounds.height)
     };
-    if (detailMode) setDetailMode(false);
-    else setDetailMode(true, origin);
+    if (detailMode) closeDetailMode();
+    else openDetailMode(origin);
   };
 
   tokenInput?.addEventListener("input", rebuild);
   layerInput?.addEventListener("input", rebuild);
   densityInput?.addEventListener("input", rebuild);
   randomizeButton?.addEventListener("click", randomize);
+  legendRandomize?.addEventListener("click", randomize);
+  legendExit?.addEventListener("click", closeDetailMode);
   zoomInput?.addEventListener("input", () => setZoom(zoomInput.value));
-  focusToggle?.addEventListener("click", () => setDetailMode(true));
-  focusClose?.addEventListener("click", () => setDetailMode(false));
+  focusToggle?.addEventListener("click", () => openDetailMode());
+  focusClose?.addEventListener("click", closeDetailMode);
   canvas.addEventListener("pointermove", updatePointer, { passive: true });
   canvas.addEventListener("pointerleave", resetPointer, { passive: true });
   canvas.addEventListener("click", handleCanvasClick);
@@ -569,10 +635,17 @@
   }, { passive: false });
   window.addEventListener("resize", resize, { passive: true });
   window.addEventListener("scroll", updateScroll, { passive: true });
+  window.addEventListener("popstate", (event) => {
+    if (isFocusHistoryState(event.state)) {
+      if (!detailMode) setDetailMode(true);
+      return;
+    }
+    if (detailMode) setDetailMode(false);
+  });
   window.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && detailMode) {
       event.preventDefault();
-      setDetailMode(false);
+      closeDetailMode();
       return;
     }
     if (event.target === canvas && (event.key === "Enter" || event.key === " ")) {
@@ -599,6 +672,7 @@
   setZoom(detailZoom * 100);
   updateScroll();
   rebuild();
+  if (isFocusHistoryState() && window.location.hash === "#neural-inspector") setDetailMode(true);
   if (reduceMotion) render(0);
   else animationFrame = window.requestAnimationFrame(render);
 })();
