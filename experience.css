@@ -351,6 +351,8 @@ a { color: inherit; }
   transform: translateX(-50%) translateY(-3px);
 }
 
+.neural-focus-trigger__mobile { display: none; }
+
 .neural-focus-hud {
   position: absolute;
   top: clamp(22px, 3vw, 46px);
@@ -2222,8 +2224,8 @@ body:not(.home-page) { padding-top: var(--xp-header); }
 
   .theme-toggle,
   .nav-toggle {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
   }
 
   .experience-sticky::after {
@@ -2250,7 +2252,22 @@ body:not(.home-page) { padding-top: var(--xp-header); }
 
   .home-page .site-nav { color: #f4f4f1; background: rgba(20,22,24,.94); }
   .site-nav a,
-  .home-page .site-nav a { padding: 12px 0; color: inherit; font-size: .78rem; }
+  .home-page .site-nav a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 12px 0;
+    color: inherit;
+    font-size: .78rem;
+  }
+
+  .btn,
+  .local-nav a,
+  .project-view-button,
+  .project-controls select {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
 
   .hero--experience { min-height: 1300px; }
   .experience-sticky { height: 920px; max-height: 100svh; }
@@ -2305,9 +2322,20 @@ body:not(.home-page) { padding-top: var(--xp-header); }
   }
   .neural-focus-trigger {
     top: 74px;
+    right: 22px;
+    left: auto;
+    min-height: 44px;
     padding: 7px 9px;
     font-size: .64rem;
+    touch-action: manipulation;
+    transform: none;
   }
+  .neural-focus-trigger__desktop { display: none; }
+  .neural-focus-trigger__mobile { display: inline; }
+  .neural-focus-trigger:hover,
+  .neural-focus-trigger:focus-visible { transform: translateY(-3px); }
+  .experience-sticky.is-neural-focus .neural-focus-trigger,
+  .experience-sticky.is-neural-exiting .neural-focus-trigger { transform: translateY(-12px); }
   .neural-focus-hud {
     top: 14px;
     right: 14px;
@@ -2317,6 +2345,14 @@ body:not(.home-page) { padding-top: var(--xp-header); }
   }
   .neural-focus-hud > strong { font-size: 1.25rem; }
   .neural-focus-hud p { display: none; }
+  .neural-focus-hud__head button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    touch-action: manipulation;
+  }
   .neural-focus-legend { padding-top: 10px; }
   .neural-focus-legend__items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
   .neural-focus-legend__items > button,
@@ -2325,6 +2361,7 @@ body:not(.home-page) { padding-top: var(--xp-header); }
     gap: 5px;
     font-size: .56rem;
   }
+  .neural-focus-legend__items > button { min-height: 44px; }
   .experience-sticky.is-neural-focus .experience-neural-controls {
     right: 14px;
     bottom: 14px;
@@ -2351,6 +2388,10 @@ body:not(.home-page) { padding-top: var(--xp-header); }
     flex-direction: row;
     justify-content: space-between;
   }
+  .experience-sticky.is-neural-focus .experience-neural-controls button {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
   .hero-experience__status { display: none; }
   .hero-experience__audio.music-pill {
     right: auto;
@@ -2359,6 +2400,11 @@ body:not(.home-page) { padding-top: var(--xp-header); }
     width: auto;
     max-width: calc(100vw - 44px);
     transform: none;
+  }
+  .hero-experience__audio .play-btn {
+    width: 44px;
+    height: 44px;
+    touch-action: manipulation;
   }
 
   .page-hero,
