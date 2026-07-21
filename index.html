@@ -14,14 +14,14 @@
       root.style.colorScheme = t;
       let meta = document.querySelector('meta[name="theme-color"]');
       if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
-      meta.setAttribute("content", t === "dark" ? "#111110" : "#f3f2ee");
+      meta.setAttribute("content", t === "dark" ? "#111314" : "#e4e5e7");
       window.__setTheme = (theme) => {
         const next = theme === "dark" ? "dark" : "light";
         root.setAttribute("data-theme", next);
         root.style.colorScheme = next;
         try { localStorage.setItem(KEY, next); } catch {}
         const m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", next === "dark" ? "#111110" : "#f3f2ee");
+        if (m) m.setAttribute("content", next === "dark" ? "#111314" : "#e4e5e7");
         const light = document.getElementById("lightCSS");
         const dark  = document.getElementById("darkCSS");
         if (light && dark) { light.disabled = next !== "light"; dark.disabled = next !== "dark"; }
@@ -31,14 +31,30 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aarya Bookseller — ML · SWE · Data</title>
-  <meta name="description" content="Aarya Bookseller — building ML, software, and data systems with research-grade rigor and production discipline." />
+  <title>Aarya Bookseller · ML · SWE · Data</title>
+  <meta name="description" content="Aarya Bookseller, building ML, software, and data systems with research rigor and production discipline." />
+  <link rel="canonical" href="https://aaryabookseller16.github.io/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aaryabookseller16.github.io/" />
+  <meta property="og:title" content="Aarya Bookseller · Software Engineering × Deep Learning" />
+  <meta property="og:description" content="Reliable software systems, deep learning research, and selected work by Aarya Bookseller." />
+  <meta property="og:image" content="https://aaryabookseller16.github.io/assets/og-neural.png" />
+  <meta property="og:image:width" content="1735" />
+  <meta property="og:image:height" content="907" />
+  <meta property="og:image:alt" content="A monochrome computational landscape for Aarya Bookseller's engineering and deep learning portfolio." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Aarya Bookseller · Software Engineering × Deep Learning" />
+  <meta name="twitter:description" content="Reliable software systems, deep learning research, and selected work." />
+  <meta name="twitter:image" content="https://aaryabookseller16.github.io/assets/og-neural.png" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <link rel="stylesheet" href="style.css" />
   <link id="lightCSS" rel="stylesheet" href="theme-light.css">
   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
+  <link rel="stylesheet" href="experience.css" />
+  <script defer src="experience.js"></script>
+  <script defer src="landing-neural.js"></script>
 </head>
 
 <body class="home-page">
@@ -94,71 +110,113 @@
   </header>
 
   <main id="main">
-    <!-- ── Hero ── -->
-    <section class="hero">
-      <div class="container">
-        <div class="hero-grid">
-          <div class="hero-content">
-            <p class="hero-kicker">ML · SWE · Data</p>
-            <h1 class="hero-title">Building software systems—grounded in engineering, strengthened by ML.</h1>
-
-            <p class="hero-lead">
-              I build at the intersection of <strong>software engineering</strong> and <strong>machine learning</strong>—reliable backends, clean APIs, and solid data pipelines, plus modeling and evaluation when it actually improves the product.
-            </p>
-
-            <section class="intro-block" aria-labelledby="about-me-title">
-              <h2 id="about-me-title">About Me</h2>
-              <p>Software engineer and deep learning researcher from Surat, India.</p>
-              <p>On the engineering side: full-stack systems, APIs, data pipelines, distributed infrastructure. On the research side: bilevel optimization, implicit differentiation, GPU-scale experiments — published at NeurIPS 2025, extended work submitted to ICLR 2026.</p>
-              <p>I care about both equally. Systems that hold up. Models that actually work. The intersection is where the interesting problems are.</p>
-            </section>
-
-            <div class="cta-row">
-              <a class="btn btn--ghost" href="portfolio.html">View Portfolio</a>
-              <a class="btn btn--ghost" href="assets/Bookseller_Aarya.pdf" download>Download Résumé</a>
-            </div>
-
-            <div class="profile-icons">
-              <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ" target="_blank" rel="noopener" aria-label="Google Scholar">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zm0 8.73L4.62 9 12 5.27 19.38 9 12 11.73zM6 13v3.5C6 18.43 8.69 20 12 20s6-1.57 6-3.5V13l-6 3-6-3z"/>
-                </svg>
-              </a>
-              <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
-                <i class="fa-brands fa-linkedin"></i>
-              </a>
-              <a href="https://github.com/aaryabookseller16" target="_blank" rel="noopener" aria-label="GitHub">
-                <i class="fa-brands fa-github"></i>
-              </a>
-            </div>
-
-            <div class="music-pill" id="music">
-              <button class="play-btn" id="musicToggle" aria-label="Play / Pause">▶</button>
-              <div class="eq" aria-hidden="true">
-                <span class="eq-bar"></span>
-                <span class="eq-bar"></span>
-                <span class="eq-bar"></span>
-                <span class="eq-bar"></span>
-                <span class="eq-bar"></span>
-              </div>
-              <span>Dreams — Fleetwood Mac</span>
-              <audio id="player" preload="none" src="assets/Fleetwood Mac - Dreams (Official Music Video) [4K].mp3"></audio>
-            </div>
-          </div>
-
-          <aside class="hero-panel" aria-label="Profile snapshot">
-            <img src="assets/Headshot.JPG" alt="Aarya Bookseller professional headshot">
-            <div class="hero-panel__body">
-              <span>Texas A&amp;M Computer Science</span>
-              <strong>Building reliable software with ML where it earns its keep.</strong>
-              <div class="hero-panel__rows">
-                <p><b>Engineering</b> full-stack systems and infrastructure</p>
-                <p><b>Research</b> contract design and scalable optimization</p>
-                <p><b>Interests</b> distributed systems, data products, applied ML</p>
-              </div>
-            </div>
-          </aside>
+    <!-- Immersive research landscape -->
+    <section class="hero hero--experience" aria-labelledby="hero-title">
+      <div class="experience-sticky">
+        <canvas id="landingNeural" class="experience-canvas" aria-label="Interactive transformer attention network"></canvas>
+        <div class="experience-grain" aria-hidden="true"></div>
+        <div class="hero-experience__identity">
+          <span class="experience-wordmark">AARYA</span>
+          <span>// Software engineer</span>
+          <span>// Deep learning researcher</span>
         </div>
+
+        <div class="hero-experience__manifesto">
+          <span class="hud-label">////// Manifesto</span>
+          <h1 id="hero-title">Systems that hold up.<br>Models that matter.</h1>
+          <p>I build reliable software at the intersection of engineering and machine learning, from clean APIs and distributed infrastructure to GPU scale optimization research.</p>
+          <div class="experience-links">
+            <a href="portfolio.html">Explore selected work <span aria-hidden="true">↘</span></a>
+            <a href="assets/Bookseller_Aarya.pdf" download>Résumé <span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
+
+        <div class="experience-neural-controls" aria-label="Neural playground controls">
+          <div class="experience-neural-controls__head">
+            <span class="hud-label">NEURAL PLAYGROUND / LIVE</span>
+            <button type="button" id="landingRandomize">Randomize</button>
+          </div>
+          <label for="landingTokens">
+            <span>Tokens <output id="landingTokensValue" for="landingTokens">12</output></span>
+            <input id="landingTokens" type="range" min="6" max="18" value="12">
+          </label>
+          <label for="landingLayers">
+            <span>Layers <output id="landingLayersValue" for="landingLayers">5</output></span>
+            <input id="landingLayers" type="range" min="3" max="8" value="5">
+          </label>
+          <label for="landingDensity">
+            <span>Density <output id="landingDensityValue" for="landingDensity">58</output></span>
+            <input id="landingDensity" type="range" min="20" max="100" value="58">
+          </label>
+          <a href="ai.html">Open full laboratory <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <div class="experience-neural-readout" aria-live="polite">
+          <span data-neural-status>ATTENTION FIELD / ACTIVE</span>
+          <strong data-neural-title>Move across tokens to trace attention.</strong>
+          <span data-neural-detail>Click the network to regenerate its weights.</span>
+        </div>
+
+        <div class="hero-experience__scroll">
+          <span>Explore the network</span>
+          <span aria-hidden="true">↓ unfold &nbsp; ↔ focus &nbsp; ○ regenerate</span>
+        </div>
+
+        <div class="hero-experience__status">
+          <span class="hud-label">CURRENT COORDINATES</span>
+          <strong>Texas A&amp;M · CS</strong>
+          <span>NeurIPS 2025 · IBM AI 2026</span>
+          <span data-local-time>COLLEGE STATION // CT</span>
+        </div>
+
+        <div class="hero-experience__audio music-pill" id="music">
+          <button class="play-btn" id="musicToggle" aria-label="Play or pause Dreams by Fleetwood Mac">▶</button>
+          <span>SOUND / DREAMS</span>
+          <audio id="player" preload="none" src="assets/Fleetwood Mac - Dreams (Official Music Video) [4K].mp3"></audio>
+        </div>
+
+        <noscript>
+          <div class="experience-fallback">Interactive research landscape. Scroll for Aarya's work, background, and current updates.</div>
+        </noscript>
+      </div>
+    </section>
+
+    <section class="identity-archive" aria-labelledby="about-me-title">
+      <div class="container identity-archive__grid">
+        <figure class="identity-archive__portrait">
+          <img src="assets/Headshot.JPG" alt="Aarya Bookseller professional headshot">
+          <figcaption>SUBJECT_00 / AARYA BOOKSELLER</figcaption>
+        </figure>
+
+        <div class="identity-archive__intro">
+          <span class="card-label">About Me</span>
+          <h2 id="about-me-title">Engineering systems.<br>Researching models.</h2>
+          <p>Software engineer and deep learning researcher from Surat, India.</p>
+          <p>I build at the intersection of <strong>software engineering</strong> and <strong>machine learning</strong>: reliable backends, clean APIs, solid data pipelines, and modeling when it improves the product.</p>
+          <p>My engineering work covers full stack systems and infrastructure. My research covers bilevel optimization, implicit differentiation, and GPU scale experiments published at NeurIPS 2025.</p>
+          <p>I care about both equally. Systems that hold up. Models that actually work. The intersection is where the interesting problems are.</p>
+        </div>
+
+        <aside class="identity-archive__readout" aria-label="Profile snapshot">
+          <span class="hud-label">PROFILE READOUT</span>
+          <dl>
+            <div><dt>Education</dt><dd>Texas A&amp;M Computer Science</dd></div>
+            <div><dt>Engineering</dt><dd>Full stack systems and infrastructure</dd></div>
+            <div><dt>Research</dt><dd>Contract design and scalable optimization</dd></div>
+            <div><dt>Interests</dt><dd>Distributed systems, data products, applied ML</dd></div>
+          </dl>
+          <div class="profile-icons">
+            <a href="https://scholar.google.com/citations?hl=en&amp;user=TGcPvxcAAAAJ" target="_blank" rel="noopener" aria-label="Google Scholar">
+              <i class="fa-brands fa-google-scholar"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <i class="fa-brands fa-linkedin"></i>
+            </a>
+            <a href="https://github.com/aaryabookseller16" target="_blank" rel="noopener" aria-label="GitHub">
+              <i class="fa-brands fa-github"></i>
+            </a>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -166,25 +224,23 @@
     <section class="section about-section">
       <div class="container">
         <div class="about-box-grid">
-          <div class="about-card about-card--compact">
-            <span class="card-label">What I Do</span>
-            <p><strong>Engineering:</strong> full-stack from specs to UX — auth, databases, CI/CD, observability, clean APIs.</p>
-            <p><strong>Research:</strong> bilevel optimization, implicit differentiation, A100 training runs, reproducible experiments, publication-grade code.</p>
-            <p>Both inform each other. I write systems that survive contact with real data. I write experiments that survive contact with real constraints.</p>
-          </div>
-
           <article class="about-story">
             <span class="card-label">Operating style</span>
             <h2>Deep dives across software, models, and systems.</h2>
-            <p>I like work where a topic is worth digging into properly: the model, the data, the interface, the infrastructure, and the trade-offs that connect them. Surface-level understanding does not interest me much; I want to know why a system works, where it fails, and how to make it usable.</p>
-            <p>The intersection of fields is what keeps me engaged. Computer science gives me leverage, AI/ML gives me a way to model messy behavior, and my minors in physics and statistics push me toward stronger reasoning about uncertainty, structure, and evidence.</p>
+            <p>I study the model, data, interface, and infrastructure as one system. I want to know why it works, where it fails, and whether people can use it.</p>
+            <p>Computer science gives me leverage. Machine learning models complex behavior. Physics and statistics sharpen how I reason about uncertainty.</p>
           </article>
 
           <div class="about-card about-card--compact">
+            <span class="card-label">What I Do</span>
+            <p><strong>Engineering:</strong> full stack products, APIs, databases, testing, and observability.</p>
+            <p><strong>Research:</strong> bilevel optimization, implicit differentiation, GPU training, and reproducible experiments.</p>
+          </div>
+
+          <div class="about-card about-card--compact">
             <span class="card-label">Why Engineering and Deep Learning, Together</span>
-            <p>CS gives leverage. Deep learning gives expressive power. Engineering makes things work. Research makes things correct.</p>
-            <p>I'm most engaged when both are in tension: when a model needs to be theoretically sound and practically deployable. When code needs to be reproducible and production-ready.</p>
-            <p>Infrastructure and evaluation matter as much as the architecture. Strong baselines, reproducible runs, measurable improvements.</p>
+            <p>Research makes models sound. Engineering makes them useful.</p>
+            <p>I focus on strong baselines, reproducible code, careful evaluation, and practical deployment.</p>
           </div>
 
           <div class="principles-block principles-block--compact">
@@ -194,23 +250,23 @@
             <ol class="principles-list">
               <li>
                 <span class="principle-n">01</span>
-                <span><strong>Start simple → iterate.</strong> Build the smallest honest baseline, then improve with evidence.</span>
+                <span><strong>Start simple.</strong> Build the smallest honest baseline and improve it with evidence.</span>
               </li>
               <li>
                 <span class="principle-n">02</span>
-                <span><strong>Reproduce everything.</strong> Scripts, seeds, configs, and data assumptions live with the code. Plots are programmatic.</span>
+                <span><strong>Reproduce everything.</strong> Keep scripts, seeds, configs, and assumptions with the code.</span>
               </li>
               <li>
                 <span class="principle-n">03</span>
-                <span><strong>Engineer for scale.</strong> Clear APIs, tests, and observability make systems maintainable.</span>
+                <span><strong>Engineer for scale.</strong> Use clear APIs, tests, and observability.</span>
               </li>
               <li>
                 <span class="principle-n">04</span>
-                <span><strong>Explain the trade-offs.</strong> Users should see why a route/model was chosen—not just the output.</span>
+                <span><strong>Explain the tradeoffs.</strong> Show why a route or model was chosen.</span>
               </li>
               <li>
                 <span class="principle-n">05</span>
-                <span><strong>Keep it legible.</strong> Code, docs, and UX should make future work easier, not harder.</span>
+                <span><strong>Keep it legible.</strong> Make code, docs, and UX easy to extend.</span>
               </li>
             </ol>
           </div>
@@ -218,11 +274,11 @@
           <div class="about-card about-card--compact hobbies-block">
             <span class="card-label">Hobbies &amp; Interests</span>
             <ul class="fact-list">
-              <li>Triathlon prep — endurance, structure, and consistency</li>
+              <li>Triathlon prep: endurance, structure, and consistency</li>
               <li>Learning French</li>
               <li>Tennis on the regular</li>
-              <li>Electronic music (EDM) — <a href="https://open.spotify.com/playlist/7qiB9KkmpEi2ZJ8PLfEYsA?si=80c2eace6bd943e4" target="_blank" rel="noreferrer">Spotify →</a></li>
-              <li>Philosophy, psychology, chess, and reading — <a href="https://www.goodreads.com/user/show/154264554-aarya-bookseller" target="_blank" rel="noreferrer">Goodreads →</a></li>
+              <li>Electronic music (EDM): <a href="https://open.spotify.com/playlist/7qiB9KkmpEi2ZJ8PLfEYsA?si=80c2eace6bd943e4" target="_blank" rel="noreferrer">Spotify →</a></li>
+              <li>Philosophy, psychology, chess, and reading: <a href="https://www.goodreads.com/user/show/154264554-aarya-bookseller" target="_blank" rel="noreferrer">Goodreads →</a></li>
             </ul>
           </div>
         </div>
@@ -230,8 +286,17 @@
     </section>
 
     <!-- ── Updates ── -->
-    <section class="section updates-section" id="updates">
-      <div class="container">
+    <section class="section updates-section" id="updates" aria-labelledby="updates-title">
+      <div class="container updates-layout">
+        <header class="updates-intro">
+          <span class="card-label">Signal log / 2022 to 2026</span>
+          <h2 id="updates-title">Selected<br>milestones.</h2>
+          <p>A concise record of research, engineering, and the work currently shaping my trajectory.</p>
+          <div class="updates-intro__meta" aria-label="Timeline summary">
+            <span>07 entries</span>
+            <span>Latest / May 2026</span>
+          </div>
+        </header>
         <ol class="updates-timeline" aria-label="Recent updates">
           <li class="timeline-update timeline-update--major">
             <div class="timeline-update__point" aria-hidden="true"></div>
@@ -245,7 +310,7 @@
             <span class="timeline-update__date">2025/10/24</span>
             <article class="timeline-update__body">
               <h2><a href="qualifications.html#publications">Preprint published</a></h2>
-              <p>Released the scalable gradient-based contract design preprint covering bilevel optimization, implicit gradients, and GPU-scale experimentation.</p>
+              <p>Released the scalable gradient based contract design preprint covering bilevel optimization, implicit gradients, and GPU scale experimentation.</p>
             </article>
           </li>
           <li class="timeline-update timeline-update--major">
@@ -253,7 +318,7 @@
             <span class="timeline-update__date">Oct 2025</span>
             <article class="timeline-update__body">
               <h2><a href="qualifications.html#publications">NeurIPS 2025 workshop paper accepted</a></h2>
-              <p>Co-authored gradient-based bilevel optimization work for principal-agent contract design, accepted to the GenAI in Finance Workshop.</p>
+              <p>Coauthored gradient based bilevel optimization work for principal agent contract design, accepted to the GenAI in Finance Workshop.</p>
             </article>
           </li>
           <li class="timeline-update timeline-update--major">
@@ -261,23 +326,23 @@
             <span class="timeline-update__date">Jan 2025</span>
             <article class="timeline-update__body">
               <h2><a href="qualifications.html#experience">Joined the Deep Learning Fundamentals Lab</a></h2>
-              <p>Started research on bilevel optimization, implicit differentiation, HVP/CG solvers, and scalable self-supervised learning experiments.</p>
+              <p>Started research on bilevel optimization, implicit differentiation, HVP/CG solvers, and scalable self supervised learning experiments.</p>
             </article>
           </li>
           <li class="timeline-update">
             <div class="timeline-update__point" aria-hidden="true"></div>
-            <span class="timeline-update__date">Sep 2024-Apr 2025</span>
+            <span class="timeline-update__date">Sep 2024 to Apr 2025</span>
             <article class="timeline-update__body">
               <h2><a href="qualifications.html#experience">Software Developer, Zachry Civil &amp; Environmental Engineering</a></h2>
-              <p>Built Java and AnyLogic simulation models for civil and environmental systems, including agent-based and discrete-event workflows.</p>
+              <p>Built Java and AnyLogic simulation models for civil and environmental systems, including agent based and discrete event workflows.</p>
             </article>
           </li>
           <li class="timeline-update">
             <div class="timeline-update__point" aria-hidden="true"></div>
-            <span class="timeline-update__date">Feb-Sep 2024</span>
+            <span class="timeline-update__date">Feb to Sep 2024</span>
             <article class="timeline-update__body">
               <h2><a href="qualifications.html#experience">Data Analyst Intern, Stochastic Geomechanics Laboratory</a></h2>
-              <p>Applied Bayesian networks, MCMC, inverse modeling, and Python/R analysis workflows to supply-chain risk and uncertainty modeling.</p>
+              <p>Applied Bayesian networks, MCMC, inverse modeling, and Python/R analysis workflows to supply chain risk and uncertainty modeling.</p>
             </article>
           </li>
           <li class="timeline-update">

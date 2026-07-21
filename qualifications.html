@@ -14,14 +14,14 @@
       root.style.colorScheme = t;
       let meta = document.querySelector('meta[name="theme-color"]');
       if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
-      meta.setAttribute("content", t === "dark" ? "#111110" : "#f3f2ee");
+      meta.setAttribute("content", t === "dark" ? "#111314" : "#e4e5e7");
       window.__setTheme = (theme) => {
         const next = theme === "dark" ? "dark" : "light";
         root.setAttribute("data-theme", next);
         root.style.colorScheme = next;
         try { localStorage.setItem(KEY, next); } catch {}
         const m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", next === "dark" ? "#111110" : "#f3f2ee");
+        if (m) m.setAttribute("content", next === "dark" ? "#111314" : "#e4e5e7");
         const light = document.getElementById("lightCSS");
         const dark  = document.getElementById("darkCSS");
         if (light && dark) { light.disabled = next !== "light"; dark.disabled = next !== "dark"; }
@@ -31,14 +31,16 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Background — Aarya Bookseller</title>
-  <meta name="description" content="Education, experience, publications, and skills — Aarya Bookseller." />
+  <title>Background · Aarya Bookseller</title>
+  <meta name="description" content="Education, experience, publications, and skills by Aarya Bookseller." />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <link rel="stylesheet" href="style.css" />
   <link id="lightCSS" rel="stylesheet" href="theme-light.css">
   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
+  <link rel="stylesheet" href="experience.css" />
+  <script defer src="experience.js"></script>
 </head>
 
 <body>
@@ -110,7 +112,7 @@
         <div class="page-snapshot" aria-label="Background snapshot">
           <div class="snapshot-focus">
             <span>Current focus</span>
-            <strong>Incoming SWE Intern at IBM — AI Department</strong>
+            <strong>Incoming SWE Intern at IBM, AI Department</strong>
             <p>Production AI systems, software engineering, and enterprise infrastructure. Starting May 2026.</p>
           </div>
         </div>
@@ -143,30 +145,30 @@
           <div class="qual-body">
             <div class="qual-cards">
               <article class="info-card">
-                <h3>Scalable Principal–Agent Contract Design via Gradient-Based Optimization</h3>
+                <h3>Scalable Principal Agent Contract Design via Gradient Based Optimization</h3>
                 <span class="meta">A. Bookseller, T. Galanti, K. Ray · Under review at ICLR 2026; preprint on arXiv</span>
-                <p>Presents a scalable framework for principal–agent contract design as a bilevel optimization problem with differentiable agents. We derive efficient <strong>implicit-gradient</strong> estimators using <strong>Hessian–vector products (HVPs)</strong> solved via <em>conjugate gradient</em>, enabling GPU-accelerated hypergradient updates without forming explicit Hessians. The system integrates <strong>Sobol-QMC</strong> sampling for low-variance Monte Carlo estimates, <strong>JVP-based</strong> tracing for memory efficiency, and stability heuristics (warm starts, damping, line search) that make training robust across <em>CARA–Normal</em>, logistic-signal, and misspecified settings.</p>
+                <p>Presents principal agent contract design as a bilevel optimization problem. Efficient <strong>implicit gradient</strong> estimators use <strong>Hessian vector products (HVPs)</strong> and conjugate gradient solves for GPU accelerated updates. <strong>Sobol QMC</strong> sampling, <strong>JVP based</strong> tracing, and stability heuristics support robust training across <em>CARA Normal</em>, logistic signal, and misspecified settings.</p>
                 <ul>
-                  <li>Contributions: implicit-gradient solver, stability heuristics (warm-starts, damping, line search), and a reproducible evaluation protocol.</li>
-                  <li>Artifacts: reproducible PyTorch code, logging utilities, and publication-quality figures.</li>
+                  <li>Contributions: implicit gradient solver, stability heuristics, and a reproducible evaluation protocol.</li>
+                  <li>Artifacts: reproducible PyTorch code, logging utilities, and publication quality figures.</li>
                 </ul>
                 <p>Read the preprint on <a href="https://arxiv.org/abs/2510.21177" target="_blank" rel="noopener">arXiv →</a></p>
                 <div class="tag-list">
                   <span class="tag">Bilevel optimization</span>
                   <span class="tag">Implicit gradients</span>
-                  <span class="tag">GPU-scale</span>
+                  <span class="tag">GPU scale</span>
                 </div>
               </article>
 
               <article class="info-card">
-                <h3>Gradient-Based Bilevel Optimization for Principal–Agent Contract Design</h3>
+                <h3>Gradient Based Bilevel Optimization for Principal Agent Contract Design</h3>
                 <span class="meta">A. Bookseller, T. Galanti, K. Ray · Accepted at NeurIPS 2025 (GenAI in Finance Workshop)</span>
-                <p>Formulates contract design as a <strong>bilevel program</strong> where the principal optimizes contract parameters and the agent best-responds with effort. Computes outer gradients via <strong>implicit differentiation</strong> with <strong>HVP/CG</strong>, avoiding explicit Hessians; demonstrates stable training with warm starts, damping, and line-searched updates across canonical benchmarks.</p>
+                <p>Formulates contract design as a <strong>bilevel program</strong> where the principal optimizes contract parameters and the agent responds with effort. Computes outer gradients through <strong>implicit differentiation</strong> with <strong>HVP/CG</strong> and demonstrates stable training across canonical benchmarks.</p>
                 <ul>
-                  <li>Contributions: implicit-gradient solver, stability heuristics (warm-starts, damping, line search), and a reproducible evaluation protocol.</li>
-                  <li>Artifacts: reproducible PyTorch code, logging utilities, and publication-quality figures.</li>
+                  <li>Contributions: implicit gradient solver, stability heuristics, and a reproducible evaluation protocol.</li>
+                  <li>Artifacts: reproducible PyTorch code, logging utilities, and publication quality figures.</li>
                 </ul>
-                <p>View workshop entry: <a href="https://neurips.cc/virtual/2025/loc/san-diego/132543" target="_blank" rel="noreferrer">NeurIPS 2025 – GenAI in Finance →</a></p>
+                <p>View workshop entry: <a href="https://neurips.cc/virtual/2025/loc/san-diego/132543" target="_blank" rel="noreferrer">NeurIPS 2025, GenAI in Finance →</a></p>
                 <div class="tag-list">
                   <span class="tag">NeurIPS Workshop</span>
                   <span class="tag">Optimization</span>
@@ -191,12 +193,12 @@
                 <summary>
                   <span class="xp-summary">
                     <span class="xp-company">IBM</span>
-                    <h3>Software Engineering Intern — AI Department</h3>
+                    <h3>Software Engineering Intern, AI Department</h3>
                     <span class="xp-sub">May 2026 · Incoming</span>
                   </span>
                 </summary>
                 <div class="timeline-detail">
-                  <p class="xp-overview">Incoming software engineering role in IBM's AI organization. I am keeping the public description intentionally high-level until the internship begins.</p>
+                  <p class="xp-overview">Incoming software engineering role in IBM's AI organization. I am keeping the public description concise until the internship begins.</p>
                   <div class="xp-focus">
                     <span>Production AI systems</span>
                     <span>Software engineering</span>
@@ -214,17 +216,17 @@
                         Undergraduate Research Assistant
                       </a>
                     </h3>
-                    <span class="xp-sub">Texas A&amp;M University · Jan 2025–Present · Hybrid · College Station, TX</span>
+                    <span class="xp-sub">Texas A&amp;M University · Jan 2025 to Present · Hybrid · College Station, TX</span>
                   </span>
                 </summary>
                 <div class="timeline-detail">
-                  <p class="xp-overview">Research role focused on deep learning fundamentals, bilevel optimization, and reproducible large-scale experimentation. The work sits between theory, implementation, and publication-quality empirical evaluation.</p>
+                  <p class="xp-overview">Research role focused on deep learning fundamentals, bilevel optimization, and reproducible large scale experimentation. The work connects theory, implementation, and empirical evaluation.</p>
                   <ul>
-                    <li><strong>Bilevel optimization:</strong> Implemented gradient-based principal-agent contract design methods with implicit differentiation, Hessian-vector products, conjugate gradient solves, and stabilization for nested optimization loops.</li>
+                    <li><strong>Bilevel optimization:</strong> Implemented gradient based principal agent contract design with implicit differentiation, Hessian vector products, conjugate gradient solves, and stabilization.</li>
                     <li><strong>Experiment systems:</strong> Built reproducible training and evaluation pipelines with standardized configs, seed control, sweep automation, logging, aggregation, and figure generation.</li>
-                    <li><strong>Deep learning:</strong> Worked on self-supervised learning pipelines, including SimCLR and MoCo-style experiments in PyTorch with GPU training workflows.</li>
+                    <li><strong>Deep learning:</strong> Worked on self supervised learning pipelines, including SimCLR and MoCo style experiments in PyTorch.</li>
                     <li><strong>Publication work:</strong> Contributed to experiment design, result analysis, manuscript writing, and code/figure preparation for academic submission.</li>
-                    <li><strong>Result:</strong> Co-authored paper accepted at NeurIPS 2025 workshop; extended version submitted to ICLR 2026.</li>
+                    <li><strong>Result:</strong> Coauthored paper accepted at a NeurIPS 2025 workshop; extended version submitted to ICLR 2026.</li>
                   </ul>
                   <div class="xp-focus">
                     <span>PyTorch</span>
@@ -239,18 +241,18 @@
                 <summary>
                   <span class="xp-summary">
                     <span class="xp-company">NaviAI</span>
-                    <h3>Machine Learning Engineer — NaviAI</h3>
-                    <span class="xp-sub">Self-employed · Jan 2025–Present · Remote</span>
+                    <h3>Machine Learning Engineer, NaviAI</h3>
+                    <span class="xp-sub">Independent · Jan 2025 to Present · Remote</span>
                   </span>
                 </summary>
                 <div class="timeline-detail">
-                  <p class="xp-overview">Self-directed ML product work around maritime routing, operational risk, and explainable decision support. The project combines applied ML, optimization, geospatial data, and product UI.</p>
+                  <p class="xp-overview">Independent ML product work around maritime routing, operational risk, and explainable decision support.</p>
                   <ul>
-                    <li><strong>Routing engine:</strong> Designed a NetworkX-based routing system with dynamic weights for time, fuel, weather, cost, and risk.</li>
-                    <li><strong>NLP risk signals:</strong> Integrated Transformer-based maritime news analysis to convert unstructured information into route-level risk signals.</li>
-                    <li><strong>Decision support:</strong> Built route comparisons for fastest, cheapest, and safest paths, with explanations so trade-offs were visible rather than hidden.</li>
+                    <li><strong>Routing engine:</strong> Designed a NetworkX routing system with dynamic weights for time, fuel, weather, cost, and risk.</li>
+                    <li><strong>NLP risk signals:</strong> Integrated Transformer maritime news analysis to create route level risk signals.</li>
+                    <li><strong>Decision support:</strong> Built route comparisons with visible tradeoffs and clear explanations.</li>
                     <li><strong>Product interface:</strong> Developed a Streamlit app for interactive route exploration, constraint changes, and scenario comparison.</li>
-                    <li><strong>Operations:</strong> Added monitoring concepts with Prometheus/Grafana-style service visibility for runtime behavior.</li>
+                    <li><strong>Operations:</strong> Added Prometheus and Grafana monitoring for runtime behavior.</li>
                   </ul>
                   <div class="xp-focus">
                     <span>Python</span>
@@ -267,14 +269,14 @@
                   <span class="xp-summary">
                     <span class="xp-company">Zachry Dept. of Civil &amp; Environmental Engineering</span>
                     <h3>Software Developer</h3>
-                    <span class="xp-sub">Zachry Dept. of Civil &amp; Environmental Engineering, Texas A&amp;M · Sep 2024–Apr 2025 · On-site</span>
+                    <span class="xp-sub">Zachry Dept. of Civil &amp; Environmental Engineering, Texas A&amp;M · Sep 2024 to Apr 2025 · On site</span>
                   </span>
                 </summary>
                 <div class="timeline-detail">
                   <p class="xp-overview">Software development role supporting civil and environmental engineering research through simulation tooling and reusable model components.</p>
                   <ul>
                     <li><strong>Simulation systems:</strong> Built Java and AnyLogic models for infrastructure and environmental process analysis.</li>
-                    <li><strong>Modeling approach:</strong> Implemented agent-based and discrete-event simulations to test performance under realistic constraints.</li>
+                    <li><strong>Modeling approach:</strong> Implemented agent based and discrete event simulations to test performance under realistic constraints.</li>
                     <li><strong>Research support:</strong> Translated researcher requirements into modular simulation logic that could be reused and adjusted across experiments.</li>
                     <li><strong>Collaboration:</strong> Worked with graduate researchers to debug model assumptions, validate outputs, and refine scenario parameters.</li>
                   </ul>
@@ -296,13 +298,13 @@
                         Data Analyst Intern
                       </a>
                     </h3>
-                    <span class="xp-sub">Feb 2024–Sep 2024 · On-site (US)</span>
+                    <span class="xp-sub">Feb 2024 to Sep 2024 · On site (US)</span>
                   </span>
                 </summary>
                 <div class="timeline-detail">
-                  <p class="xp-overview">Data and probabilistic modeling role focused on uncertainty, resilience, and supply-chain risk. This work connected statistics, modeling, and applied engineering decisions.</p>
+                  <p class="xp-overview">Data and probabilistic modeling role focused on uncertainty, resilience, and supply chain risk.</p>
                   <ul>
-                    <li><strong>Probabilistic modeling:</strong> Applied Bayesian Networks to represent supply-chain dependencies and reason about resilience under uncertainty.</li>
+                    <li><strong>Probabilistic modeling:</strong> Applied Bayesian Networks to represent supply chain dependencies and reason about resilience.</li>
                     <li><strong>Inference:</strong> Implemented MCMC and inverse modeling workflows to calibrate probabilistic models from data.</li>
                     <li><strong>Analysis pipeline:</strong> Built Python and R workflows for cleaning, exploratory analysis, visualization, and reporting.</li>
                     <li><strong>Communication:</strong> Converted model outputs into interpretable research deliverables for technical audiences.</li>
@@ -325,14 +327,14 @@
                         Undergraduate Research Assistant
                       </a>
                     </h3>
-                    <span class="xp-sub">Texas A&amp;M University · Aug 2022–Dec 2022 · Hybrid · Bryan–College Station, TX</span>
+                    <span class="xp-sub">Texas A&amp;M University · Aug 2022 to Dec 2022 · Hybrid · Bryan and College Station, TX</span>
                   </span>
                 </summary>
                 <div class="timeline-detail">
                   <p class="xp-overview">Early research experience in quantum communication and secure protocol modeling, which shaped my interest in the intersection of physics, computation, and uncertainty.</p>
                   <ul>
-                    <li><strong>Security modeling:</strong> Studied parity-qubit communication and analyzed leakage, errors, and eavesdropping resistance.</li>
-                    <li><strong>Protocol design:</strong> Modeled secure transmission protocols and explored quantum coin-flip style problems.</li>
+                    <li><strong>Security modeling:</strong> Studied parity qubit communication and analyzed leakage, errors, and eavesdropping resistance.</li>
+                    <li><strong>Protocol design:</strong> Modeled secure transmission protocols and explored quantum coin flip problems.</li>
                     <li><strong>Tooling:</strong> Used Qiskit and computational experiments to reason about secure communication behavior.</li>
                   </ul>
                   <div class="xp-focus">
@@ -348,12 +350,12 @@
                 <summary>
                   <span class="xp-summary">
                     <span class="xp-company">Dreams and Deeds NGO</span>
-                    <h3>Intern — Dreams and Deeds NGO</h3>
-                    <span class="xp-sub">Sep 2020–Oct 2020 · Online</span>
+                    <h3>Intern, Dreams and Deeds NGO</h3>
+                    <span class="xp-sub">Sep 2020 to Oct 2020 · Online</span>
                   </span>
                 </summary>
                 <div class="timeline-detail">
-                  <p class="xp-overview">Community-focused leadership role coordinating a remote intern group and supporting outreach work.</p>
+                  <p class="xp-overview">Community leadership role coordinating a remote intern group and supporting outreach work.</p>
                   <ul>
                     <li>Led a team of 15 interns; coordinated weekly standups, delegated work, and tracked deliverables.</li>
                     <li>Produced social content and reports to support outreach and communicate ongoing initiatives.</li>
@@ -375,12 +377,12 @@
           <div class="qual-body">
             <div class="edu-card">
               <h3>Texas A&amp;M University</h3>
-              <span class="meta">B.S. Computer Science — Minors: Physics &amp; Statistics · Expected Dec 2026</span>
+              <span class="meta">B.S. Computer Science · Minors: Physics &amp; Statistics · Expected Dec 2026</span>
               <span class="meta">Distinguished Student, College of Engineering · Dean's Honor Roll</span>
-              <p class="xp-overview">My academic path is intentionally cross-disciplinary. Computer Science provides the engineering foundation: algorithms, systems, software design, networking, AI, and machine learning. The physics and statistics minors add the parts I care about most when building ML systems — uncertainty quantification, mathematical structure, optimization theory, and rigorous measurement.</p>
+              <p class="xp-overview">My academic path connects computer science, physics, and statistics. Together they provide an engineering foundation, mathematical structure, and a rigorous approach to uncertainty.</p>
               <p class="xp-overview">The physics minor is not decorative. Classical mechanics, thermodynamics, and modern physics trained me to reason from first principles, build models under incomplete information, and think about systems in terms of energy, constraints, and equilibrium. These habits transfer directly into ML research and bilevel optimization work.</p>
               <p class="xp-overview">Statistics fills in the inferential layer. Mathematical statistics and applied ML from the statistics side give me a precise language for uncertainty that complements the engineering focus of the CS degree. Bayesian reasoning, estimation theory, and probabilistic modeling make it possible to think carefully about what a model actually knows versus what it is guessing.</p>
-              <p class="xp-overview">Together the three disciplines form a coherent foundation for doing serious ML work — not just using tools, but understanding why they work, where they break, and how to build better ones. The coursework below reflects that mix.</p>
+              <p class="xp-overview">Together the three disciplines help me understand why tools work, where they break, and how to build better ones.</p>
               <div class="tag-list">
                 <span class="tag">Computer Science</span>
                 <span class="tag">Physics</span>
@@ -463,7 +465,7 @@
                 <h3>Machine Learning</h3>
                 <div class="pills">
                   <span class="pill">PyTorch</span><span class="pill">Transformers</span><span class="pill">SimCLR / MoCo</span>
-                  <span class="pill">scikit-learn</span><span class="pill">Bilevel Optimization</span><span class="pill">Experiment Design</span>
+                  <span class="pill">scikit learn</span><span class="pill">Bilevel Optimization</span><span class="pill">Experiment Design</span>
                 </div>
               </div>
               <div class="skills-group">

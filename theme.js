@@ -200,6 +200,6 @@
 
     getAccent: () => getComputedStyle(root).getPropertyValue("--accent").trim(),
     setAccent: (hex) => applyAccent(hex, true),
-    clearAccent: () => { ls.del(ACCENT_KEY); applyAccent("#4b72ff", false); }
+    clearAccent: () => { ls.del(ACCENT_KEY); applyAccent("#ff5b35", false); }
   };
 })();

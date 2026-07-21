@@ -1,24 +1,24 @@
 /* Light Theme */
 :root {
-  --bg:          #f3f2ee;
-  --bg-1:        #ffffff;
-  --bg-2:        #e8e6e0;
-  --text:        #111110;
-  --muted:       #6a6762;
-  --border:      #d5d2ca;
-  --muted-strong:#2f2c27;
-  --accent:      #e53800;
+  --bg:          #e4e5e7;
+  --bg-1:        #f4f4f1;
+  --bg-2:        #d7d9dc;
+  --text:        #101112;
+  --muted:       #545a60;
+  --border:      #b8bcc1;
+  --muted-strong:#101112;
+  --accent:      #ff5b35;
   --accent-fg:   #ffffff;
-  --font-sans:   "Times New Roman", Times, serif;
-  --font-mono:   "Times New Roman", Times, serif;
-  --radius:      4px;
-  --shadow-1:    0 1px 2px rgba(0,0,0,0.05);
-  --shadow-2:    0 2px 6px rgba(0,0,0,0.07);
+  --font-sans:   Inter, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:   "SFMono-Regular", "Cascadia Mono", "Roboto Mono", "Courier New", monospace;
+  --radius:      0;
+  --shadow-1:    none;
+  --shadow-2:    none;
   /* Legacy aliases for ai.html compat */
-  --bg-0:        #f3f2ee;
-  --ring:        #d5d2ca;
+  --bg-0:        #e4e5e7;
+  --ring:        #b8bcc1;
   --accent-contrast: #ffffff;
-  --tint-peach:  #fbd5a6;
-  --tint-blue:   #c7d9ff;
-  --tint-rose:   #ffc7d6;
+  --tint-peach:  #d6dadd;
+  --tint-blue:   #cfd4d8;
+  --tint-rose:   #dde0e2;
 }

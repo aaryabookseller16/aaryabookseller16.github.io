@@ -14,14 +14,14 @@
       root.style.colorScheme = t;
       let meta = document.querySelector('meta[name="theme-color"]');
       if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
-      meta.setAttribute("content", t === "dark" ? "#111110" : "#f3f2ee");
+      meta.setAttribute("content", t === "dark" ? "#111314" : "#e4e5e7");
       window.__setTheme = (theme) => {
         const next = theme === "dark" ? "dark" : "light";
         root.setAttribute("data-theme", next);
         root.style.colorScheme = next;
         try { localStorage.setItem(KEY, next); } catch {}
         const m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", next === "dark" ? "#111110" : "#f3f2ee");
+        if (m) m.setAttribute("content", next === "dark" ? "#111314" : "#e4e5e7");
         const light = document.getElementById("lightCSS");
         const dark  = document.getElementById("darkCSS");
         if (light && dark) { light.disabled = next !== "light"; dark.disabled = next !== "dark"; }
@@ -31,7 +31,7 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Volunteering — Aarya Bookseller</title>
+  <title>Volunteering · Aarya Bookseller</title>
   <meta name="description" content="Service and community involvement by Aarya Bookseller." />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -39,6 +39,8 @@
   <link rel="stylesheet" href="style.css" />
   <link id="lightCSS" rel="stylesheet" href="theme-light.css">
   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
+  <link rel="stylesheet" href="experience.css" />
+  <script defer src="experience.js"></script>
 </head>
 
 <body>
@@ -105,8 +107,8 @@
 
         <div class="service-focus" aria-label="Volunteering focus">
           <span class="service-focus__label">Service pattern</span>
-          <h2>People-first support in practical settings</h2>
-          <p>Blood-drive logistics, tutoring, and adoption-event support for local community organizations.</p>
+          <h2>People first support in practical settings</h2>
+          <p>Blood drive logistics, tutoring, and adoption event support for local community organizations.</p>
           <div class="service-focus__list">
             <span>Emergency response</span>
             <span>STEM tutoring</span>
@@ -137,8 +139,8 @@
           <div class="service-card-body">
             <h3>American Red Cross</h3>
             <p>
-              Supported local blood drives and disaster-preparedness campaigns. Assisted with donor registration, traffic flow,
-              and safety protocols during high-volume events. Gained practical exposure to crisis response and learned to
+              Supported local blood drives and disaster preparedness campaigns. Assisted with donor registration, traffic flow,
+              and safety protocols during high volume events. Gained practical exposure to crisis response and learned to
               communicate clearly under pressure while coordinating between staff, volunteers, and donors.
             </p>
             <a class="service-link" href="https://tamu-arc.wixsite.com/redcrosstamu" target="_blank" rel="noopener">Visit Website →</a>
@@ -151,9 +153,9 @@
           <div class="service-card-body">
             <h3>STEM Tutoring</h3>
             <p>
-              Tutored middle-school students in math, programming, and computer science fundamentals. Designed problem sets,
-              guided debugging exercises, and focused on building long-term confidence. Connected abstract concepts to
-              real-world examples to foster curiosity and encourage pathways into STEM.
+              Tutored middle school students in math, programming, and computer science fundamentals. Designed problem sets,
+              guided debugging exercises, and focused on building lasting confidence. Connected abstract concepts to
+              practical examples to foster curiosity and encourage pathways into STEM.
             </p>
           </div>
         </div>
@@ -166,7 +168,7 @@
           <div class="service-card-body">
             <h3>Aggieland Humane Society</h3>
             <p>
-              Volunteered at adoption events and animal-care facilities, assisting with feeding, exercise, and socialization.
+              Volunteered at adoption events and animal care facilities, assisting with feeding, exercise, and socialization.
               Helped families through the adoption process by sharing resources and answering questions. Developed a deeper
               sense of responsibility and compassion through service to local pets and their future owners.
             </p>

@@ -13,7 +13,7 @@
       // meta theme-color for mobile UI
       let meta = document.querySelector('meta[name="theme-color"]');
       if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
-      meta.setAttribute("content", t === "dark" ? "#111110" : "#f3f2ee");
+      meta.setAttribute("content", t === "dark" ? "#111314" : "#e4e5e7");
       // public helper (used by the toggle)
       window.__setTheme = (theme) => {
         const next = theme === "dark" ? "dark" : "light";
@@ -22,7 +22,7 @@
         root.style.colorScheme = next;
         try { localStorage.setItem(KEY, next); } catch {}
         const metaEl = document.querySelector('meta[name="theme-color"]');
-        if (metaEl) metaEl.setAttribute("content", next === "dark" ? "#111110" : "#f3f2ee");
+        if (metaEl) metaEl.setAttribute("content", next === "dark" ? "#111314" : "#e4e5e7");
         // broadcast for listeners (animation & sizing)
         root.dispatchEvent(new CustomEvent("themechange", { detail: { effective: next } }));
         window.dispatchEvent(new CustomEvent("themechange", { detail: { effective: next } }));
@@ -38,8 +38,8 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Neural Kaleidoscope — Aarya Bookseller</title>
-  <meta name="description" content="Interactive transformer-attention sketch with a minimal HUD. Hover to focus columns; tweak tokens, layers, speed, density." />
+  <title>Neural Kaleidoscope · Aarya Bookseller</title>
+  <meta name="description" content="Interactive transformer attention sketch with a minimal HUD. Hover to focus columns; tweak tokens, layers, speed, density." />
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -48,40 +48,40 @@
   <style>
     /* ========== Base / layout tokens ========== */
     :root{
-      --accent: #ff5427;
+      --accent: #ff5b35;
 
       /* Header sizing (updated precisely by JS for canvas anchor) */
       --header-h: 72px;
 
       /* AI page tokens (dark-first) */
-      --ai-bg0: #111110;
-      --ai-bg1: #191917;
-      --ai-ink: #f3f2ee;
-      --ai-muted: #8f8a82;
-      --ai-ring: #2d2b28;
+      --ai-bg0: #111314;
+      --ai-bg1: #191b1d;
+      --ai-ink: #f1f1ed;
+      --ai-muted: #b0b3b6;
+      --ai-ring: #414549;
       --ai-accent: var(--accent);
-      --ai-fx1: #ff5427;
-      --ai-fx2: #d5d2ca;
+      --ai-fx1: #ff5b35;
+      --ai-fx2: #b0b3b6;
       --ai-surface: color-mix(in oklab, var(--ai-bg1) 90%, transparent);
       --ai-card: color-mix(in oklab, var(--ai-bg1) 94%, transparent);
       --ai-grid: color-mix(in oklab, var(--ai-ink) 9%, transparent);
       --ai-shadow: none;
       --ai-glow: none;
       --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
-      --font-display: "Times New Roman", Times, serif;
-      --font-sans: "Times New Roman", Times, serif;
-      --font-mono: "Times New Roman", Times, serif;
+      --font-display: Inter, "Helvetica Neue", Arial, sans-serif;
+      --font-sans: Inter, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "SFMono-Regular", "Cascadia Mono", "Roboto Mono", "Courier New", monospace;
     }
     [data-theme="light"] {
-      --accent: #e53800;
-      --ai-bg0: #f3f2ee;
-      --ai-bg1: #ffffff;
-      --ai-ink: #111110;
-      --ai-muted: #6a6762;
-      --ai-ring: #d5d2ca;
-      --ai-surface: color-mix(in oklab, #ffffff 94%, transparent);
-      --ai-card: color-mix(in oklab, #ffffff 98%, transparent);
-      --ai-grid: color-mix(in oklab, #111110 6%, transparent);
+      --accent: #ff5b35;
+      --ai-bg0: #e4e5e7;
+      --ai-bg1: #f4f4f1;
+      --ai-ink: #101112;
+      --ai-muted: #545a60;
+      --ai-ring: #b8bcc1;
+      --ai-surface: color-mix(in oklab, #f4f4f1 94%, transparent);
+      --ai-card: color-mix(in oklab, #f4f4f1 98%, transparent);
+      --ai-grid: color-mix(in oklab, #101112 6%, transparent);
       --ai-shadow: none;
     }
 
@@ -132,7 +132,7 @@
       transition: transform .32s var(--ease-apple), box-shadow .32s var(--ease-apple), border-color .2s var(--ease-apple), background .2s var(--ease-apple);
     }
     .btn--solid{
-      background: var(--ai-accent); border-color: var(--ai-accent); color: #111110;
+      background: var(--ai-accent); border-color: var(--ai-accent); color: #111314;
       box-shadow: none;
     }
 
@@ -337,7 +337,7 @@
       transition: transform .32s var(--ease-apple), box-shadow .32s var(--ease-apple), border-color .2s var(--ease-apple), background .2s var(--ease-apple);
     }
     .controls .btn--solid{
-      background: var(--ai-accent); border-color: var(--ai-accent); color: #111110;
+      background: var(--ai-accent); border-color: var(--ai-accent); color: #111314;
       box-shadow: none;
     }
     .controls .btn:hover{ transform: translateY(-1px); border-color: color-mix(in oklab, var(--ai-accent) 45%, var(--ai-ring)); }
@@ -452,6 +452,8 @@
   }
 }
   </style>
+  <link rel="stylesheet" href="experience.css" />
+  <script defer src="experience.js"></script>
 </head>
 
 <body class="ai-page">
@@ -561,7 +563,7 @@
   <div class="hud">
     <button id="hudToggle" class="hud-toggle" aria-expanded="false" title="Open controls">Tune</button>
     <div id="hudPanel" class="hud-panel" hidden>
-      <div class="hud-title">Fine-tune the pattern</div>
+      <div class="hud-title">Fine tune the pattern</div>
       <div class="hud-row">
         <label class="hud-control">
           <span class="hud-label">Seed</span>
@@ -890,7 +892,7 @@
               if (base*(0.6 + 0.8*pulse) < DENSITY/200) continue;
               const focus = mouse.col>=0 ? Math.exp(-Math.abs(j-mouse.col)*0.8) : 1;
               const a = Math.min(1, base*pulse*1.2*focus);
-              const edge = isDark() ? "255,84,39" : "229,56,0";
+              const edge = "255,91,53";
               ctx.strokeStyle = `rgba(${edge},${a})`;
               ctx.lineWidth = 0.8 + 2.4*a;
               ctx.beginPath();
@@ -908,8 +910,8 @@
           for(let i=0;i<TOKENS;i++){
             const xx=x(i), p=(Math.sin(anim*2 + i*.6 + L*.8)+1)/2;
             const r=5+3*p, focus= mouse.col===i ? 1 : .85;
-            const warm = isDark() ? [255, 84, 39] : [229, 56, 0];
-            const neutral = isDark() ? [143, 138, 130] : [106, 103, 98];
+            const warm = [255, 91, 53];
+            const neutral = isDark() ? [150, 153, 156] : [99, 102, 106];
             const mix = Math.min(1, 0.28 + (L / Math.max(1, LAYERS - 1)) * 0.48 + p * 0.18);
             const rr = Math.round(neutral[0] + (warm[0] - neutral[0]) * mix);
             const gg = Math.round(neutral[1] + (warm[1] - neutral[1]) * mix);

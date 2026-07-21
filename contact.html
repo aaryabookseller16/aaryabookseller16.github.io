@@ -14,14 +14,14 @@
       root.style.colorScheme = t;
       let meta = document.querySelector('meta[name="theme-color"]');
       if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
-      meta.setAttribute("content", t === "dark" ? "#111110" : "#f3f2ee");
+      meta.setAttribute("content", t === "dark" ? "#111314" : "#e4e5e7");
       window.__setTheme = (theme) => {
         const next = theme === "dark" ? "dark" : "light";
         root.setAttribute("data-theme", next);
         root.style.colorScheme = next;
         try { localStorage.setItem(KEY, next); } catch {}
         const m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", next === "dark" ? "#111110" : "#f3f2ee");
+        if (m) m.setAttribute("content", next === "dark" ? "#111314" : "#e4e5e7");
         const light = document.getElementById("lightCSS");
         const dark  = document.getElementById("darkCSS");
         if (light && dark) { light.disabled = next !== "light"; dark.disabled = next !== "dark"; }
@@ -31,7 +31,7 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact — Aarya Bookseller</title>
+  <title>Contact · Aarya Bookseller</title>
   <meta name="description" content="Contact Aarya Bookseller for software engineering, ML research, collaboration, and recruiting conversations." />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -39,6 +39,8 @@
   <link rel="stylesheet" href="style.css" />
   <link id="lightCSS" rel="stylesheet" href="theme-light.css">
   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
+  <link rel="stylesheet" href="experience.css" />
+  <script defer src="experience.js"></script>
 </head>
 
 <body>
@@ -105,7 +107,7 @@
         <div class="page-snapshot">
           <div class="snapshot-metrics">
             <div class="snapshot-metric">
-              <strong>24-48h</strong>
+              <strong>24 to 48h</strong>
               <span>Typical reply</span>
             </div>
             <div class="snapshot-metric">
@@ -117,7 +119,7 @@
               <span>Research</span>
             </div>
           </div>
-          <p class="snapshot-note">Best topics: ML research, full-stack systems, deep learning, optimization, project feedback, and internship or research discussions.</p>
+          <p class="snapshot-note">Best topics: ML research, full stack systems, deep learning, optimization, project feedback, and internship or research discussions.</p>
         </div>
       </div>
     </div>
@@ -130,7 +132,7 @@
           <aside class="contact-panel">
             <span class="section-label">Direct</span>
             <h2>Use the channel that fits.</h2>
-            <p>For time-sensitive items, email me directly. For professional context, LinkedIn is fine. For project context, GitHub is usually the fastest reference point.</p>
+            <p>For urgent items, email me directly. For professional context, LinkedIn is fine. For project context, GitHub is usually the fastest reference point.</p>
 
             <div class="contact-methods">
               <div class="contact-method">

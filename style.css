@@ -1831,7 +1831,7 @@ main > section:last-child {
   position: relative;
 }
 .fact-list li::before {
-  content: "–";
+  content: "•";
   position: absolute;
   left: 0;
   color: var(--accent);

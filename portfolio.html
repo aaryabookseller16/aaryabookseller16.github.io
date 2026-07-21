@@ -14,14 +14,14 @@
       root.style.colorScheme = t;
       let meta = document.querySelector('meta[name="theme-color"]');
       if (!meta) { meta = document.createElement("meta"); meta.name = "theme-color"; document.head.appendChild(meta); }
-      meta.setAttribute("content", t === "dark" ? "#111110" : "#f3f2ee");
+      meta.setAttribute("content", t === "dark" ? "#111314" : "#e4e5e7");
       window.__setTheme = (theme) => {
         const next = theme === "dark" ? "dark" : "light";
         root.setAttribute("data-theme", next);
         root.style.colorScheme = next;
         try { localStorage.setItem(KEY, next); } catch {}
         const m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", next === "dark" ? "#111110" : "#f3f2ee");
+        if (m) m.setAttribute("content", next === "dark" ? "#111314" : "#e4e5e7");
         const light = document.getElementById("lightCSS");
         const dark  = document.getElementById("darkCSS");
         if (light && dark) { light.disabled = next !== "light"; dark.disabled = next !== "dark"; }
@@ -31,14 +31,16 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portfolio — Aarya Bookseller</title>
-  <meta name="description" content="Selected projects by Aarya Bookseller — ML systems, networking, optimization, and software engineering." />
+  <title>Portfolio · Aarya Bookseller</title>
+  <meta name="description" content="Selected projects by Aarya Bookseller, including ML systems, networking, optimization, and software engineering." />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <link rel="stylesheet" href="style.css" />
   <link id="lightCSS" rel="stylesheet" href="theme-light.css">
   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
+  <link rel="stylesheet" href="experience.css" />
+  <script defer src="experience.js"></script>
 </head>
 
 <body>
@@ -96,7 +98,7 @@
     <div class="container">
       <div class="portfolio-hero">
         <div class="portfolio-hero__copy">
-          <span class="portfolio-hero__eyebrow">2025 - 2026 Project Index</span>
+          <span class="portfolio-hero__eyebrow">2025 to 2026 Project Index</span>
           <h1 class="hero-page-title">Portfolio</h1>
           <p class="hero-page-lead">Selected builds across ML systems, networking tools, optimization, and software engineering.</p>
 
@@ -123,7 +125,7 @@
           </div>
           <div class="snapshot-focus">
             <span>Latest build window</span>
-            <strong>Jan 2026 - May 2026</strong>
+            <strong>Jan 2026 to May 2026</strong>
             <p>Fast Traceroute, Reliable UDP Sender, and DNS Packet Inspector.</p>
             <p>Currently working on: <strong>Trading Dashboard</strong>.</p>
           </div>
@@ -166,8 +168,8 @@
           <img class="project-card__img" src="assets/boba.jpg" alt="Bubble Tea POS">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">Bubble Tea POS — Inventory &amp; Ordering</h2>
-              <span class="project-card__date">Aug 2025 - Dec 2025</span>
+              <h2 class="project-card__title">Bubble Tea POS · Inventory &amp; Ordering</h2>
+              <span class="project-card__date">Aug 2025 to Dec 2025</span>
             </div>
             <p class="project-card__meta">JavaFX · PostgreSQL · AWS · Node.js · React</p>
             <div class="project-card__links">
@@ -187,8 +189,8 @@
             <details class="project-details">
               <summary>Details</summary>
               <div class="project-details__body">
-                <p>End-to-end <strong>point-of-sale</strong> platform with customer ordering, staff roles, and inventory management. Built a normalized <strong>PostgreSQL</strong> schema with triggers/constraints, transactional order processing, and audit logs. Implemented a responsive <strong>JavaFX</strong> UI with role-based access, receipt printing, and admin dashboards.</p>
-                <p>Backend uses a DAO layer over JDBC, batch inserts, and parameterized queries for safety and speed. Deployed on <strong>AWS</strong> with environment-based configs and GitHub Actions for CI build checks.</p>
+                <p>Complete <strong>point of sale</strong> platform with customer ordering, staff roles, and inventory management. Built a normalized <strong>PostgreSQL</strong> schema with triggers, transactional order processing, and audit logs. Implemented a responsive <strong>JavaFX</strong> UI with role based access, receipt printing, and admin dashboards.</p>
+                <p>Backend uses a DAO layer over JDBC, batch inserts, and parameterized queries for safety and speed. Deployed on <strong>AWS</strong> with environment configs and GitHub Actions for CI build checks.</p>
               </div>
             </details>
           </div>
@@ -199,7 +201,7 @@
           <img class="project-card__img" src="assets/aurora.png" alt="AURORA compute recommendation">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">AURORA — ML Compute Calibration &amp; Recommendations</h2>
+              <h2 class="project-card__title">AURORA · ML Compute Calibration &amp; Recommendations</h2>
               <span class="project-card__date">Feb 2026</span>
             </div>
             <p class="project-card__meta">Next.js · FastAPI · Docker Sandbox · Profiling</p>
@@ -218,8 +220,8 @@
             <details class="project-details">
               <summary>Details</summary>
               <div class="project-details__body">
-                <p>Full-stack prototype that turns a <strong>calibration run</strong> into a defensible compute decision. Users upload an ML repo, run a sandboxed job in <strong>Docker</strong>, and AURORA captures runtime, logs, and profiling signals (CPU/RAM/IO) to estimate scaling and recommend <em>fastest / cheapest / balanced</em> options with clear reasoning.</p>
-                <p>Produces reproducible <strong>run bundles</strong> (Dockerfile + scripts + README) to bridge local testing → deployment. Optional GenAI-assisted calibration suggestions and chat for quick tuning and diagnosis.</p>
+                <p>Full stack prototype that turns a <strong>calibration run</strong> into a defensible compute decision. Users upload an ML repo, run a sandboxed job in <strong>Docker</strong>, and AURORA captures runtime, logs, and profiling signals to estimate scaling and recommend options with clear reasoning.</p>
+                <p>Produces reproducible <strong>run bundles</strong> with a Dockerfile, scripts, and README. Optional GenAI assistance supports quick tuning and diagnosis.</p>
               </div>
             </details>
           </div>
@@ -230,7 +232,7 @@
           <img class="project-card__img" src="assets/streamsense.png" alt="StreamSense Reactor dashboard">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">StreamSense Reactor — Real-Time Streaming KPIs</h2>
+              <h2 class="project-card__title">StreamSense Reactor · Real Time Streaming KPIs</h2>
               <span class="project-card__date">2025</span>
             </div>
             <p class="project-card__meta">Redpanda (Kafka) · Node.js · PostgreSQL · React</p>
@@ -246,8 +248,8 @@
             <details class="project-details">
               <summary>Details</summary>
               <div class="project-details__body">
-                <p>Production-style <strong>event-driven</strong> analytics pipeline: ingests high-volume service events (latency, status, timestamps), streams them through <strong>Kafka-compatible Redpanda</strong>, computes rolling-window KPIs, persists results to <strong>PostgreSQL</strong>, and visualizes operational health in a near real-time <strong>React</strong> dashboard.</p>
-                <p>Built as a clean multi-service repo with containerized local infrastructure and a streaming worker that performs aggregation and durable KPI writes.</p>
+                <p>Production style <strong>event driven</strong> analytics pipeline that ingests high volume service events, streams them through <strong>Redpanda with Kafka compatibility</strong>, computes rolling KPIs, persists results to <strong>PostgreSQL</strong>, and visualizes health in a near real time <strong>React</strong> dashboard.</p>
+                <p>Built as a clean multiservice repo with containerized local infrastructure and a streaming worker for aggregation and durable KPI writes.</p>
               </div>
             </details>
           </div>
@@ -258,7 +260,7 @@
           <img class="project-card__img" src="assets/insightboard.png" alt="InsightBoard analytics dashboard">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">InsightBoard — Internal Analytics Dashboard</h2>
+              <h2 class="project-card__title">InsightBoard · Internal Analytics Dashboard</h2>
               <span class="project-card__date">2025</span>
             </div>
             <p class="project-card__meta">React · Express · PostgreSQL · JWT/RBAC</p>
@@ -274,8 +276,8 @@
             <details class="project-details">
               <summary>Details</summary>
               <div class="project-details__body">
-                <p>Internal tool that turns raw <strong>event-level data</strong> into business KPIs: revenue (sales − refunds, stored safely in cents), activity, daily trends, and event-type breakdowns. Includes strict <strong>role-based access control</strong>: admins see platform-wide metrics; users see only their own.</p>
-                <p>Node/Express backend with <strong>JWT auth</strong> and backend-enforced RBAC, backed by <strong>PostgreSQL</strong> with indexed time-series queries for fast KPI aggregation. React UI keeps the dashboard clean and readable.</p>
+                <p>Internal tool that turns raw <strong>event level data</strong> into business KPIs: revenue, activity, daily trends, and event type breakdowns. Strict <strong>role based access control</strong> gives admins platform metrics while users see only their own.</p>
+                <p>Node and Express backend with <strong>JWT auth</strong> and enforced RBAC, backed by <strong>PostgreSQL</strong> with indexed time series queries. React keeps the dashboard clean and readable.</p>
               </div>
             </details>
           </div>
@@ -286,8 +288,8 @@
           <img class="project-card__img" src="assets/fast-traceroute.svg" alt="Fast traceroute hop timing diagram">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">Fast Traceroute — Parallel ICMP Path Discovery</h2>
-              <span class="project-card__date">Jan 2026 - May 2026</span>
+              <h2 class="project-card__title">Fast Traceroute · Parallel ICMP Path Discovery</h2>
+              <span class="project-card__date">Jan 2026 to May 2026</span>
             </div>
             <p class="project-card__meta">C++ · Winsock · Raw ICMP · Async DNS · CSCE 612</p>
             <div class="project-card__links">
@@ -302,8 +304,8 @@
             <details class="project-details">
               <summary>Details</summary>
               <div class="project-details__body">
-                <p>Implemented a Windows traceroute tool that sends TTL-limited ICMP probes, resolves hop names asynchronously, and prints ordered path results with RTT timing and ICMP error handling. Includes raw-socket mode plus Windows ICMP Helper API fallback for restricted environments.</p>
-                <p>Batch mode traces many targets with worker threads and a topology-aware smart mode that reuses stable prefixes. This originated from CSCE 612 coursework; the public repo includes an academic integrity notice.</p>
+                <p>Implemented a Windows traceroute tool that sends ICMP probes with controlled TTL values, resolves hop names asynchronously, and prints ordered path results with RTT timing and error handling. Includes raw socket mode plus a Windows ICMP Helper API fallback.</p>
+                <p>Batch mode traces many targets with worker threads and a topology aware smart mode that reuses stable prefixes. The public repo includes an academic integrity notice.</p>
               </div>
             </details>
           </div>
@@ -314,8 +316,8 @@
           <img class="project-card__img" src="assets/reliable-udp.svg" alt="Reliable UDP sliding window diagram">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">Reliable UDP Sender — Sliding-Window Transport</h2>
-              <span class="project-card__date">Jan 2026 - May 2026</span>
+              <h2 class="project-card__title">Reliable UDP Sender · Sliding Window Transport</h2>
+              <span class="project-card__date">Jan 2026 to May 2026</span>
             </div>
             <p class="project-card__meta">C++ · UDP · RTT/RTO Estimation · Fast Retransmit · CSCE 612</p>
             <div class="project-card__links">
@@ -330,7 +332,7 @@
             <details class="project-details">
               <summary>Details</summary>
               <div class="project-details__body">
-                <p>Built a custom reliable sender over UDP with connection setup, packet sequencing, ACK processing, sender-window flow control, retransmission timers, RTT/RTO updates, duplicate-ACK fast retransmit, and graceful FIN close.</p>
+                <p>Built a custom reliable sender over UDP with connection setup, packet sequencing, ACK processing, sender window flow control, retransmission timers, RTT/RTO updates, duplicate ACK fast retransmit, and graceful FIN close.</p>
                 <p>The sender coordinates producer and background ACK threads to keep the transfer window full while tracking throughput and checksums. This originated from CSCE 612 coursework; the public repo includes an academic integrity notice.</p>
               </div>
             </details>
@@ -342,8 +344,8 @@
           <img class="project-card__img" src="assets/Web-Crawling.webp" alt="DNS crawler packet inspection visualization">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">DNS Packet Inspector — Raw UDP Resolver Client</h2>
-              <span class="project-card__date">Jan 2026 - May 2026</span>
+              <h2 class="project-card__title">DNS Packet Inspector · Raw UDP Resolver Client</h2>
+              <span class="project-card__date">Jan 2026 to May 2026</span>
             </div>
             <p class="project-card__meta">C++ · DNS Wire Format · UDP · Name Compression · CSCE 612</p>
             <div class="project-card__links">
@@ -358,8 +360,8 @@
             <details class="project-details">
               <summary>Details</summary>
               <div class="project-details__body">
-                <p>Implemented a command-line DNS client that builds raw DNS queries, sends them to a chosen resolver, and decodes answers, authority records, and additional records from the response packet.</p>
-                <p>Supports A and PTR lookups, compressed-name parsing with bounds and loop checks, retries, timeouts, and cross-platform sockets. This originated from CSCE 612 coursework; the public repo includes an academic integrity notice.</p>
+                <p>Implemented a command line DNS client that builds raw DNS queries, sends them to a chosen resolver, and decodes answers, authority records, and additional records.</p>
+                <p>Supports A and PTR lookups, compressed name parsing, retries, timeouts, and sockets across platforms. The public repo includes an academic integrity notice.</p>
               </div>
             </details>
           </div>
@@ -370,10 +372,10 @@
           <img class="project-card__img" src="assets/routes.jpeg" alt="NaviAI maritime route visualization">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">NaviAI — Maritime Routing with Risk</h2>
-              <span class="project-card__date">Jan 2025 - May 2025</span>
+              <h2 class="project-card__title">NaviAI · Maritime Routing with Risk</h2>
+              <span class="project-card__date">Jan 2025 to May 2025</span>
             </div>
-            <p class="project-card__meta">ML Engineer · Semi-finalist, Mays AI Competition 2024</p>
+            <p class="project-card__meta">ML Engineer · Semifinalist, Mays AI Competition 2024</p>
             <div class="project-card__links">
               <a class="icon-btn" href="https://github.com/aaryabookseller16/NaviAI" target="_blank" rel="noopener" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
@@ -386,8 +388,8 @@
             <details class="project-details">
               <summary>Details</summary>
               <div class="project-details__body">
-                <p>Multi-objective routing that balances <strong>time</strong>, <strong>fuel</strong>, and <strong>operational risk</strong>. The engine fuses live weather and port conditions with a news-derived risk score (Transformer sentiment + rules) to adjust edge weights in real time. Constraints like draft limits, traffic separation schemes, exclusion zones, and canal fees are modeled explicitly. The policy stack combines a Transformer forecaster with PPO-based routing under uncertainty.</p>
-                <p>A Streamlit UI shows <em>fastest / cheapest / safest</em> alternatives with deltas in ETA, fuel burn, and risk. Each route includes short LLM rationales. The pipeline includes cached data fetchers, reproducible configs, and scenario "playbacks" for incident post-mortems and what-if planning. Runtime services are monitored via Prometheus and Grafana.</p>
+                <p>Multi objective routing that balances <strong>time</strong>, <strong>fuel</strong>, and <strong>operational risk</strong>. The engine combines live conditions with a news derived risk score to adjust edge weights in real time. A Transformer forecaster and PPO support routing under uncertainty.</p>
+                <p>A Streamlit UI compares fastest, cheapest, and safest routes with short LLM rationales. Cached data, reproducible configs, scenario replays, and runtime monitoring support analysis.</p>
               </div>
             </details>
           </div>
@@ -398,7 +400,7 @@
           <img class="project-card__img" src="assets/visionquery.png" alt="VisionQuery semantic search UI">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">VisionQuery — Text-to-Image Semantic Search</h2>
+              <h2 class="project-card__title">VisionQuery · Text to Image Semantic Search</h2>
               <span class="project-card__date">2025</span>
             </div>
             <p class="project-card__meta">FastAPI · CLIP · Prometheus/Grafana</p>
@@ -414,8 +416,8 @@
             <details class="project-details">
               <summary>Details</summary>
               <div class="project-details__body">
-                <p>Backend-first semantic search MVP: ingest images into an embedding index, embed text + images into the same <strong>CLIP</strong> vector space, and return ranked results via <strong>cosine similarity</strong>. Exposes clean endpoints for health checks, ingestion, search, and Prometheus-compatible metrics.</p>
-                <p>Designed to be explainable and interview-friendly: simple in-memory vector store (easy to swap for FAISS/pgvector), containerized dev with <strong>Docker Compose</strong>, and basic observability dashboards.</p>
+                <p>Backend first semantic search MVP that embeds images and text in the same <strong>CLIP</strong> vector space and returns ranked results with <strong>cosine similarity</strong>. Exposes clean endpoints for ingestion, search, health checks, and metrics.</p>
+                <p>Uses a simple in memory vector store, containerized development with <strong>Docker Compose</strong>, and basic observability dashboards.</p>
               </div>
             </details>
           </div>
@@ -426,7 +428,7 @@
           <img class="project-card__img" src="assets/monte-carlo.png" alt="Monte Carlo risk analysis">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">Monte Carlo Risk Analysis — SPY Simulation</h2>
+              <h2 class="project-card__title">Monte Carlo Risk Analysis · SPY Simulation</h2>
               <span class="project-card__date">Dec 2025</span>
             </div>
             <p class="project-card__meta">Quant/ML · Simulation · Risk Metrics</p>
@@ -442,8 +444,8 @@
             <details class="project-details">
               <summary>Details</summary>
               <div class="project-details__body">
-                <p>Built a simulation-based risk engine using <strong>log returns</strong> and distribution diagnostics to justify modeling assumptions. Runs Monte Carlo paths to estimate <strong>VaR</strong>, <strong>CVaR</strong>, drawdowns, and scenario stress tests.</p>
-                <p>Modular data loaders + plotting utilities, with a clean "main" entry-point for quick experiments and parameter sweeps.</p>
+                <p>Built a simulation based risk engine using <strong>log returns</strong> and distribution diagnostics. Runs Monte Carlo paths to estimate <strong>VaR</strong>, <strong>CVaR</strong>, drawdowns, and scenario stress tests.</p>
+                <p>Modular data loaders and plotting utilities support quick experiments and parameter sweeps.</p>
               </div>
             </details>
           </div>
@@ -454,7 +456,7 @@
           <img class="project-card__img" src="assets/cnn-vs-vit.png" alt="ViT vs CNN benchmark results">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">ViT vs CNN — Small-Data Benchmark</h2>
+              <h2 class="project-card__title">ViT vs CNN · Small Data Benchmark</h2>
               <span class="project-card__date">Dec 2025</span>
             </div>
             <p class="project-card__meta">ML Engineer · Reproducible Benchmarks</p>
@@ -471,7 +473,7 @@
               <summary>Details</summary>
               <div class="project-details__body">
                 <p>Controlled benchmark comparing a compact <strong>CNN</strong> to a <strong>Vision Transformer</strong> under limited data regimes. Tracked scaling behavior across dataset fractions, seeds, and augmentations; exported metrics and checkpoints for reproducible comparisons.</p>
-                <p>Includes training curves, calibration checks, and error analysis tooling to understand when transformers win (and when they don't) without hand-wavy claims.</p>
+                <p>Includes training curves, calibration checks, and error analysis to show when transformers win and when they do not.</p>
               </div>
             </details>
           </div>
@@ -482,7 +484,7 @@
           <img class="project-card__img" src="assets/van_gogh.jpeg" alt="Style transfer output">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">Style Converter — VGG19 NST</h2>
+              <h2 class="project-card__title">Style Converter · VGG19 NST</h2>
               <span class="project-card__date">2025</span>
             </div>
             <p class="project-card__meta">PyTorch · VGG19 · Neural Style Transfer</p>
@@ -497,8 +499,8 @@
             <details class="project-details">
               <summary>Details</summary>
               <div class="project-details__body">
-                <p>Classic VGG19 neural style transfer with a streamlined UI: upload content &amp; style, then tune <strong>content/style weights</strong>, <strong>TV loss</strong>, and iteration budget. Uses a coarse→fine schedule and multi-scale Gram features for crisp textures without over-sharpening.</p>
-                <p>Includes deterministic seeds, progress snapshots, and side-by-side previews. Runs on CPU or GPU; large images are tiled and reassembled to keep memory bounded and results reproducible across devices.</p>
+                <p>Classic VGG19 neural style transfer with a streamlined UI. Users tune <strong>content and style weights</strong>, <strong>TV loss</strong>, and iteration budget. A coarse to fine schedule and multiscale Gram features produce crisp textures.</p>
+                <p>Includes deterministic seeds and progress snapshots. Runs on CPU or GPU, with large images tiled to keep memory bounded.</p>
                 <p>Based on <a href="https://arxiv.org/abs/1508.06576" target="_blank" rel="noreferrer">"A Neural Algorithm of Artistic Style" →</a></p>
               </div>
             </details>
@@ -510,7 +512,7 @@
           <img class="project-card__img" src="assets/adaline.png" alt="Fake review detector overview">
           <div class="project-card__body">
             <div class="project-card__head">
-              <h2 class="project-card__title">Fake Review Detector — Adaline from Scratch</h2>
+              <h2 class="project-card__title">Fake Review Detector · Adaline from Scratch</h2>
               <span class="project-card__date">2025</span>
             </div>
             <p class="project-card__meta">Python · NumPy · NLP · Interpretable Classifier</p>
@@ -526,8 +528,8 @@
             <details class="project-details">
               <summary>Details</summary>
               <div class="project-details__body">
-                <p>Transparent fake-review classifier that separates <strong>CG</strong> (computer-generated) vs <strong>OR</strong> (organic) reviews. Built to be lightweight and explainable—no black-box embeddings required.</p>
-                <p>Uses hand-engineered features (<strong>length</strong>, <strong>suspicious phrase count</strong>, <strong>ALL-CAPS word count</strong>) with standardization, then trains an <strong>Adaline</strong> model via <strong>batch gradient descent</strong> and MSE loss in NumPy.</p>
+                <p>Transparent fake review classifier that separates <strong>CG</strong> (computer generated) from <strong>OR</strong> (organic) reviews. It stays lightweight and explainable without opaque embeddings.</p>
+                <p>Uses manually designed features such as <strong>length</strong>, <strong>suspicious phrase count</strong>, and <strong>uppercase word count</strong>, then trains an <strong>Adaline</strong> model with batch gradient descent.</p>
               </div>
             </details>
           </div>
