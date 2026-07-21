@@ -1557,12 +1557,13 @@ body:not(.home-page) { padding-top: var(--xp-header); }
 
 .info-card,
 .skills-group,
-.education-card,
-.cert-item {
+.edu-card,
+.cert-row {
   padding: clamp(26px, 3vw, 46px);
   border: 0;
   border-right: 1px solid var(--xp-line-soft);
   border-bottom: 1px solid var(--xp-line-soft);
+  border-left: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
@@ -1571,6 +1572,110 @@ body:not(.home-page) { padding-top: var(--xp-header); }
 .info-card h3 { font-size: clamp(1.35rem, 2.1vw, 2.25rem); letter-spacing: -0.045em; }
 .info-card p,
 .info-card li { color: var(--xp-muted); }
+
+.edu-card { border-top: 1px solid var(--xp-line-soft); }
+
+.skills-group h3,
+.edu-card h3,
+.cert-row h3 {
+  margin-bottom: 10px;
+  font-size: clamp(1.15rem, 1.65vw, 1.55rem);
+  line-height: 1.12;
+  letter-spacing: -.035em;
+}
+
+.cert-list--timeline {
+  border: 0;
+  border-top: 1px solid var(--xp-line-soft);
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+.cert-row {
+  grid-template-columns: minmax(110px, .2fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+}
+
+.cert-date { font-size: .75rem; }
+
+.coursework-grid {
+  margin-top: 0;
+  border-top: 1px solid var(--xp-line-soft);
+  counter-reset: course-entry;
+}
+
+.course-card {
+  counter-increment: course-entry;
+  border: 0;
+  border-bottom: 1px solid var(--xp-line-soft);
+  border-radius: 0;
+  background: transparent;
+}
+
+.course-card[open] {
+  background: color-mix(in srgb, var(--xp-surface) 72%, transparent);
+}
+
+.course-card summary {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 52px;
+  gap: 32px;
+  align-items: center;
+  min-height: 112px;
+  padding: 26px 0;
+  border: 0;
+  color: var(--xp-ink);
+  font-family: var(--xp-sans);
+  font-size: clamp(1.25rem, 1.8vw, 1.75rem);
+  font-weight: 620;
+  line-height: 1.1;
+  letter-spacing: -.035em;
+}
+
+.course-card summary::before {
+  content: counter(course-entry, decimal-leading-zero);
+  grid-column: 1;
+  color: var(--xp-signal);
+  font-family: var(--xp-font);
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+}
+
+.course-card summary::after {
+  content: "+";
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--xp-line);
+  border-radius: 50%;
+  color: var(--xp-ink);
+  font-family: var(--xp-font);
+  font-size: 1rem;
+  transition: color 180ms ease, border-color 180ms ease, transform 220ms var(--xp-ease);
+}
+
+.course-card[open] summary {
+  border-bottom: 1px solid var(--xp-line-soft);
+}
+
+.course-card[open] summary::after {
+  content: "×";
+  color: var(--xp-signal);
+  border-color: var(--xp-signal);
+  transform: rotate(90deg);
+}
+
+.course-card summary:hover::after {
+  color: var(--xp-signal);
+  border-color: var(--xp-signal);
+}
+
+.course-card .course-list {
+  padding: 28px 84px 36px;
+}
 
 .timeline {
   border-top: 1px solid var(--xp-line-soft);
@@ -2103,8 +2208,18 @@ body:has(.ai-hero) h3 { font-family: var(--xp-sans) !important; }
   .skills-grid { grid-template-columns: 1fr; }
   .info-card,
   .skills-group,
-  .education-card,
-  .cert-item { padding-inline: 0; border-right: 0; }
+  .edu-card,
+  .cert-row { padding-inline: 0; border-right: 0; }
+  .cert-row { grid-template-columns: 1fr; gap: 8px; }
+  .course-card summary {
+    grid-template-columns: 36px minmax(0, 1fr) 40px;
+    gap: 16px;
+    min-height: 96px;
+    padding: 22px 0;
+    font-size: clamp(1.2rem, 6vw, 1.55rem);
+  }
+  .course-card summary::after { width: 36px; height: 36px; }
+  .course-card .course-list { padding: 24px 56px 32px 52px; }
   .timeline-item summary {
     grid-template-columns: minmax(0, 1fr) 40px;
     gap: 16px;
