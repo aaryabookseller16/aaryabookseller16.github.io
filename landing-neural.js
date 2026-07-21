@@ -122,8 +122,8 @@
     const base = {
       left: width * (mobile ? 0.09 : 0.27),
       right: width * (mobile ? 0.91 : 0.73),
-      top: height * (mobile ? 0.34 : 0.2),
-      bottom: height * (mobile ? 0.68 : 0.78)
+      top: height * (mobile ? 0.54 : 0.2),
+      bottom: height * (mobile ? 0.72 : 0.78)
     };
     const microscope = {
       left: width * (mobile ? 0.12 : 0.18),
@@ -313,8 +313,12 @@
           if (strength < threshold) continue;
 
           const end = nodePosition(layer + 1, target);
-          const isFocused = focusColumn < 0 || source === focusColumn || target === focusColumn;
-          const alpha = Math.min(0.9, strength * (isFocused ? 3.6 + detailProgress * 2.8 : 0.45));
+          const hasFocus = focusColumn >= 0;
+          const isFocused = hasFocus && (source === focusColumn || target === focusColumn);
+          const ambientMultiplier = width < 760
+            ? (detailProgress < 0.2 ? 1.05 : 1.7 + detailProgress * 0.8)
+            : 3.6 + detailProgress * 2.8;
+          const alpha = Math.min(0.9, strength * (isFocused ? 3.6 + detailProgress * 2.8 : hasFocus ? 0.45 : ambientMultiplier));
           const focusedEdge = focusColumn >= 0 && (source === focusColumn || target === focusColumn);
           context.strokeStyle = focusedEdge
             ? `rgba(255,117,83,${Math.max(0.16, alpha)})`

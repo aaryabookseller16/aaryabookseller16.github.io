@@ -2224,8 +2224,9 @@ body:not(.home-page) { padding-top: var(--xp-header); }
 
   .theme-toggle,
   .nav-toggle {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
+    border-color: rgba(255,255,255,.34);
   }
 
   .experience-sticky::after {
@@ -2269,21 +2270,51 @@ body:not(.home-page) { padding-top: var(--xp-header); }
     touch-action: manipulation;
   }
 
-  .hero--experience { min-height: 1300px; }
-  .experience-sticky { height: 920px; max-height: 100svh; }
-  .hero-experience__identity { top: 92px; }
-  .experience-wordmark { font-size: 2.65rem; }
+  .hero--experience { min-height: 1180px; }
+  .experience-sticky { height: 880px; max-height: 100svh; }
+  .hero-experience__identity {
+    top: 92px;
+    left: 20px;
+    gap: 4px;
+    font-size: .7rem;
+  }
+  .experience-wordmark {
+    margin-bottom: 7px;
+    font-size: 2.15rem;
+  }
   .hero-experience__manifesto {
-    top: 190px;
-    right: 22px;
-    left: 22px;
+    top: 238px;
+    right: 20px;
+    left: 20px;
     width: auto;
     text-align: left;
   }
-  .hero-experience__manifesto h1 { max-width: 16ch; font-size: clamp(1.6rem, 7vw, 2.5rem); }
-  .hero-experience__manifesto p { max-width: 52ch; margin-left: 0; font-size: .84rem; line-height: 1.52; text-align: left; }
-  .experience-links { justify-content: flex-start; }
-  .experience-links a { font-size: .78rem; }
+  .hero-experience__manifesto .hud-label {
+    margin-bottom: 10px;
+    font-size: .62rem;
+  }
+  .hero-experience__manifesto h1 {
+    max-width: none;
+    margin-bottom: 14px;
+    font-size: clamp(1.65rem, 7.2vw, 1.95rem);
+    line-height: .98;
+  }
+  .hero-experience__manifesto p {
+    max-width: 39ch;
+    margin: 0 0 18px;
+    color: rgba(255,255,255,.88);
+    font-size: .76rem;
+    line-height: 1.46;
+    text-align: left;
+  }
+  .experience-links {
+    gap: 12px 16px;
+    justify-content: flex-start;
+  }
+  .experience-links a {
+    padding-bottom: 4px;
+    font-size: .68rem;
+  }
   .hero-experience__status { right: 22px; bottom: 30px; }
   .experience-core-nav {
     top: auto;
@@ -2321,12 +2352,17 @@ body:not(.home-page) { padding-top: var(--xp-header); }
     transform: none;
   }
   .neural-focus-trigger {
-    top: 74px;
-    right: 22px;
+    top: 184px;
+    right: 20px;
     left: auto;
-    min-height: 44px;
-    padding: 7px 9px;
-    font-size: .64rem;
+    min-height: 38px;
+    gap: 7px;
+    padding: 4px 0;
+    border: 0;
+    border-bottom: 1px solid rgba(255,255,255,.55);
+    background: transparent;
+    font-size: .58rem;
+    backdrop-filter: none;
     touch-action: manipulation;
     transform: none;
   }
@@ -2337,45 +2373,48 @@ body:not(.home-page) { padding-top: var(--xp-header); }
   .experience-sticky.is-neural-focus .neural-focus-trigger,
   .experience-sticky.is-neural-exiting .neural-focus-trigger { transform: translateY(-12px); }
   .neural-focus-hud {
-    top: 14px;
-    right: 14px;
-    left: 14px;
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    gap: 9px;
     width: auto;
-    padding: 14px;
+    padding: 12px 14px;
+    border-left: 2px solid var(--xp-signal);
+    background: linear-gradient(110deg, rgba(12,15,18,.94), rgba(12,15,18,.82));
   }
-  .neural-focus-hud > strong { font-size: 1.25rem; }
+  .neural-focus-hud .hud-label { font-size: .58rem; }
+  .neural-focus-hud > strong { font-size: 1.05rem; }
   .neural-focus-hud p { display: none; }
+  .neural-focus-hud label { gap: 4px; font-size: .58rem; }
   .neural-focus-hud__head button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 40px;
+    min-height: 38px;
+    font-size: .62rem;
     touch-action: manipulation;
   }
-  .neural-focus-legend { padding-top: 10px; }
-  .neural-focus-legend__items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
-  .neural-focus-legend__items > button,
-  .neural-focus-legend__items > span {
-    grid-template-columns: 48px minmax(0, 1fr);
-    gap: 5px;
-    font-size: .56rem;
-  }
-  .neural-focus-legend__items > button { min-height: 44px; }
+  .neural-focus-metrics > span { gap: 2px; padding: 7px 8px; }
+  .neural-focus-metrics small { font-size: .52rem; }
+  .neural-focus-metrics strong { font-size: .7rem; }
+  .neural-focus-legend { display: none; }
   .experience-sticky.is-neural-focus .experience-neural-controls {
-    right: 14px;
-    bottom: 14px;
-    left: 14px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
+    gap: 8px;
     width: auto;
-    padding: 10px 12px;
+    padding: 9px 12px 11px;
+    border-top: 2px solid var(--xp-signal);
+    background: linear-gradient(180deg, rgba(12,15,18,.9), rgba(12,15,18,.78));
     transform: none;
   }
   .experience-sticky.is-neural-exiting .experience-neural-controls {
-    right: 14px;
-    bottom: 14px;
-    left: 14px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
     width: auto;
@@ -2389,21 +2428,28 @@ body:not(.home-page) { padding-top: var(--xp-header); }
     justify-content: space-between;
   }
   .experience-sticky.is-neural-focus .experience-neural-controls button {
-    min-height: 44px;
+    min-height: 36px;
     touch-action: manipulation;
   }
+  .experience-sticky.is-neural-focus .experience-neural-controls .hud-label { font-size: .56rem; }
+  .experience-sticky.is-neural-focus .experience-neural-controls button { font-size: .62rem; }
+  .experience-sticky.is-neural-focus .experience-neural-controls label {
+    gap: 3px;
+    font-size: .56rem;
+  }
+  .experience-sticky.is-neural-focus .experience-neural-controls input[type="range"] { height: 12px; }
   .hero-experience__status { display: none; }
   .hero-experience__audio.music-pill {
     right: auto;
-    bottom: 30px;
-    left: 22px;
+    bottom: 24px;
+    left: 20px;
     width: auto;
     max-width: calc(100vw - 44px);
     transform: none;
   }
   .hero-experience__audio .play-btn {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     touch-action: manipulation;
   }
 
