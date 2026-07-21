@@ -52,9 +52,9 @@
   <link rel="stylesheet" href="style.css" />
   <link id="lightCSS" rel="stylesheet" href="theme-light.css">
   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
-  <link rel="stylesheet" href="experience.css" />
+  <link rel="stylesheet" href="experience.css?v=focus2" />
   <script defer src="experience.js"></script>
-  <script defer src="landing-neural.js"></script>
+  <script defer src="landing-neural.js?v=focus2"></script>
 </head>
 
 <body class="home-page">
@@ -112,8 +112,32 @@
     <!-- Immersive research landscape -->
     <section class="hero hero--experience" aria-labelledby="hero-title">
       <div class="experience-sticky">
-        <canvas id="landingNeural" class="experience-canvas" aria-label="Interactive transformer attention network"></canvas>
+        <canvas id="landingNeural" class="experience-canvas" role="button" tabindex="0" aria-label="Interactive transformer attention network. Double click to enter inspection mode."></canvas>
         <div class="experience-grain" aria-hidden="true"></div>
+
+        <button class="neural-focus-trigger" type="button" id="landingFocusToggle" aria-expanded="false" aria-controls="neuralFocusHud">
+          <span>Double click to inspect</span>
+          <span aria-hidden="true">◎</span>
+        </button>
+
+        <aside class="neural-focus-hud" id="neuralFocusHud" aria-hidden="true" inert>
+          <div class="neural-focus-hud__head">
+            <span class="hud-label">ATTENTION MICROSCOPE / LIVE</span>
+            <button type="button" id="landingFocusClose">Exit ×</button>
+          </div>
+          <strong>Trace the network in detail.</strong>
+          <p>Move across token columns to inspect signal flow. Click to hold a trace. Use the wheel or magnification control to move deeper.</p>
+          <label for="landingZoom">
+            <span>Magnification <output id="landingZoomValue" for="landingZoom">1.22×</output></span>
+            <input id="landingZoom" type="range" min="100" max="145" value="122">
+          </label>
+          <div class="neural-focus-metrics" aria-live="polite">
+            <span><small>Trace</small><strong data-focus-token>Free</strong></span>
+            <span><small>Links</small><strong data-focus-links>0</strong></span>
+            <span><small>Peak</small><strong data-focus-peak>0.000</strong></span>
+          </div>
+          <span class="neural-focus-hint">Esc to exit · R to regenerate · Double click to close</span>
+        </aside>
         <div class="hero-experience__identity">
           <span class="experience-wordmark">AARYA</span>
           <span>// Software engineer</span>
@@ -152,7 +176,7 @@
         <div class="experience-neural-readout" aria-live="polite">
           <span data-neural-status>ATTENTION FIELD / ACTIVE</span>
           <strong data-neural-title>Move across tokens to trace attention.</strong>
-          <span data-neural-detail>Click the network to regenerate its weights.</span>
+          <span data-neural-detail>Click to regenerate · double click to inspect.</span>
         </div>
 
         <div class="hero-experience__scroll">
