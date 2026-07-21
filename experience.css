@@ -360,20 +360,22 @@ a { color: inherit; }
   right: clamp(22px, 3vw, 46px);
   z-index: 6;
   display: grid;
-  gap: 15px;
-  width: min(370px, calc(100vw - 44px));
-  padding: 18px;
-  border: 1px solid rgba(255,255,255,.38);
+  gap: 14px;
+  width: min(390px, calc(100vw - 44px));
+  padding: 18px 20px;
+  border: 0;
+  border-left: 1px solid rgba(255,255,255,.42);
   color: rgba(255,255,255,.82);
-  background: rgba(12,15,18,.72);
+  background: linear-gradient(90deg, rgba(12,15,18,.88), rgba(12,15,18,.72));
+  box-shadow: -28px 0 80px rgba(4,6,8,.2);
   font-family: var(--xp-font);
   font-size: .75rem;
   line-height: 1.5;
   pointer-events: none;
   opacity: 0;
-  backdrop-filter: blur(18px) saturate(0);
+  backdrop-filter: blur(8px) saturate(0);
   transform: translateY(-18px);
-  transition: opacity 480ms ease, transform 880ms cubic-bezier(.16, 1, .3, 1);
+  transition: opacity 280ms ease, transform 520ms cubic-bezier(.16, 1, .3, 1);
 }
 
 .neural-focus-hud__head {
@@ -427,7 +429,6 @@ a { color: inherit; }
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   border-top: 1px solid rgba(255,255,255,.2);
-  border-bottom: 1px solid rgba(255,255,255,.2);
 }
 
 .neural-focus-metrics > span {
@@ -442,38 +443,28 @@ a { color: inherit; }
 .neural-focus-metrics small { color: rgba(255,255,255,.48); letter-spacing: .08em; text-transform: uppercase; }
 .neural-focus-metrics strong { overflow: hidden; color: #fff; font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
 .neural-focus-legend {
-  position: absolute;
-  top: 50%;
-  right: clamp(22px, 3vw, 46px);
-  z-index: 6;
   display: grid;
-  gap: 12px;
-  width: min(176px, calc(100vw - 44px));
-  padding: 14px;
-  border: 1px solid rgba(255,255,255,.3);
+  gap: 10px;
+  padding-top: 13px;
+  border-top: 1px solid rgba(255,255,255,.2);
   color: rgba(255,255,255,.72);
-  background: rgba(12,15,18,.68);
   font-family: var(--xp-font);
   font-size: .69rem;
-  pointer-events: none;
-  opacity: 0;
-  backdrop-filter: blur(16px) saturate(0);
-  transform: translate(14px, -50%);
-  transition: opacity 420ms ease, transform 760ms cubic-bezier(.16, 1, .3, 1);
 }
 
 .neural-focus-legend .hud-label { margin: 0; color: var(--xp-signal); }
 
 .neural-focus-legend__items {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 7px;
 }
 
 .neural-focus-legend__items > button,
 .neural-focus-legend__items > span {
   display: grid;
-  grid-template-columns: 58px minmax(0, 1fr);
-  gap: 10px;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 8px;
   align-items: center;
   min-height: 29px;
   padding: 0;
@@ -519,8 +510,9 @@ body.neural-focus-active .site-header { opacity: 0; pointer-events: none; transf
 
 .experience-sticky.is-neural-focus::after,
 .experience-sticky.is-neural-exiting::after { opacity: .2; }
-.experience-sticky.is-neural-focus .experience-canvas { filter: grayscale(.16) contrast(1.12) saturate(1.08); cursor: zoom-out; touch-action: none; }
-.experience-sticky.is-neural-focus .experience-grain { opacity: .22; }
+.experience-sticky.is-neural-focus .experience-canvas { cursor: zoom-out; touch-action: none; }
+.experience-sticky.is-neural-focus .experience-grain,
+.experience-sticky.is-neural-exiting .experience-grain { opacity: .12; animation-play-state: paused; }
 
 .experience-sticky.is-neural-focus .neural-focus-trigger,
 .experience-sticky.is-neural-exiting .neural-focus-trigger {
@@ -533,20 +525,6 @@ body.neural-focus-active .site-header { opacity: 0; pointer-events: none; transf
   pointer-events: auto;
   opacity: 1;
   transform: translateY(0);
-}
-
-.experience-sticky.is-neural-focus .neural-focus-legend {
-  pointer-events: auto;
-  opacity: 1;
-  transform: translate(0, -50%);
-  transition-delay: 180ms;
-}
-
-.experience-sticky.is-neural-exiting .neural-focus-legend {
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(10px, -50%);
-  transition-delay: 0ms;
 }
 
 .experience-sticky.is-neural-focus .hero-experience__identity,
@@ -566,21 +544,49 @@ body.neural-focus-active .site-header { opacity: 0; pointer-events: none; transf
 .experience-sticky.is-neural-focus .experience-neural-controls {
   top: auto;
   bottom: clamp(22px, 3vw, 46px);
-  left: clamp(22px, 3vw, 46px);
-  width: min(278px, calc(100vw - 44px));
+  left: 50%;
+  grid-template-columns: minmax(150px, 1.2fr) repeat(3, minmax(112px, 1fr));
+  gap: 18px;
+  align-items: center;
+  width: min(760px, calc(100vw - 44px));
+  padding: 12px 16px;
+  border: 0;
+  border-top: 1px solid rgba(255,255,255,.38);
+  background: linear-gradient(180deg, rgba(12,15,18,.84), rgba(12,15,18,.68));
+  box-shadow: 0 -24px 70px rgba(4,6,8,.16);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   pointer-events: auto;
   opacity: 1;
-  transform: none;
+  transform: translateX(-50%);
 }
 
 .experience-sticky.is-neural-exiting .experience-neural-controls {
   top: auto;
   bottom: clamp(22px, 3vw, 46px);
-  left: clamp(22px, 3vw, 46px);
-  width: min(278px, calc(100vw - 44px));
+  left: 50%;
+  grid-template-columns: minmax(150px, 1.2fr) repeat(3, minmax(112px, 1fr));
+  gap: 18px;
+  align-items: center;
+  width: min(760px, calc(100vw - 44px));
+  padding: 12px 16px;
+  border: 0;
+  border-top: 1px solid rgba(255,255,255,.38);
+  background: linear-gradient(180deg, rgba(12,15,18,.84), rgba(12,15,18,.68));
+  box-shadow: 0 -24px 70px rgba(4,6,8,.16);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   pointer-events: none;
   opacity: 0;
-  transform: translateY(10px);
+  transform: translate(-50%, 10px);
+}
+
+.experience-sticky.is-neural-focus .experience-neural-controls__head,
+.experience-sticky.is-neural-exiting .experience-neural-controls__head {
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
 }
 
 .hero-experience__identity,
@@ -2334,38 +2340,39 @@ body:not(.home-page) { padding-top: var(--xp-header); }
   }
   .neural-focus-hud > strong { font-size: 1.25rem; }
   .neural-focus-hud p { display: none; }
-  .neural-focus-legend {
-    top: auto;
-    right: 14px;
-    bottom: 206px;
-    left: 14px;
-    width: auto;
-    padding: 9px 10px;
-    transform: translateY(10px);
-  }
-  .neural-focus-legend .hud-label { display: none; }
-  .neural-focus-legend__items { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
+  .neural-focus-legend { padding-top: 10px; }
+  .neural-focus-legend__items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
   .neural-focus-legend__items > button,
   .neural-focus-legend__items > span {
-    grid-template-columns: 1fr;
+    grid-template-columns: 48px minmax(0, 1fr);
     gap: 5px;
-    justify-items: center;
     font-size: .56rem;
-    text-align: center;
   }
-  .experience-sticky.is-neural-focus .neural-focus-legend { transform: none; }
-  .experience-sticky.is-neural-exiting .neural-focus-legend { transform: translateY(8px); }
   .experience-sticky.is-neural-focus .experience-neural-controls {
     right: 14px;
     bottom: 14px;
     left: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
     width: auto;
+    padding: 10px 12px;
+    transform: none;
   }
   .experience-sticky.is-neural-exiting .experience-neural-controls {
     right: 14px;
     bottom: 14px;
     left: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
     width: auto;
+    transform: translateY(8px);
+  }
+  .experience-sticky.is-neural-focus .experience-neural-controls__head,
+  .experience-sticky.is-neural-exiting .experience-neural-controls__head {
+    grid-column: 1 / -1;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
   }
   .hero-experience__scroll,
   .hero-experience__status { display: none; }
@@ -2502,7 +2509,6 @@ body:not(.home-page) { padding-top: var(--xp-header); }
   .xp-reveal { opacity: 1; transform: none; transition: none; }
   .neural-focus-trigger,
   .neural-focus-hud,
-  .neural-focus-legend,
   .experience-sticky::after,
   .project-card__img,
   .service-card img,

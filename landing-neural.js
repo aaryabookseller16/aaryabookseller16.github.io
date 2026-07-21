@@ -19,7 +19,6 @@
   const focusToggle = document.querySelector("#landingFocusToggle");
   const focusClose = document.querySelector("#landingFocusClose");
   const focusHud = document.querySelector("#neuralFocusHud");
-  const focusLegend = document.querySelector("#neuralFocusLegend");
   const legendExit = document.querySelector("#landingLegendExit");
   const legendRandomize = document.querySelector("#landingLegendRandomize");
   const neuralControls = document.querySelector(".experience-neural-controls");
@@ -52,7 +51,9 @@
   let detailZoom = Number(zoomInput?.value || 112) / 100;
   let detailTransitionStart = 0;
   let detailTransitionFrom = 0;
-  let detailTransitionDuration = 980;
+  let detailTransitionDuration = 560;
+  let frameBounds = null;
+  let framePositions = [];
   let lockedColumn = -1;
   let focusOriginX = 0.5;
   let focusOriginY = 0.5;
@@ -102,7 +103,7 @@
     const bounds = viewport.getBoundingClientRect();
     width = Math.max(1, Math.round(bounds.width));
     height = Math.max(1, Math.round(bounds.height));
-    pixelRatio = Math.min(window.devicePixelRatio || 1, 1.75);
+    pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
     canvas.width = Math.round(width * pixelRatio);
     canvas.height = Math.round(height * pixelRatio);
     context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -148,8 +149,7 @@
     };
   };
 
-  const nodePosition = (layer, token) => {
-    const bounds = networkBounds();
+  const positionForBounds = (layer, token, bounds, target = {}) => {
     const baseX = tokens === 1 ? (bounds.left + bounds.right) / 2 : bounds.left + (token / (tokens - 1)) * (bounds.right - bounds.left);
     const baseY = layers === 1 ? (bounds.top + bounds.bottom) / 2 : bounds.top + (layer / (layers - 1)) * (bounds.bottom - bounds.top);
     const centerX = (bounds.left + bounds.right) / 2;
@@ -159,11 +159,26 @@
     const unfoldY = 1 + pageUnfold * 0.24;
     const perspective = (layer / Math.max(1, layers - 1) - 0.5) * smoothY * (24 + detailProgress * 18);
     const drift = Math.sin((token + 1) * 1.7 + layer * 0.8) * pageUnfold * 12;
-    return {
-      x: centerX + (baseX - centerX) * unfoldX + perspective + drift,
-      y: centerY + (baseY - centerY) * unfoldY + smoothX * (layer - (layers - 1) / 2) * 2.4
-    };
+    target.x = centerX + (baseX - centerX) * unfoldX + perspective + drift;
+    target.y = centerY + (baseY - centerY) * unfoldY + smoothX * (layer - (layers - 1) / 2) * 2.4;
+    return target;
   };
+
+  const prepareFrameGeometry = () => {
+    frameBounds = networkBounds();
+    framePositions.length = layers;
+    for (let layer = 0; layer < layers; layer += 1) {
+      const layerPositions = framePositions[layer] || [];
+      layerPositions.length = tokens;
+      for (let token = 0; token < tokens; token += 1) {
+        layerPositions[token] = positionForBounds(layer, token, frameBounds, layerPositions[token] || {});
+      }
+      framePositions[layer] = layerPositions;
+    }
+  };
+
+  const nodePosition = (layer, token) => framePositions[layer]?.[token]
+    || positionForBounds(layer, token, frameBounds || networkBounds());
 
   const updateReadout = () => {
     let activeConnections = 0;
@@ -310,19 +325,15 @@
           context.beginPath();
           context.moveTo(start.x, start.y);
           const bend = (target - source) * 2.3 + smoothX * 14;
-          const controlOne = {
-            x: start.x + bend,
-            y: start.y + (end.y - start.y) * 0.42
-          };
-          const controlTwo = {
-            x: end.x - bend,
-            y: start.y + (end.y - start.y) * 0.58
-          };
+          const controlOneX = start.x + bend;
+          const controlOneY = start.y + (end.y - start.y) * 0.42;
+          const controlTwoX = end.x - bend;
+          const controlTwoY = start.y + (end.y - start.y) * 0.58;
           context.bezierCurveTo(
-            controlOne.x,
-            controlOne.y,
-            controlTwo.x,
-            controlTwo.y,
+            controlOneX,
+            controlOneY,
+            controlTwoX,
+            controlTwoY,
             end.x,
             end.y
           );
@@ -332,12 +343,12 @@
             const travel = (time * 0.00018 + layer * 0.17 + source * 0.031 + target * 0.047) % 1;
             const inverse = 1 - travel;
             const particleX = inverse ** 3 * start.x
-              + 3 * inverse ** 2 * travel * controlOne.x
-              + 3 * inverse * travel ** 2 * controlTwo.x
+              + 3 * inverse ** 2 * travel * controlOneX
+              + 3 * inverse * travel ** 2 * controlTwoX
               + travel ** 3 * end.x;
             const particleY = inverse ** 3 * start.y
-              + 3 * inverse ** 2 * travel * controlOne.y
-              + 3 * inverse * travel ** 2 * controlTwo.y
+              + 3 * inverse ** 2 * travel * controlOneY
+              + 3 * inverse * travel ** 2 * controlTwoY
               + travel ** 3 * end.y;
             context.beginPath();
             context.arc(particleX, particleY, 1.1 + detailProgress * 1.55, 0, Math.PI * 2);
@@ -405,7 +416,7 @@
   const drawLayerGuides = () => {
     const opacity = layerMarkerOpacity();
     if (opacity <= 0) return;
-    const bounds = networkBounds();
+    const bounds = frameBounds || networkBounds();
     context.save();
     context.globalAlpha = opacity;
     context.setLineDash([2, 7]);
@@ -425,10 +436,9 @@
     const opacity = layerMarkerOpacity();
     if (opacity <= 0) return;
     const compact = width < 760;
-    const bounds = networkBounds();
-    const boxWidth = compact ? 38 : 82;
-    const boxHeight = compact ? 20 : 23;
-    const boxX = compact ? 10 : Math.max(18, bounds.left - boxWidth - 20);
+    const bounds = frameBounds || networkBounds();
+    const labelWidth = compact ? 34 : 72;
+    const labelX = compact ? 10 : Math.max(18, bounds.left - labelWidth - 18);
 
     context.save();
     context.globalAlpha = opacity;
@@ -437,18 +447,13 @@
     context.textBaseline = "middle";
     for (let layer = 0; layer < layers; layer += 1) {
       const point = nodePosition(layer, 0);
-      const boxY = point.y - boxHeight / 2;
-      context.fillStyle = "rgba(12,15,18,.78)";
-      context.fillRect(boxX, boxY, boxWidth, boxHeight);
-      context.strokeStyle = "rgba(255,91,53,.72)";
-      context.lineWidth = 1;
-      context.strokeRect(boxX + 0.5, boxY + 0.5, boxWidth - 1, boxHeight - 1);
-      context.fillStyle = "rgba(255,91,53,.95)";
-      context.beginPath();
-      context.arc(boxX + 9, point.y, 2, 0, Math.PI * 2);
-      context.fill();
+      context.fillStyle = "rgba(255,91,53,.9)";
+      context.fillRect(labelX, point.y - 8, 2, 16);
       context.fillStyle = "rgba(255,255,255,.9)";
-      context.fillText(compact ? `L${String(layer + 1).padStart(2, "0")}` : `LAYER ${String(layer + 1).padStart(2, "0")}`, boxX + 16, point.y + 0.5);
+      context.shadowBlur = 6;
+      context.shadowColor = "rgba(4,6,8,.9)";
+      context.fillText(compact ? `L ${String(layer + 1).padStart(2, "0")}` : `LAYER ${String(layer + 1).padStart(2, "0")}`, labelX + 9, point.y + 0.5);
+      context.shadowBlur = 0;
     }
     context.restore();
   };
@@ -458,14 +463,13 @@
     else {
       const elapsed = Math.max(0, time - detailTransitionStart);
       const rawProgress = Math.min(1, elapsed / detailTransitionDuration);
-      const easedProgress = rawProgress < 0.5
-        ? 4 * rawProgress * rawProgress * rawProgress
-        : 1 - Math.pow(-2 * rawProgress + 2, 3) / 2;
+      const easedProgress = 1 - Math.pow(1 - rawProgress, 3);
       detailProgress = detailTransitionFrom + (detailTarget - detailTransitionFrom) * easedProgress;
     }
     smoothX += (pointerX - smoothX) * 0.045;
     smoothY += (pointerY - smoothY) * 0.045;
     pulse *= 0.92;
+    prepareFrameGeometry();
     context.clearRect(0, 0, width, height);
     drawBackdrop(time);
     drawLayerGuides();
@@ -525,7 +529,7 @@
     detailMode = Boolean(active);
     detailTransitionStart = performance.now();
     detailTransitionFrom = detailProgress;
-    detailTransitionDuration = detailMode ? 1050 : 760;
+    detailTransitionDuration = detailMode ? 560 : 420;
     detailTarget = detailMode ? 1 : 0;
     lockedColumn = -1;
     focusColumn = -1;
@@ -539,8 +543,6 @@
       document.body.classList.add("neural-focus-active");
       focusHud?.setAttribute("aria-hidden", "false");
       focusHud?.removeAttribute("inert");
-      focusLegend?.setAttribute("aria-hidden", "false");
-      focusLegend?.removeAttribute("inert");
       neuralControls?.removeAttribute("inert");
       focusToggle?.setAttribute("aria-expanded", "true");
       canvas.setAttribute("aria-label", "Attention microscope active. Move across tokens, click to hold a trace, and press Escape to exit.");
@@ -550,8 +552,6 @@
       viewport.classList.add("is-neural-exiting");
       focusHud?.setAttribute("aria-hidden", "true");
       focusHud?.setAttribute("inert", "");
-      focusLegend?.setAttribute("aria-hidden", "true");
-      focusLegend?.setAttribute("inert", "");
       neuralControls?.setAttribute("inert", "");
       focusToggle?.setAttribute("aria-expanded", "false");
       canvas.setAttribute("aria-label", "Interactive transformer attention network. Double click to enter inspection mode.");
@@ -559,7 +559,7 @@
         viewport.classList.remove("is-neural-exiting");
         document.body.classList.remove("neural-focus-active");
         focusToggle?.focus({ preventScroll: true });
-      }, reduceMotion ? 0 : 860);
+      }, reduceMotion ? 0 : 540);
     }
     updateReadout();
     if (reduceMotion) render(0);
