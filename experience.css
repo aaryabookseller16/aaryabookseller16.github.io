@@ -2110,6 +2110,7 @@ body:has(.ai-hero) h3 { font-family: var(--xp-sans) !important; }
 
 @media (max-width: 470px) {
   .header-actions { margin-left: auto; }
+  .background-page .hero-page-title { font-size: clamp(3rem, 14.5vw, 4.4rem); }
   .hero-experience__status { max-width: 190px; font-size: .56rem; }
   .hero-experience__scroll { bottom: 132px; }
   .hero-experience__audio span { display: none; }
