@@ -1634,7 +1634,9 @@ body:has(.ai-hero) h3 { font-family: var(--xp-sans) !important; }
 .footer-contact,
 .tooltip-text,
 .focus-pill,
-.context-strip { font-size: .75rem; }
+.context-strip,
+.principle-n,
+.xp-focus span { font-size: .75rem; }
 .footer-links a { color: var(--xp-muted); }
 .footer-links a:hover { color: var(--xp-signal); }
 .footer-links img { filter: grayscale(1); }
