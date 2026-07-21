@@ -154,6 +154,19 @@
               <option value="complex-asc">Least complex first</option>
             </select>
           </label>
+          <div class="control-field project-view-control">
+            <span>View</span>
+            <div class="project-view-toggle" role="group" aria-label="Project view">
+              <button class="project-view-button" type="button" data-project-view="list" aria-pressed="true">
+                <i class="fa-solid fa-list" aria-hidden="true"></i>
+                <span>List</span>
+              </button>
+              <button class="project-view-button" type="button" data-project-view="grid" aria-pressed="false">
+                <i class="fa-solid fa-grip" aria-hidden="true"></i>
+                <span>Grid</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -165,7 +178,7 @@
 
         <!-- Bubble Tea POS -->
         <article class="project-card" data-tags="systems software" data-type="Systems" data-date-start="2025-08" data-date-end="2025-12" data-complexity="88">
-          <img class="project-card__img" src="assets/boba.jpg" alt="Bubble Tea POS">
+          <img class="project-card__img" src="assets/boba.jpg" alt="Bubble Tea POS" data-fit="cover">
           <div class="project-card__body">
             <div class="project-card__head">
               <h2 class="project-card__title">Bubble Tea POS · Inventory &amp; Ordering</h2>
@@ -720,6 +733,31 @@
       category.addEventListener('change', apply);
       sort.addEventListener('change', apply);
       apply();
+    })();
+
+    (function projectView(){
+      const grid = document.getElementById('projectsGrid');
+      const buttons = [...document.querySelectorAll('[data-project-view]')];
+      if (!grid || !buttons.length) return;
+
+      const storageKey = 'portfolio-project-view';
+      const setView = (view, remember = true) => {
+        const next = view === 'grid' ? 'grid' : 'list';
+        grid.dataset.view = next;
+        buttons.forEach((button) => {
+          button.setAttribute('aria-pressed', String(button.dataset.projectView === next));
+        });
+        if (!remember) return;
+        try { localStorage.setItem(storageKey, next); } catch {}
+      };
+
+      let initialView = 'list';
+      try { initialView = localStorage.getItem(storageKey) || initialView; } catch {}
+      setView(initialView, false);
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => setView(button.dataset.projectView));
+      });
     })();
 
     (function scrollReveals(){
