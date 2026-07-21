@@ -153,14 +153,18 @@ a { color: inherit; }
 }
 
 .brand {
-  color: inherit;
+  color: var(--xp-signal);
   font-family: var(--xp-font);
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  transition: color 180ms ease;
 }
+
+.brand:hover,
+.brand:focus-visible { color: #ff7a58; text-decoration: none; }
 
 .site-nav {
   gap: clamp(5px, 0.7vw, 12px);
