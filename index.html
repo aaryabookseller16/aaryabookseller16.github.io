@@ -52,9 +52,9 @@
   <link rel="stylesheet" href="style.css" />
   <link id="lightCSS" rel="stylesheet" href="theme-light.css">
   <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
-  <link rel="stylesheet" href="experience.css?v=focus2" />
+  <link rel="stylesheet" href="experience.css?v=focus3" />
   <script defer src="experience.js"></script>
-  <script defer src="landing-neural.js?v=focus2"></script>
+  <script defer src="landing-neural.js?v=focus3"></script>
 </head>
 
 <body class="home-page">
@@ -128,8 +128,8 @@
           <strong>Trace the network in detail.</strong>
           <p>Move across token columns to inspect signal flow. Click to hold a trace. Use the wheel or magnification control to move deeper.</p>
           <label for="landingZoom">
-            <span>Magnification <output id="landingZoomValue" for="landingZoom">1.22×</output></span>
-            <input id="landingZoom" type="range" min="100" max="145" value="122">
+            <span>Magnification <output id="landingZoomValue" for="landingZoom">1.12×</output></span>
+            <input id="landingZoom" type="range" min="100" max="135" value="112">
           </label>
           <div class="neural-focus-metrics" aria-live="polite">
             <span><small>Trace</small><strong data-focus-token>Free</strong></span>
@@ -154,9 +154,9 @@
           </div>
         </div>
 
-        <div class="experience-neural-controls" aria-label="Neural playground controls">
+        <div class="experience-neural-controls" aria-label="Neural model controls" inert>
           <div class="experience-neural-controls__head">
-            <span class="hud-label">ATTENTION FIELD / LIVE</span>
+            <span class="hud-label">MODEL CONTROLS / LIVE</span>
             <button type="button" id="landingRandomize">Randomize</button>
           </div>
           <label for="landingTokens">
@@ -171,12 +171,6 @@
             <span>Density <output id="landingDensityValue" for="landingDensity">58</output></span>
             <input id="landingDensity" type="range" min="20" max="100" value="58">
           </label>
-        </div>
-
-        <div class="experience-neural-readout" aria-live="polite">
-          <span data-neural-status>ATTENTION FIELD / ACTIVE</span>
-          <strong data-neural-title>Move across tokens to trace attention.</strong>
-          <span data-neural-detail>Click to regenerate · double click to inspect.</span>
         </div>
 
         <div class="hero-experience__scroll">

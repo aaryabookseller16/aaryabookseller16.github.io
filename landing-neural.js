@@ -19,11 +19,9 @@
   const focusToggle = document.querySelector("#landingFocusToggle");
   const focusClose = document.querySelector("#landingFocusClose");
   const focusHud = document.querySelector("#neuralFocusHud");
+  const neuralControls = document.querySelector(".experience-neural-controls");
   const zoomInput = document.querySelector("#landingZoom");
   const zoomOutput = document.querySelector("#landingZoomValue");
-  const statusText = document.querySelector("[data-neural-status]");
-  const titleText = document.querySelector("[data-neural-title]");
-  const detailText = document.querySelector("[data-neural-detail]");
   const focusTokenText = document.querySelector("[data-focus-token]");
   const focusLinksText = document.querySelector("[data-focus-links]");
   const focusPeakText = document.querySelector("[data-focus-peak]");
@@ -48,7 +46,10 @@
   let detailMode = false;
   let detailTarget = 0;
   let detailProgress = 0;
-  let detailZoom = Number(zoomInput?.value || 122) / 100;
+  let detailZoom = Number(zoomInput?.value || 112) / 100;
+  let detailTransitionStart = 0;
+  let detailTransitionFrom = 0;
+  let detailTransitionDuration = 980;
   let lockedColumn = -1;
   let focusOriginX = 0.5;
   let focusOriginY = 0.5;
@@ -120,10 +121,10 @@
       bottom: height * (mobile ? 0.68 : 0.78)
     };
     const microscope = {
-      left: width * (mobile ? 0.16 : 0.14),
-      right: width * (mobile ? 0.84 : 0.86),
-      top: height * (mobile ? 0.2 : 0.12),
-      bottom: height * (mobile ? 0.74 : 0.88)
+      left: width * (mobile ? 0.12 : 0.18),
+      right: width * (mobile ? 0.88 : 0.82),
+      top: height * (mobile ? 0.2 : 0.15),
+      bottom: height * (mobile ? 0.74 : 0.85)
     };
     const progress = detailProgress * detailProgress * (3 - 2 * detailProgress);
     const left = base.left + (microscope.left - base.left) * progress;
@@ -161,7 +162,6 @@
   };
 
   const updateReadout = () => {
-    if (!statusText || !titleText || !detailText) return;
     let activeConnections = 0;
     let peakWeight = 0;
     const threshold = 0.13 - density * 0.00085;
@@ -181,19 +181,6 @@
     if (focusTokenText) focusTokenText.textContent = focusColumn < 0 ? "Free" : `T_${String(focusColumn + 1).padStart(2, "0")}${lockedColumn >= 0 ? " Hold" : ""}`;
     if (focusLinksText) focusLinksText.textContent = String(activeConnections);
     if (focusPeakText) focusPeakText.textContent = peakWeight.toFixed(3);
-
-    if (focusColumn < 0) {
-      statusText.textContent = detailMode ? "MICROSCOPE / READY" : "ATTENTION FIELD / ACTIVE";
-      titleText.textContent = detailMode ? "Move across a token column to begin." : "Move across tokens to trace attention.";
-      detailText.textContent = detailMode
-        ? `${tokens} tokens · ${layers} layers · ${density}% density · ${detailZoom.toFixed(2)}× view`
-        : `${tokens} tokens · ${layers} layers · ${density}% density`;
-      return;
-    }
-
-    statusText.textContent = `TOKEN_${String(focusColumn + 1).padStart(2, "0")} / ${lockedColumn >= 0 ? "HELD" : "TRACE"}`;
-    titleText.textContent = detailMode ? "Weighted signal path under inspection." : "Attention path isolated.";
-    detailText.textContent = `${activeConnections} visible links · peak weight ${peakWeight.toFixed(3)} · ${layers} layers`;
   };
 
   const drawBackdrop = (time) => {
@@ -431,8 +418,12 @@
   const render = (time) => {
     if (reduceMotion) detailProgress = detailTarget;
     else {
-      detailProgress += (detailTarget - detailProgress) * 0.075;
-      if (Math.abs(detailTarget - detailProgress) < 0.001) detailProgress = detailTarget;
+      const elapsed = Math.max(0, time - detailTransitionStart);
+      const rawProgress = Math.min(1, elapsed / detailTransitionDuration);
+      const easedProgress = rawProgress < 0.5
+        ? 4 * rawProgress * rawProgress * rawProgress
+        : 1 - Math.pow(-2 * rawProgress + 2, 3) / 2;
+      detailProgress = detailTransitionFrom + (detailTarget - detailTransitionFrom) * easedProgress;
     }
     smoothX += (pointerX - smoothX) * 0.045;
     smoothY += (pointerY - smoothY) * 0.045;
@@ -482,7 +473,7 @@
   };
 
   const setZoom = (value) => {
-    const next = Math.max(100, Math.min(145, Number(value) || 122));
+    const next = Math.max(100, Math.min(135, Number(value) || 112));
     detailZoom = next / 100;
     if (zoomInput) zoomInput.value = String(next);
     if (zoomOutput) zoomOutput.textContent = `${detailZoom.toFixed(2)}×`;
@@ -493,6 +484,9 @@
   const setDetailMode = (active, origin) => {
     window.clearTimeout(exitTimer);
     detailMode = Boolean(active);
+    detailTransitionStart = performance.now();
+    detailTransitionFrom = detailProgress;
+    detailTransitionDuration = detailMode ? 1050 : 760;
     detailTarget = detailMode ? 1 : 0;
     lockedColumn = -1;
     focusColumn = -1;
@@ -506,6 +500,7 @@
       document.body.classList.add("neural-focus-active");
       focusHud?.setAttribute("aria-hidden", "false");
       focusHud?.removeAttribute("inert");
+      neuralControls?.removeAttribute("inert");
       focusToggle?.setAttribute("aria-expanded", "true");
       canvas.setAttribute("aria-label", "Attention microscope active. Move across tokens, click to hold a trace, and press Escape to exit.");
       canvas.focus({ preventScroll: true });
@@ -514,13 +509,14 @@
       viewport.classList.add("is-neural-exiting");
       focusHud?.setAttribute("aria-hidden", "true");
       focusHud?.setAttribute("inert", "");
+      neuralControls?.setAttribute("inert", "");
       focusToggle?.setAttribute("aria-expanded", "false");
       canvas.setAttribute("aria-label", "Interactive transformer attention network. Double click to enter inspection mode.");
       exitTimer = window.setTimeout(() => {
         viewport.classList.remove("is-neural-exiting");
         document.body.classList.remove("neural-focus-active");
         focusToggle?.focus({ preventScroll: true });
-      }, reduceMotion ? 0 : 620);
+      }, reduceMotion ? 0 : 860);
     }
     updateReadout();
     if (reduceMotion) render(0);
