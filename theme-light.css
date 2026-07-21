@@ -14,11 +14,4 @@
   --radius:      0;
   --shadow-1:    none;
   --shadow-2:    none;
-  /* Legacy aliases for ai.html compat */
-  --bg-0:        #e4e5e7;
-  --ring:        #b8bcc1;
-  --accent-contrast: #ffffff;
-  --tint-peach:  #d6dadd;
-  --tint-blue:   #cfd4d8;
-  --tint-rose:   #dde0e2;
 }

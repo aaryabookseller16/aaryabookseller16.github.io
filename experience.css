@@ -557,8 +557,7 @@ a { color: inherit; }
 
 .experience-neural-controls .hud-label { margin: 0; }
 
-.experience-neural-controls button,
-.experience-neural-controls > a {
+.experience-neural-controls button {
   padding: 0 0 4px;
   border: 0;
   border-bottom: 1px solid rgba(255,255,255,.42);
@@ -571,8 +570,7 @@ a { color: inherit; }
   cursor: pointer;
 }
 
-.experience-neural-controls button:hover,
-.experience-neural-controls > a:hover {
+.experience-neural-controls button:hover {
   border-color: var(--xp-signal);
   text-decoration: none;
 }
@@ -601,11 +599,6 @@ a { color: inherit; }
   accent-color: var(--xp-signal);
   background: transparent;
   cursor: ew-resize;
-}
-
-.experience-neural-controls > a {
-  justify-self: start;
-  margin-top: 2px;
 }
 
 .experience-neural-readout {
@@ -1879,41 +1872,6 @@ body:not(.home-page) { padding-top: var(--xp-header); }
 .contact-form input,
 .contact-form textarea { padding: 13px 0; }
 .contact-form textarea { min-height: 140px; }
-
-/* Neural playground integration -------------------------------- */
-body:has(.ai-hero) {
-  --ai-bg0: var(--xp-bg) !important;
-  --ai-bg1: var(--xp-surface) !important;
-  --ai-ink: var(--xp-ink) !important;
-  --ai-muted: var(--xp-muted) !important;
-  --ai-ring: var(--xp-line) !important;
-  --ai-accent: var(--xp-signal) !important;
-  --ai-fx1: var(--xp-signal) !important;
-  --ai-fx2: var(--xp-muted) !important;
-  --ai-surface: color-mix(in srgb, var(--xp-surface) 90%, transparent) !important;
-  --ai-card: color-mix(in srgb, var(--xp-surface) 94%, transparent) !important;
-  --ai-grid: var(--xp-line-soft) !important;
-  --ai-shadow: none !important;
-  --ai-glow: none !important;
-  padding-top: var(--xp-header);
-  font-family: var(--xp-sans) !important;
-  background: var(--xp-bg) !important;
-}
-
-body:has(.ai-hero) h1,
-body:has(.ai-hero) h2,
-body:has(.ai-hero) h3 { font-family: var(--xp-sans) !important; }
-
-.ai-hero { min-height: 62svh; border-bottom: 1px solid var(--xp-line) !important; background: transparent !important; }
-.ai-title { font-size: clamp(3.5rem, 9vw, 9rem) !important; line-height: .82 !important; letter-spacing: -.085em !important; text-transform: uppercase; }
-.ai-kicker,
-.ai-lead,
-.ai-chips,
-.ai-hero-card,
-.ai-controls { font-family: var(--xp-font) !important; }
-.ai-hero-card,
-.ai-panel,
-.ai-stage { border-radius: 0 !important; box-shadow: none !important; }
 
 /* Shared footer and utilities ---------------------------------- */
 .site-footer {

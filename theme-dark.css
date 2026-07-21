@@ -14,11 +14,4 @@
   --radius:      0;
   --shadow-1:    none;
   --shadow-2:    none;
-  /* Legacy aliases */
-  --bg-0:        #111314;
-  --ring:        #414549;
-  --accent-contrast: #111314;
-  --tint-peach:  #2c3136;
-  --tint-blue:   #252b31;
-  --tint-rose:   #34383d;
 }

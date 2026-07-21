@@ -19,7 +19,6 @@ A private, handcrafted portfolio site built with vanilla HTML, CSS, and JavaScri
 | --- | --- |
 | `index.html` | Landing page and overview |
 | `portfolio.html` | Project showcase |
-| `ai.html` | Interactive AI demo |
 | `service.html` | Volunteering and service |
 | `qualifications.html` | Skills, education, and experience |
 

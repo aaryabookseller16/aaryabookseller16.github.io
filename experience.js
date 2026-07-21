@@ -20,8 +20,7 @@
     qualifications: "ARCHIVE_01 / BACKGROUND",
     portfolio: "ARCHIVE_02 / SELECTED WORK",
     service: "ARCHIVE_03 / FIELD NOTES",
-    ai: "LAB_04 / NEURAL PLAYGROUND",
-    contact: "CHANNEL_05 / CONTACT"
+    contact: "CHANNEL_04 / CONTACT"
   };
 
   const pageHero = doc.querySelector(".hero-section");
