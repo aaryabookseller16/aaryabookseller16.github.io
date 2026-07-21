@@ -2178,6 +2178,11 @@ body:not(.home-page) { padding-top: var(--xp-header); }
 
 .xp-cursor.is-active { opacity: .9; }
 .xp-cursor.is-link { width: 26px; height: 26px; }
+body.neural-focus-active .xp-cursor {
+  background: var(--xp-signal);
+  box-shadow: 0 0 0 5px rgba(255,91,53,.14), 0 0 18px rgba(255,91,53,.46);
+  mix-blend-mode: normal;
+}
 
 /* Responsive ---------------------------------------------------- */
 @media (max-width: 1020px) {

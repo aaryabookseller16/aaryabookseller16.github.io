@@ -126,8 +126,8 @@
       bottom: height * (mobile ? 0.72 : 0.78)
     };
     const microscope = {
-      left: width * (mobile ? 0.12 : 0.18),
-      right: width * (mobile ? 0.88 : 0.82),
+      left: width * (mobile ? 0.12 : 0.08),
+      right: width * (mobile ? 0.88 : 0.65),
       top: height * (mobile ? 0.2 : 0.15),
       bottom: height * (mobile ? 0.74 : 0.85)
     };
@@ -138,8 +138,8 @@
     const bottom = base.bottom + (microscope.bottom - base.bottom) * progress;
     const fieldCenterX = (left + right) / 2;
     const fieldCenterY = (top + bottom) / 2;
-    const centerX = fieldCenterX + (width * focusOriginX - fieldCenterX) * progress * 0.28;
-    const centerY = fieldCenterY + (height * focusOriginY - fieldCenterY) * progress * 0.2;
+    const centerX = fieldCenterX + (width * focusOriginX - fieldCenterX) * progress * (mobile ? 0.1 : 0.06);
+    const centerY = fieldCenterY + (height * focusOriginY - fieldCenterY) * progress * (mobile ? 0.08 : 0.04);
     const zoom = 1 + (detailZoom - 1) * progress;
     return {
       left: centerX + (left - centerX) * zoom,
@@ -528,6 +528,14 @@
     if (reduceMotion && weights.length) render(0);
   };
 
+  const columnFromOrigin = (normalizedX) => {
+    const mobile = width < 760;
+    const left = mobile ? 0.09 : 0.27;
+    const right = mobile ? 0.91 : 0.73;
+    const position = (Math.max(left, Math.min(right, normalizedX)) - left) / Math.max(0.01, right - left);
+    return Math.max(0, Math.min(tokens - 1, Math.round(position * (tokens - 1))));
+  };
+
   const setDetailMode = (active, origin) => {
     window.clearTimeout(exitTimer);
     detailMode = Boolean(active);
@@ -536,12 +544,12 @@
     detailTransitionDuration = detailMode ? 560 : 420;
     detailTarget = detailMode ? 1 : 0;
     lockedColumn = -1;
-    focusColumn = -1;
+    focusColumn = detailMode && origin ? columnFromOrigin(origin.x) : -1;
     pulse = 1;
 
     if (detailMode) {
-      focusOriginX = Math.max(0.08, Math.min(0.92, origin?.x ?? 0.5));
-      focusOriginY = Math.max(0.08, Math.min(0.92, origin?.y ?? 0.5));
+      focusOriginX = Math.max(0.18, Math.min(0.72, origin?.x ?? 0.45));
+      focusOriginY = 0.5;
       viewport.classList.remove("is-neural-exiting");
       viewport.classList.add("is-neural-focus");
       document.body.classList.add("neural-focus-active");
@@ -594,17 +602,14 @@
 
   const handleCanvasClick = () => {
     window.clearTimeout(clickTimer);
+    if (!detailMode) return;
     clickTimer = window.setTimeout(() => {
-      if (!detailMode) {
-        randomize();
-        return;
-      }
       if (focusColumn < 0) return;
       lockedColumn = lockedColumn === focusColumn ? -1 : focusColumn;
       focusColumn = lockedColumn >= 0 ? lockedColumn : focusColumn;
       pulse = 1;
       updateReadout();
-    }, 320);
+    }, 220);
   };
 
   const handleCanvasDoubleClick = (event) => {
@@ -615,8 +620,15 @@
       x: (event.clientX - bounds.left) / Math.max(1, bounds.width),
       y: (event.clientY - bounds.top) / Math.max(1, bounds.height)
     };
-    if (detailMode) closeDetailMode();
-    else openDetailMode(origin);
+    if (detailMode) {
+      lockedColumn = -1;
+      updatePointer(event);
+      if (focusColumn >= 0) lockedColumn = focusColumn;
+      pulse = 1;
+      updateReadout();
+      return;
+    }
+    openDetailMode(origin);
   };
 
   tokenInput?.addEventListener("input", rebuild);
