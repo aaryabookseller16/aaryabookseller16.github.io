@@ -2220,6 +2220,12 @@ body:not(.home-page) { padding-top: var(--xp-header); }
 @media (max-width: 768px) {
   :root { --xp-header: 64px; }
 
+  .theme-toggle,
+  .nav-toggle {
+    width: 42px;
+    height: 42px;
+  }
+
   .experience-sticky::after {
     background:
       linear-gradient(180deg, rgba(9,12,15,.78) 0%, rgba(9,12,15,.54) 34%, rgba(9,12,15,.12) 58%, transparent 72%),
@@ -2346,7 +2352,14 @@ body:not(.home-page) { padding-top: var(--xp-header); }
     justify-content: space-between;
   }
   .hero-experience__status { display: none; }
-  .hero-experience__audio { right: auto; bottom: 30px; left: 22px; transform: none; }
+  .hero-experience__audio.music-pill {
+    right: auto;
+    bottom: 30px;
+    left: 22px;
+    width: auto;
+    max-width: calc(100vw - 44px);
+    transform: none;
+  }
 
   .page-hero,
   .portfolio-hero { grid-template-columns: 1fr; gap: 54px; }
@@ -2424,12 +2437,20 @@ body:not(.home-page) { padding-top: var(--xp-header); }
   .service-card:nth-child(even) > :first-child,
   .service-card:nth-child(even) .service-card-body { order: initial; }
   .project-card:nth-child(even)::before { right: auto; left: 18px; }
-  .project-card__img { height: 330px; min-height: 330px; }
+  .project-card__img {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
   .project-card__body,
   .project-card:nth-child(even) .project-card__body,
   .service-card-body { padding: 38px 0 58px; border: 0; }
   .project-card__title { font-size: clamp(2rem, 10vw, 4.2rem); }
-  .service-card img { height: 340px; min-height: 340px; }
+  .service-card img {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
 
   .timeline-item summary {
     grid-template-columns: minmax(0, 1fr) 40px;
@@ -2462,12 +2483,16 @@ body:not(.home-page) { padding-top: var(--xp-header); }
 
 @media (max-width: 470px) {
   .header-actions { margin-left: auto; }
-  .background-page .hero-page-title { font-size: clamp(3rem, 14.5vw, 4.4rem); }
   .hero-experience__status { max-width: 190px; font-size: .56rem; }
   .hero-experience__audio span { display: none; }
   .updates-intro__meta { align-items: flex-start; flex-direction: column; gap: 8px; }
   .timeline-update__body h2 { font-size: 1.12rem; }
-  .hero-page-title { font-size: clamp(3.25rem, 20vw, 5.6rem); }
+  .hero-page-title {
+    max-width: 100%;
+    font-size: clamp(2.65rem, 11.5vw, 3.65rem);
+    line-height: .88;
+    overflow-wrap: normal;
+  }
   .contact-method { grid-template-columns: 1fr; gap: 5px; }
   .footer-bar { align-items: flex-start; flex-direction: column; justify-content: center; gap: 14px; }
 }
