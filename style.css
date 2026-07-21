@@ -90,7 +90,6 @@ code, pre { font-family: var(--font-mono); }
   white-space: nowrap;
   flex-shrink: 0;
 }
-.brand span { color: var(--accent); }
 .brand:hover { text-decoration: none; }
 
 .site-nav {
