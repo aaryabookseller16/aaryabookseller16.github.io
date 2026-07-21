@@ -643,7 +643,7 @@ a { color: inherit; }
 .identity-archive {
   position: relative;
   z-index: 2;
-  padding: clamp(80px, 11vw, 164px) 0;
+  padding: clamp(64px, 7vw, 104px) 0;
   color: var(--xp-ink);
   background: var(--xp-surface);
   border-bottom: 1px solid var(--xp-line);
@@ -697,7 +697,7 @@ a { color: inherit; }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(34px, 5vw, 76px);
+  padding: clamp(32px, 3.6vw, 56px);
 }
 
 .identity-archive__intro { border-right: 1px solid var(--xp-line); }
@@ -761,7 +761,7 @@ a { color: inherit; }
   background: var(--xp-bg);
 }
 
-.home-page .about-section { padding: clamp(90px, 12vw, 176px) 0; }
+.home-page .about-section { padding: clamp(56px, 6vw, 88px) 0; }
 
 .about-box-grid {
   display: grid;
@@ -773,7 +773,7 @@ a { color: inherit; }
 
 .about-box-grid > * {
   min-width: 0;
-  padding: clamp(28px, 4vw, 58px) clamp(20px, 3vw, 44px);
+  padding: clamp(30px, 3vw, 44px);
   border: 0;
   border-right: 1px solid var(--xp-line);
   border-bottom: 1px solid var(--xp-line);
@@ -797,8 +797,8 @@ a { color: inherit; }
 .about-story {
   display: grid;
   grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-  grid-template-rows: auto auto auto;
-  gap: 0 clamp(54px, 8vw, 132px);
+  grid-template-rows: auto 1fr;
+  gap: 0 clamp(48px, 7vw, 104px);
   align-items: start;
 }
 
@@ -814,19 +814,25 @@ a { color: inherit; }
 
 .about-story h2 {
   grid-column: 1;
-  grid-row: 2 / span 2;
+  grid-row: 2;
   max-width: 12ch;
   margin: 24px 0 0;
-  font-size: clamp(2.8rem, 5.2vw, 6rem);
+  font-size: clamp(2.8rem, 4.8vw, 5rem);
+}
+
+.about-story__copy {
+  grid-column: 2;
+  grid-row: 2;
+  display: grid;
+  align-self: start;
+  gap: 16px;
+  padding-top: 24px;
 }
 
 .about-story p {
-  grid-column: 2;
   max-width: 64ch;
-  margin: 24px 0 0;
+  margin: 0;
 }
-
-.about-story p + p { margin-top: 16px; }
 
 .card-label,
 .section-label,
@@ -902,7 +908,7 @@ a { color: inherit; }
 .hobbies-block .fact-list li { padding-left: 18px; }
 
 .updates-section {
-  padding: clamp(96px, 11vw, 164px) 0;
+  padding: clamp(72px, 7vw, 108px) 0;
   border-top: 1px solid var(--xp-line);
   background: var(--xp-bg);
 }
@@ -1708,7 +1714,7 @@ body:has(.ai-hero) h3 { font-family: var(--xp-sans) !important; }
   .site-nav a,
   .home-page .site-nav a { padding: 12px 0; color: inherit; font-size: .72rem; }
 
-  .hero--experience { min-height: 1540px; }
+  .hero--experience { min-height: 1300px; }
   .experience-sticky { height: 920px; max-height: 100svh; }
   .hero-experience__identity { top: 92px; }
   .experience-wordmark { font-size: 2.65rem; }
@@ -1720,8 +1726,9 @@ body:has(.ai-hero) h3 { font-family: var(--xp-sans) !important; }
     text-align: left;
   }
   .hero-experience__manifesto h1 { max-width: 16ch; font-size: clamp(1.6rem, 7vw, 2.5rem); }
-  .hero-experience__manifesto p { max-width: 52ch; margin-left: 0; text-align: left; }
+  .hero-experience__manifesto p { max-width: 52ch; margin-left: 0; font-size: .84rem; line-height: 1.52; text-align: left; }
   .experience-links { justify-content: flex-start; }
+  .experience-links a { font-size: .74rem; }
   .hero-experience__status { right: 22px; bottom: 30px; }
   .experience-core-nav {
     top: auto;
@@ -1753,19 +1760,14 @@ body:has(.ai-hero) h3 { font-family: var(--xp-sans) !important; }
   .experience-neural-controls {
     top: auto;
     right: 22px;
-    bottom: 164px;
+    bottom: 110px;
     left: 22px;
     width: auto;
     transform: none;
   }
-  .experience-neural-readout {
-    right: 22px;
-    bottom: 420px;
-    left: 22px;
-    max-width: none;
-    text-align: left;
-  }
-  .hero-experience__scroll { left: 22px; bottom: 118px; }
+  .experience-neural-readout,
+  .hero-experience__scroll,
+  .hero-experience__status { display: none; }
   .hero-experience__audio { right: auto; bottom: 30px; left: 22px; transform: none; }
 
   .page-hero,
@@ -1783,10 +1785,11 @@ body:has(.ai-hero) h3 { font-family: var(--xp-sans) !important; }
   .about-box-grid { border-left: 0; }
   .about-story { display: block; }
   .about-story h2 { max-width: 12ch; margin-top: 24px; }
-  .about-story p { max-width: 58ch; margin-top: 22px; }
+  .about-story__copy { display: grid; gap: 14px; padding-top: 22px; }
+  .about-story p { max-width: 58ch; }
 
   .identity-archive__grid { grid-template-columns: 1fr; }
-  .identity-archive__portrait { min-height: 500px; border-right: 0; border-bottom: 1px solid var(--xp-line); }
+  .identity-archive__portrait { min-height: 380px; border-right: 0; border-bottom: 1px solid var(--xp-line); }
   .identity-archive__intro,
   .identity-archive__readout { padding: 42px 0; border-right: 0; }
   .identity-archive__intro { border-bottom: 1px solid var(--xp-line); }
