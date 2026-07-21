@@ -400,7 +400,7 @@
         const detailedLabel = detailProgress > 0.52 && (tokens <= 14 || token % 2 === 0) && (layer === 0 || layer === layers - 1);
         const standardLabel = !mobile && layer === layers - 1 && (token === focusColumn || (focusColumn < 0 && token % 4 === 0));
         if (!mobile && (detailedLabel || standardLabel)) {
-          context.font = `${detailProgress > 0.52 ? 10 : 9}px SFMono-Regular, Menlo, monospace`;
+          context.font = `${detailProgress > 0.52 ? 10 : 9}px Inter, "Helvetica Neue", Arial, sans-serif`;
           context.fillStyle = focused ? "rgba(255,140,110,.95)" : "rgba(255,255,255,.54)";
           context.textAlign = "center";
           const offset = layer === 0 && detailedLabel ? -17 : 20 + detailProgress * 3;
@@ -442,7 +442,7 @@
 
     context.save();
     context.globalAlpha = opacity;
-    context.font = `${compact ? 8 : 9}px SFMono-Regular, Menlo, monospace`;
+    context.font = `${compact ? 8 : 9}px Inter, "Helvetica Neue", Arial, sans-serif`;
     context.textAlign = "left";
     context.textBaseline = "middle";
     for (let layer = 0; layer < layers; layer += 1) {

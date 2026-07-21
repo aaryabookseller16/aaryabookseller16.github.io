@@ -384,7 +384,7 @@
 
     const annotated = projected.filter((module) => [7, 18, 34, 53, 71].includes(module.index));
     context.save();
-    context.font = `${mobile ? 8 : 10}px ${getComputedStyle(root).getPropertyValue("--xp-font") || "monospace"}`;
+    context.font = `${mobile ? 8 : 10}px ${getComputedStyle(root).getPropertyValue("--xp-font") || "Arial, sans-serif"}`;
     context.lineWidth = 0.8;
     annotated.forEach((module, annotationIndex) => {
       const direction = annotationIndex % 2 === 0 ? 1 : -1;

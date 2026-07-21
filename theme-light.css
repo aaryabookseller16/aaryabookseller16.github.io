@@ -10,7 +10,7 @@
   --accent:      #ff5b35;
   --accent-fg:   #ffffff;
   --font-sans:   Inter, "Helvetica Neue", Arial, sans-serif;
-  --font-mono:   "SFMono-Regular", "Cascadia Mono", "Roboto Mono", "Courier New", monospace;
+  --font-mono:   Inter, "Helvetica Neue", Arial, sans-serif;
   --radius:      0;
   --shadow-1:    none;
   --shadow-2:    none;

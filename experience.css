@@ -14,7 +14,7 @@
   --xp-glow: rgba(255, 255, 255, 0.72);
   --xp-signal: #ff5b35;
   --xp-sans: Inter, "Helvetica Neue", Arial, sans-serif;
-  --xp-font: "SFMono-Regular", "Cascadia Mono", "Roboto Mono", "Courier New", monospace;
+  --xp-font: var(--xp-sans);
   --xp-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --xp-header: 74px;
 
