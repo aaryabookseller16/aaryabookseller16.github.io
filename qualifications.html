@@ -43,7 +43,7 @@
   <script defer src="experience.js"></script>
 </head>
 
-<body>
+<body class="background-page">
   <header class="site-header">
     <div class="container">
       <div class="header-bar">
@@ -120,11 +120,11 @@
 
       <div class="page-toolbar">
         <nav class="local-nav" aria-label="Jump to section">
-          <a href="#experience">Experience</a>
-          <a href="#publications">Publications</a>
-          <a href="#education">Education</a>
-          <a href="#skills">Skills</a>
-          <a href="#certifications">Certifications</a>
+          <a href="#experience" data-index="01">Experience</a>
+          <a href="#publications" data-index="02">Publications</a>
+          <a href="#education" data-index="03">Education</a>
+          <a href="#skills" data-index="04">Skills</a>
+          <a href="#certifications" data-index="05">Certifications</a>
         </nav>
       </div>
     </div>
@@ -135,7 +135,7 @@
       <div class="qual-main">
 
         <!-- Publications -->
-        <details class="qual-section" id="publications" open>
+        <details class="qual-section" id="publications">
           <summary class="qual-summary">
             <span class="qual-head">
               <span class="qual-eyebrow">Research</span>
@@ -180,7 +180,7 @@
         </details>
 
         <!-- Experience -->
-        <details class="qual-section" id="experience" open>
+        <details class="qual-section" id="experience">
           <summary class="qual-summary">
             <span class="qual-head">
               <span class="qual-eyebrow">Practice</span>
@@ -367,7 +367,7 @@
         </details>
 
         <!-- Education -->
-        <details class="qual-section" id="education" open>
+        <details class="qual-section" id="education">
           <summary class="qual-summary">
             <span class="qual-head">
               <span class="qual-eyebrow">Foundation</span>
@@ -393,7 +393,7 @@
             </div>
 
             <div class="coursework-grid" aria-label="Coursework by discipline">
-              <details class="course-card" open>
+              <details class="course-card">
                 <summary>Computer Science</summary>
                 <div class="course-list">
                   <span><strong>CSCE 121</strong> Program Design &amp; Concepts</span>
@@ -667,16 +667,28 @@
       btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     })();
 
-    // Open section on hash navigate
-    (function hashOpen(){
-      const open = () => {
+    (function disclosureState(){
+      const sections = [...document.querySelectorAll('.qual-section')];
+      const disclosures = document.querySelectorAll('.qual-section, .timeline-item, .course-card');
+      disclosures.forEach(item => { item.open = false; });
+
+      sections.forEach(section => {
+        section.addEventListener('toggle', () => {
+          if (!section.open) return;
+          sections.forEach(other => {
+            if (other !== section) other.open = false;
+          });
+        });
+      });
+
+      const openHash = () => {
         const id = location.hash.slice(1);
         if (!id) return;
         const el = document.getElementById(id);
         if (el && el.tagName === 'DETAILS') el.open = true;
       };
-      window.addEventListener('hashchange', open);
-      open();
+      window.addEventListener('hashchange', openHash);
+      openHash();
     })();
 
     (function scrollReveals(){
