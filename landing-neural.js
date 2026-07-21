@@ -283,27 +283,13 @@
     if (detailProgress < 0.04 || focusColumn < 0) return;
     const first = nodePosition(0, focusColumn);
     const last = nodePosition(layers - 1, focusColumn);
-    const highlightAlpha = (lockedColumn >= 0 ? 0.24 : 0.18) * detailProgress;
-    const radius = Math.max(54, width * 0.045);
-    const wash = context.createLinearGradient(first.x - radius, 0, first.x + radius, 0);
-    wash.addColorStop(0, "rgba(255,91,53,0)");
-    wash.addColorStop(0.5, `rgba(255,91,53,${highlightAlpha})`);
-    wash.addColorStop(1, "rgba(255,91,53,0)");
-
-    context.save();
-    context.globalCompositeOperation = "screen";
-    context.fillStyle = wash;
-    context.fillRect(first.x - radius, Math.min(first.y, last.y) - 34, radius * 2, Math.abs(last.y - first.y) + 68);
-
     const glow = context.createLinearGradient(first.x, first.y, last.x, last.y);
     glow.addColorStop(0, "rgba(255,91,53,0)");
-    glow.addColorStop(0.22, `rgba(255,91,53,${0.42 * detailProgress})`);
-    glow.addColorStop(0.78, `rgba(255,91,53,${0.42 * detailProgress})`);
+    glow.addColorStop(0.5, `rgba(255,91,53,${0.12 * detailProgress})`);
     glow.addColorStop(1, "rgba(255,91,53,0)");
+    context.save();
     context.strokeStyle = glow;
-    context.lineWidth = 2;
-    context.shadowBlur = 18;
-    context.shadowColor = "rgba(255,91,53,.88)";
+    context.lineWidth = 26 + detailProgress * 22;
     context.beginPath();
     context.moveTo(first.x, first.y);
     context.lineTo(last.x, last.y);
