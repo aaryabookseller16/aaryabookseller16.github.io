@@ -1822,6 +1822,7 @@ body:has(.ai-hero) h3 { font-family: var(--xp-sans) !important; }
 .footer-links img { filter: grayscale(1); }
 
 #backToTop {
+  top: auto;
   right: 22px;
   bottom: 22px;
   width: 44px;
@@ -1830,10 +1831,11 @@ body:has(.ai-hero) h3 { font-family: var(--xp-sans) !important; }
   border-radius: 50%;
   color: var(--xp-ink);
   background: color-mix(in srgb, var(--xp-bg) 80%, transparent);
+  transform: none;
   backdrop-filter: blur(10px);
 }
 
-#backToTop:hover { color: var(--xp-bg); background: var(--xp-ink); }
+#backToTop:hover { color: var(--xp-bg); background: var(--xp-ink); transform: translateY(-3px); }
 
 .xp-reveal {
   opacity: 0;

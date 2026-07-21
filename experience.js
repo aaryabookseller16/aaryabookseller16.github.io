@@ -49,8 +49,7 @@
   /* Number the long-form information architecture. */
   const indexedGroups = [
     [".project-card__title", 1],
-    [".service-card-body h3", 1],
-    [".timeline-item h3", 1]
+    [".service-card-body h3", 1]
   ];
 
   indexedGroups.forEach(([selector, start]) => {
