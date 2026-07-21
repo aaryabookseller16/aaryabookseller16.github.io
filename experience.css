@@ -1565,6 +1565,11 @@ body:not(.home-page) { padding-top: var(--xp-header); }
   background: transparent;
 }
 
+.timeline-item:hover,
+.timeline-item[open] {
+  background: transparent;
+}
+
 .timeline-item::before {
   content: "";
   position: absolute;
@@ -1582,8 +1587,7 @@ body:not(.home-page) { padding-top: var(--xp-header); }
   transition: opacity 260ms var(--xp-ease);
 }
 
-.timeline-item:hover::before,
-.timeline-item[open]::before {
+.timeline-item:hover::before {
   opacity: 1;
 }
 
