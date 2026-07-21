@@ -1265,7 +1265,7 @@ main > section:last-child {
 }
 .timeline-item h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0; }
 .timeline-item h3 a { color: var(--text); text-decoration: none; }
-.timeline-item h3 a::after { content: " ↗"; font-size: 0.72em; color: var(--accent); opacity: 0.7; }
+.timeline-item h3 a::after { content: " ↗︎"; font-size: 0.72em; color: var(--accent); opacity: 0.7; }
 .timeline-item h3 a:hover { color: var(--accent); }
 .xp-sub {
   font-family: var(--font-mono);
@@ -2065,8 +2065,8 @@ details.tl-item[open] > summary { border-bottom: 1px solid var(--border); }
 }
 
 @keyframes pageEnter {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {

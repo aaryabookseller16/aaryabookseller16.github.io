@@ -1302,7 +1302,7 @@ body.neural-focus-active .site-header { opacity: 0; pointer-events: none; transf
 }
 
 .timeline-update__body h2 a::after {
-  content: " ↗";
+  content: " ↗︎";
   color: var(--xp-signal);
   font-family: var(--xp-font);
   font-size: .52em;
@@ -1764,7 +1764,7 @@ body:not(.home-page) { padding-top: var(--xp-header); }
 }
 
 .background-page .local-nav a::after {
-  content: "↘";
+  content: "↘︎";
   position: absolute;
   right: 16px;
   bottom: 12px;
