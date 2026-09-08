@@ -2611,3 +2611,42 @@ body.neural-focus-active .xp-cursor {
 @media (pointer: coarse) {
   .xp-cursor { display: none; }
 }
+
+/* Skills Grid Layout */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  margin: 0;
+}
+
+.skill-category {
+  display: flex;
+  flex-direction: column;
+}
+
+.skill-category h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: var(--xp-ink);
+}
+
+.skill-sub {
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--xp-ink) 60%, var(--xp-bg));
+  margin: 0 0 12px 0;
+}
+
+.skill-category .pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
