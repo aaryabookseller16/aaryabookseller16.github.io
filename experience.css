@@ -2615,38 +2615,53 @@ body.neural-focus-active .xp-cursor {
 /* Skills Grid Layout */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(24px, 3vw, 40px);
   margin: 0;
 }
 
 .skill-category {
   display: flex;
   flex-direction: column;
+  padding: clamp(16px, 2vw, 24px);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--xp-surface) 40%, transparent);
+  transition: background 220ms ease;
+}
+
+.skill-category:hover {
+  background: color-mix(in srgb, var(--xp-surface) 60%, transparent);
 }
 
 .skill-category h3 {
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
   font-weight: 600;
-  margin: 0 0 8px 0;
+  margin: 0 0 4px 0;
   color: var(--xp-ink);
+  letter-spacing: -0.02em;
 }
 
 .skill-sub {
-  font-size: 0.9rem;
-  color: color-mix(in srgb, var(--xp-ink) 60%, var(--xp-bg));
+  font-size: clamp(0.85rem, 0.95vw, 0.9rem);
+  color: color-mix(in srgb, var(--xp-ink) 65%, var(--xp-bg));
   margin: 0 0 12px 0;
+  line-height: 1.4;
 }
 
 .skill-category .pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
+  margin-top: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .skills-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 16px;
+  }
+  
+  .skill-category {
+    padding: 16px;
   }
 }
