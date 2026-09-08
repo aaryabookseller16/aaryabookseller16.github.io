@@ -1307,6 +1307,111 @@ main > section:last-child {
   padding: 4px 9px;
 }
 
+.edu-banner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 5;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 0 0 28px;
+  border: 1px solid var(--border);
+}
+.edu-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.edu-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.75) 100%);
+  pointer-events: none;
+}
+.edu-banner figcaption {
+  position: absolute;
+  left: 20px;
+  bottom: 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+.edu-banner__school {
+  font-weight: 700;
+  font-size: 1rem;
+}
+.edu-banner__loc {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+@media (max-width: 600px) {
+  .edu-banner { aspect-ratio: 4 / 3; }
+}
+
+.edu-degree__row {
+  position: relative;
+  z-index: 1;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--xp-line);
+}
+.course-groups {
+  display: grid;
+  gap: 4px;
+  margin-top: 18px;
+}
+.course-group {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+/* Extra-specific selectors (.timeline-detail prefix) are required here: this
+   sits inside .timeline-item, and experience.css styles ".timeline-item summary"
+   with a plain descendant combinator, so it otherwise hijacks this nested summary. */
+.timeline-detail .course-group > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  user-select: none;
+  padding: 4px 0;
+  transition: color 0.12s;
+}
+.timeline-detail .course-group > summary:hover { color: var(--accent); }
+.timeline-detail .course-group > summary::-webkit-details-marker { display: none; }
+.timeline-detail .course-group > summary::after {
+  content: "↓";
+  display: inline;
+  width: auto;
+  height: auto;
+  border: 0;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.timeline-detail .course-group[open] > summary::after { content: "↑"; }
+.course-group__count {
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: none;
+  letter-spacing: normal;
+}
+.course-group .course-list { margin-top: 12px; }
+
 /* Education */
 .edu-card {
   border: 1px solid var(--border);
