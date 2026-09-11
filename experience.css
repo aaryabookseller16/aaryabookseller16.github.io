@@ -1264,19 +1264,14 @@ body.neural-focus-active .site-header { opacity: 0; pointer-events: none; transf
   text-transform: uppercase;
 }
 
-.timeline-update__date::after {
-  content: "Archive entry";
+.timeline-update--major .timeline-update__date::after {
+  content: "Milestone";
   display: block;
   margin-top: 8px;
-  color: var(--xp-muted);
+  color: var(--xp-signal);
   font-size: .75rem;
   font-weight: 500;
   letter-spacing: .09em;
-}
-
-.timeline-update--major .timeline-update__date::after {
-  content: "Milestone";
-  color: var(--xp-signal);
 }
 
 .timeline-update__body {
