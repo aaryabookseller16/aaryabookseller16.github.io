@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Building Jarvis #1: Getting a Local LLM to Read a PDF It Cannot Fit in Context",
+    "url": "https://medium.com/@aaryacodes/building-jarvis-1-getting-a-local-llm-to-read-a-pdf-it-cannot-fit-in-context-227d10733624",
+    "date": "2026-09-23",
+    "excerpt": "I use AI almost every day. I give it class notes, papers, presentations, and long documents and ask questions about them without really thinking twice about what is happening underneath. For a long time, I assumed most…",
+    "image": "https://cdn-images-1.medium.com/max/1024/1*qTJ-N1GoJ4OwUiaxxj7obA.png",
+    "tags": [
+      "ollama",
+      "agentic-ai",
+      "software-engineering",
+      "artificial-intelligence",
+      "llm"
+    ],
+    "readMinutes": 17
+  }
+]

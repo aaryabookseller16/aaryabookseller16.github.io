@@ -45,11 +45,11 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <link rel="stylesheet" href="style.css?v=mobile-safari-1" />
-  <link id="lightCSS" rel="stylesheet" href="theme-light.css">
-  <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
-  <link rel="stylesheet" href="experience.css?v=interaction3" />
-  <script defer src="experience.js?v=type5"></script>
+  <link rel="stylesheet" href="css/style.css?v=mobile-safari-1" />
+  <link id="lightCSS" rel="stylesheet" href="css/theme-light.css">
+  <link id="darkCSS"  rel="stylesheet" href="css/theme-dark.css" disabled>
+  <link rel="stylesheet" href="css/experience.css?v=interaction3" />
+  <script defer src="js/experience.js?v=type5"></script>
 </head>
 
 <body>
@@ -68,6 +68,7 @@
           <a href="index.html">About</a>
           <a href="qualifications.html">Background</a>
           <a href="portfolio.html" aria-current="page">Portfolio</a>
+          <a href="blog.html">Blog</a>
           <a href="service.html">Service</a>
           <a href="contact.html">Contact</a>
         </nav>
@@ -133,8 +134,8 @@
           </div>
           <div class="snapshot-focus">
             <span>Latest build window</span>
-            <strong>July 2026</strong>
-            <p>Held Constant, an evidence first portfolio backtesting research application.</p>
+            <strong>September 2026</strong>
+            <p>Jarvis, a local ReAct agent built from scratch, in progress.</p>
           </div>
         </div>
       </div>
@@ -180,6 +181,34 @@
   <main class="section">
     <div class="container">
       <div class="projects-grid" id="projectsGrid">
+
+        <!-- Jarvis -->
+        <article class="project-card" id="jarvis" data-tags="ml systems software" data-type="Machine Learning" data-date-start="2026-08" data-date-end="2026-09">
+          <img class="project-card__img" src="assets/og.png" alt="Jarvis local ReAct agent">
+          <div class="project-card__body">
+            <div class="project-card__head">
+              <h2 class="project-card__title">Jarvis · Local ReAct Agent Built From Scratch</h2>
+              <span class="project-card__date">Aug 2026 to Present</span>
+            </div>
+            <p class="project-card__meta">Python · Ollama · Model Context Protocol · ReAct</p>
+            <div class="project-card__links">
+              <a class="icon-btn" href="https://github.com/aaryabookseller16/local-react-agent" target="_blank" rel="noopener" aria-label="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </div>
+            <div class="pills">
+              <span class="pill">Python</span><span class="pill">Ollama</span><span class="pill">MCP</span>
+              <span class="pill">ReAct Agent</span><span class="pill">Tool Use</span>
+            </div>
+            <details class="project-details">
+              <summary>Details</summary>
+              <div class="project-details__body">
+                <p>A hand-built ReAct agent loop running on a local Ollama model, with no agent framework underneath: the client parses the model's replies, decides when to call a tool, and handles the failure modes (bad tool names, missing input, off-format replies) with a bounded retry instead of failing silently.</p>
+                <p>Tools now run behind a real MCP server rather than in-process — the client launches it as a subprocess over stdio, discovers its tools at startup, and calls them through an MCP client session. I'm building this to understand the ReAct loop and the Model Context Protocol from first principles, as hands-on practice for the MCP and tool-using-agent sections of my own learning plan, rather than to ship a product. Work in progress.</p>
+              </div>
+            </details>
+          </div>
+        </article>
 
         <!-- Held Constant -->
         <article class="project-card" id="held-constant" data-tags="systems software" data-type="Quantitative Finance" data-date-start="2026-07" data-date-end="2026-07">
@@ -557,6 +586,9 @@
           </a>
           <a href="https://github.com/aaryabookseller16" target="_blank" rel="noopener" aria-label="GitHub">
             <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://medium.com/@aaryacodes" target="_blank" rel="noopener" aria-label="Medium">
+            <i class="fa-brands fa-medium"></i>
           </a>
           <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ&view_op=list_works&sortby=title" target="_blank" rel="noopener" aria-label="Google Scholar">
             <i class="fa-brands fa-google-scholar"></i>

@@ -45,11 +45,11 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <link rel="stylesheet" href="style.css?v=mobile-safari-1" />
-  <link id="lightCSS" rel="stylesheet" href="theme-light.css">
-  <link id="darkCSS"  rel="stylesheet" href="theme-dark.css" disabled>
-  <link rel="stylesheet" href="experience.css?v=interaction3" />
-  <script defer src="experience.js?v=type5"></script>
+  <link rel="stylesheet" href="css/style.css?v=mobile-safari-1" />
+  <link id="lightCSS" rel="stylesheet" href="css/theme-light.css">
+  <link id="darkCSS"  rel="stylesheet" href="css/theme-dark.css" disabled>
+  <link rel="stylesheet" href="css/experience.css?v=interaction3" />
+  <script defer src="js/experience.js?v=type5"></script>
 </head>
 
 <body>
@@ -68,6 +68,7 @@
           <a href="index.html">About</a>
           <a href="qualifications.html">Background</a>
           <a href="portfolio.html">Portfolio</a>
+          <a href="blog.html">Blog</a>
           <a href="service.html" aria-current="page">Service</a>
           <a href="contact.html">Contact</a>
         </nav>
@@ -116,7 +117,7 @@
         <div class="service-focus" aria-label="Volunteering focus">
           <span class="service-focus__label">Service pattern</span>
           <h2>People first support in practical settings</h2>
-          <p>Blood drive logistics, tutoring, and adoption event support for local community organizations.</p>
+          <p>Blood drive logistics, tutoring, kitten rescue care, and adoption event support for local community organizations.</p>
           <div class="service-focus__list">
             <span>Emergency response</span>
             <span>STEM tutoring</span>
@@ -127,6 +128,7 @@
 
       <div class="page-toolbar">
         <nav class="local-nav" aria-label="Jump to service area">
+          <a href="#austin-pets-alive">Austin Pets Alive!</a>
           <a href="#red-cross">Red Cross</a>
           <a href="#stem-tutoring">STEM Tutoring</a>
           <a href="#humane-society">Humane Society</a>
@@ -138,6 +140,22 @@
   <main class="section">
     <div class="container">
       <div class="service-grid">
+
+        <!-- Austin Pets Alive! -->
+        <div class="service-card" id="austin-pets-alive">
+          <a href="https://www.austinpetsalive.org/" target="_blank" rel="noopener">
+            <img src="assets/austin-pets-alive.jpg" alt="Austin Pets Alive! John Davenport Building">
+          </a>
+          <div class="service-card-body">
+            <h3>Austin Pets Alive!</h3>
+            <p>
+              Certified volunteer with Austin Pets Alive!, a no-kill rescue whose mission is to save pets that would otherwise
+              be euthanized at the city's government shelter. Helped care for kittens in need, including kittens in distress
+              from diseases like ringworm and kittens affected by floods, supporting their recovery on the path to adoption.
+            </p>
+            <a class="service-link" href="https://www.austinpetsalive.org/" target="_blank" rel="noopener">Visit Website →</a>
+          </div>
+        </div>
 
         <!-- American Red Cross -->
         <div class="service-card" id="red-cross">
@@ -202,6 +220,9 @@
           </a>
           <a href="https://github.com/aaryabookseller16" target="_blank" rel="noopener" aria-label="GitHub">
             <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://medium.com/@aaryacodes" target="_blank" rel="noopener" aria-label="Medium">
+            <i class="fa-brands fa-medium"></i>
           </a>
           <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ&view_op=list_works&sortby=title" target="_blank" rel="noopener" aria-label="Google Scholar">
             <i class="fa-brands fa-google-scholar"></i>

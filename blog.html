@@ -31,16 +31,16 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact · Aarya Bookseller</title>
-  <meta name="description" content="Contact Aarya Bookseller for software engineering, ML research, collaboration, and recruiting conversations." />
+  <title>Blog · Aarya Bookseller</title>
+  <meta name="description" content="Writing by Aarya Bookseller on building Jarvis, a local tool-using AI agent, and on software engineering and machine learning." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
-  <link rel="canonical" href="https://www.aaryabookseller.com/contact.html" />
+  <link rel="canonical" href="https://www.aaryabookseller.com/blog.html" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Aarya Bookseller" />
-  <meta property="og:url" content="https://www.aaryabookseller.com/contact.html" />
-  <meta property="og:title" content="Contact · Aarya Bookseller" />
-  <meta property="og:description" content="Contact Aarya Bookseller for software engineering, machine learning research, collaboration, and recruiting conversations." />
+  <meta property="og:url" content="https://www.aaryabookseller.com/blog.html" />
+  <meta property="og:title" content="Blog · Aarya Bookseller" />
+  <meta property="og:description" content="Notes on building a local, tool-using AI agent from scratch." />
   <meta property="og:image" content="https://www.aaryabookseller.com/assets/og-homepage.jpg" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -68,9 +68,9 @@
           <a href="index.html">About</a>
           <a href="qualifications.html">Background</a>
           <a href="portfolio.html">Portfolio</a>
-          <a href="blog.html">Blog</a>
+          <a href="blog.html" aria-current="page">Blog</a>
           <a href="service.html">Service</a>
-          <a href="contact.html" aria-current="page">Contact</a>
+          <a href="contact.html">Contact</a>
         </nav>
 
         <div class="header-actions">
@@ -89,7 +89,6 @@
               <button class="accent-swatch" data-accent="#d97706" style="background:#d97706" title="Amber"></button>
             </div>
           </div>
-
           <button id="themeToggle" class="btn-icon theme-toggle" aria-label="Toggle color theme" aria-pressed="false">
             <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="4"/>
@@ -108,100 +107,51 @@
     <div class="container">
       <div class="page-hero">
         <div class="page-hero__copy">
-          <span class="page-hero__eyebrow">Contact</span>
-          <h1 class="hero-page-title">Get in touch.</h1>
-          <p class="hero-page-lead">Research, software engineering, recruiting, project collaboration, or a focused technical conversation. Email is the fastest path.</p>
+          <span class="page-hero__eyebrow">Writing · Agents · Systems</span>
+          <h1 class="hero-page-title">Blog</h1>
+          <p class="hero-page-lead">
+            Notes from building Jarvis, a local, tool-using AI agent, from scratch. I write down what I tried, what broke, and what I learned about how these systems work underneath.
+          </p>
+          <a href="https://medium.com/@aaryacodes" target="_blank" rel="noopener" class="btn btn--ghost">
+            <i class="fa-brands fa-medium"></i>
+            Follow on Medium
+          </a>
         </div>
 
-        <div class="page-snapshot">
-          <div class="snapshot-metrics">
-            <div class="snapshot-metric">
-              <strong>24h</strong>
-              <span>Typical reply</span>
-            </div>
-            <div class="snapshot-metric">
-              <strong>SWE</strong>
-              <span>Systems</span>
-            </div>
-            <div class="snapshot-metric">
-              <strong>ML</strong>
-              <span>Research</span>
-            </div>
+        <div class="service-focus" aria-label="Current series">
+          <span class="service-focus__label">Current series</span>
+          <h2>Building Jarvis</h2>
+          <p>A ReAct agent on a local Ollama model, with tools served over the Model Context Protocol. No agent framework underneath.</p>
+          <div class="service-focus__list">
+            <span>Local LLMs</span>
+            <span>Tool use / MCP</span>
+            <span>Agent loops</span>
           </div>
-          <p class="snapshot-note">Best topics: ML research, full stack systems, deep learning, optimization, project feedback, and internship or research discussions.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <main>
-    <section class="section">
-      <div class="container">
-        <div class="contact-layout">
-          <aside class="contact-panel">
-            <span class="section-label">Direct</span>
-            <h2>Use the channel that fits.</h2>
-            <p>For urgent items, email me directly. For professional context, LinkedIn is fine. For project context, GitHub is usually the fastest reference point.</p>
-
-            <div class="contact-methods">
-              <div class="contact-method">
-                <span>Work email</span>
-                <a href="mailto:aaryab.work@gmail.com">aaryab.work@gmail.com</a>
-              </div>
-              <div class="contact-method">
-                <span>TAMU email</span>
-                <a href="mailto:aaryabookseller@tamu.edu">aaryabookseller@tamu.edu</a>
-              </div>
-              <div class="contact-method">
-                <span>LinkedIn</span>
-                <a href="https://www.linkedin.com/in/aarya-bookseller-b6a8531b7/" target="_blank" rel="noopener">Aarya Bookseller</a>
-              </div>
-              <div class="contact-method">
-                <span>GitHub</span>
-                <a href="https://github.com/aaryabookseller16" target="_blank" rel="noopener">aaryabookseller16</a>
-              </div>
-              <div class="contact-method">
-                <span>Scholar</span>
-                <a href="https://scholar.google.com/citations?hl=en&user=TGcPvxcAAAAJ&view_op=list_works&sortby=title" target="_blank" rel="noopener">Google Scholar</a>
-              </div>
+  <main class="section">
+    <div class="container">
+      <div class="projects-grid blog-list" data-view="list">
+        <!-- posts:blog:start -->
+        <article class="project-card blog-card">
+          <img class="project-card__img" src="https://cdn-images-1.medium.com/max/1024/1*qTJ-N1GoJ4OwUiaxxj7obA.png" alt="" loading="lazy">
+          <div class="project-card__body">
+            <div class="project-card__head">
+              <h2 class="project-card__title"><a href="https://medium.com/@aaryacodes/building-jarvis-1-getting-a-local-llm-to-read-a-pdf-it-cannot-fit-in-context-227d10733624" target="_blank" rel="noopener">Building Jarvis #1: Getting a Local LLM to Read a PDF It Cannot Fit in Context</a></h2>
+              <span class="project-card__date"><time datetime="2026-09-23">Sep 2026</time></span>
             </div>
-          </aside>
-
-          <article class="contact-card">
-            <span class="section-label">Message</span>
-            <h2>Send a note.</h2>
-            <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
-              <input type="hidden" name="access_key" value="276ed2b6-8406-4985-82b7-6f3d5a56e63a">
-              <input type="hidden" name="from_name" value="Aarya Bookseller Website">
-              <input type="hidden" name="redirect" value="https://www.aaryabookseller.com/contact.html?sent=true">
-              <div class="form-row">
-                <div class="field">
-                  <label for="name">Name</label>
-                  <input id="name" name="name" type="text" autocomplete="name" required>
-                </div>
-                <div class="field">
-                  <label for="email">Email</label>
-                  <input id="email" name="email" type="email" autocomplete="email" required>
-                </div>
-              </div>
-
-              <div class="field">
-                <label for="subject">Subject</label>
-                <input id="subject" name="subject" type="text" required>
-              </div>
-
-              <div class="field">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" required></textarea>
-              </div>
-
-              <button class="btn btn--primary contact-submit" type="submit">Send Message</button>
-              <p class="form-note">This form sends directly to my inbox through Web3Forms.</p>
-            </form>
-          </article>
-        </div>
+            <p class="project-card__meta">17 min read · Medium</p>
+            <p class="blog-card__excerpt">I use AI almost every day. I give it class notes, papers, presentations, and long documents and ask questions about them without really thinking twice about what is happening underneath. For a long time, I assumed most…</p>
+            <div class="pills"><span class="pill">Ollama</span><span class="pill">Agentic AI</span><span class="pill">Software Engineering</span><span class="pill">Artificial Intelligence</span><span class="pill">LLM</span></div>
+            <a class="blog-card__read" href="https://medium.com/@aaryacodes/building-jarvis-1-getting-a-local-llm-to-read-a-pdf-it-cannot-fit-in-context-227d10733624" target="_blank" rel="noopener">Read on Medium <span aria-hidden="true">↗&#xFE0E;</span></a>
+          </div>
+        </article>
+        <!-- posts:blog:end -->
       </div>
-    </section>
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -314,8 +264,23 @@
       btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     })();
 
+    (function revealCards(){
+      const cards = document.querySelectorAll('.project-card');
+      if (!cards.length) return;
+      if (!('IntersectionObserver' in window)) {
+        cards.forEach(c => c.classList.add('is-visible'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.08 });
+      cards.forEach(c => io.observe(c));
+    })();
+
     (function scrollReveals(){
-      const targets = document.querySelectorAll('.hero-section, .page-snapshot, .contact-panel, .contact-card, .contact-method');
+      const targets = document.querySelectorAll('.hero-section, .service-focus, .project-card');
       if (!targets.length) return;
       targets.forEach((el, index) => {
         el.classList.add('reveal-on-scroll');
