@@ -1574,6 +1574,12 @@ main > section:last-child {
   .course-list span { grid-template-columns: 76px minmax(0, 1fr); }
   .course-list span:last-child { border-bottom-color: transparent; }
 }
+/* Single-column variant for longer entries (e.g. campus involvement) */
+.course-list.course-list--wide { grid-template-columns: 1fr; }
+.course-list--wide span { grid-template-columns: 180px minmax(0, 1fr); }
+@media (max-width: 600px) {
+  .course-list--wide span { grid-template-columns: 1fr; gap: 4px; }
+}
 
 /* Page local nav */
 .local-nav { display: flex; gap: 5px; flex-wrap: wrap; margin: 16px 0 24px; }
